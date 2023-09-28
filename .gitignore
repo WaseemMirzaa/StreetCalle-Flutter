@@ -1,0 +1,12 @@
+/.idea/
+/.flutter-plugins
+/.flutter-plugins-dependencies
+/.packages
+/pubspec.lock
+/.firebaserc
+/.dart_tool/
+/build/
+/.firebase/
+/firebase-debug.log
+/.fvm/
+#/android/app/upload-keystore.jks
