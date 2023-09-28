@@ -1,0 +1,111 @@
+import 'package:flutter/material.dart';
+import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
+import 'package:street_calle/utils/constant/app_assets.dart';
+import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/utils/extensions/context_extension.dart';
+import 'package:street_calle/utils/constant/app_colors.dart';
+
+class ForgetPasswordScreen extends StatefulWidget {
+  const ForgetPasswordScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
+}
+
+class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+  final _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SizedBox(
+        width: context.width,
+        height: context.height,
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    const SizedBox(height: 40,),
+                    Text(
+                      TempLanguage().lblResetPassword,
+                      style: context.currentTextTheme.titleMedium?.copyWith(fontFamily: METROPOLIS_MEDIUM),
+                    ),
+                    const SizedBox(height: 10,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 54.0),
+                      child: Text(
+                        TempLanguage().lblPleaseEnterEmailQuote,
+                        style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 14),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 100,
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: CustomTextField(
+                        hintText: TempLanguage().lblEmail,
+                        keyboardType: TextInputType.emailAddress,
+                        asset: AppAssets.emailIcon,
+                        controller: _emailController,
+                        isPassword: false,
+                      ),
+                    ),
+                    const SizedBox(height: 24,),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                      width: context.width,
+                      height: defaultButtonSize,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primaryColor,
+                        ),
+                        onPressed: (){
+
+                        },
+                        child: Text(
+                          TempLanguage().lblSend,
+                          style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 20,
+              left: context.width / 2.6,
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                        text: TempLanguage().lblBackTo,
+                        style: context.currentTextTheme.labelSmall
+                    ),
+                    TextSpan(
+                        text: TempLanguage().lblLogin,
+                        style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.bold)
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
