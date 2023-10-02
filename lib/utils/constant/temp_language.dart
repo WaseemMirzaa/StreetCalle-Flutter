@@ -25,4 +25,14 @@ class TempLanguage {
   String get lblBackTo => 'Back to? ';
   String get lblResetPassword => 'Reset Password';
   String get lblPleaseEnterEmailQuote => 'Please enter your email to receive a link to create a new password via email';
+
+  String get lblSelectImage => 'Please select your image';
+  String get lblEnterYourEmail => 'Please enter your valid email';
+  String get lblEnterYourName => 'Please enter your name';
+  String get lblNameMustBeGrater => 'Your name must be grater than 2 characters';
+  String get lblEnterYourPhone => 'Please enter your valid phone';
+  String get lblEnterYourPassword => 'Please enter your password';
+  String get lblPasswordMustBeGreater => 'Your password must be 6 characters or more';
+  String get lblEnterYourConfirmPassword => 'Please enter your confirm password';
+  String get lblPasswordMismatch => 'Password mismatch';
 }

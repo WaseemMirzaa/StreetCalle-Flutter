@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(milliseconds: 3000), () {
-      context.goNamed(AppRoutingName.onBoardingScreen);
+      context.goNamed(AppRoutingName.authScreen);
     });
   }
 

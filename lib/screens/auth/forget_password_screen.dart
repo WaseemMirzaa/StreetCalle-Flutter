@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:street_calle/screens/auth/cubit/forget_password/forget_password_cubit.dart';
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:street_calle/utils/common.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
 
-class ForgetPasswordScreen extends StatefulWidget {
+class ForgetPasswordScreen extends StatelessWidget {
   const ForgetPasswordScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
-}
-
-class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
-  final _emailController = TextEditingController();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,27 +50,39 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         hintText: TempLanguage().lblEmail,
                         keyboardType: TextInputType.emailAddress,
                         asset: AppAssets.emailIcon,
-                        controller: _emailController,
+                        controller: context.read<PasswordResetCubit>().emailController,
                         isPassword: false,
                       ),
                     ),
                     const SizedBox(height: 24,),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 12.0),
-                      width: context.width,
-                      height: defaultButtonSize,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                        ),
-                        onPressed: (){
 
-                        },
-                        child: Text(
-                          TempLanguage().lblSend,
-                          style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                        ),
-                      ),
+                    BlocConsumer<PasswordResetCubit, PasswordResetState>(
+                      listener: (context, state) {
+                        if (state is PasswordResetSuccess) {
+                          showToast(context, 'Check your email');
+                        } else if (state is PasswordResetFailure) {
+                          showToast(context, state.error);
+                        }
+                      },
+                      builder: (context, state) {
+                        return state is PasswordResetLoading
+                            ? const CircularProgressIndicator(color: AppColors.primaryColor,)
+                            : Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                          width: context.width,
+                          height: defaultButtonSize,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryColor,
+                            ),
+                            onPressed: ()=> resetPassword(context),
+                            child: Text(
+                              TempLanguage().lblSend,
+                              style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -107,5 +110,16 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> resetPassword(BuildContext context) async {
+    final resetPasswordCubit = context.read<PasswordResetCubit>();
+    final email = resetPasswordCubit.emailController.text;
+
+    if (email.isEmpty || !email.validateEmailEnhanced()) {
+      showToast(context, TempLanguage().lblEnterYourEmail);
+    } else {
+      resetPasswordCubit.resetPassword();
+    }
   }
 }

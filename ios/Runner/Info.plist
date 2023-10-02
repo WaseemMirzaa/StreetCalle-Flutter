@@ -45,5 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<key>NSCameraUsageDescription</key>
+    <string>Street Calle app requires access to the Camera to upload your profile photo.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Street Calle app requires access to the photo library to upload your profile photo.</string>
+
 </dict>
 </plist>

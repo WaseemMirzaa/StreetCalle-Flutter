@@ -1,9 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/screens/auth/auth_screen.dart';
-import 'package:street_calle/screens/auth/create_account_screen.dart';
+import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/forget_password_screen.dart';
 import 'package:street_calle/screens/auth/login_screen.dart';
-import 'package:street_calle/screens/onBoarding/on_boarding_screen.dart';
 import 'package:street_calle/screens/selectUser/select_user_screen.dart';
 import 'package:street_calle/screens/splash/splash_screen.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
@@ -13,11 +12,6 @@ final router = GoRouter(
     GoRoute(
       path: AppRoutingName.splashScreen,
       builder: (context, state) => const SplashScreen(),
-    ),
-    GoRoute(
-      path: AppRoutingName.onBoardingScreen,
-      name: AppRoutingName.onBoardingScreen,
-      builder: (context, state) => const OnBoardingScreen(),
     ),
     GoRoute(
       path: AppRoutingName.selectUserScreen,
@@ -35,9 +29,9 @@ final router = GoRouter(
       builder: (context, state) => const LoginScreen(),
     ),
     GoRoute(
-      path: AppRoutingName.createAccountScreen,
-      name: AppRoutingName.createAccountScreen,
-      builder: (context, state) => const CreateAccountScreen(),
+      path: AppRoutingName.signUpScreen,
+      name: AppRoutingName.signUpScreen,
+      builder: (context, state) => const SignUpScreen(),
     ),
     GoRoute(
       path: AppRoutingName.forgetPasswordScreen,

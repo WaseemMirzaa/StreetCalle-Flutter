@@ -43,7 +43,7 @@ class AuthScreen extends StatelessWidget {
                         backgroundColor: AppColors.primaryColor,
                       ),
                       onPressed: (){
-                        context.goNamed(AppRoutingName.loginScreen);
+                        context.pushNamed(AppRoutingName.loginScreen);
                       },
                       child: Text(
                         TempLanguage().lblLogin,
@@ -65,7 +65,7 @@ class AuthScreen extends StatelessWidget {
                         side: const BorderSide(color: AppColors.primaryColor)
                       ),
                       onPressed: (){
-                        context.goNamed(AppRoutingName.createAccountScreen);
+                        context.pushNamed(AppRoutingName.signUpScreen);
                       },
                       child: Text(
                         TempLanguage().lblCreateAccount,

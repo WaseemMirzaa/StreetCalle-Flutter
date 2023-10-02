@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/screens/selectUser/widgets/build_selected_image.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
+import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
@@ -84,13 +85,13 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 54.0),
                 child: SizedBox(
                   width: context.width,
-                  height: 50,
+                  height: defaultButtonSize,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryColor,
                     ),
                     onPressed: (){
-                      context.goNamed(AppRoutingName.authScreen);
+                      context.pushNamed(AppRoutingName.authScreen);
                     },
                     child: Text(
                       TempLanguage().lblNext,
