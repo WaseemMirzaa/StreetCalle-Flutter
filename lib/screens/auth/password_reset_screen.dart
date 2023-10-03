@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:street_calle/screens/auth/cubit/forget_password/forget_password_cubit.dart';
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -100,7 +102,8 @@ class ForgetPasswordScreen extends StatelessWidget {
                     ),
                     TextSpan(
                         text: TempLanguage().lblLogin,
-                        style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.bold)
+                        style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.bold),
+                      recognizer: TapGestureRecognizer()..onTap = () => context.pop(),
                     ),
                   ],
                 ),
