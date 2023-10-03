@@ -91,20 +91,23 @@ class LoginScreen extends StatelessWidget {
                   builder: (context, state) {
                     return state is LoginLoading
                         ? const CircularProgressIndicator(color: AppColors.primaryColor,)
-                        : SizedBox(
+                        : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: SizedBox(
                       width: context.width,
                       height: defaultButtonSize,
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                        ),
-                        onPressed: ()=> login(context),
-                        child: Text(
-                          TempLanguage().lblLogin,
-                          style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                        ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                          ),
+                          onPressed: ()=> login(context),
+                          child: Text(
+                            TempLanguage().lblLogin,
+                            style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                          ),
                       ),
-                    );
+                    ),
+                        );
                   },
                 ),
                 const SizedBox(height: 24,),
@@ -113,20 +116,23 @@ class LoginScreen extends StatelessWidget {
                   builder: (context, state) {
                     return state is GuestLoginLoading
                         ? const CircularProgressIndicator(color: AppColors.guestColor,)
-                        : SizedBox(
+                        : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: SizedBox(
                       width: context.width,
                       height: defaultButtonSize,
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.guestColor,
-                        ),
-                        onPressed: ()=> context.read<GuestCubit>().signInAsGuest(),
-                        child: Text(
-                          TempLanguage().lblGuest,
-                          style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                        ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.guestColor,
+                          ),
+                          onPressed: ()=> context.read<GuestCubit>().signInAsGuest(),
+                          child: Text(
+                            TempLanguage().lblGuest,
+                            style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                          ),
                       ),
-                    );
+                    ),
+                        );
                   },
                   listener: (context, state) {
                     if (state is GuestLoginFailure) {

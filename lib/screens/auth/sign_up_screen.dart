@@ -135,20 +135,23 @@ class SignUpScreen extends StatelessWidget {
                   builder: (context, state) {
                     return state is SignUpLoading
                         ? const CircularProgressIndicator(color: AppColors.primaryColor,)
-                        : SizedBox(
+                        : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: SizedBox(
                       width: context.width,
                       height: defaultButtonSize,
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                        ),
-                        onPressed: () => signUp(context),
-                        child: Text(
-                          TempLanguage().lblSignUp,
-                          style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                        ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                          ),
+                          onPressed: () => signUp(context),
+                          child: Text(
+                            TempLanguage().lblSignUp,
+                            style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                          ),
                       ),
-                    );
+                    ),
+                        );
                   },
                 ),
 

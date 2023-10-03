@@ -13,7 +13,7 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: AppRoutingName.splashScreen,
-      builder: (context, state) => const MainScreen(user: 'Shehzad'),
+      builder: (context, state) => const SplashScreen(),
     ),
     GoRoute(
       path: AppRoutingName.selectUserScreen,
@@ -52,7 +52,7 @@ final router = GoRouter(
       path: AppRoutingName.mainScreen,
       name: AppRoutingName.mainScreen,
       builder: (context, state) {
-        final user = state.pathParameters['email']!;
+        final user = state.pathParameters['user']!;
         return MainScreen(user: user);
       },
     ),

@@ -34,7 +34,7 @@ class AuthScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 54.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 44.0),
                   child: SizedBox(
                     width: context.width,
                     height: defaultButtonSize,
@@ -54,7 +54,7 @@ class AuthScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20,),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 54.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 44.0),
                   child: SizedBox(
                     width: context.width,
                     height: defaultButtonSize,
