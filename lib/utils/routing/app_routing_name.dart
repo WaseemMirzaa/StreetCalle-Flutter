@@ -4,5 +4,7 @@ class AppRoutingName {
   static const authScreen = '/authScreen';
   static const loginScreen = '/loginScreen';
   static const signUpScreen = '/createAccountScreen';
-  static const forgetPasswordScreen = '/forgetPasswordScreen';
+  static const passwordResetScreen = '/passwordResetScreen';
+  static const emailVerificationScreen = '/emailVerificationScreen/:email';
+  static const mainScreen = '/mainScreen/:user';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -12,6 +13,7 @@ import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/utils/common.dart';
+import 'package:street_calle/screens/auth/cubit/guest/guest_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -64,7 +66,7 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 24,),
                 GestureDetector(
                   onTap: (){
-                    context.pushNamed(AppRoutingName.forgetPasswordScreen);
+                    context.pushNamed(AppRoutingName.passwordResetScreen);
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(right: 16.0),
@@ -81,7 +83,7 @@ class LoginScreen extends StatelessWidget {
                 BlocConsumer<LoginCubit, LoginState>(
                   listener: (context, state) {
                      if (state is LoginSuccess) {
-                      context.pushNamed(AppRoutingName.forgetPasswordScreen);
+                      context.pushNamed(AppRoutingName.passwordResetScreen);
                     } else if (state is LoginFailure) {
                       showToast(context, state.error);
                     }
@@ -106,21 +108,33 @@ class LoginScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 24,),
-                SizedBox(
-                  width: context.width,
-                  height: defaultButtonSize,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.guestColor,
-                    ),
-                    onPressed: (){
 
-                    },
-                    child: Text(
-                      TempLanguage().lblGuest,
-                      style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                    ),
-                  ),
+                BlocConsumer<GuestCubit, GuestState>(
+                  builder: (context, state) {
+                    return state is GuestLoginLoading
+                        ? const CircularProgressIndicator(color: AppColors.guestColor,)
+                        : SizedBox(
+                      width: context.width,
+                      height: defaultButtonSize,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.guestColor,
+                        ),
+                        onPressed: ()=> context.read<GuestCubit>().signInAsGuest(),
+                        child: Text(
+                          TempLanguage().lblGuest,
+                          style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                        ),
+                      ),
+                    );
+                  },
+                  listener: (context, state) {
+                    if (state is GuestLoginFailure) {
+                      showToast(context, state.error);
+                    } else if (state is GuestLoginSuccess) {
+                      context.goNamed(AppRoutingName.selectUserScreen);
+                    }
+                  },
                 ),
                 const SizedBox(height: 24,),
                 Text(
@@ -131,18 +145,32 @@ class LoginScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GestureDetector(
-                        onTap: () async {
-                          //await AuthService.signInWithGoogle();
+                      BlocConsumer<GoogleLoginCubit, GoogleLoginState>(
+                        builder: (context, state) {
+                          return GestureDetector(
+                            onTap: () {
+                              showLoadingDialog(context);
+                              context.read<GoogleLoginCubit>().googleSignIn();
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: AppColors.placeholderColor),
+                              ),
+                              child: Image.asset(AppAssets.google, width: 20, height: 20,),
+                            ),
+                          );
                         },
-                        child: Container(
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: AppColors.placeholderColor),
-                          ),
-                          child: Image.asset(AppAssets.google, width: 20, height: 20,),
-                        ),
+                        listener: (context, state) {
+                          if (state is GoogleLoginFailure) {
+                            Navigator.pop(context);
+                            showToast(context, state.error);
+                          } else if (state is GoogleLoginSuccess) {
+                            Navigator.pop(context);
+                            context.goNamed(AppRoutingName.selectUserScreen);
+                          }
+                        },
                       ),
                       Container(
                         padding: const EdgeInsets.all(16),

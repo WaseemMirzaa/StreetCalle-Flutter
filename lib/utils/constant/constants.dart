@@ -22,5 +22,5 @@ class UserKey {
   static const String createdAt = 'createdAt';
   static const String updatedAt = 'updatedAt';
   static const String fcmTokens = 'fcmTokens';
-  static const String isAdmin = 'isAdmin';
+  static const String isVendor = 'isVendor';
 }

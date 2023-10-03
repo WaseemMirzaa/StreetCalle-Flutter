@@ -41,7 +41,7 @@ class SignUpCubit extends Cubit<SignUpState> {
             name: nameController.text,
             email: emailController.text,
             phone: phoneController.text,
-            isAdmin: false,
+            isVendor: false,
             createdAt: Timestamp.now(),
             updatedAt: Timestamp.now(),
           );

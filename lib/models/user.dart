@@ -10,7 +10,7 @@ class User extends Equatable {
   final String? name;
   final String? email;
   final String? phone;
-  final bool? isAdmin;
+  final bool? isVendor;
   final Timestamp? createdAt;
   final Timestamp? updatedAt;
   final List<dynamic>? fcmTokens;
@@ -24,7 +24,7 @@ class User extends Equatable {
     this.createdAt,
     this.updatedAt,
     this.fcmTokens,
-    this.isAdmin,
+    this.isVendor,
   });
 
   User copyWith({
@@ -36,7 +36,7 @@ class User extends Equatable {
     Timestamp? createdAt,
     Timestamp? updatedAt,
     List<dynamic>? fcmTokens,
-    bool? isAdmin,
+    bool? isVendor,
   }){
     return User(
       uid: uid ?? this.uid,
@@ -47,7 +47,7 @@ class User extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       fcmTokens: fcmTokens ?? this.fcmTokens,
-      isAdmin: isAdmin ?? this.isAdmin,
+      isVendor: isVendor ?? this.isVendor,
     );
  }
 
@@ -61,7 +61,7 @@ class User extends Equatable {
       createdAt: json[UserKey.createdAt],
       updatedAt: json[UserKey.updatedAt],
       fcmTokens: json[UserKey.fcmTokens],
-      isAdmin: json[UserKey.isAdmin],
+      isVendor: json[UserKey.isVendor],
     );
   }
 
@@ -75,7 +75,7 @@ class User extends Equatable {
     data[UserKey.createdAt] = createdAt;
     data[UserKey.updatedAt] = updatedAt;
     data[UserKey.fcmTokens] = fcmTokens;
-    data[UserKey.isAdmin] = isAdmin;
+    data[UserKey.isVendor] = isVendor;
     return data;
   }
 

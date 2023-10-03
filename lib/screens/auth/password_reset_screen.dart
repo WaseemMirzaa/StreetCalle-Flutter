@@ -12,8 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
-  const ForgetPasswordScreen({Key? key}) : super(key: key);
+class PasswordResetScreen extends StatelessWidget {
+  const PasswordResetScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

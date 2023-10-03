@@ -35,4 +35,13 @@ class TempLanguage {
   String get lblPasswordMustBeGreater => 'Your password must be 6 characters or more';
   String get lblEnterYourConfirmPassword => 'Please enter your confirm password';
   String get lblPasswordMismatch => 'Password mismatch';
+
+  String get lblSendVerificationEmail => 'We have sent an verification email to you';
+  String get lblPleaseCheckYourEmail => 'Please check your Email address';
+  String get lblToVerify => ' continue to verify';
+  String get lblContinue => 'Continue';
+  String get lblDidNotReceive => 'Didn\'t receive the verification email?';
+  String get lblSendAgain => ' Send again';
+  String get lblVerifyYourEmail => 'Please verify your email first';
+  String get lblLoginFailed => 'Login failed. Try again later';
 }

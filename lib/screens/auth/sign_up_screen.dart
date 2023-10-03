@@ -127,7 +127,7 @@ class SignUpScreen extends StatelessWidget {
                 BlocConsumer<SignUpCubit, SignUpState>(
                   listener: (context, state) {
                     if (state is SignUpSuccess) {
-                      context.pushNamed(AppRoutingName.loginScreen);
+                      context.pushNamed(AppRoutingName.emailVerificationScreen, pathParameters: {'email': context.read<SignUpCubit>().emailController.text});
                     } else if (state is SignUpFailure) {
                       showToast(context, state.error);
                     }

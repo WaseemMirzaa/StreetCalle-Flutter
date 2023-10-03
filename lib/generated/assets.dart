@@ -2,10 +2,6 @@
 class Assets {
   Assets._();
 
-  static const String assetsImagesImage1 = 'assets/images/image1.svg';
-  static const String assetsImagesImage2 = 'assets/images/image2.svg';
-  static const String assetsImagesImage3 = 'assets/images/image3.svg';
-  static const String assetsImagesImage4 = 'assets/images/image4.svg';
   static const String assetsImagesPerson = 'assets/images/person.svg';
   static const String assetsImagesPhone = 'assets/images/phone.svg';
   static const String fontsCabin-Bold = 'assets/fonts/Cabin-Bold.ttf';
@@ -18,16 +14,17 @@ class Assets {
   static const String imagesEmail = 'assets/images/email.svg';
   static const String imagesFacebook = 'assets/images/facebook.png';
   static const String imagesGoogle = 'assets/images/google.png';
-  static const String imagesImage1 = 'assets/images/image1.png';
-  static const String imagesImage2 = 'assets/images/image2.png';
-  static const String imagesImage3 = 'assets/images/image3.png';
-  static const String imagesImage4 = 'assets/images/image4.png';
+  static const String imagesHome = 'assets/images/home.png';
+  static const String imagesIconImage = 'assets/images/icon_image.png';
   static const String imagesLogo = 'assets/images/logo.svg';
+  static const String imagesMenu = 'assets/images/menu.png';
   static const String imagesMonkeyFace = 'assets/images/monkey_face.png';
+  static const String imagesMore = 'assets/images/more.png';
   static const String imagesPassword = 'assets/images/password.svg';
   static const String imagesPerson = 'assets/images/person.png';
   static const String imagesPhone = 'assets/images/phone.png';
   static const String imagesTwitter = 'assets/images/twitter.png';
+  static const String imagesUser = 'assets/images/user.png';
   static const String imagesVendor = 'assets/images/vendor.png';
 
 }

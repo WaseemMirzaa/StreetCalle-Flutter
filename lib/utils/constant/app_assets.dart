@@ -12,9 +12,9 @@ class AppAssets {
   static const person = 'assets/images/person.svg';
   static const phone = 'assets/images/phone.svg';
 
-  /// OnBoarding Images
-  static const onBoardingImage1 = 'assets/images/image1.png';
-  static const onBoardingImage2 = 'assets/images/image2.png';
-  static const onBoardingImage3 = 'assets/images/image3.png';
-  static const onBoardingImage4 = 'assets/images/image4.png';
+  static const home = 'assets/images/home.png';
+  static const menu = 'assets/images/menu.png';
+  static const user = 'assets/images/user.png';
+  static const more = 'assets/images/more.png';
+  static const iconImage = 'assets/images/icon_image.png';
 }

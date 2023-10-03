@@ -15,6 +15,7 @@ class AuthService {
         email: email,
         password: password,
       );
+      await userCredential.user?.sendEmailVerification();
       return Right(userCredential.user);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -74,7 +75,7 @@ class AuthService {
         case 'network-request-failed':
           return const Left('Network request failed. Please check your internet connection.');
         default:
-          return Left('Error during sign-up: ${e.message}');
+          return Left('Error during log-in: ${e.message}');
       }
     } catch (e) {
       return Left('Error during login: $e');
@@ -113,7 +114,55 @@ class AuthService {
     }
   }
 
-  static Future<User?> signInWithGoogle() async {
+  Future<bool> isUserEmailVerified() async {
+    if (_auth.currentUser == null) {
+      return false;
+    }
+    await _auth.currentUser!.reload();
+    return _auth.currentUser!.emailVerified;
+  }
+
+  Future<bool> sendEmailVerificationAgain() async {
+    try{
+      if (_auth.currentUser == null) {
+        return false;
+      }
+      await _auth.currentUser!.sendEmailVerification();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<Either<String, User?>> guestSignIn() async {
+    try {
+      final UserCredential userCredential = await _auth.signInAnonymously();
+      return Right(userCredential.user);
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        // Handle specific exceptions here
+        if (e.code == 'operation-not-allowed') {
+          // The operation is not allowed (e.g., anonymous sign-in is disabled)
+         return const Left('Guest sign-in is disabled');
+        } else {
+          // Other Firebase Authentication exceptions
+          return Left('Error during log-in: ${e.message}');
+        }
+      } else {
+        // Handle other types of exceptions (e.g., network errors)
+        return const Left('Login failed. Try again later');
+      }
+    }
+  }
+
+  bool isUserGuest() {
+    if (_auth.currentUser == null) {
+      return false;
+    }
+    return _auth.currentUser!.isAnonymous;
+  }
+
+  Future<Either<String, User?>> signInWithGoogle() async {
 
     FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -143,7 +192,10 @@ class AuthService {
       var uModel = userModel.User(
         uid: user.uid,
         email: user.email,
-        phone: user.phoneNumber
+        phone: user.phoneNumber,
+        name: user.displayName,
+        image: user.photoURL,
+        isVendor: false,
       );
 
       if (doc == null) {
@@ -161,22 +213,18 @@ class AuthService {
         await userService.updateDocument({
           UserKey.updatedAt: Timestamp.now(),
         }, user.uid);
-
-
       }
+
+      return Right(user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
-       // toast('The account already exists with a different credential');
+        return const Left('The account already exists with a different credential');
       } else if (e.code == 'invalid-credential') {
-        //toast('Error occurred while accessing credentials. Try again.');
+        return const Left('Error occurred while accessing credentials. Try again.');
       }
-
-      return null;
     } catch (e) {
-      //toast('Error occurred using Google Sign In. Try again.');
-      return null;
+      return const Left('Error occurred using Google Sign In. Try again.');
     }
-
-    return user;
+    return const Left('Error occurred using Google Sign In. Try again.');
   }
 }

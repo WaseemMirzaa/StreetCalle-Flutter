@@ -23,7 +23,7 @@ class BuildSelectableImage extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 20,
+            bottom: 0,
             left: 57,
             child: Text(
               title,

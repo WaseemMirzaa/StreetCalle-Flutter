@@ -14,3 +14,24 @@ void showToast(BuildContext context, String title) {
 bool hasMatch(String? s, String p) {
   return (s == null) ? false : RegExp(p).hasMatch(s);
 }
+
+void showLoadingDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // Prevent user from dismissing the dialog
+    builder: (BuildContext context) {
+      return const AlertDialog(
+        content: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              CircularProgressIndicator(color: Colors.black,),
+              SizedBox(width: 16),
+              Text('Please wait...'),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
