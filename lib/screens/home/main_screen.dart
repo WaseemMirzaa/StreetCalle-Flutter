@@ -1,6 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:street_calle/screens/home/vendor_tabs/profile/user_profile_tab.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/vendor_home_tab.dart';
+import 'package:street_calle/screens/home/settings/settings_tab.dart';
 import 'package:street_calle/screens/home/widgets/custom_bottom_nav_item.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -19,22 +20,13 @@ class _MainScreenState extends State<MainScreen> {
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
+    VendorHomeTab(),
     Text(
       'Index 1: Menu',
       style: optionStyle,
     ),
-    Text(
-      'Index 2: Profile',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
+    UserprofileTab(),
+    SettingsTab()
   ];
 
   void _onItemTapped(int index) {
@@ -46,9 +38,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: Theme(
         data: ThemeData(
           splashColor: Colors.transparent,

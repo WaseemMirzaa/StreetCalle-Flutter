@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/main.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
@@ -104,6 +105,7 @@ class EmailVerificationScreen extends StatelessWidget {
                     if (timerCubit.state != 0) {
                       timerCubit.stop();
                     }
+                    context.read<UserCubit>().setIsLoggedIn(true);
                     context.goNamed(AppRoutingName.selectUserScreen);
                   } else {
                     showToast(context, TempLanguage().lblVerifyYourEmail);

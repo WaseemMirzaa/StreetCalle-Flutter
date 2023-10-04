@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/auth/cubit/email_verification/email_verification_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/forget_password/forget_password_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.dart';
@@ -14,6 +15,7 @@ import 'package:street_calle/screens/auth/login_screen.dart';
 import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
 import 'package:street_calle/services/auth_service.dart';
+import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/routing/routing.dart';
 import 'package:street_calle/utils/themes/app_theme.dart';
@@ -25,6 +27,7 @@ FirebaseStorage storage = FirebaseStorage.instance;
 
 UserService userService = UserService();
 AuthService authService = AuthService();
+SharedPreferencesService sharedPreferencesService = SharedPreferencesService();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +35,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  await sharedPreferencesService.init();
   runApp(
     MultiBlocProvider(
       providers: [
@@ -62,6 +66,9 @@ Future<void> main() async {
         ),
         BlocProvider(
           create: (context)=> GoogleLoginCubit(authService),
+        ),
+        BlocProvider(
+          create: (context)=> UserCubit(sharedPreferencesService),
         ),
       ],
       child: const MyApp(),

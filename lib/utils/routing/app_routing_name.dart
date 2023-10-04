@@ -7,4 +7,8 @@ class AppRoutingName {
   static const passwordResetScreen = '/passwordResetScreen';
   static const emailVerificationScreen = '/emailVerificationScreen/:email';
   static const mainScreen = '/mainScreen/:user';
+  static const addItem = '/addItem';
+  static const privacyPolicy = '/privacyPolicy';
+  static const termsAndConditions = '/termsAndConditions';
+  static const vendorSubscriptions = '/vendorSubscriptions';
 }

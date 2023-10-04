@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_settings/widgets/subscription_plan_item.dart';
+import 'package:street_calle/screens/home/settings/widgets/subscription_plan_item.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';

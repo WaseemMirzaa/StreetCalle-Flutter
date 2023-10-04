@@ -14,6 +14,7 @@ import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/screens/auth/cubit/guest/guest_cubit.dart';
+import 'package:street_calle/cubit/user_state.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -83,7 +84,8 @@ class LoginScreen extends StatelessWidget {
                 BlocConsumer<LoginCubit, LoginState>(
                   listener: (context, state) {
                      if (state is LoginSuccess) {
-                      context.pushNamed(AppRoutingName.passwordResetScreen);
+                       context.read<UserCubit>().setUserModel(state.user, isLoggedIn: true);
+                      context.pushNamed(AppRoutingName.selectUserScreen);
                     } else if (state is LoginFailure) {
                       showToast(context, state.error);
                     }

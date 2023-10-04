@@ -89,7 +89,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                       backgroundColor: AppColors.primaryColor,
                     ),
                     onPressed: (){
-                      context.pushNamed(AppRoutingName.mainScreen, queryParameters: {'user': _user.name});
+                      context.pushNamed(AppRoutingName.mainScreen, pathParameters: {'user': _user.name});
                     },
                     child: Text(
                       TempLanguage().lblNext,

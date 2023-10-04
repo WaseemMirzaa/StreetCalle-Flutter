@@ -3,8 +3,7 @@ import 'package:street_calle/utils/constant/constants.dart';
 
 class AppTextStyles {
 
-  static const TextStyle titleLarge =
-  TextStyle(fontSize: 34, fontFamily: CABIN_BOLD, fontWeight: FontWeight.bold);
+  static const TextStyle titleLarge = TextStyle(fontSize: 34, fontFamily: CABIN_BOLD, fontWeight: FontWeight.bold);
 
   static const TextStyle titleMedium = TextStyle(fontSize: 30, fontFamily: METROPOLIS_EXTRA_BOLD, fontWeight: FontWeight.normal);
   //

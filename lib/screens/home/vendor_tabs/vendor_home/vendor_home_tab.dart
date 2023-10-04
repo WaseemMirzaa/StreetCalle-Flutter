@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/utils/routing/app_routing_name.dart';
 
 
 OutlineInputBorder searchBorder = OutlineInputBorder(
@@ -32,13 +36,17 @@ class VendorHomeTab extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: AppColors.primaryColor,
               ),
-              child: const Icon(Icons.image_outlined, color: AppColors.whiteColor,),
+              child: context.read<UserCubit>().state.userImage.isEmpty
+                    ? const Icon(Icons.image_outlined, color: AppColors.whiteColor,)
+                    : CircleAvatar(
+                  backgroundImage: Image.network(context.read<UserCubit>().state.userImage).image,
+              ),
             ),
             const SizedBox(height: 12,),
             Text(
-              'Hello Amanda!',
+              context.read<UserCubit>().state.userName,
               textAlign: TextAlign.center,
-              style: context.currentTextTheme.titleMedium?.copyWith(fontSize: 20),
+              style: context.currentTextTheme.titleMedium?.copyWith(fontSize: 20, color: AppColors.primaryFontColor),
             ),
             const SizedBox(height: 16,),
             Padding(
@@ -74,9 +82,7 @@ class VendorHomeTab extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryColor,
                         ),
-                        onPressed: () {
-
-                        },
+                        onPressed: () => context.push(AppRoutingName.addItem),
                         child: Row(
                           children: [
                             Image.asset(AppAssets.add, width: 15, height: 15,),
