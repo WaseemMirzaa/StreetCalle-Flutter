@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/screens/home/settings/widgets/settings_item.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -33,7 +35,13 @@ class SettingsTab extends StatelessWidget {
             SettingItem(title: 'Terms & Conditions', onTap: (){
               context.push(AppRoutingName.termsAndConditions);
             }),
-            SettingItem(title: 'Sign Out', onTap: (){}),
+            SettingItem(title: 'Sign Out', onTap: () async {
+              await FirebaseAuth.instance.signOut();
+              await sharedPreferencesService.clearSharedPref();
+              if (context.mounted) {
+                context.goNamed(AppRoutingName.authScreen);
+              }
+            }),
           ],
         ),
       ),
