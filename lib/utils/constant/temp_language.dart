@@ -51,6 +51,7 @@ class TempLanguage {
   String get lblItemDescription => 'Description';
   String get lblItemFoodType => 'Food Type';
   String get lblItemAddToMenu => 'Add To Menu';
+  String get lblItemUpdateToMenu => 'Update';
   String get lblItemAddFoodType => '+ Add Food Type';
   String get lblItemAddPricingCategories => '+ Add Pricing Categories';
   String get lblPrice => 'Price';
@@ -72,6 +73,14 @@ class TempLanguage {
   String get lblEditProfile => 'Edit Profile';
   String get lblOnline => 'Online';
   String get lblOffline => 'Offline';
+  String get lblAddItemTitle => 'Add item title';
+  String get lblAddItemPrice => 'Add item actual price';
+  String get lblAddItemFoodType => 'Add item food type';
+  String get lblItemAddedSuccessfully => 'Item added successfully';
+  String get lblViewAll => 'View all';
+  String get lblNoDataFound => 'No data found';
+  String get lblSomethingWentWrong => 'Something went wrong. Try again later';
+  String get lblItemDeletedSuccessfully => 'Item deleted successfully';
 
   String get lblLorem => '''
   One brave soul did take a stab at translating the almost-not-quite-Latin. According to The Guardian, Jaspreet Singh Boparai undertook the challenge with the goal of making the text “precisely as incoherent in English as it is in Latin - and to make it incoherent in the same way”. As a result, “the Greek 'eu' in Latin became the French 'bien' [...] and the '-ing' ending in 'lorem ipsum' seemed best rendered by an '-iendum' in English.”

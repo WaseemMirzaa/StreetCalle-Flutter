@@ -12,4 +12,5 @@ class AppColors {
   static const hintColor = Color(0xff330507);
   static const blackColor = Color(0xff000000);
   static const dividerColor = Color(0xffEEEEEE);
+  static const redColor = Color(0xffFF0000);
 }

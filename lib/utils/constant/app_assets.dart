@@ -17,9 +17,12 @@ class AppAssets {
   static const user = 'assets/images/user.png';
   static const more = 'assets/images/more.png';
   static const iconImage = 'assets/images/icon_image.png';
+  static const whiteIconImage = 'assets/images/white_icon_image.png';
   static const add = 'assets/images/add.png';
   static const camera = 'assets/images/camera.png';
   static const backIcon = 'assets/images/back.png';
   static const checkMarkIcon = 'assets/images/check_mark.png';
   static const editPencil = 'assets/images/edit_pencil.png';
+  static const edit = 'assets/images/edit.png';
+  static const delete = 'assets/images/delete.png';
 }

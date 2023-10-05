@@ -1,7 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/main.dart';
+import 'package:street_calle/models/item.dart';
+import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/delete_confirmation_dialog.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_detail.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_view.dart';
+import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -24,7 +33,7 @@ class VendorHomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 36.0, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 36.0,),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -50,7 +59,7 @@ class VendorHomeTab extends StatelessWidget {
             ),
             const SizedBox(height: 16,),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: TextField(
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(20),
@@ -72,7 +81,7 @@ class VendorHomeTab extends StatelessWidget {
               height: 24,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: Row(
                 children: [
                   Expanded(
@@ -82,7 +91,7 @@ class VendorHomeTab extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryColor,
                         ),
-                        onPressed: () => context.push(AppRoutingName.addItem),
+                        onPressed: () => context.pushNamed(AppRoutingName.addItem, pathParameters: {'isUpdate': false.toString()}),
                         child: Row(
                           children: [
                             Image.asset(AppAssets.add, width: 15, height: 15,),
@@ -125,9 +134,91 @@ class VendorHomeTab extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(
+              height: 24,
+            ),
+
+            //TODO: Do it with bloc rather than direct use
+            Expanded(
+              child: StreamBuilder<List<Item>>(
+                stream: itemService.getItems(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_ID)),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(color: AppColors.primaryColor,),
+                    );
+                  }
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: snapshot.data?.length,
+                      itemBuilder: (context, index) {
+                        final item = snapshot.data?[index];
+                        if (item == null) {
+                          return Center(
+                            child: Text(
+                              TempLanguage().lblNoDataFound,
+                              style: context.currentTextTheme.displaySmall,
+                            ),
+                          );
+                        }
+                        return ItemView(
+                          index: index,
+                          item: item,
+                          onUpdate: () {
+                            context.read<ImageCubit>().resetForUpdateImage(item.image ?? '',);
+
+                            final itemCubit = context.read<AddItemCubit>();
+                            itemCubit.titleController.text = item.title ?? '';
+                            itemCubit.descriptionController.text = item.description ?? '';
+                            itemCubit.foodTypeController.text = item.foodType ?? '';
+                            itemCubit.actualPriceController.text = item.actualPrice.toString() ?? '';
+                            itemCubit.discountedPriceController.text = item.discountedPrice.toString() ?? '';
+                            itemCubit.id = item.id ?? '';
+                            itemCubit.createdAt = item.createdAt ?? Timestamp.now();
+
+                            context.pushNamed(AppRoutingName.addItem, pathParameters: {'isUpdate': true.toString()});
+                          },
+                          onDelete: () => _showDeleteConfirmationDialog(context, item),
+                          onTap: ()=> context.pushNamed(AppRoutingName.itemDetail, extra: item)
+                        );
+                      },
+                    );
+                  }
+                  return Center(
+                    child: Text(
+                      TempLanguage().lblNoDataFound,
+                      style: context.currentTextTheme.displaySmall,
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context, Item item) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DeleteConfirmationDialog(
+          onConfirm: () async {
+            final result = await itemService.deleteItem(item);
+           if (result) {
+             if (context.mounted) {
+               showToast(context, TempLanguage().lblItemDeletedSuccessfully);
+             }
+           } else {
+             if (context.mounted) {
+               showToast(context, TempLanguage().lblSomethingWentWrong);
+             }
+           }
+          },
+        );
+      },
     );
   }
 }

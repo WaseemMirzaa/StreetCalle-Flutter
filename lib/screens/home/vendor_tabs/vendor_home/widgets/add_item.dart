@@ -1,10 +1,15 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
+import 'package:street_calle/utils/common.dart';
 
 
 OutlineInputBorder titleBorder =  OutlineInputBorder(
@@ -14,10 +19,16 @@ OutlineInputBorder titleBorder =  OutlineInputBorder(
 
 
 class AddItem extends StatelessWidget {
-  const AddItem({Key? key}) : super(key: key);
+  const AddItem({Key? key, required this.isUpdate}) : super(key: key);
+  final bool isUpdate;
 
   @override
   Widget build(BuildContext context) {
+    final itemCubit = context.read<AddItemCubit>();
+    if (!isUpdate) {
+      context.read<ImageCubit>().resetImage();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -54,28 +65,7 @@ class AddItem extends StatelessWidget {
                 height: 24,
               ),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Container(
-                  width: context.width,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: AppColors.whiteColor,
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.blackColor.withOpacity(0.35),
-                        spreadRadius: 0.5, // Spread radius
-                        blurRadius: 8, // Blur radius
-                        offset: const Offset(1, 8), // Offset in the Y direction
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Image.asset(AppAssets.camera, width: 60, height: 60,),
-                  ),
-                ),
-              ),
+              const ItemImage(),
               const SizedBox(
                 height: 32,
               ),
@@ -107,6 +97,7 @@ class AddItem extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 24, right: 16.0, bottom: 16),
                       child: TextField(
+                        controller: itemCubit.titleController,
                         style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(left: 10),
@@ -165,6 +156,8 @@ class AddItem extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(left: 10, right: 16.0, bottom: 12, top: 6),
                               child: TextField(
+                                controller: itemCubit.actualPriceController,
+                                keyboardType: TextInputType.number,
                                 style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.only(left: 10),
@@ -212,6 +205,8 @@ class AddItem extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(left: 10, right: 16.0, bottom: 12, top: 6),
                               child: TextField(
+                                controller: itemCubit.discountedPriceController,
+                                keyboardType: TextInputType.number,
                                 style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.only(left: 10),
@@ -275,6 +270,7 @@ class AddItem extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 24, right: 16.0, bottom: 16),
                       child: TextField(
+                        controller: itemCubit.descriptionController,
                         style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(left: 10),
@@ -334,6 +330,7 @@ class AddItem extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 24, right: 16.0, bottom: 16),
                       child: TextField(
+                        controller: itemCubit.foodTypeController,
                         style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(left: 10),
@@ -354,35 +351,159 @@ class AddItem extends StatelessWidget {
                 height: 32,
               ),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: SizedBox(
-                  width: context.width,
-                  height: defaultButtonSize,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                    ),
-                    onPressed: (){},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(AppAssets.add, width: 15, height: 15,),
-                        const SizedBox(width: 16,),
-                        Text(
-                          TempLanguage().lblItemAddToMenu,
-                          style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+
+              BlocConsumer<AddItemCubit, AddItemState>(
+                listener: (context, state) {
+                  if (state is AddItemSuccess) {
+                    itemCubit.clear();
+                    showToast(context, TempLanguage().lblItemAddedSuccessfully);
+                    context.pop();
+                  } else if (state is AddItemFailure) {
+                    showToast(context, state.error);
+                  }
+                },
+                builder: (context, state) {
+                  return state is AddItemLoading
+                      ? const CircularProgressIndicator(color: AppColors.primaryColor,)
+                      : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: SizedBox(
+                      width: context.width,
+                      height: defaultButtonSize,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primaryColor,
                         ),
-                      ],
+                        onPressed: ()=> isUpdate ? updateItem(context) : addItem(context),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            isUpdate ? const SizedBox.shrink() : Image.asset(AppAssets.add, width: 15, height: 15,),
+                            SizedBox(width: isUpdate ? 0 : 16,),
+                            Text(
+                              isUpdate ? TempLanguage().lblItemUpdateToMenu : TempLanguage().lblItemAddToMenu,
+                              style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
+
               const SizedBox(
                 height: 24,
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> addItem(BuildContext context) async {
+    final imageCubit = context.read<ImageCubit>();
+    final itemCubit = context.read<AddItemCubit>();
+
+    final image = imageCubit.state.selectedImage.path;
+    final title = itemCubit.titleController.text;
+    final description = itemCubit.descriptionController.text;
+    final foodType = itemCubit.foodTypeController.text;
+    final actualPrice = itemCubit.actualPriceController.text;
+    final discountedPrice = itemCubit.discountedPriceController.text;
+
+    if (image.isEmpty) {
+      showToast(context, TempLanguage().lblSelectImage);
+    } else if (title.isEmpty) {
+      showToast(context, TempLanguage().lblAddItemTitle);
+    } else if (actualPrice.isEmpty) {
+      showToast(context, TempLanguage().lblAddItemPrice);
+    } else if (foodType.isEmpty ) {
+      showToast(context, TempLanguage().lblAddItemFoodType);
+    }  else {
+      itemCubit.addItem(image);
+    }
+  }
+
+  Future<void> updateItem(BuildContext context) async {
+    final imageCubit = context.read<ImageCubit>();
+    final itemCubit = context.read<AddItemCubit>();
+
+    final image = imageCubit.state.selectedImage.path;
+    final url = imageCubit.state.url;
+    final isUpdated = imageCubit.state.isUpdated;
+    final title = itemCubit.titleController.text;
+    final description = itemCubit.descriptionController.text;
+    final foodType = itemCubit.foodTypeController.text;
+    final actualPrice = itemCubit.actualPriceController.text;
+    final discountedPrice = itemCubit.discountedPriceController.text;
+
+    if (image.isEmpty && url == null) {
+      showToast(context, TempLanguage().lblSelectImage);
+    } else if (title.isEmpty) {
+      showToast(context, TempLanguage().lblAddItemTitle);
+    } else if (actualPrice.isEmpty) {
+      showToast(context, TempLanguage().lblAddItemPrice);
+    } else if (foodType.isEmpty ) {
+      showToast(context, TempLanguage().lblAddItemFoodType);
+    }  else {
+      if (isUpdated ?? false) {
+        itemCubit.updateItem(image: image, isUpdated: true);
+      } else {
+        itemCubit.updateItem(image: url ?? '', isUpdated: false);
+      }
+    }
+  }
+}
+
+
+class ItemImage extends StatelessWidget {
+  const ItemImage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: Container(
+        width: context.width,
+        height: 120,
+        decoration: BoxDecoration(
+          color: AppColors.whiteColor,
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.blackColor.withOpacity(0.35),
+              spreadRadius: 0.5, // Spread radius
+              blurRadius: 8, // Blur radius
+              offset: const Offset(1, 8), // Offset in the Y direction
+            ),
+          ],
+        ),
+        child: BlocBuilder<ImageCubit, ImageState>(
+          builder: (context, state) {
+            return GestureDetector(
+              onTap: () async {
+                context.read<ImageCubit>().selectImage();
+              },
+              child: state.selectedImage.path.isNotEmpty
+                  ? Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  clipBehavior: Clip.hardEdge,
+                  child: state.url != null ? Image.network(state.url!, fit: BoxFit.cover) : Image.file(File(state.selectedImage.path), fit: BoxFit.cover))
+                  : state.url != null
+                  ? Container(
+                    decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                    clipBehavior: Clip.hardEdge,
+                    child: Image.network(state.url!, fit: BoxFit.cover))
+                  : Center(child: Image.asset(AppAssets.camera, width: 60, height: 60,),
+              ),
+            );
+          },
         ),
       ),
     );

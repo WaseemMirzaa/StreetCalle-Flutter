@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:street_calle/services/base_service.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/main.dart';
@@ -32,7 +33,7 @@ class UserService extends BaseService<User> {
     try {
       final storageReference = storage
           .ref()
-          .child('images/$userId.jpg');
+          .child('images/$userId/${Timestamp.now().millisecondsSinceEpoch}.jpg');
 
       await storageReference.putFile(File(image));
       final downloadUrl = await storageReference.getDownloadURL();

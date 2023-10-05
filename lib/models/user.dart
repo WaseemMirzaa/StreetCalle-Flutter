@@ -80,6 +80,6 @@ class User extends Equatable {
   }
 
   @override
-  List<Object?> get props => [uid, image, name, email, phone, fcmTokens];
+  List<Object?> get props => [uid, image, name, email, phone, fcmTokens, createdAt, updatedAt, isVendor];
 
 }

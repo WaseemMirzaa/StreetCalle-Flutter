@@ -14,7 +14,10 @@ import 'package:street_calle/screens/auth/password_reset_screen.dart';
 import 'package:street_calle/screens/auth/login_screen.dart';
 import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/bloc/item_bloc.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
 import 'package:street_calle/services/auth_service.dart';
+import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/routing/routing.dart';
@@ -27,6 +30,7 @@ FirebaseStorage storage = FirebaseStorage.instance;
 
 UserService userService = UserService();
 AuthService authService = AuthService();
+ItemService itemService = ItemService();
 SharedPreferencesService sharedPreferencesService = SharedPreferencesService();
 
 Future<void> main() async {
@@ -70,6 +74,12 @@ Future<void> main() async {
         BlocProvider(
           create: (context)=> UserCubit(sharedPreferencesService),
         ),
+        BlocProvider(
+          create: (context)=> AddItemCubit(itemService, sharedPreferencesService),
+        ),
+        // BlocProvider(
+        //   create: (context)=> ItemBloc(itemService, sharedPreferencesService),
+        // ),
       ],
       child: const MyApp(),
     ),

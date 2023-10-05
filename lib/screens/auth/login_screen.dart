@@ -85,7 +85,7 @@ class LoginScreen extends StatelessWidget {
                   listener: (context, state) {
                      if (state is LoginSuccess) {
                        context.read<UserCubit>().setUserModel(state.user, isLoggedIn: true);
-                      context.pushNamed(AppRoutingName.selectUserScreen);
+                       context.pushNamed(AppRoutingName.selectUserScreen);
                     } else if (state is LoginFailure) {
                       showToast(context, state.error);
                     }

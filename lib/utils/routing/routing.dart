@@ -6,12 +6,14 @@ import 'package:street_calle/screens/auth/password_reset_screen.dart';
 import 'package:street_calle/screens/auth/login_screen.dart';
 import 'package:street_calle/screens/home/main_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_item.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_detail.dart';
 import 'package:street_calle/screens/selectUser/select_user_screen.dart';
 import 'package:street_calle/screens/splash/splash_screen.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/settings/widgets/privacy_policy.dart';
 import 'package:street_calle/screens/home/settings/widgets/terms_and_conditions.dart';
 import 'package:street_calle/screens/home/settings/widgets/vendor_subscription.dart';
+import 'package:street_calle/models/item.dart';
 
 final router = GoRouter(
   routes: [
@@ -71,7 +73,8 @@ final router = GoRouter(
       path: AppRoutingName.addItem,
       name: AppRoutingName.addItem,
       builder: (context, state) {
-        return const AddItem();
+        final isUpdate = state.pathParameters['isUpdate']!;
+        return AddItem(isUpdate: bool.parse(isUpdate));
       },
     ),
     GoRoute(
@@ -93,6 +96,14 @@ final router = GoRouter(
       name: AppRoutingName.vendorSubscriptions,
       builder: (context, state) {
         return const VendorSubscription();
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.itemDetail,
+      name: AppRoutingName.itemDetail,
+      builder: (context, state) {
+        final item = state.extra as Item;
+        return ItemDetail(item: item);
       },
     ),
   ],

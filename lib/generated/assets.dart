@@ -12,12 +12,14 @@ class Assets {
   static const String fontsMetropolis-Regular = 'assets/fonts/Metropolis-Regular.otf';
   static const String fontsMetropolis-SemiBold = 'assets/fonts/Metropolis-SemiBold.otf';
   static const String fontsPoppins-Regular = 'assets/fonts/Poppins-Regular.ttf';
-  static const String fontsRift Soft Demi = 'assets/fonts/Rift_Soft_Demi.otf';
+  static const String fontsRiftSoftDemi = 'assets/fonts/Rift_Soft_Demi.otf';
   static const String imagesAdd = 'assets/images/add.png';
   static const String imagesBack = 'assets/images/back.png';
   static const String imagesCamera = 'assets/images/camera.png';
   static const String imagesCheckMark = 'assets/images/check_mark.png';
   static const String imagesClient = 'assets/images/client.png';
+  static const String imagesDelete = 'assets/images/delete.png';
+  static const String imagesEdit = 'assets/images/edit.png';
   static const String imagesEditPencil = 'assets/images/edit_pencil.png';
   static const String imagesEmail = 'assets/images/email.svg';
   static const String imagesFacebook = 'assets/images/facebook.png';
@@ -34,5 +36,6 @@ class Assets {
   static const String imagesTwitter = 'assets/images/twitter.png';
   static const String imagesUser = 'assets/images/user.png';
   static const String imagesVendor = 'assets/images/vendor.png';
+  static const String imagesWhiteIconImage = 'assets/images/white_icon_image.png';
 
 }
