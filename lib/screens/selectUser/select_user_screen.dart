@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/screens/selectUser/widgets/build_selected_image.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -28,7 +29,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
             height: 120,
           ),
           Expanded(
-            child: Image.asset(AppAssets.monkeyFace, width: 120, height: 120,),
+            child: SvgPicture.asset(AppAssets.logo, width: 120, height: 120,),
           ),
           const SizedBox(
             height: 20,

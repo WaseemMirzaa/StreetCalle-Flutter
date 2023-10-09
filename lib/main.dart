@@ -14,9 +14,17 @@ import 'package:street_calle/screens/auth/password_reset_screen.dart';
 import 'package:street_calle/screens/auth/login_screen.dart';
 import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/bloc/item_bloc.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_custom_item_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_drop_down_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/vendor_home_tab.dart';
 import 'package:street_calle/services/auth_service.dart';
+import 'package:street_calle/services/deal_service.dart';
 import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/services/user_service.dart';
@@ -31,7 +39,9 @@ FirebaseStorage storage = FirebaseStorage.instance;
 UserService userService = UserService();
 AuthService authService = AuthService();
 ItemService itemService = ItemService();
+DealService dealService = DealService();
 SharedPreferencesService sharedPreferencesService = SharedPreferencesService();
+PricingCategoryCubit pricingCategoryCubit = PricingCategoryCubit();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,7 +59,6 @@ Future<void> main() async {
         ),
         BlocProvider(
           create: (context)=> ImageCubit(),
-          child: const SignUpScreen(),
         ),
         BlocProvider(
           create: (context)=> LoginCubit(authService),
@@ -75,11 +84,33 @@ Future<void> main() async {
           create: (context)=> UserCubit(sharedPreferencesService),
         ),
         BlocProvider(
-          create: (context)=> AddItemCubit(itemService, sharedPreferencesService),
+          create: (context)=> AddItemCubit(itemService, sharedPreferencesService, pricingCategoryCubit),
+          child: const VendorHomeTab(),
         ),
         // BlocProvider(
         //   create: (context)=> ItemBloc(itemService, sharedPreferencesService),
         // ),
+        BlocProvider(
+          create: (context)=> FoodTypeCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> FoodTypeExpandedCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> PricingCategoryExpandedCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> FoodTypeDropDownCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> pricingCategoryCubit,
+        ),
+        BlocProvider(
+          create: (context)=> AddDealCubit(sharedPreferencesService, dealService),
+        ),
+        BlocProvider(
+          create: (context)=> AddCustomItemCubit(),
+        ),
       ],
       child: const MyApp(),
     ),

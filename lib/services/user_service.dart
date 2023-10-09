@@ -8,7 +8,7 @@ import 'package:street_calle/utils/constant/constants.dart';
 
 class UserService extends BaseService<User> {
   UserService() {
-    ref = fireStore.collection(Collections.user).withConverter<User>(
+    ref = fireStore.collection(Collections.users).withConverter<User>(
       fromFirestore: (snapshot, options) =>
           User.fromJson(snapshot.data()!, snapshot.id),
       toFirestore: (value, options) => value.toJson(),

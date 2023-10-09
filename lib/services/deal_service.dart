@@ -4,53 +4,53 @@ import 'package:dartz/dartz.dart';
 import 'package:street_calle/services/base_service.dart';
 import 'package:street_calle/main.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/models/item.dart';
+import 'package:street_calle/models/deal.dart';
 
 
-class ItemService extends BaseService<Item> {
+class DealService extends BaseService<Deal> {
 
-  ItemService() {
-    ref = fireStore.collection(Collections.items).withConverter<Item>(
+  DealService() {
+    ref = fireStore.collection(Collections.deals).withConverter<Deal>(
       fromFirestore: (snapshot, options) =>
-          Item.fromJson(snapshot.data()!, snapshot.id),
+          Deal.fromJson(snapshot.data()!, snapshot.id),
       toFirestore: (value, options) => value.toJson(),
     );
   }
 
-  Future<Either<String, Item?>> addItem(Item item, String image) async {
+  Future<Either<String, Deal?>> addDeal(Deal deal, String image) async {
     try {
-      final url = await _uploadImageToFirebase(image, item.uid ?? '');
+      final url = await _uploadImageToFirebase(image, deal.uid ?? '');
       if (url == null) {
         return const Left('Something went wrong. Try again later.');
       }
 
-      item = item.copyWith(image: url);
-      final result = await ref!.add(item);
+      deal = deal.copyWith(image: url);
+      final result = await ref!.add(deal);
       await ref!.doc(result.id).update({ItemKey.id: result.id});
-      item = item.copyWith(id: result.id);
+      deal = deal.copyWith(id: result.id);
 
-      return Right(item);
+      return Right(deal);
     } catch (e) {
       return const Left('Something went wrong. Try again later.');
     }
   }
 
-  Future<Either<String, Item?>> updateItem(Item item, {required bool isUpdated, required String image}) async {
+  Future<Either<String, Deal?>> updateDeal(Deal deal, {required bool isUpdated, required String image}) async {
     try {
 
       if (isUpdated) {
-        final url = await _uploadImageToFirebase(image, item.uid ?? '');
+        final url = await _uploadImageToFirebase(image, deal.uid ?? '');
         if (url == null) {
           return const Left('Something went wrong. Try again later.');
         }
-        item = item.copyWith(image: url);
-        await ref!.doc(item.id).update(item.toJson());
-        return Right(item);
+        deal = deal.copyWith(image: url);
+        await ref!.doc(deal.id).update(deal.toJson());
+        return Right(deal);
       }
 
-      item = item.copyWith(image: image);
-      await ref!.doc(item.id).update(item.toJson());
-      return Right(item);
+      deal = deal.copyWith(image: image);
+      await ref!.doc(deal.id).update(deal.toJson());
+      return Right(deal);
     } catch (e) {
       return const Left('Something went wrong. Try again later.');
     }
@@ -70,32 +70,23 @@ class ItemService extends BaseService<Item> {
     }
   }
 
-  Stream<List<Item>> getItems(String userId) {
+  Stream<List<Deal>> getDeals(String userId) {
     return ref!.where(ItemKey.uid, isEqualTo: userId)
         .orderBy(ItemKey.updatedAt, descending: true)
         .snapshots()
         .map((value) => value.docs.map((e) => e.data()).toList());
   }
 
-  Future<bool> deleteItem(Item item) async {
+  Future<bool> deleteDeal(Deal deal) async {
     try{
-      if (item.image != null) {
-        await storage.refFromURL(item.image!).delete();
+      if (deal.image != null) {
+        await storage.refFromURL(deal.image!).delete();
       }
-      ref!.doc(item.id).delete();
+      ref!.doc(deal.id).delete();
       return true;
     } catch (e) {
       return false;
     }
-  }
-
-  Future<List<Item>> getMenuItems(String userId) async {
-    final querySnapshot = await ref!
-        .where(ItemKey.uid, isEqualTo: userId)
-        .orderBy(ItemKey.updatedAt, descending: true)
-        .get();
-
-    return querySnapshot.docs.map((e) => e.data()).toList();
   }
 
 }

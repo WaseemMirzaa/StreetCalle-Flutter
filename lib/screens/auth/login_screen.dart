@@ -62,6 +62,7 @@ class LoginScreen extends StatelessWidget {
                     asset: AppAssets.passwordIcon,
                     controller: context.read<LoginCubit>().passwordController,
                     isPassword: true,
+                    isObscure: true,
                   ),
                 ),
                 const SizedBox(height: 24,),

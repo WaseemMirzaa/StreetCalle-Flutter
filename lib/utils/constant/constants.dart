@@ -13,8 +13,10 @@ const defaultLogoSize = 300.0;
 const defaultButtonSize = 55.0;
 
 class Collections {
-  static const String user = 'user';
-  static const String item = 'item';
+  static const String users = 'users';
+  static const String items = 'items';
+  static const String deals = 'deals';
+  static const String foodType = 'foodType';
 }
 
 class SharePreferencesKey {
@@ -51,4 +53,31 @@ class ItemKey {
   static const String updatedAt = 'updatedAt';
   static const String actualPrice = 'actualPrice';
   static const String discountedPrice = 'discountedPrice';
+
+  static const String smallItemTitle = 'smallItemTitle';
+  static const String mediumItemTitle = 'mediumItemTitle';
+  static const String largeItemTitle = 'largeItemTitle';
+
+  static const String smallItemActualPrice = 'smallItemActualPrice';
+  static const String smallItemDiscountedPrice = 'smallItemDiscountedPrice';
+
+  static const String mediumItemActualPrice = 'mediumItemActualPrice';
+  static const String mediumItemDiscountedPrice = 'mediumItemDiscountedPrice';
+
+  static const String largeItemActualPrice = 'largeItemActualPrice';
+  static const String largeItemDiscountedPrice = 'largeItemDiscountedPrice';
+}
+
+class DealKey {
+  static const String uid = 'uid';
+  static const String id = 'id';
+  static const String image = 'image';
+  static const String title = 'title';
+  static const String description = 'description';
+  static const String foodType = 'foodType';
+  static const String createdAt = 'createdAt';
+  static const String updatedAt = 'updatedAt';
+  static const String actualPrice = 'actualPrice';
+  static const String discountedPrice = 'discountedPrice';
+  static const String itemNames = 'itemName';
 }

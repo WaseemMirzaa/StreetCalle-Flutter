@@ -3,14 +3,27 @@ import 'package:flutter_svg/svg.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 
-class CustomTextField extends StatelessWidget {
-  CustomTextField({Key? key, required this.hintText, required this.keyboardType, required this.asset, required this.controller, required this.isPassword}) : super(key: key);
+OutlineInputBorder border = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(40),
+    borderSide: BorderSide.none
+);
+
+class CustomTextField extends StatefulWidget {
+  CustomTextField({Key? key, required this.hintText, required this.keyboardType, required this.asset, required this.controller, required this.isPassword, this.isObscure}) : super(key: key);
   final String hintText;
   final String asset;
   final TextInputType keyboardType;
   final TextEditingController controller;
   final bool isPassword;
+  final bool? isObscure;
 
+  @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+
+  bool passwordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +39,11 @@ class CustomTextField extends StatelessWidget {
         ],
       ),
       child: TextField(
-        controller: controller,
-        keyboardType: keyboardType,
+        controller: widget.controller,
+        keyboardType: widget.keyboardType,
+        obscureText: widget.isObscure ?? false ? passwordVisible : false,
         decoration: InputDecoration(
-          hintText: hintText,
+          hintText: widget.hintText,
           hintStyle: context.currentTextTheme.displaySmall,
           filled: true,
           isDense: true,
@@ -42,25 +56,27 @@ class CustomTextField extends StatelessWidget {
             ),
             child: Stack(
               alignment: Alignment.center,
-              children: [SvgPicture.asset(asset, width: isPassword ? 14 : 18, height: isPassword ? 14 : 18,)],
+              children: [SvgPicture.asset(widget.asset, width: widget.isPassword ? 14 : 18, height: widget.isPassword ? 14 : 18,)],
             ),
           ),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(40),
-              borderSide: BorderSide.none
-          ),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(40),
-              borderSide: BorderSide.none
-          ),
-          disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(40),
-              borderSide: BorderSide.none
-          ),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(40),
-              borderSide: BorderSide.none
-          ),
+          suffixIcon: widget.isObscure ?? false
+              ? IconButton(
+            icon: Icon(passwordVisible
+                ? Icons.visibility
+                : Icons.visibility_off),
+            onPressed: () {
+              setState(
+                    () {
+                  passwordVisible = !passwordVisible;
+                },
+              );
+            },
+          )
+              : const SizedBox.shrink(),
+          border: border,
+          enabledBorder: border,
+          disabledBorder: border,
+          focusedBorder: border,
         ),
       ),
     );

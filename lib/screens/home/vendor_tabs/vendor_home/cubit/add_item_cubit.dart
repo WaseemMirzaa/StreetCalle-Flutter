@@ -2,24 +2,44 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
 import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
 part 'add_item_state.dart';
 
 class AddItemCubit extends Cubit<AddItemState> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController foodTypeController = TextEditingController();
+  final TextEditingController customFoodTypeController = TextEditingController();
   final TextEditingController actualPriceController = TextEditingController();
   final TextEditingController discountedPriceController = TextEditingController();
   String? id;
   Timestamp? createdAt;
   final ItemService itemService;
   final SharedPreferencesService sharedPrf;
+  final PricingCategoryCubit pricingCategoryCubit;
 
-  AddItemCubit(this.itemService, this.sharedPrf) : super(AddItemInitial());
+  /// pricing categories
+  /// let suppose first one is small, medium and large
+  final TextEditingController smallItemActualPriceController = TextEditingController();
+  final TextEditingController smallItemDiscountedPriceController = TextEditingController();
+  final TextEditingController smallItemTitleController = TextEditingController();
+
+  final TextEditingController mediumItemActualPriceController = TextEditingController();
+  final TextEditingController mediumItemDiscountedPriceController = TextEditingController();
+  final TextEditingController mediumItemTitleController = TextEditingController();
+
+  final TextEditingController largeItemActualPriceController = TextEditingController();
+  final TextEditingController largeItemDiscountedPriceController = TextEditingController();
+  final TextEditingController largeItemTitleController = TextEditingController();
+  /// pricing categories
+
+
+  AddItemCubit(this.itemService, this.sharedPrf, this.pricingCategoryCubit) : super(AddItemInitial());
 
   @override
   Future<void> close() {
@@ -28,15 +48,35 @@ class AddItemCubit extends Cubit<AddItemState> {
     foodTypeController.dispose();
     actualPriceController.dispose();
     discountedPriceController.dispose();
+    customFoodTypeController.dispose();
+    smallItemTitleController.dispose();
+    smallItemActualPriceController.dispose();
+    smallItemDiscountedPriceController.dispose();
+    mediumItemTitleController.dispose();
+    mediumItemActualPriceController.dispose();
+    mediumItemDiscountedPriceController.dispose();
+    largeItemTitleController.dispose();
+    largeItemActualPriceController.dispose();
+    largeItemDiscountedPriceController.dispose();
     return super.close();
   }
 
   void clear() {
-    titleController.text = '';
-    descriptionController.text = '';
-    foodTypeController.text = '';
-    actualPriceController.text = '';
-    discountedPriceController.text = '';
+    titleController.clear();
+    descriptionController.clear();
+    foodTypeController.clear();
+    actualPriceController.clear();
+    discountedPriceController.clear();
+    customFoodTypeController.clear();
+    smallItemTitleController.clear();
+    smallItemActualPriceController.clear();
+    smallItemDiscountedPriceController.clear();
+    mediumItemTitleController.clear();
+    mediumItemActualPriceController.clear();
+    mediumItemDiscountedPriceController.clear();
+    largeItemTitleController.clear();
+    largeItemActualPriceController.clear();
+    largeItemDiscountedPriceController.clear();
   }
 
   Future<void> addItem(String image) async {
@@ -47,10 +87,21 @@ class AddItemCubit extends Cubit<AddItemState> {
       title: titleController.text,
       description: descriptionController.text,
       foodType: foodTypeController.text,
-      actualPrice: num.parse(actualPriceController.text),
-      discountedPrice: discountedPriceController.text.isEmpty ? 0.0 : num.parse(discountedPriceController.text),
+      actualPrice: pricingCategoryCubit.state.categoryType == PricingCategoryType.none ? num.parse(actualPriceController.text) : 0.0,
+      discountedPrice: pricingCategoryCubit.state.categoryType == PricingCategoryType.none
+          ? parseNumeric(discountedPriceController.text)
+          : 0.0,
       createdAt: Timestamp.now(),
-      updatedAt: Timestamp.now()
+      updatedAt: Timestamp.now(),
+      smallItemTitle: smallItemTitleController.text,
+      mediumItemTitle: mediumItemTitleController.text,
+      largeItemTitle: largeItemTitleController.text,
+      smallItemActualPrice: parseNumeric(smallItemActualPriceController.text),
+      mediumItemActualPrice: parseNumeric(mediumItemActualPriceController.text),
+      largeItemActualPrice: parseNumeric(largeItemActualPriceController.text),
+      smallItemDiscountedPrice: parseNumeric(smallItemDiscountedPriceController.text),
+      mediumItemDiscountedPrice: parseNumeric(mediumItemDiscountedPriceController.text),
+      largeItemDiscountedPrice: parseNumeric(largeItemDiscountedPriceController.text),
     );
 
     final result = await itemService.addItem(item, image);
@@ -69,10 +120,21 @@ class AddItemCubit extends Cubit<AddItemState> {
         title: titleController.text,
         description: descriptionController.text,
         foodType: foodTypeController.text,
-        actualPrice: num.parse(actualPriceController.text),
-        discountedPrice: discountedPriceController.text.isEmpty ? 0.0 : num.parse(discountedPriceController.text),
+        actualPrice: pricingCategoryCubit.state.categoryType == PricingCategoryType.none ? num.parse(actualPriceController.text) : 0.0,
+        discountedPrice: pricingCategoryCubit.state.categoryType == PricingCategoryType.none
+          ? parseNumeric(discountedPriceController.text)
+          : 0.0,
         createdAt: createdAt ?? Timestamp.now(),
-        updatedAt: Timestamp.now()
+        updatedAt: Timestamp.now(),
+        smallItemTitle: smallItemTitleController.text,
+        mediumItemTitle: mediumItemTitleController.text,
+        largeItemTitle: largeItemTitleController.text,
+        smallItemActualPrice: parseNumeric(smallItemActualPriceController.text),
+        mediumItemActualPrice: parseNumeric(mediumItemActualPriceController.text),
+        largeItemActualPrice: parseNumeric(largeItemActualPriceController.text),
+        smallItemDiscountedPrice: parseNumeric(smallItemDiscountedPriceController.text),
+        mediumItemDiscountedPrice: parseNumeric(mediumItemDiscountedPriceController.text),
+        largeItemDiscountedPrice: parseNumeric(largeItemDiscountedPriceController.text),
     );
 
     final result = await itemService.updateItem(item, image: image, isUpdated: isUpdated);
@@ -80,5 +142,9 @@ class AddItemCubit extends Cubit<AddItemState> {
           (l) => emit(AddItemFailure(l)),
           (r) => emit(AddItemSuccess(r!)),
     );
+  }
+
+  num parseNumeric(String value) {
+    return value.isEmptyOrNull ? 0.0 : num.parse(value);
   }
 }

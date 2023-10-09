@@ -18,7 +18,7 @@ class SettingsTab extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: Text(
           TempLanguage().lblSettings,
-          style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 24),
+          style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryFontColor, fontSize: 24),
         ),
       ),
       body: Padding(

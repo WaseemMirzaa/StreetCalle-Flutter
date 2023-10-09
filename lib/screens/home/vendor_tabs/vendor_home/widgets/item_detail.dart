@@ -73,13 +73,6 @@ class ItemDetail extends StatelessWidget {
                           style: context.currentTextTheme.titleMedium,
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          '/per item',
-                          style: context.currentTextTheme.displaySmall,
-                        ),
-                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -138,13 +131,13 @@ class ItemDetail extends StatelessWidget {
             ),
 
             Positioned(
-              top: 60,
+              top: 40,
               left: 15,
               child: GestureDetector(
                 onTap: (){
                   context.pop();
                 },
-                child: Image.asset(AppAssets.backIcon, color: AppColors.whiteColor, width: 18, height: 18,),
+                child: Image.asset(AppAssets.backIcon, color: AppColors.whiteColor, width: 24, height: 24,),
               ),
             ),
           ],

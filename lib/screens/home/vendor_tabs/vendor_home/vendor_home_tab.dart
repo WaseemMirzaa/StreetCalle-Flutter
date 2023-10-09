@@ -8,7 +8,6 @@ import 'package:street_calle/models/item.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/delete_confirmation_dialog.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_detail.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_view.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -17,6 +16,11 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_drop_down_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
 
 
 OutlineInputBorder searchBorder = OutlineInputBorder(
@@ -91,7 +95,24 @@ class VendorHomeTab extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryColor,
                         ),
-                        onPressed: () => context.pushNamed(AppRoutingName.addItem, pathParameters: {'isUpdate': false.toString()}),
+                        onPressed: () {
+
+                          final pricingCubit = context.read<PricingCategoryCubit>();
+                          final pricingExpandedCubit = context.read<PricingCategoryExpandedCubit>();
+
+                          //context.read<ImageCubit>().resetImage();
+                          pricingExpandedCubit.collapse();
+                          pricingCubit.setCategoryType(PricingCategoryType.none);
+                          context.read<FoodTypeExpandedCubit>().collapse();
+                          context.read<FoodTypeDropDownCubit>().resetState();
+                          context.read<FoodTypeCubit>().defaultValue = TempLanguage().lblSelect;
+                          context.read<FoodTypeCubit>().loadFromFirebase();
+
+
+                          context.read<AddItemCubit>().clear();
+                          context.read<ImageCubit>().resetImage();
+                          context.pushNamed(AppRoutingName.addItem, pathParameters: {'isUpdate': false.toString()});
+                        },
                         child: Row(
                           children: [
                             Image.asset(AppAssets.add, width: 15, height: 15,),
@@ -115,7 +136,11 @@ class VendorHomeTab extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryColor,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          context.read<ImageCubit>().resetImage();
+
+                          context.pushNamed(AppRoutingName.addDeal, pathParameters: {'isUpdate': false.toString()});
+                        },
                         child: Row(
                           children: [
                             Image.asset(AppAssets.add, width: 15, height: 15,),
@@ -165,20 +190,7 @@ class VendorHomeTab extends StatelessWidget {
                         return ItemView(
                           index: index,
                           item: item,
-                          onUpdate: () {
-                            context.read<ImageCubit>().resetForUpdateImage(item.image ?? '',);
-
-                            final itemCubit = context.read<AddItemCubit>();
-                            itemCubit.titleController.text = item.title ?? '';
-                            itemCubit.descriptionController.text = item.description ?? '';
-                            itemCubit.foodTypeController.text = item.foodType ?? '';
-                            itemCubit.actualPriceController.text = item.actualPrice.toString() ?? '';
-                            itemCubit.discountedPriceController.text = item.discountedPrice.toString() ?? '';
-                            itemCubit.id = item.id ?? '';
-                            itemCubit.createdAt = item.createdAt ?? Timestamp.now();
-
-                            context.pushNamed(AppRoutingName.addItem, pathParameters: {'isUpdate': true.toString()});
-                          },
+                          onUpdate: () => _onUpdate(context, item),
                           onDelete: () => _showDeleteConfirmationDialog(context, item),
                           onTap: ()=> context.pushNamed(AppRoutingName.itemDetail, extra: item)
                         );
@@ -220,5 +232,54 @@ class VendorHomeTab extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _onUpdate (BuildContext context, Item item) {
+    final imageCubit =  context.read<ImageCubit>();
+    final itemCubit = context.read<AddItemCubit>();
+    final foodTypeExpandedCubit = context.read<FoodTypeExpandedCubit>();
+    final foodTypeCubit = context.read<FoodTypeCubit>();
+    final pricingCategoryExpandCubit = context.read<PricingCategoryExpandedCubit>();
+    final pricingCategoryTypeCubit = context.read<PricingCategoryCubit>();
+
+    itemCubit.titleController.text = item.title ?? '';
+    itemCubit.descriptionController.text = item.description ?? '';
+    itemCubit.foodTypeController.text = item.foodType ?? '';
+    itemCubit.actualPriceController.text = item.actualPrice.toString() ?? '';
+    itemCubit.discountedPriceController.text = item.discountedPrice.toString() ?? '';
+    itemCubit.id = item.id ?? '';
+    itemCubit.createdAt = item.createdAt ?? Timestamp.now();
+    itemCubit.smallItemTitleController.text = item.smallItemTitle ?? '';
+    itemCubit.mediumItemTitleController.text = item.mediumItemTitle ?? '';
+    itemCubit.largeItemTitleController.text = item.largeItemTitle ?? '';
+    itemCubit.smallItemActualPriceController.text = item.smallItemActualPrice.toString() ?? '';
+    itemCubit.mediumItemActualPriceController.text = item.mediumItemActualPrice.toString() ?? '';
+    itemCubit.largeItemActualPriceController.text = item.largeItemActualPrice.toString() ?? '';
+    itemCubit.smallItemDiscountedPriceController.text = item.smallItemDiscountedPrice.toString() ?? '';
+    itemCubit.mediumItemDiscountedPriceController.text = item.mediumItemDiscountedPrice.toString() ?? '';
+    itemCubit.largeItemDiscountedPriceController.text = item.largeItemDiscountedPrice.toString() ?? '';
+
+    if (itemCubit.foodTypeController.text.isNotEmpty) {
+      foodTypeExpandedCubit.expand();
+      foodTypeCubit.addString(itemCubit.foodTypeController.text);
+      foodTypeCubit.defaultValue = itemCubit.foodTypeController.text;
+    } else {
+      foodTypeExpandedCubit.collapse();
+      foodTypeCubit.defaultValue = TempLanguage().lblSelect;
+    }
+
+    if (itemCubit.smallItemTitleController.text.isNotEmpty) {
+      pricingCategoryExpandCubit.expand();
+      if (itemCubit.largeItemTitleController.text.isNotEmpty) {
+        pricingCategoryTypeCubit.setCategoryType(PricingCategoryType.large);
+      }
+    } else {
+      pricingCategoryExpandCubit.collapse();
+    }
+
+    imageCubit.resetForUpdateImage(item.image ?? '',);
+
+
+    context.pushNamed(AppRoutingName.addItem, pathParameters: {'isUpdate': true.toString()});
   }
 }

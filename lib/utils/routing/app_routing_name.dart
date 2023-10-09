@@ -12,4 +12,6 @@ class AppRoutingName {
   static const termsAndConditions = '/termsAndConditions';
   static const vendorSubscriptions = '/vendorSubscriptions';
   static const itemDetail = '/itemDetail';
+  static const addDeal = '/addDeal/:isUpdate';
+  static const selectMenuItem = '/selectMenuItem';
 }

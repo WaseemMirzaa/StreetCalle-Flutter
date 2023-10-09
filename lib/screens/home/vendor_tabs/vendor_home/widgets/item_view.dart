@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
@@ -19,35 +17,41 @@ class ItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const SizedBox(width: 6,),
-              index ==0
-                  ? TextButton(
-                  onPressed: (){},
-                  child: Text(TempLanguage().lblViewAll,
-                    style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor),)
-              )
-                  : const SizedBox.shrink(),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const SizedBox(width: 6,),
+            index ==0
+                ? TextButton(
+                onPressed: (){},
+                child: Text(TempLanguage().lblViewAll,
+                  style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),)
+            )
+                : const SizedBox.shrink(),
 
-              const Spacer(),
-              InkWell(
-                  onTap: onUpdate,
-                  child: Image.asset(AppAssets.edit, color: AppColors.redColor, width: 15, height: 15,)),
-              const SizedBox(width: 8,),
-              InkWell(
-                  onTap: onDelete,
-                  child: Image.asset(AppAssets.delete, color: AppColors.redColor, width: 15, height: 15)),
-              const SizedBox(width: 16,),
-            ],
-          ),
-          SizedBox(height: index == 0 ? 0 : 10,),
-          SizedBox(
+            const Spacer(),
+            InkWell(
+                onTap: onUpdate,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(AppAssets.edit, color: AppColors.redColor, width: 15, height: 15,),
+                )),
+            const SizedBox(width: 8,),
+            InkWell(
+                onTap: onDelete,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(AppAssets.delete, color: AppColors.redColor, width: 15, height: 15),
+                )),
+            const SizedBox(width: 16,),
+          ],
+        ),
+        SizedBox(height: index == 0 ? 0 : 10,),
+        InkWell(
+          onTap: onTap,
+          child: SizedBox(
               height: 150,
               width: context.width,
               child: CachedNetworkImage(
@@ -55,38 +59,38 @@ class ItemView extends StatelessWidget {
                 fit: BoxFit.cover,
               )
           ),
-          const SizedBox(height: 10,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(item.title ?? '',
-                  style: const TextStyle(
-                      fontFamily: METROPOLIS_BOLD,
-                      fontSize: 16,
-                      color: AppColors.primaryFontColor
-                  ),
+        ),
+        const SizedBox(height: 10,),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(item.title ?? '',
+                style: const TextStyle(
+                    fontFamily: METROPOLIS_BOLD,
+                    fontSize: 23,
+                    color: AppColors.primaryFontColor
                 ),
-                Text('\$${item.actualPrice}',
-                  style: const TextStyle(
-                      fontFamily: METROPOLIS_BOLD,
-                      fontSize: 23,
-                      color: AppColors.primaryFontColor
-                  ),
+              ),
+              Text('\$${item.actualPrice}',
+                style: const TextStyle(
+                    fontFamily: METROPOLIS_BOLD,
+                    fontSize: 23,
+                    color: AppColors.primaryFontColor
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Text(item.foodType ?? '',
-              style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 12),
-            ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Text(item.foodType ?? '',
+            style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 15),
           ),
-          const SizedBox(height: 24,),
-        ],
-      ),
+        ),
+        const SizedBox(height: 24,),
+      ],
     );
   }
 }

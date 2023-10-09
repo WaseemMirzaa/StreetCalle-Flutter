@@ -5,8 +5,10 @@ import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/password_reset_screen.dart';
 import 'package:street_calle/screens/auth/login_screen.dart';
 import 'package:street_calle/screens/home/main_screen.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_deal.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_item.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_detail.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/select_menu_item.dart';
 import 'package:street_calle/screens/selectUser/select_user_screen.dart';
 import 'package:street_calle/screens/splash/splash_screen.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
@@ -104,6 +106,21 @@ final router = GoRouter(
       builder: (context, state) {
         final item = state.extra as Item;
         return ItemDetail(item: item);
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.addDeal,
+      name: AppRoutingName.addDeal,
+      builder: (context, state) {
+        final isUpdate = state.pathParameters['isUpdate']!;
+        return AddDeal(isUpdate: bool.parse(isUpdate));
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.selectMenuItem,
+      name: AppRoutingName.selectMenuItem,
+      builder: (context, state) {
+        return const SelectMenuItem();
       },
     ),
   ],

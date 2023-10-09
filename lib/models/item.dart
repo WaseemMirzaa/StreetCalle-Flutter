@@ -16,6 +16,20 @@ class Item extends Equatable {
   final Timestamp? createdAt;
   final Timestamp? updatedAt;
 
+  final String? smallItemTitle;
+  final String? mediumItemTitle;
+  final String? largeItemTitle;
+
+  final num? smallItemActualPrice;
+  final num? smallItemDiscountedPrice;
+
+  final num? mediumItemActualPrice;
+  final num? mediumItemDiscountedPrice;
+
+  final num? largeItemActualPrice;
+  final num? largeItemDiscountedPrice;
+
+
   Item({
    this.uid,
    this.id,
@@ -26,7 +40,16 @@ class Item extends Equatable {
    this.actualPrice,
    this.discountedPrice,
    this.updatedAt,
-   this.createdAt
+   this.createdAt,
+    this.smallItemTitle,
+    this.mediumItemTitle,
+    this.largeItemTitle,
+    this.smallItemActualPrice,
+    this.smallItemDiscountedPrice,
+    this.mediumItemActualPrice,
+    this.mediumItemDiscountedPrice,
+    this.largeItemActualPrice,
+    this.largeItemDiscountedPrice
   });
 
   Item copyWith({
@@ -39,7 +62,16 @@ class Item extends Equatable {
    num? actualPrice,
    num? discountedPrice,
    Timestamp? createdAt,
-   Timestamp? updatedAt
+   Timestamp? updatedAt,
+   String? smallItemTitle,
+   String? mediumItemTitle,
+   String? largeItemTitle,
+    num? smallItemActualPrice,
+    num? smallItemDiscountedPrice,
+    num? mediumItemActualPrice,
+    num? mediumItemDiscountedPrice,
+    num? largeItemActualPrice,
+    num? largeItemDiscountedPrice,
   }){
     return Item(
       uid: uid ?? this.uid,
@@ -51,7 +83,16 @@ class Item extends Equatable {
       actualPrice: actualPrice ?? this.actualPrice,
       discountedPrice: discountedPrice ?? this.discountedPrice,
       createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt
+      updatedAt: updatedAt ?? this.updatedAt,
+      smallItemTitle: smallItemTitle ?? this.smallItemTitle,
+      mediumItemTitle: mediumItemTitle ?? this.mediumItemTitle,
+      largeItemTitle: largeItemTitle ?? this.largeItemTitle,
+      smallItemActualPrice: smallItemActualPrice ?? this.smallItemActualPrice,
+      mediumItemActualPrice: mediumItemActualPrice ?? this.mediumItemActualPrice,
+      largeItemActualPrice: largeItemActualPrice ?? this.largeItemActualPrice,
+      smallItemDiscountedPrice: smallItemDiscountedPrice ?? this.smallItemDiscountedPrice,
+      mediumItemDiscountedPrice: mediumItemDiscountedPrice ?? this.mediumItemDiscountedPrice,
+      largeItemDiscountedPrice: largeItemDiscountedPrice ?? this.largeItemDiscountedPrice
     );
   }
 
@@ -67,6 +108,15 @@ class Item extends Equatable {
       updatedAt: json[ItemKey.updatedAt],
       actualPrice: json[ItemKey.actualPrice],
       discountedPrice: json[ItemKey.discountedPrice],
+      smallItemTitle: json[ItemKey.smallItemTitle],
+      mediumItemTitle: json[ItemKey.mediumItemTitle],
+      largeItemTitle: json[ItemKey.largeItemTitle],
+      smallItemActualPrice: json[ItemKey.smallItemActualPrice],
+      mediumItemActualPrice: json[ItemKey.mediumItemActualPrice],
+      largeItemActualPrice: json[ItemKey.largeItemActualPrice],
+      smallItemDiscountedPrice: json[ItemKey.smallItemDiscountedPrice],
+      mediumItemDiscountedPrice: json[ItemKey.mediumItemDiscountedPrice],
+      largeItemDiscountedPrice: json[ItemKey.largeItemDiscountedPrice],
     );
   }
 
@@ -82,10 +132,28 @@ class Item extends Equatable {
     data[ItemKey.updatedAt] = updatedAt;
     data[ItemKey.actualPrice] = actualPrice;
     data[ItemKey.discountedPrice] = discountedPrice;
+    data[ItemKey.smallItemTitle] = smallItemTitle;
+    data[ItemKey.mediumItemTitle] = mediumItemTitle;
+    data[ItemKey.largeItemTitle] = largeItemTitle;
+    data[ItemKey.smallItemActualPrice] = smallItemActualPrice;
+    data[ItemKey.mediumItemActualPrice] = mediumItemActualPrice;
+    data[ItemKey.largeItemActualPrice] = largeItemActualPrice;
+    data[ItemKey.smallItemDiscountedPrice] = smallItemDiscountedPrice;
+    data[ItemKey.mediumItemDiscountedPrice] = mediumItemDiscountedPrice;
+    data[ItemKey.largeItemDiscountedPrice] = largeItemDiscountedPrice;
     return data;
   }
 
   @override
-  List<Object?> get props => [id, uid, image, title, description, foodType, createdAt, updatedAt, actualPrice, discountedPrice];
+  List<Object?> get props => [
+    id, uid, image,
+    title, description,
+    foodType, createdAt,
+    updatedAt, actualPrice,
+    discountedPrice, smallItemTitle,
+    mediumItemTitle, largeItemTitle,
+    smallItemActualPrice, mediumItemActualPrice,
+    largeItemActualPrice, smallItemDiscountedPrice,
+    mediumItemDiscountedPrice, largeItemDiscountedPrice];
 
 }

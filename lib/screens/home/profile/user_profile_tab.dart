@@ -25,7 +25,7 @@ class UserprofileTab extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: Text(
           TempLanguage().lblProfile,
-          style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 24),
+          style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryFontColor, fontSize: 24),
         ),
       ),
       body: Padding(

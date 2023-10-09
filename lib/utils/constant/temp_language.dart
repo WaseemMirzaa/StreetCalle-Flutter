@@ -48,6 +48,8 @@ class TempLanguage {
   String get lblAddDeal => 'Add Deal';
   String get lblCreateMenu => 'Create Menu';
   String get lblItemTitle => 'Item Title';
+  String get lblDealTitle => 'Deal Title';
+  String get lblDealDescription => 'Deal Description';
   String get lblItemDescription => 'Description';
   String get lblItemFoodType => 'Food Type';
   String get lblItemAddToMenu => 'Add To Menu';
@@ -58,6 +60,7 @@ class TempLanguage {
   String get lblActualPrice => 'Actual';
   String get lblDiscountedPrice => 'Discounted (if any)';
   String get lblSettings => 'Settings';
+  String get lblSelectMenuItem => 'Select Menu Item';
   String get lblPrivacyPolicy => 'Privacy Policy';
   String get lblTermsAndConditions => 'Terms & Conditions';
   String get lblSubscription => 'Subscription Plans';
@@ -76,11 +79,20 @@ class TempLanguage {
   String get lblAddItemTitle => 'Add item title';
   String get lblAddItemPrice => 'Add item actual price';
   String get lblAddItemFoodType => 'Add item food type';
+  String get lblAddFoodType => 'Add food type';
   String get lblItemAddedSuccessfully => 'Item added successfully';
   String get lblViewAll => 'View all';
   String get lblNoDataFound => 'No data found';
+  String get lblSelect => 'Select';
+  String get lblMaxPricingCategoryLimitIsThree => 'Maximum pricing category limit is 3';
+  String get lblPricingCategoryTitle => 'Pricing Category Title';
   String get lblSomethingWentWrong => 'Something went wrong. Try again later';
   String get lblItemDeletedSuccessfully => 'Item deleted successfully';
+  String get lblMenu => 'Menu';
+  String get lblItems => 'Items';
+  String get lblDeals => 'Deals';
+  String get lblMenuItem => 'Add Menu Item';
+  String get lblCustomItem => 'Add Custom Item';
 
   String get lblLorem => '''
   One brave soul did take a stab at translating the almost-not-quite-Latin. According to The Guardian, Jaspreet Singh Boparai undertook the challenge with the goal of making the text “precisely as incoherent in English as it is in Latin - and to make it incoherent in the same way”. As a result, “the Greek 'eu' in Latin became the French 'bien' [...] and the '-ing' ending in 'lorem ipsum' seemed best rendered by an '-iendum' in English.”

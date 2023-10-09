@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 part 'image_state.dart';
 
 class ImageCubit extends Cubit<ImageState> {
-  ImageCubit() : super(ImageState(selectedImage: XFile('')));
+  ImageCubit() : super(ImageState(selectedImage: XFile(''), url: null, isUpdated: null));
 
   void selectImage() async {
     final XFile image = await _pickImage();
@@ -23,11 +23,11 @@ class ImageCubit extends Cubit<ImageState> {
   }
 
   void resetImage() {
-    emit(state.copyWith(selectedImage: XFile('')));
+    emit(state.copyWith(selectedImage: XFile(''), url: null, isUpdated: null));
   }
 
   void resetForUpdateImage(String url) {
-    emit(state.copyWith(selectedImage: XFile(''), url: url));
+    emit(state.copyWith(selectedImage: XFile(''), url: url, isUpdated: null));
   }
 
   Future<XFile> _pickImage() async {
