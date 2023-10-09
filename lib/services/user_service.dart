@@ -1,14 +1,15 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:street_calle/services/base_service.dart';
 import 'package:street_calle/models/user.dart';
-import 'package:street_calle/main.dart';
+import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 
 
 class UserService extends BaseService<User> {
   UserService() {
-    ref = fireStore.collection(Collections.users).withConverter<User>(
+    ref = sl.get<FirebaseFirestore>().collection(Collections.users).withConverter<User>(
       fromFirestore: (snapshot, options) =>
           User.fromJson(snapshot.data()!, snapshot.id),
       toFirestore: (value, options) => value.toJson(),
@@ -31,7 +32,7 @@ class UserService extends BaseService<User> {
 
   Future<String?> _uploadImageToFirebase(String image, String userId) async {
     try {
-      final storageReference = storage
+      final storageReference = sl.get<FirebaseStorage>()
           .ref()
           .child('images/$userId/${Timestamp.now().millisecondsSinceEpoch}.jpg');
 

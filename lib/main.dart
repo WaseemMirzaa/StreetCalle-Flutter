@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/auth/cubit/email_verification/email_verification_cubit.dart';
@@ -32,9 +30,8 @@ import 'package:street_calle/utils/routing/routing.dart';
 import 'package:street_calle/utils/themes/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/firebase_options.dart';
+import 'package:street_calle/dependency_injection.dart' as di;
 
-FirebaseFirestore fireStore = FirebaseFirestore.instance;
-FirebaseStorage storage = FirebaseStorage.instance;
 
 UserService userService = UserService();
 AuthService authService = AuthService();
@@ -49,6 +46,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  await di.init();
   await sharedPreferencesService.init();
   runApp(
     MultiBlocProvider(
