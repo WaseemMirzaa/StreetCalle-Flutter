@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:street_calle/utils/constant/constants.dart';
 
 void showToast(BuildContext context, String title) {
   final scaffold = ScaffoldMessenger.of(context);
@@ -34,4 +35,12 @@ void showLoadingDialog(BuildContext context) {
       );
     },
   );
+}
+
+num calculateDiscountAmount(num? actualPrice, num? disCountedPrice) {
+  if (actualPrice == null || disCountedPrice == null) {
+    return defaultPrice;
+  }
+  num price = (actualPrice > disCountedPrice)  ? actualPrice - disCountedPrice : actualPrice;
+  return price.abs();
 }

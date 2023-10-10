@@ -87,10 +87,10 @@ class AddItemCubit extends Cubit<AddItemState> {
       title: titleController.text,
       description: descriptionController.text,
       foodType: foodTypeController.text,
-      actualPrice: pricingCategoryCubit.state.categoryType == PricingCategoryType.none ? num.parse(actualPriceController.text) : 0.0,
+      actualPrice: pricingCategoryCubit.state.categoryType == PricingCategoryType.none ? num.parse(actualPriceController.text) : defaultPrice,
       discountedPrice: pricingCategoryCubit.state.categoryType == PricingCategoryType.none
           ? parseNumeric(discountedPriceController.text)
-          : 0.0,
+          : defaultPrice,
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
       smallItemTitle: smallItemTitleController.text,
@@ -120,10 +120,10 @@ class AddItemCubit extends Cubit<AddItemState> {
         title: titleController.text,
         description: descriptionController.text,
         foodType: foodTypeController.text,
-        actualPrice: pricingCategoryCubit.state.categoryType == PricingCategoryType.none ? num.parse(actualPriceController.text) : 0.0,
+        actualPrice: pricingCategoryCubit.state.categoryType == PricingCategoryType.none ? num.parse(actualPriceController.text) : defaultPrice,
         discountedPrice: pricingCategoryCubit.state.categoryType == PricingCategoryType.none
           ? parseNumeric(discountedPriceController.text)
-          : 0.0,
+          : defaultPrice,
         createdAt: createdAt ?? Timestamp.now(),
         updatedAt: Timestamp.now(),
         smallItemTitle: smallItemTitleController.text,
@@ -145,6 +145,6 @@ class AddItemCubit extends Cubit<AddItemState> {
   }
 
   num parseNumeric(String value) {
-    return value.isEmptyOrNull ? 0.0 : num.parse(value);
+    return value.isEmptyOrNull ? defaultPrice : num.parse(value);
   }
 }

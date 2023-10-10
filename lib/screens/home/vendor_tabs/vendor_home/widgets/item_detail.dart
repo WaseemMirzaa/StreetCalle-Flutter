@@ -1,15 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/models/item.dart';
+import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
+import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
 
-class ItemDetail extends StatelessWidget {
+class ItemDetail extends StatefulWidget {
   const ItemDetail({Key? key, required this.item}) : super(key: key);
   final Item item;
+
+  @override
+  State<ItemDetail> createState() => _ItemDetailState();
+}
+
+class _ItemDetailState extends State<ItemDetail> {
+
+  late Item item;
+
+  @override
+  void initState() {
+    super.initState();
+    item = widget.item;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +91,29 @@ class ItemDetail extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      Align(
+                      (item.actualPrice !=null && item.actualPrice == defaultPrice)
+                       ? PricingCategory(item: item)
+                       : Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
+                        child:  (item.discountedPrice != null && item.discountedPrice != defaultPrice)
+                            ? Column(
+                          children: [
+                            Text(
+                              '\$${calculateDiscountAmount(item.actualPrice, item.discountedPrice)}',
+                              style: context.currentTextTheme.titleMedium,
+                            ),
+                            Text(
+                              '\$${item.actualPrice}',
+                              style: context.currentTextTheme.titleMedium?.copyWith(
+                                  fontSize: 16,
+                                  decoration: TextDecoration.lineThrough,
+                                  decorationColor: AppColors.redColor,
+                                  decorationThickness: 4.0
+                              ),
+                            ),
+                          ],
+                        )
+                            : Text(
                           '\$${item.actualPrice}',
                           style: context.currentTextTheme.titleMedium,
                         ),
@@ -110,21 +155,24 @@ class ItemDetail extends StatelessWidget {
             Positioned(
               top: 190,
               right: 15,
-              child: Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: Image.asset(AppAssets.whiteIconImage).image,
-                  )
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0, right: 8.0),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Image.asset(AppAssets.edit, width: 25, height: 25,)
-                    ],
+              child: InkWell(
+                onTap: () => _onUpdate(context, item),
+                child: Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: Image.asset(AppAssets.whiteIconImage).image,
+                    )
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0, right: 8.0),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.asset(AppAssets.edit, width: 25, height: 25,)
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -143,6 +191,131 @@ class ItemDetail extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _onUpdate (BuildContext context, Item itemParam) async {
+    final imageCubit =  context.read<ImageCubit>();
+    final itemCubit = context.read<AddItemCubit>();
+    final foodTypeExpandedCubit = context.read<FoodTypeExpandedCubit>();
+    final foodTypeCubit = context.read<FoodTypeCubit>();
+    final pricingCategoryExpandCubit = context.read<PricingCategoryExpandedCubit>();
+    final pricingCategoryTypeCubit = context.read<PricingCategoryCubit>();
+
+    itemCubit.titleController.text = itemParam.title ?? '';
+    itemCubit.descriptionController.text = itemParam.description ?? '';
+    itemCubit.foodTypeController.text = itemParam.foodType ?? '';
+    itemCubit.actualPriceController.text = itemParam.actualPrice.toString();
+    itemCubit.discountedPriceController.text = itemParam.discountedPrice.toString();
+    itemCubit.id = itemParam.id ?? '';
+    itemCubit.createdAt = itemParam.createdAt ?? Timestamp.now();
+    itemCubit.smallItemTitleController.text = itemParam.smallItemTitle ?? '';
+    itemCubit.mediumItemTitleController.text = itemParam.mediumItemTitle ?? '';
+    itemCubit.largeItemTitleController.text = itemParam.largeItemTitle ?? '';
+    itemCubit.smallItemActualPriceController.text = itemParam.smallItemActualPrice.toString();
+    itemCubit.mediumItemActualPriceController.text = itemParam.mediumItemActualPrice.toString();
+    itemCubit.largeItemActualPriceController.text = itemParam.largeItemActualPrice.toString();
+    itemCubit.smallItemDiscountedPriceController.text = itemParam.smallItemDiscountedPrice.toString();
+    itemCubit.mediumItemDiscountedPriceController.text = itemParam.mediumItemDiscountedPrice.toString();
+    itemCubit.largeItemDiscountedPriceController.text = itemParam.largeItemDiscountedPrice.toString();
+
+    if (itemCubit.foodTypeController.text.isNotEmpty) {
+      foodTypeExpandedCubit.expand();
+      foodTypeCubit.addString(itemCubit.foodTypeController.text);
+      foodTypeCubit.defaultValue = itemCubit.foodTypeController.text;
+    } else {
+      foodTypeExpandedCubit.collapse();
+      foodTypeCubit.defaultValue = TempLanguage().lblSelect;
+    }
+
+    if (itemCubit.smallItemTitleController.text.isNotEmpty) {
+      pricingCategoryExpandCubit.expand();
+      if (itemCubit.largeItemTitleController.text.isNotEmpty) {
+        pricingCategoryTypeCubit.setCategoryType(PricingCategoryType.large);
+      }
+    } else {
+      pricingCategoryExpandCubit.collapse();
+    }
+
+    imageCubit.resetForUpdateImage(itemParam.image ?? '',);
+
+    final result = await context.pushNamed(AppRoutingName.addItem, pathParameters: {IS_UPDATE: true.toString(), IS_FROM_DETAIL: true.toString()});
+    if (result != null) {
+      setState(() {
+        item = result as Item;
+      });
+    }
+  }
+}
+
+
+class PricingCategory extends StatelessWidget {
+  const PricingCategory({Key? key, required this.item}) : super(key: key);
+  final Item item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        item.smallItemTitle.isEmptyOrNull
+            ? const SizedBox.shrink()
+            : PriceTile(title: item.smallItemTitle, actualPrice: item.smallItemActualPrice, discountedPrice: item.smallItemDiscountedPrice),
+        SizedBox(
+          height: item.smallItemTitle.isEmptyOrNull ? 0 : 12,
+        ),
+        item.mediumItemTitle.isEmptyOrNull
+            ? const SizedBox.shrink()
+            : PriceTile(title: item.mediumItemTitle, actualPrice: item.mediumItemActualPrice, discountedPrice: item.mediumItemDiscountedPrice),
+        SizedBox(
+          height: item.mediumItemTitle.isEmptyOrNull ? 0 : 12,
+        ),
+        item.largeItemTitle.isEmptyOrNull
+            ? const SizedBox.shrink()
+            : PriceTile(title: item.largeItemTitle, actualPrice: item.largeItemActualPrice, discountedPrice: item.largeItemDiscountedPrice),
+      ],
+    );
+  }
+}
+
+class PriceTile extends StatelessWidget {
+  const PriceTile({Key? key, required this.title, required this.actualPrice, required this.discountedPrice}) : super(key: key);
+  final String? title;
+  final num? actualPrice;
+  final num? discountedPrice;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Text(
+          '$title: ',
+          style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16),
+        ),
+        (discountedPrice != null && actualPrice != defaultPrice)
+            ? Column(
+          children: [
+            Text(
+              '\$${calculateDiscountAmount(actualPrice, discountedPrice)}',
+              style: context.currentTextTheme.titleMedium,
+            ),
+            Text(
+              '\$$actualPrice',
+              style: context.currentTextTheme.titleMedium?.copyWith(
+                  fontSize: 16,
+                  decoration: TextDecoration.lineThrough,
+                  decorationColor: AppColors.redColor,
+                  decorationThickness: 4.0
+              ),
+            ),
+          ],
+        )
+            : Text(
+          '\$$actualPrice',
+          style: context.currentTextTheme.titleMedium,
+        ),
+      ],
     );
   }
 }

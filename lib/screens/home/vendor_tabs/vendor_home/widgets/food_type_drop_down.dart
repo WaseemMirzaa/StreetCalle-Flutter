@@ -7,6 +7,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_drop_down_cubit.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 
 OutlineInputBorder titleBorder = OutlineInputBorder(
   borderSide: BorderSide.none,
@@ -14,7 +15,8 @@ OutlineInputBorder titleBorder = OutlineInputBorder(
 );
 
 class FoodTypeDropDown extends StatelessWidget {
-  const FoodTypeDropDown({Key? key}) : super(key: key);
+  const FoodTypeDropDown({Key? key, required this.isFromItem}) : super(key: key);
+  final bool isFromItem;
 
   @override
   Widget build(BuildContext context) {
@@ -52,20 +54,7 @@ class FoodTypeDropDown extends StatelessWidget {
                   builder: (context, state) {
                     return DropdownButtonFormField<String>(
                       value: context.read<FoodTypeCubit>().defaultValue, // Set the currently selected food type
-                      onChanged: (String? newValue) {
-                        if (!newValue.isEmptyOrNull && newValue != TempLanguage().lblSelect) {
-                          context.read<AddItemCubit>().foodTypeController.text = newValue!;
-                          context.read<FoodTypeCubit>().defaultValue = newValue;
-                          if (newValue == '+ ${TempLanguage().lblAddFoodType}') {
-                            context.read<FoodTypeDropDownCubit>().addFoodTypeSelected();
-                          } else {
-                            context.read<FoodTypeDropDownCubit>().resetState();
-                          }
-                        } else {
-                          context.read<FoodTypeCubit>().defaultValue = TempLanguage().lblSelect;
-                          context.read<AddItemCubit>().foodTypeController.clear();
-                        }
-                      },
+                      onChanged: (String? newValue) => _dropDownValueChanged(context, newValue, isFromItem),
                       items: state.map((foodType) {
                         return DropdownMenuItem<String>(
                           value: foodType,
@@ -132,18 +121,10 @@ class FoodTypeDropDown extends StatelessWidget {
                         padding: const EdgeInsets.only(
                             left: 24, right: 16.0, bottom: 16),
                         child: TextField(
-                          controller: context.read<AddItemCubit>().customFoodTypeController,
-                          onSubmitted: (text) {
-                            final foodTypeCubit = context.read<FoodTypeCubit>();
-
-                            foodTypeCubit.defaultValue = text;
-                            foodTypeCubit.addString(text);
-                            foodTypeCubit.addToFirebase(text);
-                            context.read<AddItemCubit>().foodTypeController.text = text;
-
-                            context.read<AddItemCubit>().customFoodTypeController.clear();
-                            context.read<FoodTypeDropDownCubit>().resetState();
-                          },
+                          controller: isFromItem
+                              ? context.read<AddItemCubit>().customFoodTypeController
+                              : context.read<AddDealCubit>().customFoodTypeController,
+                          onSubmitted: (text)=> _onSubmitted(context, text, isFromItem),
                           style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.only(left: 10),
@@ -170,5 +151,52 @@ class FoodTypeDropDown extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _onSubmitted(BuildContext context, String text, bool isFromItem) {
+    final foodTypeCubit = context.read<FoodTypeCubit>();
+    final addItemCubit = context.read<AddItemCubit>();
+    final addDealCubit = context.read<AddDealCubit>();
+    final foodTypeDropDownCubit = context.read<FoodTypeDropDownCubit>();
+
+    foodTypeCubit.defaultValue = text;
+    foodTypeCubit.addString(text);
+    foodTypeCubit.addToFirebase(text);
+    if (isFromItem) {
+      addItemCubit.foodTypeController.text = text;
+      addItemCubit.customFoodTypeController.clear();
+    } else {
+      addDealCubit.foodTypeController.text = text;
+      addDealCubit.customFoodTypeController.clear();
+    }
+    foodTypeDropDownCubit.resetState();
+  }
+
+  void _dropDownValueChanged(BuildContext context, String? newValue, bool isFromItem) {
+    final foodTypeCubit = context.read<FoodTypeCubit>();
+    final addItemCubit = context.read<AddItemCubit>();
+    final addDealCubit = context.read<AddDealCubit>();
+    final foodTypeDropDownCubit = context.read<FoodTypeDropDownCubit>();
+
+    if (!newValue.isEmptyOrNull && newValue != TempLanguage().lblSelect) {
+      if (isFromItem) {
+        addItemCubit.foodTypeController.text = newValue!;
+      } else {
+        addDealCubit.foodTypeController.text = newValue!;
+      }
+      foodTypeCubit.defaultValue = newValue;
+      if (newValue == '+ ${TempLanguage().lblAddFoodType}') {
+        foodTypeDropDownCubit.addFoodTypeSelected();
+      } else {
+        foodTypeDropDownCubit.resetState();
+      }
+    } else {
+      foodTypeCubit.defaultValue = TempLanguage().lblSelect;
+      if (isFromItem) {
+        addItemCubit.foodTypeController.clear();
+      } else {
+        addDealCubit.foodTypeController.clear();
+      }
+    }
   }
 }

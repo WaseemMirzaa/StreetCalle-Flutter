@@ -12,9 +12,11 @@ import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
 
 
+
 class AddItemButton extends StatelessWidget {
-  const AddItemButton({Key? key, required this.isUpdate}) : super(key: key);
+  const AddItemButton({Key? key, required this.isUpdate, required this.isFromDetail}) : super(key: key);
   final bool isUpdate;
+  final bool isFromDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +24,8 @@ class AddItemButton extends StatelessWidget {
       listener: (context, state) {
         if (state is AddItemSuccess) {
           context.read<AddItemCubit>().clear();
-          showToast(context, TempLanguage().lblItemAddedSuccessfully);
-          context.pop();
+          showToast(context, isUpdate ? TempLanguage().lblItemUpdatedSuccessfully : TempLanguage().lblItemAddedSuccessfully);
+          context.pop(state.item);
         } else if (state is AddItemFailure) {
           showToast(context, state.error);
         }
@@ -81,10 +83,7 @@ class AddItemButton extends StatelessWidget {
 
     final image = imageCubit.state.selectedImage.path;
     final title = itemCubit.titleController.text;
-    final description = itemCubit.descriptionController.text;
-    final foodType = itemCubit.foodTypeController.text;
     final actualPrice = itemCubit.actualPriceController.text;
-    final discountedPrice = itemCubit.discountedPriceController.text;
     final smallActualPrice = itemCubit.smallItemActualPriceController.text;
     final smallTitle = itemCubit.smallItemTitleController.text;
 
@@ -110,10 +109,7 @@ class AddItemButton extends StatelessWidget {
     final url = imageCubit.state.url;
     final isUpdated = imageCubit.state.isUpdated;
     final title = itemCubit.titleController.text;
-    final description = itemCubit.descriptionController.text;
-    final foodType = itemCubit.foodTypeController.text;
     final actualPrice = itemCubit.actualPriceController.text;
-    final discountedPrice = itemCubit.discountedPriceController.text;
     final smallActualPrice = itemCubit.smallItemActualPriceController.text;
     final smallTitle = itemCubit.smallItemTitleController.text;
 

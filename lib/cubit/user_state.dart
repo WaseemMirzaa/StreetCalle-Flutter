@@ -11,6 +11,7 @@ class UserState {
   final String userPhone;
   final bool isLoggedIn;
   final bool isVendor;
+  final bool isOnline;
 
   UserState({
     required this.userId,
@@ -20,6 +21,7 @@ class UserState {
     required this.userPhone,
     required this.isLoggedIn,
     required this.isVendor,
+    required this.isOnline
   });
 
   UserState copyWith({
@@ -29,7 +31,8 @@ class UserState {
     String? userImage,
     String? userPhone,
     bool? isLoggedIn,
-    bool? isVendor
+    bool? isVendor,
+    bool? isOnline
   }) {
     return UserState(
       userId: userId ?? this.userId,
@@ -38,7 +41,8 @@ class UserState {
       userImage: userImage ?? this.userImage,
       userPhone: userPhone ?? this.userPhone,
       isLoggedIn: isLoggedIn ?? this.isLoggedIn,
-      isVendor: isVendor ?? this.isVendor
+      isVendor: isVendor ?? this.isVendor,
+      isOnline: isOnline ?? this.isOnline
     );
   }
 }
@@ -53,7 +57,8 @@ class UserCubit extends Cubit<UserState> {
       userImage: '',
       userPhone: '',
       isLoggedIn: false,
-      isVendor: false
+      isVendor: false,
+      isOnline: true
     ),
   );
 
@@ -95,7 +100,12 @@ class UserCubit extends Cubit<UserState> {
     sharedPreferencesService.setValue(SharePreferencesKey.IS_VENDOR, value);
   }
 
-  void setUserModel(User user, {bool isLoggedIn = false, bool isVendor = false}) {
+  void setIsOnline(bool value) {
+    emit(state.copyWith(isOnline: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.IS_ONLINE, value);
+  }
+
+  void setUserModel(User user, {bool isLoggedIn = false, bool isVendor = false, bool isOnline = true}) {
     setUsername(user.name ?? '');
     setUserEmail(user.email ?? '');
     setUserImage(user.image ?? '');
@@ -103,5 +113,6 @@ class UserCubit extends Cubit<UserState> {
     setUserPhone(user.phone ?? '');
     setIsLoggedIn(isLoggedIn);
     setIsVendor(isVendor);
+    setIsOnline(true);
   }
 }

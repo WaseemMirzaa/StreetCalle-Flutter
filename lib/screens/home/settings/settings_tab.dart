@@ -1,18 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:street_calle/main.dart';
 import 'package:street_calle/screens/home/settings/widgets/settings_item.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/services/shared_preferences_service.dart';
 
 class SettingsTab extends StatelessWidget {
   const SettingsTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final sharedPreferencesService = sl.get<SharedPreferencesService>();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

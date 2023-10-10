@@ -9,13 +9,16 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_de
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_item.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_detail.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/select_menu_item.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/deal_detail.dart';
 import 'package:street_calle/screens/selectUser/select_user_screen.dart';
 import 'package:street_calle/screens/splash/splash_screen.dart';
+import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/settings/widgets/privacy_policy.dart';
 import 'package:street_calle/screens/home/settings/widgets/terms_and_conditions.dart';
 import 'package:street_calle/screens/home/settings/widgets/vendor_subscription.dart';
 import 'package:street_calle/models/item.dart';
+import 'package:street_calle/models/deal.dart';
 
 final router = GoRouter(
   routes: [
@@ -75,8 +78,9 @@ final router = GoRouter(
       path: AppRoutingName.addItem,
       name: AppRoutingName.addItem,
       builder: (context, state) {
-        final isUpdate = state.pathParameters['isUpdate']!;
-        return AddItem(isUpdate: bool.parse(isUpdate));
+        final isUpdate = state.pathParameters[IS_UPDATE]!;
+        final isFromDetail = state.pathParameters[IS_FROM_DETAIL]!;
+        return AddItem(isUpdate: bool.parse(isUpdate), isFromDetail: bool.parse(isFromDetail));
       },
     ),
     GoRoute(
@@ -112,8 +116,9 @@ final router = GoRouter(
       path: AppRoutingName.addDeal,
       name: AppRoutingName.addDeal,
       builder: (context, state) {
-        final isUpdate = state.pathParameters['isUpdate']!;
-        return AddDeal(isUpdate: bool.parse(isUpdate));
+        final isUpdate = state.pathParameters[IS_UPDATE]!;
+        final isFromDetail = state.pathParameters[IS_FROM_DETAIL]!;
+        return AddDeal(isUpdate: bool.parse(isUpdate), isFromDetail: bool.parse(isFromDetail));
       },
     ),
     GoRoute(
@@ -121,6 +126,14 @@ final router = GoRouter(
       name: AppRoutingName.selectMenuItem,
       builder: (context, state) {
         return const SelectMenuItem();
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.dealDetail,
+      name: AppRoutingName.dealDetail,
+      builder: (context, state) {
+        final deal = state.extra as Deal;
+        return DealDetail(deal: deal);
       },
     ),
   ],

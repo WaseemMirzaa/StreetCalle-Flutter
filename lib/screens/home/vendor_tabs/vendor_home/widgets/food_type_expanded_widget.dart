@@ -5,7 +5,8 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_typ
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/food_type_drop_down.dart';
 
 class FoodTypeExpandedWidget extends StatelessWidget {
-  const FoodTypeExpandedWidget({Key? key}) : super(key: key);
+  const FoodTypeExpandedWidget({Key? key, required this.isFromItem}) : super(key: key);
+  final bool isFromItem;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class FoodTypeExpandedWidget extends StatelessWidget {
                 ),
               ),
             ),
-            const FoodTypeDropDown(),
+            FoodTypeDropDown(isFromItem: isFromItem),
           ],
         )
             : const SizedBox.shrink();

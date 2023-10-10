@@ -23,8 +23,9 @@ OutlineInputBorder titleBorder = OutlineInputBorder(
 );
 
 class AddItem extends StatelessWidget {
-  const AddItem({Key? key, required this.isUpdate}) : super(key: key);
+  const AddItem({Key? key, required this.isUpdate, required this.isFromDetail}) : super(key: key);
   final bool isUpdate;
+  final bool isFromDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -170,8 +171,8 @@ class AddItem extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              const FoodTypeExpandedWidget(),
-              AddItemButton(isUpdate: isUpdate),
+              const FoodTypeExpandedWidget(isFromItem: true,),
+              AddItemButton(isUpdate: isUpdate, isFromDetail: isFromDetail),
               const SizedBox(
                 height: 24,
               ),

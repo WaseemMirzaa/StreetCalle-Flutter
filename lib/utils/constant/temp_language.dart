@@ -81,6 +81,9 @@ class TempLanguage {
   String get lblAddItemFoodType => 'Add item food type';
   String get lblAddFoodType => 'Add food type';
   String get lblItemAddedSuccessfully => 'Item added successfully';
+  String get lblItemUpdatedSuccessfully => 'Item updated successfully';
+  String get lblDealAddedSuccessfully => 'Deal added successfully';
+  String get lblDealUpdatedSuccessfully => 'Deal updated successfully';
   String get lblViewAll => 'View all';
   String get lblNoDataFound => 'No data found';
   String get lblSelect => 'Select';
@@ -88,9 +91,16 @@ class TempLanguage {
   String get lblPricingCategoryTitle => 'Pricing Category Title';
   String get lblSomethingWentWrong => 'Something went wrong. Try again later';
   String get lblItemDeletedSuccessfully => 'Item deleted successfully';
+  String get lblDealDeletedSuccessfully => 'Deal deleted successfully';
   String get lblMenu => 'Menu';
   String get lblItems => 'Items';
   String get lblDeals => 'Deals';
+  String get lblDelete => 'Delete';
+  String get lblCancel => 'Cancel';
+  String get lblDeleteItem => 'Delete Item?';
+  String get lblDeleteDeal => 'Delete Deal?';
+  String get lblAreYouSureYouWantToDeleteItem => 'Are you sure you want to delete this item?';
+  String get lblAreYouSureYouWantToDeleteDeal => 'Are you sure you want to delete this deal?';
   String get lblMenuItem => 'Add Menu Item';
   String get lblCustomItem => 'Add Custom Item';
 

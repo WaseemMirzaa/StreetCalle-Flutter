@@ -15,6 +15,7 @@ import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -131,6 +132,7 @@ class SignUpScreen extends StatelessWidget {
                   listener: (context, state) {
                     if (state is SignUpSuccess) {
                       context.read<UserCubit>().setUserModel(state.user);
+                      context.read<ProfileStatusCubit>().defaultStatus(true);
                       context.pushNamed(AppRoutingName.emailVerificationScreen, pathParameters: {'email': context.read<SignUpCubit>().emailController.text});
                     } else if (state is SignUpFailure) {
                       showToast(context, state.error);

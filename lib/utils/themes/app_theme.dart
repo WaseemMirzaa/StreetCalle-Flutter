@@ -22,6 +22,13 @@ class AppThemes {
         //titleTextStyle: AppTextStyles.h2,
       ),
       // colorScheme: ColorScheme(background: AppColors.black),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: <TargetPlatform, PageTransitionsBuilder>{
+          TargetPlatform.android: ZoomPageTransitionsBuilder(
+            allowEnterRouteSnapshotting: false,
+          ),
+        },
+      ),
     );
   }
 
@@ -45,6 +52,13 @@ class AppThemes {
         elevation: 0.0,
         backgroundColor: AppColors.whiteColor,
         scrolledUnderElevation: 0.0,
+      ),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: <TargetPlatform, PageTransitionsBuilder>{
+          TargetPlatform.android: ZoomPageTransitionsBuilder(
+            allowEnterRouteSnapshotting: false,
+          ),
+        },
       ),
     );
   }

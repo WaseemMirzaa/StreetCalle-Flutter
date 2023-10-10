@@ -6,7 +6,7 @@ import 'package:street_calle/models/user.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 
-
+/// This service use for all (Users, Vendors, Employees)
 class UserService extends BaseService<User> {
   UserService() {
     ref = sl.get<FirebaseFirestore>().collection(Collections.users).withConverter<User>(
@@ -34,7 +34,7 @@ class UserService extends BaseService<User> {
     try {
       final storageReference = sl.get<FirebaseStorage>()
           .ref()
-          .child('images/$userId/${Timestamp.now().millisecondsSinceEpoch}.jpg');
+          .child('images/$userId.jpg');
 
       await storageReference.putFile(File(image));
       final downloadUrl = await storageReference.getDownloadURL();
@@ -53,4 +53,13 @@ class UserService extends BaseService<User> {
     });
   }
 
+  Future<void> setUserStatus(bool isOnline, String userId) async {
+    try {
+      await ref!.doc(userId).update({
+        UserKey.isOnline: isOnline
+      });
+    } catch (e) {
+
+    }
+  }
 }

@@ -11,6 +11,14 @@ const RIFTSOFT = 'RiftSoft';
 
 const defaultLogoSize = 300.0;
 const defaultButtonSize = 55.0;
+const defaultPrice = 0.0;
+
+
+/// PathParameters (for items and deals) --> change these wisely
+const IS_UPDATE = 'isUpdate';
+const IS_FROM_DETAIL = 'isFromDetail';
+const USER = 'user';
+const EMAIL = 'email';
 
 class Collections {
   static const String users = 'users';
@@ -28,6 +36,7 @@ class SharePreferencesKey {
   static const USER_EMAIL = 'USER_EMAIL';
   static const USER_IMAGE = 'USER_IMAGE';
   static const IS_VENDOR = 'IS_VENDOR';
+  static const IS_ONLINE = 'IS_ONLINE';
 }
 
 class UserKey {
@@ -40,6 +49,7 @@ class UserKey {
   static const String updatedAt = 'updatedAt';
   static const String fcmTokens = 'fcmTokens';
   static const String isVendor = 'isVendor';
+  static const String isOnline = 'isOnline';
 }
 
 class ItemKey {

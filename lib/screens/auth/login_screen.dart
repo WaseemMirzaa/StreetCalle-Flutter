@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
+import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
@@ -86,6 +87,7 @@ class LoginScreen extends StatelessWidget {
                   listener: (context, state) {
                      if (state is LoginSuccess) {
                        context.read<UserCubit>().setUserModel(state.user, isLoggedIn: true);
+                       context.read<ProfileStatusCubit>().defaultStatus(true);
                        context.pushNamed(AppRoutingName.selectUserScreen);
                     } else if (state is LoginFailure) {
                       showToast(context, state.error);

@@ -6,6 +6,7 @@ import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/main.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/delete_confirmation_dialog.dart';
@@ -22,6 +23,8 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_typ
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_drop_down_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
+import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/services/shared_preferences_service.dart';
 
 
 OutlineInputBorder searchBorder = OutlineInputBorder(
@@ -30,12 +33,12 @@ OutlineInputBorder searchBorder = OutlineInputBorder(
 );
 
 
-
 class VendorHomeTab extends StatelessWidget {
   const VendorHomeTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final sharedPreferencesService = sl.get<SharedPreferencesService>();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 36.0,),
@@ -66,9 +69,7 @@ class VendorHomeTab extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: TextField(
-                onChanged: (String? value) {
-                  context.read<SearchCubit>().updateQuery(value ?? '');
-                },
+                onChanged: (String? value) => _searchQuery(context, value),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(20),
                   filled: true,
@@ -99,24 +100,7 @@ class VendorHomeTab extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryColor,
                         ),
-                        onPressed: () {
-
-                          final pricingCubit = context.read<PricingCategoryCubit>();
-                          final pricingExpandedCubit = context.read<PricingCategoryExpandedCubit>();
-
-                          //context.read<ImageCubit>().resetImage();
-                          pricingExpandedCubit.collapse();
-                          pricingCubit.setCategoryType(PricingCategoryType.none);
-                          context.read<FoodTypeExpandedCubit>().collapse();
-                          context.read<FoodTypeDropDownCubit>().resetState();
-                          context.read<FoodTypeCubit>().defaultValue = TempLanguage().lblSelect;
-                          context.read<FoodTypeCubit>().loadFromFirebase();
-
-
-                          context.read<AddItemCubit>().clear();
-                          context.read<ImageCubit>().resetImage();
-                          context.pushNamed(AppRoutingName.addItem, pathParameters: {'isUpdate': false.toString()});
-                        },
+                        onPressed: () => _addItem(context),
                         child: Row(
                           children: [
                             Image.asset(AppAssets.add, width: 15, height: 15,),
@@ -140,11 +124,7 @@ class VendorHomeTab extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryColor,
                         ),
-                        onPressed: () {
-                          context.read<ImageCubit>().resetImage();
-
-                          context.pushNamed(AppRoutingName.addDeal, pathParameters: {'isUpdate': false.toString()});
-                        },
+                        onPressed: () => _addDeal(context),
                         child: Row(
                           children: [
                             Image.asset(AppAssets.add, width: 15, height: 15,),
@@ -216,7 +196,7 @@ class VendorHomeTab extends StatelessWidget {
                                 item: item,
                                 onUpdate: () => _onUpdate(context, item),
                                 onDelete: () => _showDeleteConfirmationDialog(context, item),
-                                onTap: ()=> context.pushNamed(AppRoutingName.itemDetail, extra: item)
+                                onTap: ()=> _goToItemDetail(context, item),
                             );
                           },
                         );
@@ -243,6 +223,8 @@ class VendorHomeTab extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return DeleteConfirmationDialog(
+          title: TempLanguage().lblDeleteItem,
+          body: TempLanguage().lblAreYouSureYouWantToDeleteItem,
           onConfirm: () async {
             final result = await itemService.deleteItem(item);
            if (result) {
@@ -268,6 +250,7 @@ class VendorHomeTab extends StatelessWidget {
     final pricingCategoryExpandCubit = context.read<PricingCategoryExpandedCubit>();
     final pricingCategoryTypeCubit = context.read<PricingCategoryCubit>();
 
+    foodTypeCubit.loadFromFirebase();
     itemCubit.titleController.text = item.title ?? '';
     itemCubit.descriptionController.text = item.description ?? '';
     itemCubit.foodTypeController.text = item.foodType ?? '';
@@ -305,7 +288,50 @@ class VendorHomeTab extends StatelessWidget {
 
     imageCubit.resetForUpdateImage(item.image ?? '',);
 
+    context.pushNamed(AppRoutingName.addItem, pathParameters: {IS_UPDATE: true.toString(), IS_FROM_DETAIL: false.toString()});
+  }
 
-    context.pushNamed(AppRoutingName.addItem, pathParameters: {'isUpdate': true.toString()});
+  void _searchQuery(BuildContext context, String? value) {
+    context.read<SearchCubit>().updateQuery(value ?? '');
+  }
+
+  void _addDeal(BuildContext context) {
+    _resetCubitStates(context);
+
+    final addDealCubit = context.read<AddDealCubit>();
+    addDealCubit.clear();
+
+    context.pushNamed(AppRoutingName.addDeal, pathParameters: {IS_UPDATE: false.toString(), IS_FROM_DETAIL: false.toString()});
+  }
+
+  void _addItem(BuildContext context) {
+    _resetCubitStates(context);
+
+    final pricingCubit = context.read<PricingCategoryCubit>();
+    final pricingExpandedCubit = context.read<PricingCategoryExpandedCubit>();
+    final addItemCubit = context.read<AddItemCubit>();
+
+    pricingExpandedCubit.collapse();
+    pricingCubit.setCategoryType(PricingCategoryType.none);
+    addItemCubit.clear();
+
+    context.pushNamed(AppRoutingName.addItem, pathParameters: {IS_UPDATE: false.toString(), IS_FROM_DETAIL: false.toString()});
+  }
+
+  void _resetCubitStates(BuildContext context) {
+    final imageCubit = context.read<ImageCubit>();
+    final foodTypeExpandedCubit = context.read<FoodTypeExpandedCubit>();
+    final foodTypeDropDownCubit = context.read<FoodTypeDropDownCubit>();
+    final foodTypeCubit = context.read<FoodTypeCubit>();
+
+    imageCubit.resetImage();
+    foodTypeExpandedCubit.collapse();
+    foodTypeDropDownCubit.resetState();
+    foodTypeCubit.defaultValue = TempLanguage().lblSelect;
+    foodTypeCubit.loadFromFirebase();
+  }
+
+  void _goToItemDetail(BuildContext context, Item item) {
+    context.pushNamed(AppRoutingName.itemDetail, extra: item);
   }
 }

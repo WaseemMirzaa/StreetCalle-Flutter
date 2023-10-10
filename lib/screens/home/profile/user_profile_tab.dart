@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
@@ -103,23 +104,39 @@ class UserprofileTab extends StatelessWidget {
                 height: 30,
                 width: 50,
                 child: FittedBox(
-                  child: Switch(
-                  value: true,
-                  activeColor: const Color(0xff4BC551),
-                  onChanged: (bool value) {
+                  child: BlocBuilder<ProfileStatusCubit, bool>(
+                    builder: (context, state) {
+                      return Switch(
+                        value: state,
+                        activeColor: const Color(0xff4BC551),
+                        onChanged: (bool value) {
+                         final profileCubit = context.read<ProfileStatusCubit>();
+                         final userCubit = context.read<UserCubit>();
 
+                         if (state) {
+                            profileCubit.goOffline();
+                            userCubit.setIsOnline(false);
+                          } else {
+                            profileCubit.goOnline();
+                            userCubit.setIsOnline(true);
+                          }
+                        },
+                      );
                     },
                   ),
                 ),
               ),
-              Text(
-                TempLanguage().lblOnline,
-                style: const TextStyle(
-                 // fontFamily: RIFTSOFT,
-                  fontSize: 18,
-                ),
+              BlocBuilder<ProfileStatusCubit, bool>(
+                builder: (context, state) {
+                  return Text(
+                    state ? TempLanguage().lblOnline : TempLanguage().lblOffline,
+                    style: const TextStyle(
+                      // fontFamily: RIFTSOFT,
+                      fontSize: 18,
+                    ),
+                  );
+                },
               ),
-
 
               const SizedBox(
                 height: 16,

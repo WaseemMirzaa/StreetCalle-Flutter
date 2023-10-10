@@ -12,6 +12,8 @@ import 'package:street_calle/screens/auth/password_reset_screen.dart';
 import 'package:street_calle/screens/auth/login_screen.dart';
 import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
+import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
+import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_custom_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
@@ -31,14 +33,13 @@ import 'package:street_calle/utils/routing/routing.dart';
 import 'package:street_calle/utils/themes/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/firebase_options.dart';
-import 'package:street_calle/dependency_injection.dart' as di;
+import 'package:street_calle/dependency_injection.dart';
 
 
 UserService userService = UserService();
 AuthService authService = AuthService();
 ItemService itemService = ItemService();
 DealService dealService = DealService();
-SharedPreferencesService sharedPreferencesService = SharedPreferencesService();
 PricingCategoryCubit pricingCategoryCubit = PricingCategoryCubit();
 
 Future<void> main() async {
@@ -46,8 +47,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  await di.init();
+  await init();
+  final sharedPreferencesService = sl.get<SharedPreferencesService>();
   await sharedPreferencesService.init();
   runApp(
     MultiBlocProvider(
@@ -112,6 +113,10 @@ Future<void> main() async {
         ),
         BlocProvider(
           create: (context)=> SearchCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> ProfileStatusCubit(userService, sharedPreferencesService),
+          child: const UserprofileTab(),
         ),
       ],
       child: const MyApp(),

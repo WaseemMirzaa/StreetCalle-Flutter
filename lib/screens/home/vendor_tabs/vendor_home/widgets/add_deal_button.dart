@@ -10,12 +10,12 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
 
 
 class AddDealButton extends StatelessWidget {
-  const AddDealButton({Key? key, required this.isUpdate}) : super(key: key);
+  const AddDealButton({Key? key, required this.isUpdate, required this.isFromDetail}) : super(key: key);
   final bool isUpdate;
+  final bool isFromDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,8 @@ class AddDealButton extends StatelessWidget {
       listener: (context, state) {
         if (state is AddDealSuccess) {
           context.read<AddItemCubit>().clear();
-          showToast(context, TempLanguage().lblItemAddedSuccessfully);
-          context.pop();
+          showToast(context, isUpdate ? TempLanguage().lblDealUpdatedSuccessfully : TempLanguage().lblDealAddedSuccessfully);
+          context.pop(state.deal);
         } else if (state is AddDealFailure) {
           showToast(context, state.error);
         }
@@ -44,8 +44,8 @@ class AddDealButton extends StatelessWidget {
                 backgroundColor: AppColors.primaryColor,
               ),
               onPressed: () => isUpdate
-                  ? updateItem(context)
-                  : addItem(context),
+                  ? updateDeal(context)
+                  : addDeal(context),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -75,7 +75,7 @@ class AddDealButton extends StatelessWidget {
     );
   }
 
-  Future<void> addItem(BuildContext context) async {
+  Future<void> addDeal(BuildContext context) async {
     final imageCubit = context.read<ImageCubit>();
     final dealCubit = context.read<AddDealCubit>();
 
@@ -95,36 +95,28 @@ class AddDealButton extends StatelessWidget {
     }
   }
 
-  Future<void> updateItem(BuildContext context) async {
+  Future<void> updateDeal(BuildContext context) async {
     final imageCubit = context.read<ImageCubit>();
-    final itemCubit = context.read<AddItemCubit>();
-    final pricingCategoryType = context.read<PricingCategoryCubit>().state.categoryType;
+    final dealCubit = context.read<AddDealCubit>();
 
     final image = imageCubit.state.selectedImage.path;
     final url = imageCubit.state.url;
     final isUpdated = imageCubit.state.isUpdated;
-    final title = itemCubit.titleController.text;
-    final description = itemCubit.descriptionController.text;
-    final foodType = itemCubit.foodTypeController.text;
-    final actualPrice = itemCubit.actualPriceController.text;
-    final discountedPrice = itemCubit.discountedPriceController.text;
-    final smallActualPrice = itemCubit.smallItemActualPriceController.text;
-    final smallTitle = itemCubit.smallItemTitleController.text;
+    final title = dealCubit.titleController.text;
+    final actualPrice = dealCubit.actualPriceController.text;
 
     if (image.isEmpty && url == null) {
       showToast(context, TempLanguage().lblSelectImage);
     } else if (title.isEmpty) {
       showToast(context, TempLanguage().lblAddItemTitle);
-    } else if (pricingCategoryType == PricingCategoryType.smallMedium && smallTitle.isEmpty) {
-      showToast(context, TempLanguage().lblAddItemTitle);
-    } else if (actualPrice.isEmpty || (pricingCategoryType == PricingCategoryType.smallMedium && smallActualPrice.isEmpty)) {
+    } else if (actualPrice.isEmpty ) {
       showToast(context, TempLanguage().lblAddItemPrice);
     } else {
-      // if (isUpdated ?? false) {
-      //   itemCubit.updateItem(image: image, isUpdated: true);
-      // } else {
-      //   itemCubit.updateItem(image: url ?? '', isUpdated: false);
-      // }
+      if (isUpdated ?? false) {
+        dealCubit.updateDeal(image: image, isUpdated: true);
+      } else {
+        dealCubit.updateDeal(image: url ?? '', isUpdated: false);
+      }
     }
   }
 }

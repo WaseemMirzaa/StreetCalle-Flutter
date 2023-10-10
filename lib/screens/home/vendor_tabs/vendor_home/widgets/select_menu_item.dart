@@ -7,6 +7,8 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/item_widget.dart';
+import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/services/shared_preferences_service.dart';
 
 typedef GetItemTitle = Function(String? title);
 
@@ -16,6 +18,7 @@ class SelectMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sharedPreferencesService = sl.get<SharedPreferencesService>();
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -48,11 +51,15 @@ class SelectMenuItem extends StatelessWidget {
                       ),
                     );
                   }
-                  return InkWell(
-                      onTap: (){
-                        context.pop(item.title);
-                      },
-                      child: ItemWidget(item: item));
+                  return ItemWidget(
+                    isFromItemTab: false,
+                    item: item,
+                    onUpdate: (){},
+                    onDelete: (){},
+                    onTap: (){
+                      context.pop(item.title);
+                    },
+                  );
                 },
               ),
             );
