@@ -22,6 +22,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_typ
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/vendor_home_tab.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/deal_service.dart';
@@ -110,6 +111,9 @@ Future<void> main() async {
         ),
         BlocProvider(
           create: (context)=> AddCustomItemCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> SearchCubit(),
         ),
       ],
       child: const MyApp(),

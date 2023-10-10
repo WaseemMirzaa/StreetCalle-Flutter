@@ -7,6 +7,7 @@ import 'package:street_calle/main.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/delete_confirmation_dialog.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_view.dart';
 import 'package:street_calle/utils/common.dart';
@@ -65,6 +66,9 @@ class VendorHomeTab extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: TextField(
+                onChanged: (String? value) {
+                  context.read<SearchCubit>().updateQuery(value ?? '');
+                },
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(20),
                   filled: true,
@@ -174,25 +178,47 @@ class VendorHomeTab extends StatelessWidget {
                     );
                   }
                   if (snapshot.hasData) {
-                    return ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: snapshot.data?.length,
-                      itemBuilder: (context, index) {
-                        final item = snapshot.data?[index];
-                        if (item == null) {
-                          return Center(
-                            child: Text(
-                              TempLanguage().lblNoDataFound,
-                              style: context.currentTextTheme.displaySmall,
-                            ),
-                          );
+                    if (snapshot.data == null) {
+                      return Center(
+                        child: Text(
+                          TempLanguage().lblNoDataFound,
+                          style: context.currentTextTheme.displaySmall,
+                        ),
+                      );
+                    }
+                    return BlocBuilder<SearchCubit, String>(
+                      builder: (context, state) {
+                        List<Item> list = [];
+                        if (state.isNotEmpty) {
+                          list = snapshot.data!.where((item) {
+                            final itemName = item.title!.toLowerCase();
+                            return itemName.contains(state.toLowerCase());
+                          }).toList();
+                        } else {
+                          list = snapshot.data!;
                         }
-                        return ItemView(
-                          index: index,
-                          item: item,
-                          onUpdate: () => _onUpdate(context, item),
-                          onDelete: () => _showDeleteConfirmationDialog(context, item),
-                          onTap: ()=> context.pushNamed(AppRoutingName.itemDetail, extra: item)
+
+                        return ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: list.length,
+                          itemBuilder: (context, index) {
+                            final item = list[index];
+                            // if (item == null) {
+                            //   return Center(
+                            //     child: Text(
+                            //       TempLanguage().lblNoDataFound,
+                            //       style: context.currentTextTheme.displaySmall,
+                            //     ),
+                            //   );
+                            // }
+                            return ItemView(
+                                index: index,
+                                item: item,
+                                onUpdate: () => _onUpdate(context, item),
+                                onDelete: () => _showDeleteConfirmationDialog(context, item),
+                                onTap: ()=> context.pushNamed(AppRoutingName.itemDetail, extra: item)
+                            );
+                          },
                         );
                       },
                     );
