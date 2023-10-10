@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:street_calle/main.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/dependency_injection.dart';
 
 class FoodTypeCubit extends Cubit<List<String>> {
   FoodTypeCubit() : super([TempLanguage().lblSelect, '+ ${TempLanguage().lblAddFoodType}']);
@@ -10,7 +10,7 @@ class FoodTypeCubit extends Cubit<List<String>> {
 
   Future<void> loadFromFirebase() async {
     try {
-      final documentSnapshot = await fireStore.collection(Collections.foodType).doc(Collections.foodType).get();
+      final documentSnapshot = await sl.get<FirebaseFirestore>().collection(Collections.foodType).doc(Collections.foodType).get();
       if (documentSnapshot.exists && documentSnapshot.data() != null) {
         final List<String> foodTypesFromFirebase = List<String>.from(documentSnapshot.data()?['types']);
         //final List<String> mergedList = state.toSet().union(foodTypesFromFirebase.toSet()).toList();

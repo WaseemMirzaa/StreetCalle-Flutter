@@ -1,16 +1,17 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:street_calle/services/base_service.dart';
-import 'package:street_calle/main.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/deal.dart';
+import 'package:street_calle/dependency_injection.dart';
 
 
 class DealService extends BaseService<Deal> {
 
   DealService() {
-    ref = fireStore.collection(Collections.deals).withConverter<Deal>(
+    ref = sl.get<FirebaseFirestore>().collection(Collections.deals).withConverter<Deal>(
       fromFirestore: (snapshot, options) =>
           Deal.fromJson(snapshot.data()!, snapshot.id),
       toFirestore: (value, options) => value.toJson(),
@@ -58,7 +59,7 @@ class DealService extends BaseService<Deal> {
 
   Future<String?> _uploadImageToFirebase(String image, String userId) async {
     try {
-      final storageReference = storage
+      final storageReference = sl.get<FirebaseStorage>()
           .ref()
           .child('images/$userId/${Timestamp.now().millisecondsSinceEpoch}.jpg');
 
@@ -80,7 +81,7 @@ class DealService extends BaseService<Deal> {
   Future<bool> deleteDeal(Deal deal) async {
     try{
       if (deal.image != null) {
-        await storage.refFromURL(deal.image!).delete();
+        await sl.get<FirebaseStorage>().refFromURL(deal.image!).delete();
       }
       ref!.doc(deal.id).delete();
       return true;

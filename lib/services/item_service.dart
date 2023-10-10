@@ -1,16 +1,17 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:street_calle/services/base_service.dart';
-import 'package:street_calle/main.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/item.dart';
+import 'package:street_calle/dependency_injection.dart';
 
 
 class ItemService extends BaseService<Item> {
 
   ItemService() {
-    ref = fireStore.collection(Collections.items).withConverter<Item>(
+    ref = sl.get<FirebaseFirestore>().collection(Collections.items).withConverter<Item>(
       fromFirestore: (snapshot, options) =>
           Item.fromJson(snapshot.data()!, snapshot.id),
       toFirestore: (value, options) => value.toJson(),
@@ -58,7 +59,7 @@ class ItemService extends BaseService<Item> {
 
   Future<String?> _uploadImageToFirebase(String image, String userId) async {
     try {
-      final storageReference = storage
+      final storageReference = sl.get<FirebaseStorage>()
           .ref()
           .child('images/$userId/${Timestamp.now().millisecondsSinceEpoch}.jpg');
 
@@ -80,7 +81,7 @@ class ItemService extends BaseService<Item> {
   Future<bool> deleteItem(Item item) async {
     try{
       if (item.image != null) {
-        await storage.refFromURL(item.image!).delete();
+        await sl.get<FirebaseStorage>().refFromURL(item.image!).delete();
       }
       ref!.doc(item.id).delete();
       return true;
