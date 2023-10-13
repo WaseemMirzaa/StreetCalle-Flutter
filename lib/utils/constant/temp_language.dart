@@ -6,6 +6,8 @@ class TempLanguage {
   String get lblClient => 'Client';
   String get lblVendor => 'Vendor';
   String get lblLogin => 'Login';
+  String get lblUpdate => 'Update';
+  String get lblEditProfileSuccessfully => 'Edit profile successfully';
   String get lblCreateAccount => 'Create an Account';
   String get lblQuote => 'Discover the best foods from over 1,000 restaurants and fast delivery to your doorstep';
   String get lblAddYourLoginDetails => 'Add your details to login';

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:street_calle/services/base_service.dart';
 import 'package:street_calle/models/user.dart';
@@ -60,6 +61,32 @@ class UserService extends BaseService<User> {
       });
     } catch (e) {
 
+    }
+  }
+
+  Future<Either<String, User>> updateProfile(String name, String userId, {required bool isUpdated, required String image}) async{
+    try {
+
+      if (isUpdated) {
+        final url = await _uploadImageToFirebase(image, userId ?? '');
+        if (url == null) {
+          return const Left('Something went wrong. Try again later.');
+        }
+        User user = User(image: url, name: name);
+        await ref!.doc(userId).update({
+          UserKey.image: url,
+          UserKey.name: name
+        });
+        return Right(user);
+      }
+
+      User user = User(image: image, name: name);
+      await ref!.doc(userId).update({
+        UserKey.name: name
+      });
+      return Right(user);
+    } catch (e) {
+      return const Left('Something went wrong. Try again later.');
     }
   }
 }

@@ -12,6 +12,7 @@ import 'package:street_calle/screens/auth/password_reset_screen.dart';
 import 'package:street_calle/screens/auth/login_screen.dart';
 import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
+import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_custom_item_cubit.dart';
@@ -117,6 +118,9 @@ Future<void> main() async {
         BlocProvider(
           create: (context)=> ProfileStatusCubit(userService, sharedPreferencesService),
           child: const UserprofileTab(),
+        ),
+        BlocProvider(
+          create: (context)=> EditProfileCubit(userService, sharedPreferencesService),
         ),
       ],
       child: const MyApp(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -7,13 +8,9 @@ import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/cubit/user_state.dart';
-
-
-OutlineInputBorder titleBorder =  OutlineInputBorder(
-  borderSide: BorderSide.none,
-  borderRadius: BorderRadius.circular(40),
-);
-
+import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
+import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
 
 
 class UserprofileTab extends StatelessWidget {
@@ -35,7 +32,7 @@ class UserprofileTab extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              context.read<UserCubit>().state.userImage.isEmpty
+              context.watch<UserCubit>().state.userImage.isEmpty
               ? Container(
                 width: 100,
                 height: 100,
@@ -72,17 +69,27 @@ class UserprofileTab extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(AppAssets.editPencil, width: 15, height: 15,),
-                  const SizedBox(width: 6,),
-                  Text(
-                    TempLanguage().lblEditProfile,
-                    style: context.currentTextTheme.displaySmall?.copyWith(fontSize: 18, color: AppColors.primaryColor),
-                  )
-                ],
+              GestureDetector(
+                onTap: (){
+                  final imageCubit = context.read<ImageCubit>();
+                  final userCubit = context.read<UserCubit>();
+                  imageCubit.resetForUpdateImage(userCubit.state.userImage ?? '',);
+                  context.read<EditProfileCubit>().nameController.text = userCubit.state.userName;
+
+                  context.pushNamed(AppRoutingName.editProfile);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(AppAssets.editPencil, width: 15, height: 15,),
+                    const SizedBox(width: 6,),
+                    Text(
+                      TempLanguage().lblEditProfile,
+                      style: context.currentTextTheme.displaySmall?.copyWith(fontSize: 18, color: AppColors.primaryColor),
+                    )
+                  ],
+                ),
               ),
 
               const SizedBox(
@@ -169,7 +176,7 @@ class UserprofileTab extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 34, right: 16.0, bottom: 16),
                       child: Text(
-                          context.read<UserCubit>().state.userName,
+                          context.watch<UserCubit>().state.userName,
                           style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
                       ),
                     ),
@@ -208,7 +215,7 @@ class UserprofileTab extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 34, right: 16.0, bottom: 16),
                       child: Text(
-                        context.read<UserCubit>().state.userEmail,
+                        context.watch<UserCubit>().state.userEmail,
                         style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
                       ),
                     ),
@@ -247,7 +254,7 @@ class UserprofileTab extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 34, right: 16.0, bottom: 16),
                       child: Text(
-                        context.read<UserCubit>().state.userPhone,
+                        context.watch<UserCubit>().state.userPhone,
                         style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
                       ),
                     ),

@@ -5,6 +5,7 @@ import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/password_reset_screen.dart';
 import 'package:street_calle/screens/auth/login_screen.dart';
 import 'package:street_calle/screens/home/main_screen.dart';
+import 'package:street_calle/screens/home/profile/edit_profile.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_deal.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_item.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_detail.dart';
@@ -134,6 +135,13 @@ final router = GoRouter(
       builder: (context, state) {
         final deal = state.extra as Deal;
         return DealDetail(deal: deal);
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.editProfile,
+      name: AppRoutingName.editProfile,
+      builder: (context, state) {
+        return const EditProfile();
       },
     ),
   ],

@@ -18,9 +18,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
-  static const List<Widget> _widgetOptions = <Widget>[
+  static const List<Widget> _vendorWidgets = <Widget>[
     VendorHomeTab(),
     VendorMenuTab(),
     UserprofileTab(),
@@ -36,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: _vendorWidgets.elementAt(_selectedIndex),
       bottomNavigationBar: Theme(
         data: ThemeData(
           splashColor: Colors.transparent,
