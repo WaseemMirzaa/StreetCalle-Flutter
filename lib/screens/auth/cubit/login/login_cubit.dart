@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/services/auth_service.dart';
-import 'package:street_calle/main.dart';
+import 'package:street_calle/services/user_service.dart';
 part 'login_state.dart';
 
 
@@ -12,8 +12,9 @@ class LoginCubit extends Cubit<LoginState>{
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final AuthService authService;
+  final UserService userService;
 
-  LoginCubit(this.authService) : super(LoginInitial());
+  LoginCubit(this.authService, this.userService) : super(LoginInitial());
 
   @override
   Future<void> close() {

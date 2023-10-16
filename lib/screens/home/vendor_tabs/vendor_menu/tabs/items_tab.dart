@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:street_calle/main.dart';
 import 'package:street_calle/models/item.dart';
+import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
@@ -27,6 +27,7 @@ class ItemsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sharedPreferencesService = sl.get<SharedPreferencesService>();
+    final itemService = sl.get<ItemService>();
     final userId = sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_ID);
 
     return StreamBuilder<List<Item>>(
@@ -58,7 +59,7 @@ class ItemsTab extends StatelessWidget {
                   item: item,
                   onTap: () => _goToItemDetail(context, item),
                   onUpdate: () => _onUpdate(context, item),
-                  onDelete: () => _showDeleteConfirmationDialog(context, item),
+                  onDelete: () => _showDeleteConfirmationDialog(context, item, itemService),
                 );
               },
             ),
@@ -74,7 +75,7 @@ class ItemsTab extends StatelessWidget {
     );
   }
 
-  void _showDeleteConfirmationDialog(BuildContext context, Item item) {
+  void _showDeleteConfirmationDialog(BuildContext context, Item item, ItemService itemService) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

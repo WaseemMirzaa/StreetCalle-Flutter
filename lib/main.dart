@@ -25,23 +25,13 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/vendor_home_tab.dart';
-import 'package:street_calle/services/auth_service.dart';
-import 'package:street_calle/services/deal_service.dart';
-import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
-import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/routing/routing.dart';
 import 'package:street_calle/utils/themes/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/firebase_options.dart';
 import 'package:street_calle/dependency_injection.dart';
 
-
-UserService userService = UserService();
-AuthService authService = AuthService();
-ItemService itemService = ItemService();
-DealService dealService = DealService();
-PricingCategoryCubit pricingCategoryCubit = PricingCategoryCubit();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,37 +45,37 @@ Future<void> main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context)=> SignUpCubit(authService),
+          create: (context)=> sl<SignUpCubit>(),
           child: const SignUpScreen(),
         ),
         BlocProvider(
           create: (context)=> ImageCubit(),
         ),
         BlocProvider(
-          create: (context)=> LoginCubit(authService),
+          create: (context)=> sl<LoginCubit>(),
           child: const LoginScreen(),
         ),
         BlocProvider(
-          create: (context)=> PasswordResetCubit(authService),
+          create: (context)=> sl<PasswordResetCubit>(),
           child: const PasswordResetScreen(),
         ),
         BlocProvider(
-          create: (context)=> EmailVerificationCubit(authService),
+          create: (context)=> sl<EmailVerificationCubit>(),
         ),
         BlocProvider(
-          create: (context)=> GuestCubit(authService),
+          create: (context)=> sl<GuestCubit>(),
         ),
         BlocProvider(
           create: (context)=> TimerCubit(60),
         ),
         BlocProvider(
-          create: (context)=> GoogleLoginCubit(authService),
+          create: (context)=> sl<GoogleLoginCubit>(),
         ),
         BlocProvider(
-          create: (context)=> UserCubit(sharedPreferencesService),
+          create: (context)=> sl<UserCubit>(),
         ),
         BlocProvider(
-          create: (context)=> AddItemCubit(itemService, sharedPreferencesService, pricingCategoryCubit),
+          create: (context)=> sl<AddItemCubit>(),
           child: const VendorHomeTab(),
         ),
         // BlocProvider(
@@ -104,10 +94,10 @@ Future<void> main() async {
           create: (context)=> FoodTypeDropDownCubit(),
         ),
         BlocProvider(
-          create: (context)=> pricingCategoryCubit,
+          create: (context)=> sl<PricingCategoryCubit>(),
         ),
         BlocProvider(
-          create: (context)=> AddDealCubit(sharedPreferencesService, dealService),
+          create: (context)=> sl<AddDealCubit>(),
         ),
         BlocProvider(
           create: (context)=> AddCustomItemCubit(),
@@ -116,11 +106,11 @@ Future<void> main() async {
           create: (context)=> SearchCubit(),
         ),
         BlocProvider(
-          create: (context)=> ProfileStatusCubit(userService, sharedPreferencesService),
+          create: (context)=> sl<ProfileStatusCubit>(),
           child: const UserprofileTab(),
         ),
         BlocProvider(
-          create: (context)=> EditProfileCubit(userService, sharedPreferencesService),
+          create: (context)=> sl<EditProfileCubit>(),
         ),
       ],
       child: const MyApp(),

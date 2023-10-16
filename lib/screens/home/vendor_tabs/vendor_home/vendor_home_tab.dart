@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/cubit/user_state.dart';
-import 'package:street_calle/main.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
@@ -11,6 +10,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/delete_confirmation_dialog.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_view.dart';
+import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -39,6 +39,8 @@ class VendorHomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sharedPreferencesService = sl.get<SharedPreferencesService>();
+    final itemService = sl.get<ItemService>();
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 36.0,),
@@ -195,7 +197,7 @@ class VendorHomeTab extends StatelessWidget {
                                 index: index,
                                 item: item,
                                 onUpdate: () => _onUpdate(context, item),
-                                onDelete: () => _showDeleteConfirmationDialog(context, item),
+                                onDelete: () => _showDeleteConfirmationDialog(context, item, itemService),
                                 onTap: ()=> _goToItemDetail(context, item),
                             );
                           },
@@ -218,7 +220,7 @@ class VendorHomeTab extends StatelessWidget {
     );
   }
 
-  void _showDeleteConfirmationDialog(BuildContext context, Item item) {
+  void _showDeleteConfirmationDialog(BuildContext context, Item item, ItemService itemService) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

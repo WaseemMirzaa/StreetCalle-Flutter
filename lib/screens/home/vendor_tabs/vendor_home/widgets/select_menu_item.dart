@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
-import 'package:street_calle/main.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -19,6 +19,8 @@ class SelectMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sharedPreferencesService = sl.get<SharedPreferencesService>();
+    final itemService = sl.get<ItemService>();
+
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,

@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:street_calle/main.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/deal_widget.dart';
+import 'package:street_calle/services/deal_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
@@ -25,6 +25,7 @@ class DealsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sharedPreferencesService = sl.get<SharedPreferencesService>();
+    final dealService = sl.get<DealService>();
     final userId = sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_ID);
 
     return StreamBuilder<List<Deal>>(
@@ -54,7 +55,7 @@ class DealsTab extends StatelessWidget {
                 return DealWidget(
                   deal: deal,
                   onTap: ()=> _goToDealDetail(context, deal),
-                  onDelete: ()=> _showDeleteConfirmationDialog(context, deal),
+                  onDelete: ()=> _showDeleteConfirmationDialog(context, deal, dealService),
                   onUpdate: ()=> _onUpdate(context, deal),
                 );
               },
@@ -71,7 +72,7 @@ class DealsTab extends StatelessWidget {
     );
   }
 
-  void _showDeleteConfirmationDialog(BuildContext context, Deal deal) {
+  void _showDeleteConfirmationDialog(BuildContext context, Deal deal, DealService dealService) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

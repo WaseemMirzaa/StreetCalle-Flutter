@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:street_calle/main.dart';
 import 'package:street_calle/models/user.dart' as userModel;
+import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/dependency_injection.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -164,7 +165,9 @@ class AuthService {
 
   Future<Either<String, User?>> signInWithGoogle() async {
 
-    FirebaseAuth auth = FirebaseAuth.instance;
+    //FirebaseAuth auth = FirebaseAuth.instance;
+    final auth = sl.get<FirebaseAuth>();
+    final userService = sl.get<UserService>();
 
     User? user;
     // Trigger the authentication flow
