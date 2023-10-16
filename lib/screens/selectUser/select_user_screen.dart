@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/screens/selectUser/widgets/build_selected_image.dart';
@@ -9,6 +10,7 @@ import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/cubit/user_state.dart';
 
 class SelectUserScreen extends StatefulWidget {
   const SelectUserScreen({Key? key}) : super(key: key);
@@ -29,10 +31,10 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
             height: 120,
           ),
           Expanded(
-            child: SvgPicture.asset(AppAssets.logo, width: 120, height: 120,),
+            child: SvgPicture.asset(AppAssets.logo, width: 150, height: 150,),
           ),
           const SizedBox(
-            height: 20,
+            height: 0,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -59,6 +61,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                     isSelected : _user == UserType.client,
                     title: TempLanguage().lblClient,
                     onTap: () {
+                      context.read<UserCubit>().setIsVendor(false);
                       setState(() {
                         _user = UserType.client;
                       });
@@ -69,6 +72,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                    isSelected :  _user == UserType.vendor,
                     title: TempLanguage().lblVendor,
                    onTap: () {
+                     context.read<UserCubit>().setIsVendor(true);
                       setState(() {
                         _user = UserType.vendor;
                       });
@@ -90,7 +94,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                       backgroundColor: AppColors.primaryColor,
                     ),
                     onPressed: (){
-                      context.pushNamed(AppRoutingName.mainScreen, pathParameters: {'user': _user.name});
+                      context.pushNamed(_user.name == UserType.client.name ? AppRoutingName.clientMainScreen : AppRoutingName.mainScreen, pathParameters: {USER: _user.name});
                     },
                     child: Text(
                       TempLanguage().lblNext,

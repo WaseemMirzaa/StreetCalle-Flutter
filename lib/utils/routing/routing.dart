@@ -4,6 +4,9 @@ import 'package:street_calle/screens/auth/email_verification_screen.dart';
 import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/password_reset_screen.dart';
 import 'package:street_calle/screens/auth/login_screen.dart';
+import 'package:street_calle/screens/home/client_main_screen.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu_item_detail.dart';
 import 'package:street_calle/screens/home/main_screen.dart';
 import 'package:street_calle/screens/home/profile/edit_profile.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_deal.dart';
@@ -56,7 +59,7 @@ final router = GoRouter(
       path: AppRoutingName.emailVerificationScreen,
       name: AppRoutingName.emailVerificationScreen,
       builder: (context, state) {
-        final email = state.pathParameters['email']!;
+        final email = state.pathParameters[EMAIL]!;
         return EmailVerificationScreen(email: email);
       },
     ),
@@ -71,8 +74,23 @@ final router = GoRouter(
       //        ),
       // ],
       builder: (context, state) {
-        final user = state.pathParameters['user']!;
+        final user = state.pathParameters[USER]!;
         return MainScreen(user: user);
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.clientMainScreen,
+      name: AppRoutingName.clientMainScreen,
+      // routes: [
+      //    GoRoute(
+      //          name: AppRoutingName.addItem,
+      //          path: AppRoutingName.addItem,
+      //          builder: (BuildContext context, GoRouterState state) => const AddItem()
+      //        ),
+      // ],
+      builder: (context, state) {
+        final user = state.pathParameters[USER]!;
+        return ClientMainScreen(user: user);
       },
     ),
     GoRoute(
@@ -142,6 +160,20 @@ final router = GoRouter(
       name: AppRoutingName.editProfile,
       builder: (context, state) {
         return const EditProfile();
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.clientMenu,
+      name: AppRoutingName.clientMenu,
+      builder: (context, state) {
+        return const ClientMenu();
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.clientMenuItemDetail,
+      name: AppRoutingName.clientMenuItemDetail,
+      builder: (context, state) {
+        return const ClientMenuItemDetail();
       },
     ),
   ],

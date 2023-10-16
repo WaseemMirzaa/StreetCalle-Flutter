@@ -26,13 +26,6 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 
-
-OutlineInputBorder searchBorder = OutlineInputBorder(
-  borderRadius: BorderRadius.circular(40.0),
-  borderSide: const BorderSide(color: AppColors.primaryColor),
-);
-
-
 class VendorHomeTab extends StatelessWidget {
   const VendorHomeTab({Key? key}) : super(key: key);
 
@@ -79,7 +72,7 @@ class VendorHomeTab extends StatelessWidget {
                       margin: const EdgeInsets.only(left: 5),
                       child: const Icon(Icons.search, color: AppColors.secondaryFontColor,)),
                   hintStyle: context.currentTextTheme.displaySmall,
-                  hintText: 'Search Item / Deal',
+                  hintText: TempLanguage().lblSearchItemDeal,
                   fillColor: Colors.white70,
                   border: searchBorder,
                   focusedBorder: searchBorder,

@@ -13,4 +13,5 @@ class AppColors {
   static const blackColor = Color(0xff000000);
   static const dividerColor = Color(0xffEEEEEE);
   static const redColor = Color(0xffFF0000);
+  static const containerBackgroundColor = Color(0xffE9E9E9);
 }

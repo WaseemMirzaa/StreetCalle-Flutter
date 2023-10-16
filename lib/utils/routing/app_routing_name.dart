@@ -9,6 +9,7 @@ class AppRoutingName {
   static const passwordResetScreen = '/passwordResetScreen';
   static const emailVerificationScreen = '/emailVerificationScreen/:$EMAIL';
   static const mainScreen = '/mainScreen/:$USER';
+  static const clientMainScreen = '/clientMainScreen/:$USER';
   static const addItem = '/addItem/:$IS_UPDATE/:$IS_FROM_DETAIL';
   static const privacyPolicy = '/privacyPolicy';
   static const termsAndConditions = '/termsAndConditions';
@@ -18,4 +19,6 @@ class AppRoutingName {
   static const selectMenuItem = '/selectMenuItem';
   static const dealDetail = '/dealDetail';
   static const editProfile = '/editProfile';
+  static const clientMenu = '/clientMenu';
+  static const clientMenuItemDetail = '/clientMenuItemDetail';
 }

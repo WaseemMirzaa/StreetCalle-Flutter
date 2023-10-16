@@ -65,7 +65,12 @@ class TempLanguage {
   String get lblSelectMenuItem => 'Select Menu Item';
   String get lblPrivacyPolicy => 'Privacy Policy';
   String get lblTermsAndConditions => 'Terms & Conditions';
-  String get lblSubscription => 'Subscription Plans';
+  String get lblSubscriptionPlans => 'Subscription Plans';
+  String get lblSubscription => 'Subscription';
+  String get lblSignOut => 'Sign Out';
+  String get lblSearchItemDeal => 'Search Item / Deal';
+  String get lblSearchFood => 'Search Food';
+  String get lblSearchFoodTrucks => 'Search food trucks';
   String get lblChooseAPlane => 'Choose A Plan';
   String get lblAddUnlimitedMenuItems => 'Add unlimited menu items';
   String get lblMakeYourTruckVisible => 'Make your truck visible to clients';
@@ -74,6 +79,7 @@ class TempLanguage {
   String get lblTwelveMonths => '12 months';
   String get lblForStarter => 'Perfect for starter';
   String get lblProfile => 'Profile';
+  String get lblFavourites => 'Favourites';
   String get lblMobileNo => 'Mobile No';
   String get lblEditProfile => 'Edit Profile';
   String get lblOnline => 'Online';

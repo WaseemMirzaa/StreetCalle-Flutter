@@ -25,4 +25,20 @@ class AppAssets {
   static const editPencil = 'assets/images/edit_pencil.png';
   static const edit = 'assets/images/edit.png';
   static const delete = 'assets/images/delete.png';
+  static const topMenuIcon = 'assets/images/filter_icon.png';
+  static const filterIcon = 'assets/images/filter.png';
+  static const locationMarker = 'assets/images/location_marker.png';
+  static const marker = 'assets/images/marker.png';
+  static const searchIcon = 'assets/images/search_icon.png';
+  static const customTriangle = 'assets/images/triangle_custom_shape.png';
+  static const customRectangle = 'assets/images/custom_rectangle.png';
+  static const teaImage = 'assets/images/tea.png';
+  static const online = 'assets/images/online.png';
+  static const offline = 'assets/images/offline.png';
+  static const favourite = 'assets/images/favourite.png';
+  static const bottomSearch = 'assets/images/bottom_search.png';
+
+
+  static const burgerImage = 'assets/images/burger_image.png';
+  static const backgroundImage = 'assets/images/background_image.png';
 }

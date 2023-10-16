@@ -24,7 +24,7 @@ class DealWidget extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 80,
+                width: 90,
                 height: 90,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10)
@@ -93,7 +93,7 @@ class DealWidget extends StatelessWidget {
                     ),
                     Text(
                         '${deal.foodType}',
-                        style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16)
+                        style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14)
                     ),
                   ],
                 ),

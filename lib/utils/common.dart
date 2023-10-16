@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/utils/constant/app_colors.dart';
 
 void showToast(BuildContext context, String title) {
   final scaffold = ScaffoldMessenger.of(context);
@@ -44,3 +45,13 @@ num calculateDiscountAmount(num? actualPrice, num? disCountedPrice) {
   num price = (actualPrice > disCountedPrice)  ? actualPrice - disCountedPrice : actualPrice;
   return price.abs();
 }
+
+OutlineInputBorder searchBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.circular(40.0),
+  borderSide: const BorderSide(color: AppColors.primaryColor),
+);
+
+OutlineInputBorder clientSearchBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.circular(40.0),
+  borderSide: BorderSide.none,
+);

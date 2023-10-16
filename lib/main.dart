@@ -1,4 +1,6 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/auth/cubit/email_verification/email_verification_cubit.dart';
@@ -113,7 +115,10 @@ Future<void> main() async {
           create: (context)=> sl<EditProfileCubit>(),
         ),
       ],
-      child: const MyApp(),
+      child: DevicePreview(
+        enabled: !kReleaseMode,
+        builder: (context) => const MyApp(), // Wrap your app
+      ),
     ),
   );
 }
@@ -125,6 +130,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
       title: 'Street Calle',
       theme: AppThemes.lightTheme,
       darkTheme: AppThemes.darkTheme,

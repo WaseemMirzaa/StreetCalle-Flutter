@@ -15,7 +15,7 @@ class VendorSubscription extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          TempLanguage().lblSubscription,
+          TempLanguage().lblSubscriptionPlans,
           style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
         titleSpacing: 0,
