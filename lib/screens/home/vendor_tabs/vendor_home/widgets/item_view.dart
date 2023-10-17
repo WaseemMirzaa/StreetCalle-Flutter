@@ -7,9 +7,18 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
 
 class ItemView extends StatelessWidget {
-  const ItemView({Key? key, required this.index, required this.item, required this.onUpdate, required this.onDelete, required this.onTap}) : super(key: key);
+  const ItemView({
+    Key? key,
+    required this.index,
+    required this.item,
+    required this.onUpdate,
+    required this.onDelete,
+    required this.onTap
+  }) : super(key: key);
+
   final int index;
   final Item item;
   final VoidCallback onUpdate;
@@ -24,7 +33,7 @@ class ItemView extends StatelessWidget {
         Row(
           children: [
             const SizedBox(width: 6,),
-            index ==0
+            index == 0
                 ? TextButton(
                 onPressed: (){},
                 child: Text(TempLanguage().lblViewAll,
@@ -53,7 +62,7 @@ class ItemView extends StatelessWidget {
         InkWell(
           onTap: onTap,
           child: SizedBox(
-              height: 150,
+              height: 200,
               width: context.width,
               child: CachedNetworkImage(
                 imageUrl: item.image ?? '',
@@ -67,55 +76,85 @@ class ItemView extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(item.title ?? '',
+              Text(item.title.capitalizeEachFirstLetter() ?? '',
                 style: const TextStyle(
                     fontFamily: METROPOLIS_BOLD,
                     fontSize: 23,
                     color: AppColors.primaryFontColor
                 ),
               ),
-
-              (item.discountedPrice != null && item.discountedPrice != defaultPrice)
-                  ? Row(
-                children: [
-                  Text('\$${calculateDiscountAmount(item.actualPrice, item.discountedPrice)}',
-                    style: const TextStyle(
-                        fontFamily: METROPOLIS_BOLD,
-                        fontSize: 23,
-                        color: AppColors.primaryFontColor
-                    ),
-                  ),
-                  const SizedBox(width: 6,),
-                  Text('\$${item.actualPrice}',
-                    style: const TextStyle(
-                        fontFamily: METROPOLIS_BOLD,
-                        fontSize: 16,
-                        color: AppColors.primaryFontColor,
-                        decoration: TextDecoration.lineThrough,
-                        decorationColor: AppColors.redColor,
-                      decorationThickness: 4.0,
-                    ),
-                  ),
-                ],
-              )
-                  : Text('\$${item.actualPrice}',
-                style: const TextStyle(
-                    fontFamily: METROPOLIS_BOLD,
-                    fontSize: 23,
-                    color: AppColors.primaryFontColor
-                ),
-              ),
+              PricingWidget(item: item),
             ],
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Text(item.foodType ?? '',
-            style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 15),
+          child: Text(item.foodType.capitalizeEachFirstLetter() ?? '',
+            style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),
           ),
         ),
-        const SizedBox(height: 24,),
+        const SizedBox(height: 12,),
       ],
+    );
+  }
+}
+
+class PricingWidget extends StatelessWidget {
+  const PricingWidget({Key? key, required this.item}) : super(key: key);
+  final Item item;
+
+  @override
+  Widget build(BuildContext context) {
+    bool isSmallItemAvailable = item.smallItemActualPrice != null && item.smallItemActualPrice != defaultPrice;
+    bool isSmallItemDiscountedAvailable = item.smallItemDiscountedPrice != null && item.smallItemDiscountedPrice != defaultPrice;
+    bool isMediumItemAvailable = item.mediumItemActualPrice != null && item.mediumItemActualPrice != defaultPrice;
+    bool isDiscountAvailable = item.discountedPrice != null && item.discountedPrice != defaultPrice;
+
+    return (isSmallItemAvailable && isMediumItemAvailable)
+        ? (isSmallItemDiscountedAvailable)
+        ? Text('${TempLanguage().lblStartingFrom} \$${calculateDiscountAmount(item.smallItemActualPrice, item.smallItemDiscountedPrice)}',
+      style: const TextStyle(
+          fontFamily: METROPOLIS_BOLD,
+          fontSize: 16,
+          color: AppColors.primaryFontColor
+      ),
+    )
+        : Text('${TempLanguage().lblStartingFrom} \$${item.smallItemActualPrice}',
+      style: const TextStyle(
+          fontFamily: METROPOLIS_BOLD,
+          fontSize: 20,
+          color: AppColors.primaryFontColor
+      ),
+    )
+        : (isDiscountAvailable)
+        ? Row(
+      children: [
+        Text('\$${calculateDiscountAmount(item.actualPrice, item.discountedPrice)}',
+          style: const TextStyle(
+              fontFamily: METROPOLIS_BOLD,
+              fontSize: 23,
+              color: AppColors.primaryFontColor
+          ),
+        ),
+        const SizedBox(width: 6,),
+        Text('\$${item.actualPrice}',
+          style: const TextStyle(
+            fontFamily: METROPOLIS_BOLD,
+            fontSize: 16,
+            color: AppColors.primaryFontColor,
+            decoration: TextDecoration.lineThrough,
+            decorationColor: AppColors.redColor,
+            decorationThickness: 4.0,
+          ),
+        ),
+      ],
+    )
+        : Text('\$${item.actualPrice}',
+      style: const TextStyle(
+          fontFamily: METROPOLIS_BOLD,
+          fontSize: 23,
+          color: AppColors.primaryFontColor
+      ),
     );
   }
 }

@@ -48,8 +48,7 @@ class FoodTypeDropDown extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding:
-                const EdgeInsets.only(left: 24, right: 16.0, bottom: 16),
+                padding: const EdgeInsets.only(left: 24, right: 16.0, bottom: 16),
                 child: BlocBuilder<FoodTypeCubit, List<String>>(
                   builder: (context, state) {
                     return DropdownButtonFormField<String>(
@@ -62,7 +61,7 @@ class FoodTypeDropDown extends StatelessWidget {
                         );
                       }).toList(),
                       style: context.currentTextTheme.labelSmall?.copyWith(
-                          fontSize: 16, color: AppColors.primaryFontColor),
+                          fontSize: 18, color: AppColors.primaryFontColor),
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.only(left: 10),
                         isDense: true,
@@ -125,7 +124,7 @@ class FoodTypeDropDown extends StatelessWidget {
                               ? context.read<AddItemCubit>().customFoodTypeController
                               : context.read<AddDealCubit>().customFoodTypeController,
                           onSubmitted: (text)=> _onSubmitted(context, text, isFromItem),
-                          style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
+                          style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 18, color: AppColors.primaryFontColor),
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.only(left: 10),
                             isDense: true,

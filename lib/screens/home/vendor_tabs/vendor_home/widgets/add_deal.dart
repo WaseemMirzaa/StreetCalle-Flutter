@@ -98,7 +98,7 @@ class AddDeal extends StatelessWidget {
                       child: TextField(
                         controller: context.read<AddDealCubit>().titleController,
                         style: context.currentTextTheme.labelSmall?.copyWith(
-                            fontSize: 16, color: AppColors.primaryFontColor),
+                            fontSize: 18, color: AppColors.primaryFontColor),
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(left: 10),
                           isDense: true,
@@ -144,7 +144,7 @@ class AddDeal extends StatelessWidget {
                             TempLanguage().lblMenuItem,
                             style: context.currentTextTheme.displaySmall
                                 ?.copyWith(
-                                fontSize: 10,
+                                fontSize: 13,
                                 color: AppColors.whiteColor),
                           ),
                         ),
@@ -161,14 +161,14 @@ class AddDeal extends StatelessWidget {
                               backgroundColor: AppColors.primaryColor,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                               elevation: 8,
-                              shadowColor: AppColors.blackColor
+                              shadowColor: AppColors.blackColor,
                           ),
                           onPressed: () => context.read<AddCustomItemCubit>().expand(),
                           child: Text(
                             TempLanguage().lblCustomItem,
                             style: context.currentTextTheme.displaySmall
                                 ?.copyWith(
-                                fontSize: 10,
+                                fontSize: 11,
                                 color: AppColors.whiteColor),
                           ),
                         ),
@@ -189,7 +189,7 @@ class AddDeal extends StatelessWidget {
                     Text(TempLanguage().lblPrice,
                         style: context.currentTextTheme.labelLarge
                             ?.copyWith(
-                            fontSize: 14,
+                            fontSize: 16,
                             color: AppColors.primaryFontColor)),
                     const SizedBox(
                       width: 12,
@@ -241,6 +241,7 @@ class AddDeal extends StatelessWidget {
                                 decoration: InputDecoration(
                                   contentPadding:
                                   const EdgeInsets.only(left: 10),
+                                  prefix: const Text('\$'),
                                   isDense: true,
                                   filled: true,
                                   fillColor: AppColors.whiteColor,
@@ -277,8 +278,7 @@ class AddDeal extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 18, top: 12.0),
+                              padding: const EdgeInsets.only(left: 18, top: 12.0),
                               child: Text(
                                 TempLanguage().lblDiscountedPrice,
                                 style: context.currentTextTheme.displaySmall
@@ -288,11 +288,7 @@ class AddDeal extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 10,
-                                  right: 16.0,
-                                  bottom: 12,
-                                  top: 6),
+                              padding: const EdgeInsets.only(left: 10, right: 16.0, bottom: 12, top: 6),
                               child: TextField(
                                 controller: context
                                     .read<AddDealCubit>()
@@ -305,6 +301,7 @@ class AddDeal extends StatelessWidget {
                                 decoration: InputDecoration(
                                   contentPadding:
                                   const EdgeInsets.only(left: 10),
+                                  prefix: const Text('\$'),
                                   isDense: true,
                                   filled: true,
                                   fillColor: AppColors.whiteColor,
@@ -357,7 +354,7 @@ class AddDeal extends StatelessWidget {
                       child: TextField(
                         controller: context.read<AddDealCubit>().descriptionController,
                         style: context.currentTextTheme.labelSmall?.copyWith(
-                            fontSize: 16, color: AppColors.primaryFontColor),
+                            fontSize: 18, color: AppColors.primaryFontColor),
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(left: 10),
                           isDense: true,
@@ -464,7 +461,10 @@ class AddCustomItem extends StatelessWidget {
                       onSubmitted: (String? value) {
                         if (value != null) {
                           final addDealCubit = context.read<AddDealCubit>();
+                          final addCustomItemCubit = context.read<AddCustomItemCubit>();
                           addDealCubit.titleController.text += ' $value';
+                          addDealCubit.customTitleController.clear();
+                          addCustomItemCubit.collapse();
                         }
                       },
                       decoration: InputDecoration(

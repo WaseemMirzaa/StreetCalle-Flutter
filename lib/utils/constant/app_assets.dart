@@ -37,6 +37,8 @@ class AppAssets {
   static const offline = 'assets/images/offline.png';
   static const favourite = 'assets/images/favourite.png';
   static const bottomSearch = 'assets/images/bottom_search.png';
+  static const clientIcon = 'assets/images/client_icon.png';
+  static const vendorIcon = 'assets/images/vendor_icon.png';
 
 
   static const burgerImage = 'assets/images/burger_image.png';

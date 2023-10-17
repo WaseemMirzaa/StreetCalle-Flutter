@@ -45,7 +45,7 @@ class _ItemDetailState extends State<ItemDetail> {
         child: Stack(
           children: [
             SizedBox(
-              height: 250,
+              height: 350,
               width: context.width,
               child: item.image.isEmptyOrNull ? Image.asset(AppAssets.camera, fit: BoxFit.cover,) : Image.network(item.image!, fit: BoxFit.cover,),
             ),
@@ -66,7 +66,7 @@ class _ItemDetailState extends State<ItemDetail> {
               left: 0,
               right: 0,
               child: Container(
-                height: MediaQuery.of(context).size.height - 220,
+                height: MediaQuery.of(context).size.height - 320,
                 decoration: const BoxDecoration(
                   color: AppColors.whiteColor,
                   borderRadius: BorderRadius.only(
@@ -81,12 +81,12 @@ class _ItemDetailState extends State<ItemDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        item.title ?? '',
+                        item.title.capitalizeEachFirstLetter() ?? '',
                         style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor),
                       ),
                       Text(
-                        item.foodType ?? '',
-                        style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor),
+                        item.foodType.capitalizeEachFirstLetter() ?? '',
+                        style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),
                       ),
                       const SizedBox(
                         height: 20,
@@ -123,11 +123,11 @@ class _ItemDetailState extends State<ItemDetail> {
                       ),
                       item.description.isEmptyOrNull
                           ? const SizedBox.shrink()
-                          : const Text(
-                        'Description',
-                        style: TextStyle(
+                          : Text(
+                        TempLanguage().lblDescription,
+                        style: const TextStyle(
                             fontFamily: METROPOLIS_BOLD,
-                            fontSize: 14, color: AppColors.primaryFontColor, fontWeight: FontWeight.bold
+                            fontSize: 16, color: AppColors.primaryFontColor, fontWeight: FontWeight.bold
                         ),
                       ),
                       const SizedBox(
@@ -136,8 +136,8 @@ class _ItemDetailState extends State<ItemDetail> {
                       item.description.isEmptyOrNull
                           ? const SizedBox.shrink()
                           : Text(
-                        item.description ?? '',
-                        style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.secondaryFontColor, fontSize: 12),
+                        item.description.capitalizeFirstLetter() ?? '',
+                        style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.secondaryFontColor, fontSize: 14),
                       ),
 
                       const SizedBox(
@@ -153,7 +153,7 @@ class _ItemDetailState extends State<ItemDetail> {
             ),
 
             Positioned(
-              top: 190,
+              top: 240,
               right: 15,
               child: InkWell(
                 onTap: () => _onUpdate(context, item),

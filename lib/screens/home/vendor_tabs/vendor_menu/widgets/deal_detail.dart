@@ -42,7 +42,7 @@ class _DealDetailState extends State<DealDetail> {
         child: Stack(
           children: [
             SizedBox(
-              height: 250,
+              height: 350,
               width: context.width,
               child: deal.image.isEmptyOrNull
                   ? Image.asset(AppAssets.camera, fit: BoxFit.cover,)
@@ -65,7 +65,7 @@ class _DealDetailState extends State<DealDetail> {
               left: 0,
               right: 0,
               child: Container(
-                height: MediaQuery.of(context).size.height - 220,
+                height: MediaQuery.of(context).size.height - 320,
                 decoration: const BoxDecoration(
                   color: AppColors.whiteColor,
                   borderRadius: BorderRadius.only(
@@ -80,11 +80,11 @@ class _DealDetailState extends State<DealDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        deal.title ?? '',
+                        deal.title.capitalizeEachFirstLetter() ?? '',
                         style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor),
                       ),
                       Text(
-                        deal.foodType ?? '',
+                        deal.foodType.capitalizeEachFirstLetter() ?? '',
                         style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor),
                       ),
                       const SizedBox(
@@ -120,11 +120,11 @@ class _DealDetailState extends State<DealDetail> {
                       ),
                       deal.description.isEmptyOrNull
                           ? const SizedBox.shrink()
-                          : const Text(
-                        'Description',
-                        style: TextStyle(
+                          : Text(
+                        TempLanguage().lblDescription,
+                        style: const TextStyle(
                             fontFamily: METROPOLIS_BOLD,
-                            fontSize: 14, color: AppColors.primaryFontColor, fontWeight: FontWeight.bold
+                            fontSize: 16, color: AppColors.primaryFontColor, fontWeight: FontWeight.bold
                         ),
                       ),
                       const SizedBox(
@@ -133,7 +133,7 @@ class _DealDetailState extends State<DealDetail> {
                       deal.description.isEmptyOrNull
                           ? const SizedBox.shrink()
                           : Text(
-                        deal.description ?? '',
+                        deal.description.capitalizeFirstLetter() ?? '',
                         style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.secondaryFontColor, fontSize: 12),
                       ),
 
@@ -150,7 +150,7 @@ class _DealDetailState extends State<DealDetail> {
             ),
 
             Positioned(
-              top: 190,
+              top: 240,
               right: 15,
               child: InkWell(
                 onTap: () => _onUpdate(context, deal),

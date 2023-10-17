@@ -17,6 +17,7 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
@@ -36,14 +37,14 @@ class VendorHomeTab extends StatelessWidget {
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 36.0,),
+        padding: const EdgeInsets.only(top: 36.0, bottom: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 20,),
+            //const SizedBox(height: 10,),
             Container(
-              width: 100,
-              height: 100,
+              width: 120,
+              height: 120,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: AppColors.primaryColor,
@@ -51,12 +52,12 @@ class VendorHomeTab extends StatelessWidget {
               child: context.read<UserCubit>().state.userImage.isEmpty
                     ? const Icon(Icons.image_outlined, color: AppColors.whiteColor,)
                     : CircleAvatar(
-                  backgroundImage: Image.network(context.read<UserCubit>().state.userImage).image,
+                  backgroundImage: Image.network(context.read<UserCubit>().state.userImage, fit: BoxFit.cover,).image,
               ),
             ),
-            const SizedBox(height: 12,),
+            const SizedBox(height: 2,),
             Text(
-              context.read<UserCubit>().state.userName,
+              '${TempLanguage().lblHello} ${context.read<UserCubit>().state.userName.capitalizeEachFirstLetter()}!',
               textAlign: TextAlign.center,
               style: context.currentTextTheme.titleMedium?.copyWith(fontSize: 20, color: AppColors.primaryFontColor),
             ),
@@ -68,10 +69,16 @@ class VendorHomeTab extends StatelessWidget {
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(20),
                   filled: true,
-                  prefixIcon: Container(
-                      margin: const EdgeInsets.only(left: 5),
-                      child: const Icon(Icons.search, color: AppColors.secondaryFontColor,)),
-                  hintStyle: context.currentTextTheme.displaySmall,
+                  prefixIcon: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 5),
+                        child: Image.asset(AppAssets.searchIcon, width: 18, height: 18,),
+                      )
+                    ],
+                  ),
+                  hintStyle: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.placeholderColor, fontSize: 15),
                   hintText: TempLanguage().lblSearchItemDeal,
                   fillColor: Colors.white70,
                   border: searchBorder,
@@ -139,7 +146,7 @@ class VendorHomeTab extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 24,
+              height: 12,
             ),
 
             //TODO: Do it with bloc rather than direct use
@@ -152,8 +159,8 @@ class VendorHomeTab extends StatelessWidget {
                       child: CircularProgressIndicator(color: AppColors.primaryColor,),
                     );
                   }
-                  if (snapshot.hasData) {
-                    if (snapshot.data == null) {
+                  if (snapshot.hasData && snapshot.data != null) {
+                    if (snapshot.data!.isEmpty) {
                       return Center(
                         child: Text(
                           TempLanguage().lblNoDataFound,
@@ -178,14 +185,6 @@ class VendorHomeTab extends StatelessWidget {
                           itemCount: list.length,
                           itemBuilder: (context, index) {
                             final item = list[index];
-                            // if (item == null) {
-                            //   return Center(
-                            //     child: Text(
-                            //       TempLanguage().lblNoDataFound,
-                            //       style: context.currentTextTheme.displaySmall,
-                            //     ),
-                            //   );
-                            // }
                             return ItemView(
                                 index: index,
                                 item: item,

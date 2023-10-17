@@ -137,7 +137,7 @@ class AddItem extends StatelessWidget {
                       child: TextField(
                         controller: context.read<AddItemCubit>().descriptionController,
                         style: context.currentTextTheme.labelSmall?.copyWith(
-                            fontSize: 16, color: AppColors.primaryFontColor),
+                            fontSize: 18, color: AppColors.primaryFontColor),
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(left: 10),
                           isDense: true,

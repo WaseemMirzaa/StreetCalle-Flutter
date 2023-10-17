@@ -44,7 +44,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
         obscureText: widget.isObscure ?? false ? passwordVisible : false,
         decoration: InputDecoration(
           hintText: widget.hintText,
-          hintStyle: context.currentTextTheme.displaySmall,
+          hintStyle: context.currentTextTheme.displaySmall?.copyWith(fontSize: 16, color: AppColors.secondaryFontColor),
+          contentPadding: const EdgeInsets.symmetric(vertical: 18),
           filled: true,
           isDense: true,
           fillColor: AppColors.whiteColor,

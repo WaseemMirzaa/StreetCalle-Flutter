@@ -38,7 +38,15 @@ class ItemsTab extends StatelessWidget {
             child: CircularProgressIndicator(color: AppColors.primaryColor,),
           );
         }
-        if (snapshot.hasData) {
+        if (snapshot.hasData && snapshot.data != null) {
+          if (snapshot.data!.isEmpty) {
+            return Center(
+              child: Text(
+                TempLanguage().lblNoDataFound,
+                style: context.currentTextTheme.displaySmall,
+              ),
+            );
+          }
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
             child: ListView.builder(

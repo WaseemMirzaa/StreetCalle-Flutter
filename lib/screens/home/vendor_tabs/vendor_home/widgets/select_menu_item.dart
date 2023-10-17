@@ -26,7 +26,7 @@ class SelectMenuItem extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: Text(
             TempLanguage().lblSelectMenuItem,
-            style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryFontColor, fontSize: 24),
+            style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
           ),
         ),
       body: FutureBuilder<List<Item>>(

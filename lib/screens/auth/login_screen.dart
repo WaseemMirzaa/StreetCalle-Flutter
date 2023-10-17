@@ -27,25 +27,25 @@ class LoginScreen extends StatelessWidget {
         width: context.width,
         height: context.height,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: defaultVerticalPadding),
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                const SizedBox(height: 40,),
+                const SizedBox(height: 20,),
                 Text(
                   TempLanguage().lblLogin,
-                  style: context.currentTextTheme.titleMedium?.copyWith(fontFamily: METROPOLIS_MEDIUM),
+                  style: context.currentTextTheme.titleMedium,
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(height: 5,),
                 Text(
                   TempLanguage().lblAddYourLoginDetails,
-                  style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 14),
+                  style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 15, color: AppColors.secondaryFontColor),
                 ),
                 const SizedBox(
                   height: 150,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                   child: CustomTextField(
                       hintText: TempLanguage().lblEmail,
                       keyboardType: TextInputType.emailAddress,
@@ -56,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24,),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                   child: CustomTextField(
                     hintText: TempLanguage().lblPassword,
                     keyboardType: TextInputType.visiblePassword,
@@ -72,12 +72,12 @@ class LoginScreen extends StatelessWidget {
                     context.pushNamed(AppRoutingName.passwordResetScreen);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
+                    padding: const EdgeInsets.only(right: 24.0),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                         TempLanguage().lblForgetPassword,
-                        style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 14),
+                        style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 15),
                       ),
                     ),
                   ),
@@ -97,7 +97,7 @@ class LoginScreen extends StatelessWidget {
                     return state is LoginLoading
                         ? const CircularProgressIndicator(color: AppColors.primaryColor,)
                         : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                           child: SizedBox(
                       width: context.width,
                       height: defaultButtonSize,
@@ -122,7 +122,7 @@ class LoginScreen extends StatelessWidget {
                     return state is GuestLoginLoading
                         ? const CircularProgressIndicator(color: AppColors.guestColor,)
                         : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                           child: SizedBox(
                       width: context.width,
                       height: defaultButtonSize,
@@ -149,7 +149,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24,),
                 Text(
-                TempLanguage().lblLoginWith, style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 14),),
+                TempLanguage().lblLoginWith, style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 15),),
                 const SizedBox(height: 24,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 78.0),

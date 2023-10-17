@@ -12,6 +12,8 @@ const RIFTSOFT = 'RiftSoft';
 const defaultLogoSize = 300.0;
 const defaultButtonSize = 55.0;
 const defaultPrice = 0.0;
+const defaultHorizontalPadding = 28.0;
+const defaultVerticalPadding = 16.0;
 
 
 /// PathParameters (for items and deals) --> change these wisely

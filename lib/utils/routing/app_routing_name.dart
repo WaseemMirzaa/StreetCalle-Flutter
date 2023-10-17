@@ -20,5 +20,5 @@ class AppRoutingName {
   static const dealDetail = '/dealDetail';
   static const editProfile = '/editProfile';
   static const clientMenu = '/clientMenu';
-  static const clientMenuItemDetail = '/clientMenuItemDetail';
+  static const clientMenuItemDetail = '/clientMenuItemDetail:';
 }

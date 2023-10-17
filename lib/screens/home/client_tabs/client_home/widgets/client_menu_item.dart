@@ -1,12 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:street_calle/models/item.dart';
-import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/models/user.dart';
 
 class ClientMenuItem extends StatelessWidget {
-  const ClientMenuItem({Key? key, required this.item, required this.onTap}) : super(key: key);
-  final Item item;
+  const ClientMenuItem({Key? key, required this.user, required this.onTap}) : super(key: key);
+  final User user;
   final VoidCallback onTap;
 
   @override
@@ -25,9 +25,16 @@ class ClientMenuItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20)
                 ),
                 clipBehavior: Clip.hardEdge,
-                child: Image.asset(
-                  '${item.image}',
+                child: user.image == null
+                    ? Image.asset(
+                  '${user.image}',
                   fit: BoxFit.cover,
+                )
+                    : CachedNetworkImage(
+                     imageUrl: user.image!,
+                     fit: BoxFit.cover,
+                     placeholder: (context, url) => const CircularProgressIndicator(),
+                     errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
               const SizedBox(width: 12,),
@@ -36,7 +43,7 @@ class ClientMenuItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${item.title}',
+                      '${user.name}',
                       style: const TextStyle(
                           fontSize: 24,
                           fontFamily: METROPOLIS_BOLD,
@@ -46,10 +53,10 @@ class ClientMenuItem extends StatelessWidget {
                     const SizedBox(
                       height: 12,
                     ),
-                    Text(
-                        '${item.foodType}',
-                        style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14)
-                    ),
+                    // Text(
+                    //     '${item.foodType}',
+                    //     style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14)
+                    // ),
                   ],
                 ),
               ),

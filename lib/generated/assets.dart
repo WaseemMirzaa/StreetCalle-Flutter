@@ -32,6 +32,8 @@ class Assets {
   static const String imagesFilter = 'assets/images/filter.png';
   static const String imagesFilterIcon = 'assets/images/filter_icon.png';
   static const String imagesGoogle = 'assets/images/google.png';
+  static const String imagesGroup 9249 = 'assets/images/client_icon.png';
+  static const String imagesGroup 9250 = 'assets/images/vendor_icon.png';
   static const String imagesHome = 'assets/images/home.png';
   static const String imagesIconImage = 'assets/images/icon_image.png';
   static const String imagesLocationMarker = 'assets/images/location_marker.png';

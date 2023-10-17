@@ -25,36 +25,33 @@ class PasswordResetScreen extends StatelessWidget {
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: defaultVerticalPadding, horizontal: defaultHorizontalPadding),
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    const SizedBox(height: 40,),
+                    const SizedBox(height: 20,),
                     Text(
                       TempLanguage().lblResetPassword,
-                      style: context.currentTextTheme.titleMedium?.copyWith(fontFamily: METROPOLIS_MEDIUM),
+                      style: context.currentTextTheme.titleMedium,
                     ),
                     const SizedBox(height: 10,),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 54.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
                       child: Text(
                         TempLanguage().lblPleaseEnterEmailQuote,
-                        style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 14),
+                        style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 15, color: AppColors.secondaryFontColor),
                       ),
                     ),
                     const SizedBox(
                       height: 100,
                     ),
 
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: CustomTextField(
-                        hintText: TempLanguage().lblEmail,
-                        keyboardType: TextInputType.emailAddress,
-                        asset: AppAssets.emailIcon,
-                        controller: context.read<PasswordResetCubit>().emailController,
-                        isPassword: false,
-                      ),
+                    CustomTextField(
+                      hintText: TempLanguage().lblEmail,
+                      keyboardType: TextInputType.emailAddress,
+                      asset: AppAssets.emailIcon,
+                      controller: context.read<PasswordResetCubit>().emailController,
+                      isPassword: false,
                     ),
                     const SizedBox(height: 24,),
 
@@ -70,7 +67,6 @@ class PasswordResetScreen extends StatelessWidget {
                         return state is PasswordResetLoading
                             ? const CircularProgressIndicator(color: AppColors.primaryColor,)
                             : Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 12.0),
                           width: context.width,
                           height: defaultButtonSize,
                           child: ElevatedButton(

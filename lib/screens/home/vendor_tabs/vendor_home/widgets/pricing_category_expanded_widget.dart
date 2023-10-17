@@ -52,7 +52,7 @@ class PricingCategoryExpandedWidget extends StatelessWidget {
                     child: TextField(
                       controller: context.read<AddItemCubit>().titleController,
                       style: context.currentTextTheme.labelSmall?.copyWith(
-                          fontSize: 16, color: AppColors.primaryFontColor),
+                          fontSize: 18, color: AppColors.primaryFontColor),
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.only(left: 10),
                         isDense: true,
@@ -73,146 +73,10 @@ class PricingCategoryExpandedWidget extends StatelessWidget {
             ),
             state
                 ? const SizedBox.shrink()
-                : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                children: [
-                  Text(TempLanguage().lblPrice,
-                      style: context.currentTextTheme.labelLarge
-                          ?.copyWith(
-                          fontSize: 14,
-                          color: AppColors.primaryFontColor)),
-                  const SizedBox(
-                    width: 12,
+                : PriceInputWidget(
+                    actualPriceController: context.read<AddItemCubit>().actualPriceController,
+                    disCountedPriceController: context.read<AddItemCubit>().discountedPriceController,
                   ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(40),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.blackColor.withOpacity(0.35),
-                            spreadRadius: 0.5, // Spread radius
-                            blurRadius: 8, // Blur radius
-                            offset: const Offset(
-                                1, 8), // Offset in the Y direction
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 18, top: 12.0),
-                            child: Text(
-                              TempLanguage().lblActualPrice,
-                              style: context.currentTextTheme.displaySmall
-                                  ?.copyWith(
-                                  fontSize: 12,
-                                  color: AppColors.placeholderColor),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10,
-                                right: 16.0,
-                                bottom: 12,
-                                top: 6),
-                            child: TextField(
-                              controller: context
-                                  .read<AddItemCubit>()
-                                  .actualPriceController,
-                              keyboardType: TextInputType.number,
-                              style: context.currentTextTheme.labelSmall
-                                  ?.copyWith(
-                                  fontSize: 16,
-                                  color: AppColors.primaryFontColor),
-                              decoration: InputDecoration(
-                                contentPadding:
-                                const EdgeInsets.only(left: 10),
-                                isDense: true,
-                                filled: true,
-                                fillColor: AppColors.whiteColor,
-                                border: titleBorder,
-                                enabledBorder: titleBorder,
-                                focusedBorder: titleBorder,
-                                disabledBorder: titleBorder,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(40),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.blackColor.withOpacity(0.35),
-                            spreadRadius: 0.5, // Spread radius
-                            blurRadius: 8, // Blur radius
-                            offset: const Offset(
-                                1, 8), // Offset in the Y direction
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 18, top: 12.0),
-                            child: Text(
-                              TempLanguage().lblDiscountedPrice,
-                              style: context.currentTextTheme.displaySmall
-                                  ?.copyWith(
-                                  fontSize: 12,
-                                  color: AppColors.placeholderColor),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10,
-                                right: 16.0,
-                                bottom: 12,
-                                top: 6),
-                            child: TextField(
-                              controller: context
-                                  .read<AddItemCubit>()
-                                  .discountedPriceController,
-                              keyboardType: TextInputType.number,
-                              style: context.currentTextTheme.labelSmall
-                                  ?.copyWith(
-                                  fontSize: 16,
-                                  color: AppColors.primaryFontColor),
-                              decoration: InputDecoration(
-                                contentPadding:
-                                const EdgeInsets.only(left: 10),
-                                isDense: true,
-                                filled: true,
-                                fillColor: AppColors.whiteColor,
-                                border: titleBorder,
-                                enabledBorder: titleBorder,
-                                focusedBorder: titleBorder,
-                                disabledBorder: titleBorder,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
 
             state
                 ? Align(
@@ -293,146 +157,10 @@ class PricingCategoryExpandedWidget extends StatelessWidget {
               height: state ? 32 : 0,
             ),
             state
-                ? Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                children: [
-                  Text(TempLanguage().lblPrice,
-                      style: context.currentTextTheme.labelLarge
-                          ?.copyWith(
-                          fontSize: 14,
-                          color: AppColors.primaryFontColor)),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(40),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.blackColor.withOpacity(0.35),
-                            spreadRadius: 0.5, // Spread radius
-                            blurRadius: 8, // Blur radius
-                            offset: const Offset(
-                                1, 8), // Offset in the Y direction
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 18, top: 12.0),
-                            child: Text(
-                              TempLanguage().lblActualPrice,
-                              style: context.currentTextTheme.displaySmall
-                                  ?.copyWith(
-                                  fontSize: 12,
-                                  color: AppColors.placeholderColor),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10,
-                                right: 16.0,
-                                bottom: 12,
-                                top: 6),
-                            child: TextField(
-                              controller: context
-                                  .read<AddItemCubit>()
-                                  .smallItemActualPriceController,
-                              keyboardType: TextInputType.number,
-                              style: context.currentTextTheme.labelSmall
-                                  ?.copyWith(
-                                  fontSize: 16,
-                                  color: AppColors.primaryFontColor),
-                              decoration: InputDecoration(
-                                contentPadding:
-                                const EdgeInsets.only(left: 10),
-                                isDense: true,
-                                filled: true,
-                                fillColor: AppColors.whiteColor,
-                                border: titleBorder,
-                                enabledBorder: titleBorder,
-                                focusedBorder: titleBorder,
-                                disabledBorder: titleBorder,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(40),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.blackColor.withOpacity(0.35),
-                            spreadRadius: 0.5, // Spread radius
-                            blurRadius: 8, // Blur radius
-                            offset: const Offset(
-                                1, 8), // Offset in the Y direction
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 18, top: 12.0),
-                            child: Text(
-                              TempLanguage().lblDiscountedPrice,
-                              style: context.currentTextTheme.displaySmall
-                                  ?.copyWith(
-                                  fontSize: 12,
-                                  color: AppColors.placeholderColor),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10,
-                                right: 16.0,
-                                bottom: 12,
-                                top: 6),
-                            child: TextField(
-                              controller: context
-                                  .read<AddItemCubit>()
-                                  .smallItemDiscountedPriceController,
-                              keyboardType: TextInputType.number,
-                              style: context.currentTextTheme.labelSmall
-                                  ?.copyWith(
-                                  fontSize: 16,
-                                  color: AppColors.primaryFontColor),
-                              decoration: InputDecoration(
-                                contentPadding:
-                                const EdgeInsets.only(left: 10),
-                                isDense: true,
-                                filled: true,
-                                fillColor: AppColors.whiteColor,
-                                border: titleBorder,
-                                enabledBorder: titleBorder,
-                                focusedBorder: titleBorder,
-                                disabledBorder: titleBorder,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
+                ? PriceInputWidget(
+                   actualPriceController: context.read<AddItemCubit>().smallItemActualPriceController,
+                   disCountedPriceController: context.read<AddItemCubit>().smallItemDiscountedPriceController,
+                  )
                 : const SizedBox.shrink(),
             SizedBox(
               height: state ? 32 : 0,
@@ -499,145 +227,9 @@ class PricingCategoryExpandedWidget extends StatelessWidget {
               height: state ? 32 : 0,
             ),
             state
-                ? Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                children: [
-                  Text(TempLanguage().lblPrice,
-                      style: context.currentTextTheme.labelLarge
-                          ?.copyWith(
-                          fontSize: 14,
-                          color: AppColors.primaryFontColor)),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(40),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.blackColor.withOpacity(0.35),
-                            spreadRadius: 0.5, // Spread radius
-                            blurRadius: 8, // Blur radius
-                            offset: const Offset(
-                                1, 8), // Offset in the Y direction
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 18, top: 12.0),
-                            child: Text(
-                              TempLanguage().lblActualPrice,
-                              style: context.currentTextTheme.displaySmall
-                                  ?.copyWith(
-                                  fontSize: 12,
-                                  color: AppColors.placeholderColor),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10,
-                                right: 16.0,
-                                bottom: 12,
-                                top: 6),
-                            child: TextField(
-                              controller: context
-                                  .read<AddItemCubit>()
-                                  .mediumItemActualPriceController,
-                              keyboardType: TextInputType.number,
-                              style: context.currentTextTheme.labelSmall
-                                  ?.copyWith(
-                                  fontSize: 16,
-                                  color: AppColors.primaryFontColor),
-                              decoration: InputDecoration(
-                                contentPadding:
-                                const EdgeInsets.only(left: 10),
-                                isDense: true,
-                                filled: true,
-                                fillColor: AppColors.whiteColor,
-                                border: titleBorder,
-                                enabledBorder: titleBorder,
-                                focusedBorder: titleBorder,
-                                disabledBorder: titleBorder,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(40),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.blackColor.withOpacity(0.35),
-                            spreadRadius: 0.5, // Spread radius
-                            blurRadius: 8, // Blur radius
-                            offset: const Offset(
-                                1, 8), // Offset in the Y direction
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 18, top: 12.0),
-                            child: Text(
-                              TempLanguage().lblDiscountedPrice,
-                              style: context.currentTextTheme.displaySmall
-                                  ?.copyWith(
-                                  fontSize: 12,
-                                  color: AppColors.placeholderColor),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10,
-                                right: 16.0,
-                                bottom: 12,
-                                top: 6),
-                            child: TextField(
-                              controller: context
-                                  .read<AddItemCubit>()
-                                  .mediumItemDiscountedPriceController,
-                              keyboardType: TextInputType.number,
-                              style: context.currentTextTheme.labelSmall
-                                  ?.copyWith(
-                                  fontSize: 16,
-                                  color: AppColors.primaryFontColor),
-                              decoration: InputDecoration(
-                                contentPadding:
-                                const EdgeInsets.only(left: 10),
-                                isDense: true,
-                                filled: true,
-                                fillColor: AppColors.whiteColor,
-                                border: titleBorder,
-                                enabledBorder: titleBorder,
-                                focusedBorder: titleBorder,
-                                disabledBorder: titleBorder,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ? PriceInputWidget(
+              actualPriceController: context.read<AddItemCubit>().mediumItemActualPriceController,
+              disCountedPriceController: context.read<AddItemCubit>().mediumItemDiscountedPriceController,
             )
                 : const SizedBox.shrink(),
             SizedBox(
@@ -648,9 +240,9 @@ class PricingCategoryExpandedWidget extends StatelessWidget {
               builder: (context, state) {
                 return state.categoryType == PricingCategoryType.large
                     ? Column(
-                  children: [
-                    /// large item (for our understanding)
-                    Container(
+                      children: [
+                       /// large item (for our understanding)
+                       Container(
                       margin:
                       const EdgeInsets.symmetric(horizontal: 24.0),
                       decoration: BoxDecoration(
@@ -707,130 +299,14 @@ class PricingCategoryExpandedWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(
+                       const SizedBox(
                       height: 32,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Row(
-                        children: [
-                          Text(TempLanguage().lblPrice,
-                              style: context.currentTextTheme.labelLarge
-                                  ?.copyWith(fontSize: 14, color: AppColors.primaryFontColor)),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.whiteColor,
-                                borderRadius: BorderRadius.circular(40),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.blackColor
-                                        .withOpacity(0.35),
-                                    spreadRadius: 0.5, // Spread radius
-                                    blurRadius: 8, // Blur radius
-                                    offset: const Offset(1,
-                                        8), // Offset in the Y direction
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 18, top: 12.0),
-                                    child: Text(
-                                      TempLanguage().lblActualPrice,
-                                      style: context
-                                          .currentTextTheme.displaySmall
-                                          ?.copyWith(fontSize: 12, color: AppColors.placeholderColor),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10, right: 16.0, bottom: 12, top: 6),
-                                    child: TextField(
-                                      controller: context.read<AddItemCubit>().largeItemActualPriceController,
-                                      keyboardType: TextInputType.number,
-                                      style: context
-                                          .currentTextTheme.labelSmall
-                                          ?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
-                                      decoration: InputDecoration(
-                                        contentPadding: const EdgeInsets.only(left: 10),
-                                        isDense: true,
-                                        filled: true,
-                                        fillColor: AppColors.whiteColor,
-                                        border: titleBorder,
-                                        enabledBorder: titleBorder,
-                                        focusedBorder: titleBorder,
-                                        disabledBorder: titleBorder,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.whiteColor,
-                                borderRadius: BorderRadius.circular(40),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.blackColor.withOpacity(0.35),
-                                    spreadRadius: 0.5, // Spread radius
-                                    blurRadius: 8, // Blur radius
-                                    offset: const Offset(1, 8), // Offset in the Y direction
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 18, top: 12.0),
-                                    child: Text(
-                                      TempLanguage().lblDiscountedPrice,
-                                      style: context
-                                          .currentTextTheme.displaySmall
-                                          ?.copyWith(fontSize: 12, color: AppColors.placeholderColor),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10,
-                                        right: 16.0,
-                                        bottom: 12,
-                                        top: 6),
-                                    child: TextField(
-                                      controller: context.read<AddItemCubit>().largeItemDiscountedPriceController,
-                                      keyboardType: TextInputType.number,
-                                      style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
-                                      decoration: InputDecoration(
-                                        contentPadding: const EdgeInsets.only(left: 10),
-                                        isDense: true,
-                                        filled: true,
-                                        fillColor: AppColors.whiteColor,
-                                        border: titleBorder,
-                                        enabledBorder: titleBorder,
-                                        focusedBorder: titleBorder,
-                                        disabledBorder: titleBorder,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                       PriceInputWidget(
+                      actualPriceController: context.read<AddItemCubit>().largeItemActualPriceController,
+                      disCountedPriceController: context.read<AddItemCubit>().largeItemDiscountedPriceController,
                     ),
-                  ],
+                     ],
                 )
                     : const SizedBox.shrink();
               },
@@ -842,6 +318,144 @@ class PricingCategoryExpandedWidget extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class PriceInputWidget extends StatelessWidget {
+  const PriceInputWidget({Key? key, required this.actualPriceController, required this.disCountedPriceController}) : super(key: key);
+  final TextEditingController actualPriceController;
+  final TextEditingController disCountedPriceController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Row(
+        children: [
+          Text(TempLanguage().lblPrice,
+              style: context.currentTextTheme.labelLarge?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
+          ),
+          const SizedBox(
+            width: 12,
+          ),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.whiteColor,
+                borderRadius: BorderRadius.circular(40),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.blackColor.withOpacity(0.35),
+                    spreadRadius: 0.5, // Spread radius
+                    blurRadius: 8, // Blur radius
+                    offset: const Offset(
+                        1, 8), // Offset in the Y direction
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18, top: 12.0),
+                    child: Text(
+                      TempLanguage().lblActualPrice,
+                      style: context.currentTextTheme.displaySmall?.copyWith(fontSize: 12, color: AppColors.placeholderColor),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 10,
+                        right: 16.0,
+                        bottom: 12,
+                        top: 6),
+                    child: TextField(
+                      controller: actualPriceController,
+                      keyboardType: TextInputType.number,
+                      style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.only(left: 10),
+                        prefix: const Text('\$'),
+                        isDense: true,
+                        filled: true,
+                        fillColor: AppColors.whiteColor,
+                        border: titleBorder,
+                        enabledBorder: titleBorder,
+                        focusedBorder: titleBorder,
+                        disabledBorder: titleBorder,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 12,
+          ),
+          CustomInputField(controller: disCountedPriceController, title: TempLanguage().lblDiscountedPrice),
+        ],
+      ),
+    );
+  }
+}
+
+class CustomInputField extends StatelessWidget {
+  const CustomInputField({Key? key, required this.controller, required this.title}) : super(key: key);
+  final TextEditingController controller;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.whiteColor,
+          borderRadius: BorderRadius.circular(40),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.blackColor.withOpacity(0.35),
+              spreadRadius: 0.5, // Spread radius
+              blurRadius: 8, // Blur radius
+              offset: const Offset(
+                  1, 8), // Offset in the Y direction
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 18, top: 12.0),
+              child: Text(
+                title,
+                style: context.currentTextTheme.displaySmall?.copyWith(fontSize: 12, color: AppColors.placeholderColor),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 16.0, bottom: 12, top: 6),
+              child: TextField(
+                controller: controller,
+                keyboardType: TextInputType.number,
+                style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
+                decoration: InputDecoration(
+                  contentPadding:
+                  const EdgeInsets.only(left: 10),
+                  prefix: const Text('\$'),
+                  isDense: true,
+                  filled: true,
+                  fillColor: AppColors.whiteColor,
+                  border: titleBorder,
+                  enabledBorder: titleBorder,
+                  focusedBorder: titleBorder,
+                  disabledBorder: titleBorder,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

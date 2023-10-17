@@ -95,13 +95,16 @@ class TempLanguage {
   String get lblViewAll => 'View all';
   String get lblNoDataFound => 'No data found';
   String get lblSelect => 'Select';
+  String get lblDescription => 'Description';
   String get lblMaxPricingCategoryLimitIsThree => 'Maximum pricing category limit is 3';
   String get lblPricingCategoryTitle => 'Pricing Category Title';
   String get lblSomethingWentWrong => 'Something went wrong. Try again later';
+  String get lblNoVendorFound => 'No vendor found';
   String get lblItemDeletedSuccessfully => 'Item deleted successfully';
   String get lblDealDeletedSuccessfully => 'Deal deleted successfully';
   String get lblMenu => 'Menu';
   String get lblItems => 'Items';
+  String get lblHello => 'Hello';
   String get lblDeals => 'Deals';
   String get lblDelete => 'Delete';
   String get lblCancel => 'Cancel';
@@ -111,6 +114,7 @@ class TempLanguage {
   String get lblAreYouSureYouWantToDeleteDeal => 'Are you sure you want to delete this deal?';
   String get lblMenuItem => 'Add Menu Item';
   String get lblCustomItem => 'Add Custom Item';
+  String get lblStartingFrom => 'Starting from:';
 
   String get lblLorem => '''
   One brave soul did take a stab at translating the almost-not-quite-Latin. According to The Guardian, Jaspreet Singh Boparai undertook the challenge with the goal of making the text “precisely as incoherent in English as it is in Latin - and to make it incoherent in the same way”. As a result, “the Greek 'eu' in Latin became the French 'bien' [...] and the '-ing' ending in 'lorem ipsum' seemed best rendered by an '-iendum' in English.”

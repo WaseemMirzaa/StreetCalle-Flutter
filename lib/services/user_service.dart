@@ -89,4 +89,27 @@ class UserService extends BaseService<User> {
       return const Left('Something went wrong. Try again later.');
     }
   }
+
+  // Stream<List<User>> getVendors() {
+  //   return ref!
+  //       .where(UserKey.isVendor, isEqualTo: true)
+  //       .where(UserKey.isOnline, isEqualTo: true)
+  //       .orderBy(UserKey.updatedAt, descending: true)
+  //       .snapshots()
+  //       .map((value) => value.docs.map((e) => e.data()).toList());
+  // }
+
+  Future<List<User>> getVendors() async {
+    final querySnapshot = await ref!
+        .where(UserKey.isVendor, isEqualTo: true)
+        .where(UserKey.isOnline, isEqualTo: true)
+        .orderBy(UserKey.updatedAt, descending: true)
+        .get();
+
+    List<User> userList = [];
+    userList = querySnapshot.docs.map((user) => user.data()).toList();
+
+    return userList;
+  }
+
 }

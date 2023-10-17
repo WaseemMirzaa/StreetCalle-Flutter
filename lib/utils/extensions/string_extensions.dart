@@ -17,6 +17,24 @@ extension StringExtension on String? {
           (this != null && this!.isEmpty) ||
           (this != null && this! == 'null');
 
+  /// Capitalize given String
+  String capitalizeEachFirstLetter() {
+    if (this == null || this!.isEmpty) return validate();
+
+    List<String> words = this!.split(' ');
+    List<String> capitalizedWords = words.map((word) {
+      return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+    }).toList();
+
+    return capitalizedWords.join(' ');
+  }
+
+
+  /// Capitalize given String
+  String capitalizeFirstLetter() => (validate().length >= 1)
+      ? (this!.substring(0, 1).toUpperCase() + this!.substring(1).toLowerCase())
+      : validate();
+
   // Check null string, return given value if null
   String validate({String value = ''}) {
     if (isEmptyOrNull) {

@@ -6,6 +6,7 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
 
 class DealWidget extends StatelessWidget {
   const DealWidget({Key? key, required this.deal, required this.onTap, required this.onUpdate, required this.onDelete}) : super(key: key);
@@ -45,7 +46,7 @@ class DealWidget extends StatelessWidget {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            '${deal.title}',
+                            deal.title.capitalizeEachFirstLetter(),
                             style: const TextStyle(
                                 fontSize: 24,
                                 fontFamily: METROPOLIS_BOLD,
@@ -92,7 +93,7 @@ class DealWidget extends StatelessWidget {
                       height: 12,
                     ),
                     Text(
-                        '${deal.foodType}',
+                        deal.foodType.capitalizeEachFirstLetter(),
                         style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14)
                     ),
                   ],

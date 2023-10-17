@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:street_calle/models/item.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu_item.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -8,12 +9,17 @@ import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/models/user.dart';
+import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/services/user_service.dart';
 
 class ClientMenu extends StatelessWidget {
   const ClientMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final userService = sl.get<UserService>();
+
     return Scaffold(
       body: Column(
         children: [
@@ -89,20 +95,51 @@ class ClientMenu extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  final item = Item(
-                    image: AppAssets.teaImage,
-                    title: 'Tea House',
-                    foodType: 'Westren food'
-                  );
+              child: FutureBuilder<List<User>>(
+                future: userService.getVendors(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(color: AppColors.primaryColor,),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        TempLanguage().lblSomethingWentWrong,
+                        style: context.currentTextTheme.displaySmall,
+                      ),
+                    );
+                  }
+                  if (snapshot.hasData && snapshot.data != null) {
+                    if (snapshot.data!.isEmpty) {
+                      return Center(
+                        child: Text(
+                          TempLanguage().lblNoVendorFound,
+                          style: context.currentTextTheme.displaySmall,
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: snapshot.data?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        final user = snapshot.data![index];
 
-                  return ClientMenuItem(
-                      item: item,
-                      onTap: (){
-                        context.pushNamed(AppRoutingName.clientMenuItemDetail);
-                      }
+                        return ClientMenuItem(
+                            user: user,
+                            onTap: (){
+                              context.read<ClientSelectedVendorCubit>().selectedVendorId(user.uid);
+                              context.pushNamed(AppRoutingName.clientMenuItemDetail, extra: user);
+                            }
+                        );
+                      },
+                    );
+                  }
+                  return Center(
+                    child: Text(
+                      TempLanguage().lblSomethingWentWrong,
+                      style: context.currentTextTheme.displaySmall,
+                    ),
                   );
                 },
               ),

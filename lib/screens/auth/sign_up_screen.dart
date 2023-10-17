@@ -27,19 +27,19 @@ class SignUpScreen extends StatelessWidget {
         width: context.width,
         height: context.height,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: defaultVerticalPadding),
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                const SizedBox(height: 40,),
+                const SizedBox(height: 20,),
                 Text(
                   TempLanguage().lblSignUp,
-                  style: context.currentTextTheme.titleMedium?.copyWith(fontFamily: METROPOLIS_MEDIUM),
+                  style: context.currentTextTheme.titleMedium,
                 ),
                 const SizedBox(height: 10,),
                 Text(
                   TempLanguage().lblAddYourSignDetails,
-                  style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 14),
+                  style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 15, color: AppColors.secondaryFontColor),
                 ),
 
                 const SizedBox(height: 24,),
@@ -67,7 +67,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24,),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                   child: CustomTextField(
                     hintText: TempLanguage().lblName,
                     keyboardType: TextInputType.name,
@@ -79,7 +79,7 @@ class SignUpScreen extends StatelessWidget {
                 const SizedBox(height: 24,),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                   child: CustomTextField(
                     hintText: TempLanguage().lblEmail,
                     keyboardType: TextInputType.emailAddress,
@@ -91,7 +91,7 @@ class SignUpScreen extends StatelessWidget {
                 const SizedBox(height: 24,),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                   child: CustomTextField(
                     hintText: TempLanguage().lblPhone,
                     keyboardType: TextInputType.phone,
@@ -103,7 +103,7 @@ class SignUpScreen extends StatelessWidget {
                 const SizedBox(height: 24,),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                   child: CustomTextField(
                     hintText: TempLanguage().lblPassword,
                     keyboardType: TextInputType.visiblePassword,
@@ -116,7 +116,7 @@ class SignUpScreen extends StatelessWidget {
                 const SizedBox(height: 24,),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                   child: CustomTextField(
                     hintText: TempLanguage().lblConfirmPassword,
                     keyboardType: TextInputType.visiblePassword,
@@ -142,7 +142,7 @@ class SignUpScreen extends StatelessWidget {
                     return state is SignUpLoading
                         ? const CircularProgressIndicator(color: AppColors.primaryColor,)
                         : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                           child: SizedBox(
                       width: context.width,
                       height: defaultButtonSize,

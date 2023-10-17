@@ -23,6 +23,7 @@ import 'package:street_calle/screens/home/settings/widgets/terms_and_conditions.
 import 'package:street_calle/screens/home/settings/widgets/vendor_subscription.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/models/deal.dart';
+import 'package:street_calle/models/user.dart';
 
 final router = GoRouter(
   routes: [
@@ -173,7 +174,8 @@ final router = GoRouter(
       path: AppRoutingName.clientMenuItemDetail,
       name: AppRoutingName.clientMenuItemDetail,
       builder: (context, state) {
-        return const ClientMenuItemDetail();
+        final user = state.extra as User;
+        return ClientMenuItemDetail(user: user);
       },
     ),
   ],

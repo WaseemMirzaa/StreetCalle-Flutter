@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/extensions/context_extension.dart';
 
 class BuildSelectableImage extends StatelessWidget {
   BuildSelectableImage({Key? key, required this.assetPath, required this.isSelected, required this.onTap, required this.title}) : super(key: key);
@@ -20,14 +19,6 @@ class BuildSelectableImage extends StatelessWidget {
             height: 170,
             child: Center(
               child: Image.asset(assetPath),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 57,
-            child: Text(
-              title,
-              style: context.currentTextTheme.labelMedium,
             ),
           ),
           Positioned(

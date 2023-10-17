@@ -31,4 +31,9 @@ class TimerCubit extends Cubit<int> {
     return _timer.isActive;
   }
 
+  @override
+  Future<void> close() {
+    stop();
+    return super.close();
+  }
 }

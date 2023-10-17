@@ -26,7 +26,7 @@ class EditProfile extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: Text(
           TempLanguage().lblEditProfile,
-          style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryFontColor, fontSize: 24),
+          style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
       ),
       body: Padding(

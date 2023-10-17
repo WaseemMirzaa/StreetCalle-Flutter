@@ -26,18 +26,18 @@ class EmailVerificationScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: defaultVerticalPadding,),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(height: 40,),
+            const SizedBox(height: 20,),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
               child: Text(
                 TempLanguage().lblSendVerificationEmail,
                 textAlign: TextAlign.center,
-                style: context.currentTextTheme.titleMedium?.copyWith(fontFamily: METROPOLIS_MEDIUM),
+                style: context.currentTextTheme.titleMedium,
               ),
             ),
             const SizedBox(height: 10,),
@@ -47,18 +47,19 @@ class EmailVerificationScreen extends StatelessWidget {
                 children: [
                   Text(
                     TempLanguage().lblPleaseCheckYourEmail,
-                    style: context.currentTextTheme.labelSmall!.copyWith(fontSize: 14, color: AppColors.secondaryFontColor),
+                    style: context.currentTextTheme.labelSmall!.copyWith(fontSize: 15, color: AppColors.secondaryFontColor),
                   ),
                   RichText(
+                    textAlign: TextAlign.center,
                     text: TextSpan(
                       children: [
                         TextSpan(
-                            text: 'abc@gmail.com',
-                          style: context.currentTextTheme.labelSmall!.copyWith(fontSize: 12, color: AppColors.secondaryFontColor),
+                            text: email,
+                          style: context.currentTextTheme.labelSmall!.copyWith(fontSize: 13, color: AppColors.secondaryFontColor),
                         ),
                         TextSpan(
                           text: TempLanguage().lblToVerify,
-                          style: context.currentTextTheme.labelSmall!.copyWith(fontSize: 12, color: AppColors.secondaryFontColor),
+                          style: context.currentTextTheme.labelSmall!.copyWith(fontSize: 13, color: AppColors.secondaryFontColor),
                         ),
                       ],
                     ),
@@ -93,29 +94,32 @@ class EmailVerificationScreen extends StatelessWidget {
             //     }
             //   },
             // ),
-            SizedBox(
-              width: context.width,
-              height: defaultButtonSize,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                ),
-                onPressed: () async {
-                  final result = await authService.isUserEmailVerified();
-                  if (!context.mounted) return;
-                  if (result) {
-                    if (timerCubit.state != 0) {
-                      timerCubit.stop();
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+              child: SizedBox(
+                width: context.width,
+                height: defaultButtonSize,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                  ),
+                  onPressed: () async {
+                    final result = await authService.isUserEmailVerified();
+                    if (!context.mounted) return;
+                    if (result) {
+                      if (timerCubit.state != 0) {
+                        timerCubit.stop();
+                      }
+                      context.read<UserCubit>().setIsLoggedIn(true);
+                      context.goNamed(AppRoutingName.selectUserScreen);
+                    } else {
+                      showToast(context, TempLanguage().lblVerifyYourEmail);
                     }
-                    context.read<UserCubit>().setIsLoggedIn(true);
-                    context.goNamed(AppRoutingName.selectUserScreen);
-                  } else {
-                    showToast(context, TempLanguage().lblVerifyYourEmail);
-                  }
-                },
-                child: Text(
-                  TempLanguage().lblContinue,
-                  style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                  },
+                  child: Text(
+                    TempLanguage().lblContinue,
+                    style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                  ),
                 ),
               ),
             ),
@@ -133,25 +137,28 @@ class EmailVerificationScreen extends StatelessWidget {
 
 
             const SizedBox(height: 44,),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                      text: TempLanguage().lblDidNotReceive,
-                      style: context.currentTextTheme.labelSmall!.copyWith(fontSize: 14, color: AppColors.secondaryFontColor),
-                  ),
-                  TextSpan(
-                    text: TempLanguage().lblSendAgain,
-                    style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 14, color: AppColors.primaryColor, fontWeight: FontWeight.bold),
-                    recognizer: TapGestureRecognizer()..onTap = () {
-                      if (timerCubit.state == 0) {
-                        authService.sendEmailVerificationAgain();
-                        showToast(context, TempLanguage().lblPleaseCheckYourEmail);
-                        timerCubit.resetAndStartTimer(60);
-                      }
-                    },
-                  ),
-                ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                        text: TempLanguage().lblDidNotReceive,
+                        style: context.currentTextTheme.labelSmall!.copyWith(fontSize: 14, color: AppColors.secondaryFontColor),
+                    ),
+                    TextSpan(
+                      text: TempLanguage().lblSendAgain,
+                      style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 14, color: AppColors.primaryColor, fontWeight: FontWeight.bold),
+                      recognizer: TapGestureRecognizer()..onTap = () {
+                        if (timerCubit.state == 0) {
+                          authService.sendEmailVerificationAgain();
+                          showToast(context, TempLanguage().lblPleaseCheckYourEmail);
+                          timerCubit.resetAndStartTimer(60);
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             const Spacer(),

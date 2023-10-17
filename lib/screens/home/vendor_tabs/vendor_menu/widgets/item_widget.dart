@@ -6,6 +6,7 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
 
 class ItemWidget extends StatelessWidget {
   const ItemWidget({Key? key, required this.item, required this.onUpdate, required this.onDelete, required this.onTap, required this.isFromItemTab}) : super(key: key);
@@ -46,7 +47,7 @@ class ItemWidget extends StatelessWidget {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            '${item.title}',
+                            item.title.capitalizeEachFirstLetter(),
                             style: const TextStyle(
                                 fontSize: 24,
                                 fontFamily: METROPOLIS_BOLD,
@@ -90,10 +91,10 @@ class ItemWidget extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(
-                      height: 12,
+                      height: 6,
                     ),
                     Text(
-                        '${item.foodType}',
+                        item.foodType.capitalizeEachFirstLetter(),
                         style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14)
                     ),
                   ],

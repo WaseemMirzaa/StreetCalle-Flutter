@@ -9,6 +9,7 @@ import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.
 import 'package:street_calle/screens/auth/cubit/guest/guest_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
@@ -33,11 +34,6 @@ Future<void> init() async {
   ///  an instance of a specific type whenever it is requested.
 
   /// Cubits
-  // sl.registerFactory(() => TeacherCubit(
-  //   createTeacherUseCase: sl.call(),
-  //   uploadTeacherImageUseCase: sl.call(),
-  // ));
-
   sl.registerFactory(() => SignUpCubit(sl.call(), sl.call()));
   sl.registerFactory(() => LoginCubit(sl.call(), sl.call()));
   sl.registerFactory(() => PasswordResetCubit(sl.call()));
@@ -49,6 +45,7 @@ Future<void> init() async {
   sl.registerFactory(() => AddDealCubit(sl.call(), sl.call()));
   sl.registerFactory(() => ProfileStatusCubit(sl.call(), sl.call()));
   sl.registerFactory(() => EditProfileCubit(sl.call(), sl.call()));
+  sl.registerFactory(() => ClientSelectedVendorCubit());
 
 
   ///  [registerLazySingleton] which registers a singleton object that will be

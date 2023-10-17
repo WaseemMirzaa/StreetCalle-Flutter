@@ -24,40 +24,25 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: User can select these options one time only
     return Scaffold(
       body: Column(
         children: [
           const SizedBox(
-            height: 120,
+            height: 70,
           ),
           Expanded(
-            child: SvgPicture.asset(AppAssets.logo, width: 150, height: 150,),
-          ),
-          const SizedBox(
-            height: 0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                TempLanguage().lblStreet,
-                style: context.currentTextTheme.titleLarge?.copyWith(color: AppColors.primaryColor),
-              ),
-              Text(
-                TempLanguage().lblCall,
-                style: context.currentTextTheme.titleLarge?.copyWith(color: AppColors.primaryFontColor),
-              ),
-            ],
+            child: SvgPicture.asset(AppAssets.logo, width: 230, height: 230,),
           ),
           Expanded(
             flex: 2,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                //mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   BuildSelectableImage(
-                    assetPath : AppAssets.client,
+                    assetPath : AppAssets.clientIcon,
                     isSelected : _user == UserType.client,
                     title: TempLanguage().lblClient,
                     onTap: () {
@@ -68,7 +53,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                     },
                   ),
                   BuildSelectableImage(
-                   assetPath : AppAssets.vendor,
+                   assetPath : AppAssets.vendorIcon,
                    isSelected :  _user == UserType.vendor,
                     title: TempLanguage().lblVendor,
                    onTap: () {

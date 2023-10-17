@@ -26,7 +26,7 @@ class AuthScreen extends StatelessWidget {
             child: Text(
               TempLanguage().lblQuote,
               textAlign: TextAlign.center,
-              style: context.currentTextTheme.labelSmall,
+              style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.secondaryFontColor),
             ),
           ),
           Expanded(

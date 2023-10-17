@@ -26,7 +26,7 @@ class VendorMenuTab extends StatelessWidget {
           ),
           title: Text(
             TempLanguage().lblMenu,
-           style: context.currentTextTheme.displaySmall?.copyWith(fontSize: 24, color: AppColors.primaryFontColor),
+            style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
           ),
         ),
         body: const TabBarView(
