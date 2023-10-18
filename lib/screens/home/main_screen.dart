@@ -9,6 +9,7 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
 
+
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key, required this.user}) : super(key: key);
   final String user;
@@ -19,6 +20,57 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  //
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getLocationUpdates();
+  // }
+  //
+  // void getCurrentLocation() {
+  //   BackgroundLocation().getCurrentLocation().then((location) {
+  //     print('This is current Location ${location.toMap()}');
+  //   });
+  // }
+  //
+  // Future<void> getLocationUpdates() async {
+  //   var status = await Permission.notification.status;
+  //   if (status.isDenied) {
+  //     final result = await Permission.notification.request();
+  //     if (result.isGranted) {
+  //       await BackgroundLocation.setAndroidNotification(
+  //         title: 'Background service is running',
+  //         message: 'Background location in progress',
+  //         icon: '@mipmap/ic_launcher',
+  //       );
+  //     }
+  //   } else {
+  //     await BackgroundLocation.setAndroidNotification(
+  //       title: 'Background service is running',
+  //       message: 'Background location in progress',
+  //       icon: '@mipmap/ic_launcher',
+  //     );
+  //   }
+  //
+  //   final userService = sl.get<UserService>();
+  //   //await BackgroundLocation.setAndroidConfiguration(1000);
+  //   await BackgroundLocation.startLocationService(distanceFilter: 10);
+  //   BackgroundLocation.getLocationUpdates((location) {
+  //
+  //     if (location.longitude != null && location.latitude != null) {
+  //       final sharedPref = sl.get<SharedPreferencesService>();
+  //       userService.updateUserLocation(location.latitude!, location.longitude!, sharedPref.getStringAsync(SharePreferencesKey.USER_ID));
+  //      }
+  //   });
+  // }
+  //
+  // @override
+  // void dispose() {
+  //   BackgroundLocation.stopLocationService();
+  //   super.dispose();
+  // }
+
 
   static const List<Widget> _vendorWidgets = <Widget>[
     VendorHomeTab(),

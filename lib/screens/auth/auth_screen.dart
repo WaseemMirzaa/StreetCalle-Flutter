@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
@@ -33,44 +34,85 @@ class AuthScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 44.0),
+                //   child: SizedBox(
+                //     width: context.width,
+                //     height: defaultButtonSize,
+                //     child: ElevatedButton(
+                //       style: ElevatedButton.styleFrom(
+                //         backgroundColor: AppColors.primaryColor,
+                //       ),
+                //       onPressed: (){
+                //         context.pushNamed(AppRoutingName.loginScreen);
+                //       },
+                //       child: Text(
+                //         TempLanguage().lblLogin,
+                //         style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 44.0),
                   child: SizedBox(
                     width: context.width,
                     height: defaultButtonSize,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                      ),
-                      onPressed: (){
+                    child: AppButton(
+                      text: TempLanguage().lblLogin,
+                      elevation: 0.0,
+                      onTap: () {
                         context.pushNamed(AppRoutingName.loginScreen);
                       },
-                      child: Text(
-                        TempLanguage().lblLogin,
-                        style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                      shapeBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)
                       ),
+                      textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                      color: AppColors.primaryColor,
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 20,),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 44.0),
+                //   child: SizedBox(
+                //     width: context.width,
+                //     height: defaultButtonSize,
+                //     child: ElevatedButton(
+                //       style: ElevatedButton.styleFrom(
+                //         backgroundColor: AppColors.whiteColor,
+                //         surfaceTintColor: AppColors.whiteColor,
+                //         side: const BorderSide(color: AppColors.primaryColor)
+                //       ),
+                //       onPressed: (){
+                //         context.pushNamed(AppRoutingName.signUpScreen);
+                //       },
+                //       child: Text(
+                //         TempLanguage().lblCreateAccount,
+                //         style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.primaryColor),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 44.0),
                   child: SizedBox(
                     width: context.width,
                     height: defaultButtonSize,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.whiteColor,
-                        surfaceTintColor: AppColors.whiteColor,
-                        side: const BorderSide(color: AppColors.primaryColor)
-                      ),
-                      onPressed: (){
+                    child: AppButton(
+                      text: TempLanguage().lblCreateAccount,
+                      elevation: 0.0,
+                      onTap: () {
                         context.pushNamed(AppRoutingName.signUpScreen);
                       },
-                      child: Text(
-                        TempLanguage().lblCreateAccount,
-                        style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.primaryColor),
+                      shapeBorder: RoundedRectangleBorder(
+                          side: const BorderSide(color: AppColors.primaryColor),
+                          borderRadius: BorderRadius.circular(30)
                       ),
+                      textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.primaryColor),
+                      color: AppColors.whiteColor,
                     ),
                   ),
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/utils/common.dart';
@@ -99,11 +100,10 @@ class EmailVerificationScreen extends StatelessWidget {
               child: SizedBox(
                 width: context.width,
                 height: defaultButtonSize,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryColor,
-                  ),
-                  onPressed: () async {
+                child: AppButton(
+                  text: TempLanguage().lblContinue,
+                  elevation: 0.0,
+                  onTap: () async {
                     final result = await authService.isUserEmailVerified();
                     if (!context.mounted) return;
                     if (result) {
@@ -116,11 +116,35 @@ class EmailVerificationScreen extends StatelessWidget {
                       showToast(context, TempLanguage().lblVerifyYourEmail);
                     }
                   },
-                  child: Text(
-                    TempLanguage().lblContinue,
-                    style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                  shapeBorder: RoundedRectangleBorder(
+                      side: const BorderSide(color: AppColors.primaryColor),
+                      borderRadius: BorderRadius.circular(30)
                   ),
+                  textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                  color: AppColors.primaryColor,
                 ),
+                // child: ElevatedButton(
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: AppColors.primaryColor,
+                //   ),
+                //   onPressed: () async {
+                //     final result = await authService.isUserEmailVerified();
+                //     if (!context.mounted) return;
+                //     if (result) {
+                //       if (timerCubit.state != 0) {
+                //         timerCubit.stop();
+                //       }
+                //       context.read<UserCubit>().setIsLoggedIn(true);
+                //       context.goNamed(AppRoutingName.selectUserScreen);
+                //     } else {
+                //       showToast(context, TempLanguage().lblVerifyYourEmail);
+                //     }
+                //   },
+                //   child: Text(
+                //     TempLanguage().lblContinue,
+                //     style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                //   ),
+                // ),
               ),
             ),
             const SizedBox(height: 28,),

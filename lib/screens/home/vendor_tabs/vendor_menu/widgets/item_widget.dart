@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:street_calle/models/item.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/pricing_widget.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 
@@ -55,39 +55,40 @@ class ItemWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Expanded(
-                          child: (item.discountedPrice != null && item.discountedPrice != defaultPrice)
-                              ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text('\$${calculateDiscountAmount(item.actualPrice, item.discountedPrice)}',
-                                style: const TextStyle(
-                                    fontFamily: METROPOLIS_BOLD,
-                                    fontSize: 23,
-                                    color: AppColors.primaryFontColor
-                                ),
-                              ),
-                              Text('\$${item.actualPrice}',
-                                style: const TextStyle(
-                                  fontFamily: METROPOLIS_BOLD,
-                                  fontSize: 16,
-                                  color: AppColors.primaryFontColor,
-                                  decoration: TextDecoration.lineThrough,
-                                  decorationColor: AppColors.redColor,
-                                  decorationThickness: 4.0,
-                                ),
-                              ),
-                            ],
-                          )
-                              : Text('\$${item.actualPrice}',
-                            textAlign: TextAlign.end,
-                            style: const TextStyle(
-                                fontFamily: METROPOLIS_BOLD,
-                                fontSize: 23,
-                                color: AppColors.primaryFontColor
-                            ),
-                          ),
-                        ),
+                        PricingWidget(item: item)
+                        // Expanded(
+                        //   child: (item.discountedPrice != null && item.discountedPrice != defaultPrice)
+                        //       ? Column(
+                        //     crossAxisAlignment: CrossAxisAlignment.end,
+                        //     children: [
+                        //       Text('\$${calculateDiscountAmount(item.actualPrice, item.discountedPrice)}',
+                        //         style: const TextStyle(
+                        //             fontFamily: METROPOLIS_BOLD,
+                        //             fontSize: 23,
+                        //             color: AppColors.primaryFontColor
+                        //         ),
+                        //       ),
+                        //       Text('\$${item.actualPrice}',
+                        //         style: const TextStyle(
+                        //           fontFamily: METROPOLIS_BOLD,
+                        //           fontSize: 16,
+                        //           color: AppColors.primaryFontColor,
+                        //           decoration: TextDecoration.lineThrough,
+                        //           decorationColor: AppColors.redColor,
+                        //           decorationThickness: 4.0,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   )
+                        //       : Text('\$${item.actualPrice}',
+                        //     textAlign: TextAlign.end,
+                        //     style: const TextStyle(
+                        //         fontFamily: METROPOLIS_BOLD,
+                        //         fontSize: 23,
+                        //         color: AppColors.primaryFontColor
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     const SizedBox(

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
@@ -39,21 +40,20 @@ class VendorHomeTab extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.only(top: 36.0, bottom: 24),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            //const SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             Container(
-              width: 120,
-              height: 120,
+              width: 110,
+              height: 110,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: AppColors.primaryColor,
               ),
               child: context.read<UserCubit>().state.userImage.isEmpty
                     ? const Icon(Icons.image_outlined, color: AppColors.whiteColor,)
-                    : CircleAvatar(
-                  backgroundImage: Image.network(context.read<UserCubit>().state.userImage, fit: BoxFit.cover,).image,
-              ),
+                    : ClipOval(
+                child: Image.network(context.read<UserCubit>().state.userImage, fit: BoxFit.cover,),
+              )
             ),
             const SizedBox(height: 2,),
             Text(
@@ -98,36 +98,68 @@ class VendorHomeTab extends StatelessWidget {
                   Expanded(
                     child: SizedBox(
                       height: defaultButtonSize,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
+                      child: AppButton(
+                       elevation: 0.0,
+                        onTap: () {
+                          _addItem(context);
+                        },
+                        shapeBorder: RoundedRectangleBorder(
+                            side: const BorderSide(color: AppColors.primaryColor),
+                            borderRadius: BorderRadius.circular(30)
                         ),
-                        onPressed: () => _addItem(context),
-                        child: Row(
-                          children: [
-                            Image.asset(AppAssets.add, width: 15, height: 15,),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            Text(
-                              TempLanguage().lblAddItem,
-                              style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor, fontSize: 16),
-                            ),
-                          ],
-                        ),
+                        textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                        color: AppColors.primaryColor,
+                       child: Row(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         children: [
+                           Image.asset(AppAssets.add, width: 15, height: 15,),
+                           const SizedBox(
+                             width: 16,
+                           ),
+                           Text(
+                             TempLanguage().lblAddItem,
+                             style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor, fontSize: 16),
+                           ),
+                         ],
+                       ),
                       ),
+                      // child: ElevatedButton(
+                      //   style: ElevatedButton.styleFrom(
+                      //     backgroundColor: AppColors.primaryColor,
+                      //   ),
+                      //   onPressed: () => _addItem(context),
+                      //   child: Row(
+                      //     children: [
+                      //       Image.asset(AppAssets.add, width: 15, height: 15,),
+                      //       const SizedBox(
+                      //         width: 16,
+                      //       ),
+                      //       Text(
+                      //         TempLanguage().lblAddItem,
+                      //         style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor, fontSize: 16),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ),
                   ),
                   const SizedBox(width: 12,),
                   Expanded(
                     child: SizedBox(
                       height: defaultButtonSize,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
+                      child: AppButton(
+                        elevation: 0.0,
+                        onTap: () {
+                          _addDeal(context);
+                        },
+                        shapeBorder: RoundedRectangleBorder(
+                            side: const BorderSide(color: AppColors.primaryColor),
+                            borderRadius: BorderRadius.circular(30)
                         ),
-                        onPressed: () => _addDeal(context),
+                        textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                        color: AppColors.primaryColor,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(AppAssets.add, width: 15, height: 15,),
                             const SizedBox(
@@ -140,6 +172,24 @@ class VendorHomeTab extends StatelessWidget {
                           ],
                         ),
                       ),
+                      // child: ElevatedButton(
+                      //   style: ElevatedButton.styleFrom(
+                      //     backgroundColor: AppColors.primaryColor,
+                      //   ),
+                      //   onPressed: () => _addDeal(context),
+                      //   child: Row(
+                      //     children: [
+                      //       Image.asset(AppAssets.add, width: 15, height: 15,),
+                      //       const SizedBox(
+                      //         width: 16,
+                      //       ),
+                      //       Text(
+                      //         TempLanguage().lblAddDeal,
+                      //         style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor, fontSize: 16),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ),
                   ),
                 ],

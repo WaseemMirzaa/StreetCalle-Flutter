@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_custom_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_deal_button.dart';
@@ -126,28 +127,48 @@ class AddDeal extends StatelessWidget {
                     Expanded(
                       child: SizedBox(
                         height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryColor,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                            elevation: 8,
-                            shadowColor: AppColors.blackColor
-                          ),
-                          onPressed: () async {
+                        child: AppButton(
+                         elevation: 8.0,
+                          text: TempLanguage().lblMenuItem,
+                          onTap: () async {
                             final addDealCubit = context.read<AddDealCubit>();
                             final result = await context.pushNamed(AppRoutingName.selectMenuItem);
                             if (result != null) {
                               addDealCubit.titleController.text += ' $result';
                             }
                           },
-                          child: Text(
-                            TempLanguage().lblMenuItem,
-                            style: context.currentTextTheme.displaySmall
-                                ?.copyWith(
-                                fontSize: 13,
-                                color: AppColors.whiteColor),
+                          shapeBorder: RoundedRectangleBorder(
+                              side: const BorderSide(color: AppColors.primaryColor),
+                              borderRadius: BorderRadius.circular(30)
                           ),
+                          textStyle: context.currentTextTheme.displaySmall
+                              ?.copyWith(
+                              fontSize: 13,
+                              color: AppColors.whiteColor),
+                          color: AppColors.primaryColor,
                         ),
+                        // child: ElevatedButton(
+                        //   style: ElevatedButton.styleFrom(
+                        //     backgroundColor: AppColors.primaryColor,
+                        //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                        //     elevation: 8,
+                        //     shadowColor: AppColors.blackColor
+                        //   ),
+                        //   onPressed: () async {
+                        //     final addDealCubit = context.read<AddDealCubit>();
+                        //     final result = await context.pushNamed(AppRoutingName.selectMenuItem);
+                        //     if (result != null) {
+                        //       addDealCubit.titleController.text += ' $result';
+                        //     }
+                        //   },
+                        //   child: Text(
+                        //     TempLanguage().lblMenuItem,
+                        //     style: context.currentTextTheme.displaySmall
+                        //         ?.copyWith(
+                        //         fontSize: 13,
+                        //         color: AppColors.whiteColor),
+                        //   ),
+                        // ),
                       ),
                     ),
                     const SizedBox(
@@ -156,22 +177,42 @@ class AddDeal extends StatelessWidget {
                     Expanded(
                       child: SizedBox(
                         height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryColor,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                              elevation: 8,
-                              shadowColor: AppColors.blackColor,
+                        child: AppButton(
+                          elevation: 8.0,
+                          text: TempLanguage().lblCustomItem,
+                          onTap: () async {
+                            final addDealCubit = context.read<AddDealCubit>();
+                            final result = await context.pushNamed(AppRoutingName.selectMenuItem);
+                            if (result != null) {
+                              addDealCubit.titleController.text += ' $result';
+                            }
+                          },
+                          shapeBorder: RoundedRectangleBorder(
+                              side: const BorderSide(color: AppColors.primaryColor),
+                              borderRadius: BorderRadius.circular(30)
                           ),
-                          onPressed: () => context.read<AddCustomItemCubit>().expand(),
-                          child: Text(
-                            TempLanguage().lblCustomItem,
-                            style: context.currentTextTheme.displaySmall
-                                ?.copyWith(
-                                fontSize: 11,
-                                color: AppColors.whiteColor),
-                          ),
+                          textStyle: context.currentTextTheme.displaySmall
+                              ?.copyWith(
+                              fontSize: 11,
+                              color: AppColors.whiteColor),
+                          color: AppColors.primaryColor,
                         ),
+                        // child: ElevatedButton(
+                        //   style: ElevatedButton.styleFrom(
+                        //       backgroundColor: AppColors.primaryColor,
+                        //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                        //       elevation: 8,
+                        //       shadowColor: AppColors.blackColor,
+                        //   ),
+                        //   onPressed: () => context.read<AddCustomItemCubit>().expand(),
+                        //   child: Text(
+                        //     TempLanguage().lblCustomItem,
+                        //     style: context.currentTextTheme.displaySmall
+                        //         ?.copyWith(
+                        //         fontSize: 11,
+                        //         color: AppColors.whiteColor),
+                        //   ),
+                        // ),
                       ),
                     ),
                   ],

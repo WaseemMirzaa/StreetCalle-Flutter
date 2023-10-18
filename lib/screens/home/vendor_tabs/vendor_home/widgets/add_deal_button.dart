@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
@@ -39,13 +40,17 @@ class AddDealButton extends StatelessWidget {
           child: SizedBox(
             width: context.width,
             height: defaultButtonSize,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryColor,
-              ),
-              onPressed: () => isUpdate
+            child: AppButton(
+              elevation: 0.0,
+              onTap: () => isUpdate
                   ? updateDeal(context)
                   : addDeal(context),
+              shapeBorder: RoundedRectangleBorder(
+                  side: const BorderSide(color: AppColors.primaryColor),
+                  borderRadius: BorderRadius.circular(30)
+              ),
+              textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+              color: AppColors.primaryColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -69,6 +74,36 @@ class AddDealButton extends StatelessWidget {
                 ],
               ),
             ),
+            // child: ElevatedButton(
+            //   style: ElevatedButton.styleFrom(
+            //     backgroundColor: AppColors.primaryColor,
+            //   ),
+            //   onPressed: () => isUpdate
+            //       ? updateDeal(context)
+            //       : addDeal(context),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       isUpdate
+            //           ? const SizedBox.shrink()
+            //           : Image.asset(
+            //         AppAssets.add,
+            //         width: 15,
+            //         height: 15,
+            //       ),
+            //       SizedBox(
+            //         width: isUpdate ? 0 : 16,
+            //       ),
+            //       Text(
+            //         isUpdate
+            //             ? TempLanguage().lblItemUpdateToMenu
+            //             : TempLanguage().lblItemAddToMenu,
+            //         style: context.currentTextTheme.labelLarge
+            //             ?.copyWith(color: AppColors.whiteColor),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ),
         );
       },

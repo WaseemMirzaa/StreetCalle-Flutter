@@ -14,4 +14,5 @@ class AppColors {
   static const dividerColor = Color(0xffEEEEEE);
   static const redColor = Color(0xffFF0000);
   static const containerBackgroundColor = Color(0xffE9E9E9);
+  static const chipColor = Color(0xffE1E3E9);
 }

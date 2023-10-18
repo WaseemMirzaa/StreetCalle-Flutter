@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/screens/selectUser/widgets/build_selected_image.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
@@ -74,18 +75,31 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                 child: SizedBox(
                   width: context.width,
                   height: defaultButtonSize,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                    ),
-                    onPressed: (){
+                  child: AppButton(
+                    text: TempLanguage().lblNext,
+                    elevation: 0.0,
+                    onTap: () {
                       context.pushNamed(_user.name == UserType.client.name ? AppRoutingName.clientMainScreen : AppRoutingName.mainScreen, pathParameters: {USER: _user.name});
                     },
-                    child: Text(
-                      TempLanguage().lblNext,
-                      style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                    shapeBorder: RoundedRectangleBorder(
+                        side: const BorderSide(color: AppColors.primaryColor),
+                        borderRadius: BorderRadius.circular(30)
                     ),
+                    textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                    color: AppColors.primaryColor,
                   ),
+                  // child: ElevatedButton(
+                  //   style: ElevatedButton.styleFrom(
+                  //     backgroundColor: AppColors.primaryColor,
+                  //   ),
+                  //   onPressed: (){
+                  //     context.pushNamed(_user.name == UserType.client.name ? AppRoutingName.clientMainScreen : AppRoutingName.mainScreen, pathParameters: {USER: _user.name});
+                  //   },
+                  //   child: Text(
+                  //     TempLanguage().lblNext,
+                  //     style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                  //   ),
+                  // ),
                 ),
               ),
             ),

@@ -64,25 +64,26 @@ class UserService extends BaseService<User> {
     }
   }
 
-  Future<Either<String, User>> updateProfile(String name, String userId, {required bool isUpdated, required String image}) async{
+  Future<void> updateUserLocation(double latitude, double longitude, String userId) async {
     try {
-
-      if (isUpdated) {
-        final url = await _uploadImageToFirebase(image, userId ?? '');
-        if (url == null) {
-          return const Left('Something went wrong. Try again later.');
-        }
-        User user = User(image: url, name: name);
-        await ref!.doc(userId).update({
-          UserKey.image: url,
-          UserKey.name: name
-        });
-        return Right(user);
-      }
-
-      User user = User(image: image, name: name);
       await ref!.doc(userId).update({
-        UserKey.name: name
+        UserKey.latitude: latitude,
+        UserKey.longitude: longitude
+      });
+    } catch (e) {
+
+    }
+  }
+
+  Future<Either<String, User>> updateProfile(String userId, {required bool isUpdated, required String image}) async{
+    try {
+      final url = await _uploadImageToFirebase(image, userId ?? '');
+      if (url == null) {
+        return const Left('Something went wrong. Try again later.');
+      }
+      User user = User(image: url);
+      await ref!.doc(userId).update({
+        UserKey.image: url,
       });
       return Right(user);
     } catch (e) {

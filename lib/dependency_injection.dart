@@ -11,6 +11,7 @@ import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
+import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
@@ -46,6 +47,7 @@ Future<void> init() async {
   sl.registerFactory(() => ProfileStatusCubit(sl.call(), sl.call()));
   sl.registerFactory(() => EditProfileCubit(sl.call(), sl.call()));
   sl.registerFactory(() => ClientSelectedVendorCubit());
+  sl.registerFactory(() => EditProfileEnableCubit());
 
 
   ///  [registerLazySingleton] which registers a singleton object that will be

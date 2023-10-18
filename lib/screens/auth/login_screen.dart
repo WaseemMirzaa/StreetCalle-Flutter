@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
@@ -10,7 +11,6 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/utils/common.dart';
@@ -101,16 +101,29 @@ class LoginScreen extends StatelessWidget {
                           child: SizedBox(
                       width: context.width,
                       height: defaultButtonSize,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryColor,
-                          ),
-                          onPressed: ()=> login(context),
-                          child: Text(
-                            TempLanguage().lblLogin,
-                            style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                          ),
+                      child: AppButton(
+                        text: TempLanguage().lblLogin,
+                        elevation: 0.0,
+                        onTap: () {
+                          login(context);
+                        },
+                        shapeBorder: RoundedRectangleBorder(
+                            side: const BorderSide(color: AppColors.primaryColor),
+                            borderRadius: BorderRadius.circular(30)
+                        ),
+                        textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                        color: AppColors.primaryColor,
                       ),
+                      // child: ElevatedButton(
+                      //     style: ElevatedButton.styleFrom(
+                      //       backgroundColor: AppColors.primaryColor,
+                      //     ),
+                      //     onPressed: ()=> login(context),
+                      //     child: Text(
+                      //       TempLanguage().lblLogin,
+                      //       style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                      //     ),
+                      // ),
                     ),
                         );
                   },
@@ -126,16 +139,29 @@ class LoginScreen extends StatelessWidget {
                           child: SizedBox(
                       width: context.width,
                       height: defaultButtonSize,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.guestColor,
-                          ),
-                          onPressed: ()=> context.read<GuestCubit>().signInAsGuest(),
-                          child: Text(
-                            TempLanguage().lblGuest,
-                            style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                          ),
+                      child: AppButton(
+                        text: TempLanguage().lblGuest,
+                        elevation: 0.0,
+                        onTap: () {
+                          context.read<GuestCubit>().signInAsGuest();
+                        },
+                        shapeBorder: RoundedRectangleBorder(
+                            side: const BorderSide(color: AppColors.primaryColor),
+                            borderRadius: BorderRadius.circular(30)
+                        ),
+                        textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                        color: AppColors.guestColor,
                       ),
+                      // child: ElevatedButton(
+                      //     style: ElevatedButton.styleFrom(
+                      //       backgroundColor: AppColors.guestColor,
+                      //     ),
+                      //     onPressed: ()=> context.read<GuestCubit>().signInAsGuest(),
+                      //     child: Text(
+                      //       TempLanguage().lblGuest,
+                      //       style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                      //     ),
+                      // ),
                     ),
                         );
                   },
@@ -160,7 +186,7 @@ class LoginScreen extends StatelessWidget {
                         builder: (context, state) {
                           return GestureDetector(
                             onTap: () {
-                              showLoadingDialog(context);
+                              showLoadingDialog(context, null);
                               context.read<GoogleLoginCubit>().googleSignIn();
                             },
                             child: Container(

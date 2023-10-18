@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:street_calle/utils/common.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/pricing_widget.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -95,66 +95,6 @@ class ItemView extends StatelessWidget {
         ),
         const SizedBox(height: 12,),
       ],
-    );
-  }
-}
-
-class PricingWidget extends StatelessWidget {
-  const PricingWidget({Key? key, required this.item}) : super(key: key);
-  final Item item;
-
-  @override
-  Widget build(BuildContext context) {
-    bool isSmallItemAvailable = item.smallItemActualPrice != null && item.smallItemActualPrice != defaultPrice;
-    bool isSmallItemDiscountedAvailable = item.smallItemDiscountedPrice != null && item.smallItemDiscountedPrice != defaultPrice;
-    bool isMediumItemAvailable = item.mediumItemActualPrice != null && item.mediumItemActualPrice != defaultPrice;
-    bool isDiscountAvailable = item.discountedPrice != null && item.discountedPrice != defaultPrice;
-
-    return (isSmallItemAvailable && isMediumItemAvailable)
-        ? (isSmallItemDiscountedAvailable)
-        ? Text('${TempLanguage().lblStartingFrom} \$${calculateDiscountAmount(item.smallItemActualPrice, item.smallItemDiscountedPrice)}',
-      style: const TextStyle(
-          fontFamily: METROPOLIS_BOLD,
-          fontSize: 16,
-          color: AppColors.primaryFontColor
-      ),
-    )
-        : Text('${TempLanguage().lblStartingFrom} \$${item.smallItemActualPrice}',
-      style: const TextStyle(
-          fontFamily: METROPOLIS_BOLD,
-          fontSize: 20,
-          color: AppColors.primaryFontColor
-      ),
-    )
-        : (isDiscountAvailable)
-        ? Row(
-      children: [
-        Text('\$${calculateDiscountAmount(item.actualPrice, item.discountedPrice)}',
-          style: const TextStyle(
-              fontFamily: METROPOLIS_BOLD,
-              fontSize: 23,
-              color: AppColors.primaryFontColor
-          ),
-        ),
-        const SizedBox(width: 6,),
-        Text('\$${item.actualPrice}',
-          style: const TextStyle(
-            fontFamily: METROPOLIS_BOLD,
-            fontSize: 16,
-            color: AppColors.primaryFontColor,
-            decoration: TextDecoration.lineThrough,
-            decorationColor: AppColors.redColor,
-            decorationThickness: 4.0,
-          ),
-        ),
-      ],
-    )
-        : Text('\$${item.actualPrice}',
-      style: const TextStyle(
-          fontFamily: METROPOLIS_BOLD,
-          fontSize: 23,
-          color: AppColors.primaryFontColor
-      ),
     );
   }
 }

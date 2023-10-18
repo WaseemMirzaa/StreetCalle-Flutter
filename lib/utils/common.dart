@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 
 void showToast(BuildContext context, String title) {
   final scaffold = ScaffoldMessenger.of(context);
@@ -17,19 +18,20 @@ bool hasMatch(String? s, String p) {
   return (s == null) ? false : RegExp(p).hasMatch(s);
 }
 
-void showLoadingDialog(BuildContext context) {
+void showLoadingDialog(BuildContext context, GlobalKey<State>? dialogKey ) {
   showDialog(
     context: context,
     barrierDismissible: false, // Prevent user from dismissing the dialog
     builder: (BuildContext context) {
-      return const AlertDialog(
+      return AlertDialog(
+        key: dialogKey,
         content: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              CircularProgressIndicator(color: Colors.black,),
-              SizedBox(width: 16),
-              Text('Please wait...'),
+              const CircularProgressIndicator(color: Colors.black,),
+              const SizedBox(width: 16),
+              Text(TempLanguage().lblPleaseWait),
             ],
           ),
         ),

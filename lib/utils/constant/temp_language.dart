@@ -59,7 +59,9 @@ class TempLanguage {
   String get lblItemAddFoodType => '+ Add Food Type';
   String get lblItemAddPricingCategories => '+ Add Pricing Categories';
   String get lblPrice => 'Price';
+  String get lblHiThere => 'Hi there';
   String get lblActualPrice => 'Actual';
+  String get lblPleaseWait=> 'Please wait...';
   String get lblDiscountedPrice => 'Discounted (if any)';
   String get lblSettings => 'Settings';
   String get lblSelectMenuItem => 'Select Menu Item';

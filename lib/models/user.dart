@@ -15,6 +15,8 @@ class User extends Equatable {
   final Timestamp? createdAt;
   final Timestamp? updatedAt;
   final List<dynamic>? fcmTokens;
+  final double? latitude;
+  final double? longitude;
 
   User({
     this.uid,
@@ -26,7 +28,9 @@ class User extends Equatable {
     this.updatedAt,
     this.fcmTokens,
     this.isVendor,
-    this.isOnline
+    this.isOnline,
+    this.latitude,
+    this.longitude
   });
 
   User copyWith({
@@ -39,7 +43,9 @@ class User extends Equatable {
     Timestamp? updatedAt,
     List<dynamic>? fcmTokens,
     bool? isVendor,
-    bool? isOnline
+    bool? isOnline,
+    double? latitude,
+    double? longitude
   }){
     return User(
       uid: uid ?? this.uid,
@@ -52,6 +58,8 @@ class User extends Equatable {
       fcmTokens: fcmTokens ?? this.fcmTokens,
       isVendor: isVendor ?? this.isVendor,
       isOnline: isOnline ?? this.isOnline,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude
     );
  }
 
@@ -67,6 +75,8 @@ class User extends Equatable {
       fcmTokens: json[UserKey.fcmTokens],
       isVendor: json[UserKey.isVendor],
       isOnline: json[UserKey.isOnline],
+      latitude: json[UserKey.latitude],
+      longitude: json[UserKey.longitude],
     );
   }
 
@@ -82,10 +92,12 @@ class User extends Equatable {
     data[UserKey.fcmTokens] = fcmTokens;
     data[UserKey.isVendor] = isVendor;
     data[UserKey.isOnline] = isOnline;
+    data[UserKey.latitude] = latitude;
+    data[UserKey.longitude] = longitude;
     return data;
   }
 
   @override
-  List<Object?> get props => [uid, image, name, email, phone, fcmTokens, createdAt, updatedAt, isVendor, isOnline];
+  List<Object?> get props => [uid];
 
 }

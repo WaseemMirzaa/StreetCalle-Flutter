@@ -255,20 +255,39 @@ class PricingCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         item.smallItemTitle.isEmptyOrNull
             ? const SizedBox.shrink()
             : PriceTile(title: item.smallItemTitle, actualPrice: item.smallItemActualPrice, discountedPrice: item.smallItemDiscountedPrice),
-        SizedBox(
-          height: item.smallItemTitle.isEmptyOrNull ? 0 : 12,
+        // SizedBox(
+        //   width: item.smallItemTitle.isEmptyOrNull ? 0 : 12,
+        // ),
+        item.smallItemTitle.isEmptyOrNull ? const SizedBox.shrink() : const SizedBox(
+          height: 50,
+          width: 2,
+          child: VerticalDivider(
+            width: 2,
+            color: AppColors.placeholderColor,
+          ),
         ),
+
         item.mediumItemTitle.isEmptyOrNull
             ? const SizedBox.shrink()
             : PriceTile(title: item.mediumItemTitle, actualPrice: item.mediumItemActualPrice, discountedPrice: item.mediumItemDiscountedPrice),
-        SizedBox(
-          height: item.mediumItemTitle.isEmptyOrNull ? 0 : 12,
+        // SizedBox(
+        //   width: item.mediumItemTitle.isEmptyOrNull ? 0 : 12,
+        // ),
+        item.mediumItemTitle.isEmptyOrNull ? const SizedBox.shrink() : const SizedBox(
+          height: 50,
+          width: 2,
+          child: VerticalDivider(
+            width: 2,
+            color: AppColors.placeholderColor,
+          ),
         ),
+
         item.largeItemTitle.isEmptyOrNull
             ? const SizedBox.shrink()
             : PriceTile(title: item.largeItemTitle, actualPrice: item.largeItemActualPrice, discountedPrice: item.largeItemDiscountedPrice),
@@ -285,21 +304,25 @@ class PriceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.end,
+    return Column(
+      //crossAxisAlignment: CrossAxisAlignment.center,
+      //mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Text(
-          '$title: ',
-          style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16),
+          title.capitalizeEachFirstLetter(),
+          style: context.currentTextTheme.labelMedium,
         ),
+        const SizedBox(height: 5,),
+
         (discountedPrice != null && actualPrice != defaultPrice)
             ? Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
               '\$${calculateDiscountAmount(actualPrice, discountedPrice)}',
-              style: context.currentTextTheme.titleMedium,
+              style: context.currentTextTheme.labelMedium,
             ),
+            const SizedBox(height: 3,),
             Text(
               '\$$actualPrice',
               style: context.currentTextTheme.titleMedium?.copyWith(

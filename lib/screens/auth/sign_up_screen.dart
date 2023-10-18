@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -12,7 +13,6 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
-import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
@@ -146,16 +146,29 @@ class SignUpScreen extends StatelessWidget {
                           child: SizedBox(
                       width: context.width,
                       height: defaultButtonSize,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryColor,
-                          ),
-                          onPressed: () => signUp(context),
-                          child: Text(
-                            TempLanguage().lblSignUp,
-                            style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                          ),
+                      child: AppButton(
+                        text: TempLanguage().lblSignUp,
+                        elevation: 0.0,
+                        onTap: () {
+                          signUp(context);
+                        },
+                        shapeBorder: RoundedRectangleBorder(
+                            side: const BorderSide(color: AppColors.primaryColor),
+                            borderRadius: BorderRadius.circular(30)
+                        ),
+                        textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                        color: AppColors.primaryColor,
                       ),
+                      // child: ElevatedButton(
+                      //     style: ElevatedButton.styleFrom(
+                      //       backgroundColor: AppColors.primaryColor,
+                      //     ),
+                      //     onPressed: () => signUp(context),
+                      //     child: Text(
+                      //       TempLanguage().lblSignUp,
+                      //       style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                      //     ),
+                      // ),
                     ),
                         );
                   },

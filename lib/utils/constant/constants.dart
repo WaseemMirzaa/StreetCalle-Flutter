@@ -52,6 +52,8 @@ class UserKey {
   static const String fcmTokens = 'fcmTokens';
   static const String isVendor = 'isVendor';
   static const String isOnline = 'isOnline';
+  static const String latitude = 'latitude';
+  static const String longitude = 'longitude';
 }
 
 class ItemKey {

@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/screens/auth/cubit/forget_password/forget_password_cubit.dart';
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -10,7 +11,6 @@ import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/utils/common.dart';
-import 'package:street_calle/utils/extensions/string_extensions.dart';
 
 class PasswordResetScreen extends StatelessWidget {
   const PasswordResetScreen({Key? key}) : super(key: key);
@@ -69,16 +69,29 @@ class PasswordResetScreen extends StatelessWidget {
                             : Container(
                           width: context.width,
                           height: defaultButtonSize,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryColor,
+                          child: AppButton(
+                            text: TempLanguage().lblSend,
+                            elevation: 0.0,
+                            onTap: () {
+                              resetPassword(context);
+                            },
+                            shapeBorder: RoundedRectangleBorder(
+                                side: const BorderSide(color: AppColors.primaryColor),
+                                borderRadius: BorderRadius.circular(30)
                             ),
-                            onPressed: ()=> resetPassword(context),
-                            child: Text(
-                              TempLanguage().lblSend,
-                              style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                            ),
+                            textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                            color: AppColors.primaryColor,
                           ),
+                          // child: ElevatedButton(
+                          //   style: ElevatedButton.styleFrom(
+                          //     backgroundColor: AppColors.primaryColor,
+                          //   ),
+                          //   onPressed: ()=> resetPassword(context),
+                          //   child: Text(
+                          //     TempLanguage().lblSend,
+                          //     style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                          //   ),
+                          // ),
                         );
                       },
                     ),

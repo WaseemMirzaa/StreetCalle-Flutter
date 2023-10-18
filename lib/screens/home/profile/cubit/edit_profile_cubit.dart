@@ -13,15 +13,10 @@ class EditProfileCubit extends Cubit<EditProfileState>{
 
   EditProfileCubit(this.userService, this.sharedPref) : super(EditProfileInitial());
 
-  @override
-  Future<void> close() {
-    nameController.dispose();
-    return super.close();
-  }
 
   Future<void> editProfile({required String image, required bool isUpdate}) async {
     emit(EditProfileLoading());
-    final firebaseUser = await userService.updateProfile(nameController.text, sharedPref.getStringAsync(SharePreferencesKey.USER_ID) ,isUpdated: isUpdate, image: image);
+    final firebaseUser = await userService.updateProfile(sharedPref.getStringAsync(SharePreferencesKey.USER_ID) ,isUpdated: isUpdate, image: image);
     firebaseUser.fold(
             (l) => emit(EditProfileFailure(l)),
             (r) => emit(EditProfileSuccess(r))

@@ -1,6 +1,4 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/auth/cubit/email_verification/email_verification_cubit.dart';
@@ -16,6 +14,7 @@ import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
+import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_custom_item_cubit.dart';
@@ -118,11 +117,15 @@ Future<void> main() async {
         BlocProvider(
           create: (context)=> sl<ClientSelectedVendorCubit>(),
         ),
+        BlocProvider(
+          create: (context)=> sl<EditProfileEnableCubit>(),
+        ),
       ],
-      child: DevicePreview(
-        enabled: !kReleaseMode,
-        builder: (context) => const MyApp(), // Wrap your app
-      ),
+      // child: DevicePreview(
+      //   enabled: !kReleaseMode,
+      //   builder: (context) => const MyApp(), // Wrap your app
+      // ),
+      child: const MyApp(),
     ),
   );
 }
@@ -134,8 +137,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
+      //locale: DevicePreview.locale(context),
+      //builder: DevicePreview.appBuilder,
       title: 'Street Calle',
       theme: AppThemes.lightTheme,
       darkTheme: AppThemes.darkTheme,

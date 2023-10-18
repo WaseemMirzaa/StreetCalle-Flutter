@@ -18,7 +18,6 @@ class AppRoutingName {
   static const addDeal = '/addDeal/:$IS_UPDATE/:$IS_FROM_DETAIL';
   static const selectMenuItem = '/selectMenuItem';
   static const dealDetail = '/dealDetail';
-  static const editProfile = '/editProfile';
   static const clientMenu = '/clientMenu';
   static const clientMenuItemDetail = '/clientMenuItemDetail:';
 }
