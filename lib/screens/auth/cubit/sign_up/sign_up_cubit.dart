@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/user_service.dart';
+import 'package:street_calle/utils/constant/constants.dart';
 part 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
@@ -12,6 +13,8 @@ class SignUpCubit extends Cubit<SignUpState> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController customPhoneController = TextEditingController();
+  final TextEditingController countryCodeController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
   final AuthService authService;
   final UserService userService;
@@ -26,7 +29,17 @@ class SignUpCubit extends Cubit<SignUpState> {
     nameController.dispose();
     phoneController.dispose();
     confirmPasswordController.dispose();
+    customPhoneController.dispose();
     return super.close();
+  }
+
+  void clearControllers() {
+    emailController.clear();
+    passwordController.clear();
+    nameController.clear();
+    phoneController.clear();
+    customPhoneController.clear();
+    confirmPasswordController.clear();
   }
 
   Future<void> signUp(String image) async {
@@ -42,7 +55,9 @@ class SignUpCubit extends Cubit<SignUpState> {
             name: nameController.text,
             email: emailController.text,
             phone: phoneController.text,
+            countryCode: countryCodeController.text.isEmpty ? initialCountyCode : countryCodeController.text,
             isVendor: false,
+            isOnline: true,
             createdAt: Timestamp.now(),
             updatedAt: Timestamp.now(),
           );

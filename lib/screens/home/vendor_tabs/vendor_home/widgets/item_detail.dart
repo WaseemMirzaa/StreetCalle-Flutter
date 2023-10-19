@@ -264,7 +264,7 @@ class PricingCategory extends StatelessWidget {
         // SizedBox(
         //   width: item.smallItemTitle.isEmptyOrNull ? 0 : 12,
         // ),
-        item.smallItemTitle.isEmptyOrNull ? const SizedBox.shrink() : const SizedBox(
+        item.mediumItemTitle.isEmptyOrNull ? const SizedBox.shrink() : const SizedBox(
           height: 50,
           width: 2,
           child: VerticalDivider(
@@ -279,7 +279,7 @@ class PricingCategory extends StatelessWidget {
         // SizedBox(
         //   width: item.mediumItemTitle.isEmptyOrNull ? 0 : 12,
         // ),
-        item.mediumItemTitle.isEmptyOrNull ? const SizedBox.shrink() : const SizedBox(
+        item.largeItemTitle.isEmptyOrNull ? const SizedBox.shrink() : const SizedBox(
           height: 50,
           width: 2,
           child: VerticalDivider(

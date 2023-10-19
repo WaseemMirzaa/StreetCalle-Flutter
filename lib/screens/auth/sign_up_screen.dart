@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl_phone_field/countries.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
 import 'package:street_calle/utils/common.dart';
@@ -90,14 +92,55 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24,),
 
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                //   child: CustomTextField(
+                //     hintText: TempLanguage().lblPhone,
+                //     keyboardType: TextInputType.phone,
+                //     asset: AppAssets.phone,
+                //     controller: context.read<SignUpCubit>().phoneController,
+                //     isPassword: false,
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-                  child: CustomTextField(
-                    hintText: TempLanguage().lblPhone,
-                    keyboardType: TextInputType.phone,
-                    asset: AppAssets.phone,
-                    controller: context.read<SignUpCubit>().phoneController,
-                    isPassword: false,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.blackColor.withOpacity(0.15),
+                          spreadRadius: 1, // Spread radius
+                          blurRadius: 15, // Blur radius
+                          offset: const Offset(1, 3), // Offset in the Y direction
+                        ),
+                      ],
+                    ),
+                    child: IntlPhoneField(
+                      dropdownTextStyle: const TextStyle(
+                        fontSize: 16
+                      ),
+                      flagsButtonPadding: const EdgeInsets.all(5.0),
+                      controller: context.read<SignUpCubit>().phoneController,
+                      disableLengthCheck: true,
+                      decoration: InputDecoration(
+                        fillColor: AppColors.whiteColor,
+                        filled: true,
+                        hintText: TempLanguage().lblPhoneNumber,
+                        hintStyle: context.currentTextTheme.displaySmall?.copyWith(fontSize: 16, color: AppColors.secondaryFontColor),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(40)
+                        ),
+                      ),
+                      initialCountryCode: initialCountyCode,
+                      onChanged: (phone) {
+                        context.read<SignUpCubit>().customPhoneController.text = phone.completeNumber;
+                        print(context.read<SignUpCubit>().customPhoneController.text);
+                      },
+                      onCountryChanged: (Country? country) {
+                        context.read<SignUpCubit>().countryCodeController.text = country?.code ?? initialCountyCode;
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 24,),
@@ -134,6 +177,7 @@ class SignUpScreen extends StatelessWidget {
                       context.read<UserCubit>().setUserModel(state.user);
                       context.read<ProfileStatusCubit>().defaultStatus(true);
                       context.pushNamed(AppRoutingName.emailVerificationScreen, pathParameters: {EMAIL: context.read<SignUpCubit>().emailController.text});
+                      context.read<SignUpCubit>().clearControllers();
                     } else if (state is SignUpFailure) {
                       showToast(context, state.error);
                     }
@@ -205,7 +249,7 @@ class SignUpScreen extends StatelessWidget {
     final image = imageCubit.state.selectedImage.path;
     final name = signUpCubit.nameController.text;
     final email = signUpCubit.emailController.text;
-    final phone = signUpCubit.phoneController.text;
+    final phone = signUpCubit.customPhoneController.text;
     final password = signUpCubit.passwordController.text;
     final confirmPassword = signUpCubit.confirmPasswordController.text;
 

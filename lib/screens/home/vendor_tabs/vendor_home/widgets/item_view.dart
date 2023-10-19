@@ -6,7 +6,6 @@ import 'package:street_calle/models/item.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 
 class ItemView extends StatelessWidget {
@@ -32,14 +31,14 @@ class ItemView extends StatelessWidget {
       children: [
         Row(
           children: [
-            const SizedBox(width: 6,),
-            index == 0
-                ? TextButton(
-                onPressed: (){},
-                child: Text(TempLanguage().lblViewAll,
-                  style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),)
-            )
-                : const SizedBox.shrink(),
+            // const SizedBox(width: 6,),
+            // index == 0
+            //     ? TextButton(
+            //     onPressed: (){},
+            //     child: Text(TempLanguage().lblViewAll,
+            //       style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),)
+            // )
+            //     : const SizedBox.shrink(),
 
             const Spacer(),
             InkWell(

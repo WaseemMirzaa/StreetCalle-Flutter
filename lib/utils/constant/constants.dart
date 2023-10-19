@@ -11,9 +11,10 @@ const RIFTSOFT = 'RiftSoft';
 
 const defaultLogoSize = 300.0;
 const defaultButtonSize = 55.0;
-const defaultPrice = 0.0;
+const defaultPrice = 0;
 const defaultHorizontalPadding = 28.0;
 const defaultVerticalPadding = 16.0;
+const initialCountyCode = 'US';
 
 
 /// PathParameters (for items and deals) --> change these wisely
@@ -35,6 +36,7 @@ class SharePreferencesKey {
   static const USER_ID = 'USER_ID';
   static const USER_NAME = 'USER_NAME';
   static const USER_NUMBER = 'USER_NUMBER';
+  static const COUNTRY_CODE = 'COUNTRY_CODE';
   static const USER_EMAIL = 'USER_EMAIL';
   static const USER_IMAGE = 'USER_IMAGE';
   static const IS_VENDOR = 'IS_VENDOR';
@@ -54,6 +56,7 @@ class UserKey {
   static const String isOnline = 'isOnline';
   static const String latitude = 'latitude';
   static const String longitude = 'longitude';
+  static const String countryCode = 'countryCode';
 }
 
 class ItemKey {

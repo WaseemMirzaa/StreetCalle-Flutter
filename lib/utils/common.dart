@@ -57,3 +57,8 @@ OutlineInputBorder clientSearchBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(40.0),
   borderSide: BorderSide.none,
 );
+
+OutlineInputBorder titleBorder = OutlineInputBorder(
+  borderSide: BorderSide.none,
+  borderRadius: BorderRadius.circular(40),
+);

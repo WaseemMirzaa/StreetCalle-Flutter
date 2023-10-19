@@ -147,14 +147,16 @@ class AddItemButton extends StatelessWidget {
     final actualPrice = itemCubit.actualPriceController.text;
     final smallActualPrice = itemCubit.smallItemActualPriceController.text;
     final smallTitle = itemCubit.smallItemTitleController.text;
+    final mediumActualPrice = itemCubit.mediumItemActualPriceController.text;
+    final mediumTitle = itemCubit.mediumItemTitleController.text;
 
     if (image.isEmpty && url == null) {
       showToast(context, TempLanguage().lblSelectImage);
     } else if (title.isEmpty) {
       showToast(context, TempLanguage().lblAddItemTitle);
-    } else if (pricingCategoryType == PricingCategoryType.smallMedium && smallTitle.isEmpty) {
+    } else if (pricingCategoryType == PricingCategoryType.smallMedium && (smallTitle.isEmpty || mediumTitle.isEmpty)) {
       showToast(context, TempLanguage().lblAddItemTitle);
-    } else if (actualPrice.isEmpty || (pricingCategoryType == PricingCategoryType.smallMedium && smallActualPrice.isEmpty)) {
+    } else if (actualPrice.isEmpty || (pricingCategoryType == PricingCategoryType.smallMedium && (smallActualPrice.isEmpty || mediumActualPrice.isEmpty))) {
       showToast(context, TempLanguage().lblAddItemPrice);
     } else {
       if (isUpdated ?? false) {

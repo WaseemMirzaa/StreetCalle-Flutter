@@ -10,6 +10,7 @@ class User extends Equatable {
   final String? name;
   final String? email;
   final String? phone;
+  final String? countryCode;
   final bool? isVendor;
   final bool? isOnline;
   final Timestamp? createdAt;
@@ -30,7 +31,8 @@ class User extends Equatable {
     this.isVendor,
     this.isOnline,
     this.latitude,
-    this.longitude
+    this.longitude,
+    this.countryCode
   });
 
   User copyWith({
@@ -45,7 +47,8 @@ class User extends Equatable {
     bool? isVendor,
     bool? isOnline,
     double? latitude,
-    double? longitude
+    double? longitude,
+    String? countryCode,
   }){
     return User(
       uid: uid ?? this.uid,
@@ -59,7 +62,8 @@ class User extends Equatable {
       isVendor: isVendor ?? this.isVendor,
       isOnline: isOnline ?? this.isOnline,
       latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude
+      longitude: longitude ?? this.longitude,
+      countryCode: countryCode ?? this.countryCode
     );
  }
 
@@ -77,6 +81,7 @@ class User extends Equatable {
       isOnline: json[UserKey.isOnline],
       latitude: json[UserKey.latitude],
       longitude: json[UserKey.longitude],
+      countryCode: json[UserKey.countryCode],
     );
   }
 
@@ -94,6 +99,7 @@ class User extends Equatable {
     data[UserKey.isOnline] = isOnline;
     data[UserKey.latitude] = latitude;
     data[UserKey.longitude] = longitude;
+    data[UserKey.countryCode] = countryCode;
     return data;
   }
 

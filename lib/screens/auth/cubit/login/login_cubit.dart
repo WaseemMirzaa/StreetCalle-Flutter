@@ -23,6 +23,11 @@ class LoginCubit extends Cubit<LoginState>{
     return super.close();
   }
 
+  void clearControllers() {
+    emailController.clear();
+    passwordController.clear();
+  }
+
   Future<void> login() async {
     emit(LoginLoading());
     final firebaseUser = await authService.logInWithEmailAndPassword(emailController.text, passwordController.text);
@@ -32,8 +37,7 @@ class LoginCubit extends Cubit<LoginState>{
        if (r != null) {
          try {
            final result = await userService.userByUid(r.uid);
-           emailController.text = '';
-           passwordController.text = '';
+           clearControllers();
            emit(LoginSuccess(result));
          } catch (e) {
            emit(LoginFailure('User not found'));

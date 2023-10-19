@@ -36,6 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
         userCubit.setUserPhone(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_NUMBER));
         userCubit.setUserEmail(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_EMAIL));
         userCubit.setIsOnline(sharedPreferencesService.getBoolAsync(SharePreferencesKey.IS_ONLINE));
+        userCubit.setUserCountryCode(sharedPreferencesService.getStringAsync(SharePreferencesKey.COUNTRY_CODE));
         context.read<ProfileStatusCubit>().defaultStatus(userCubit.state.isOnline);
         context.goNamed(AppRoutingName.selectUserScreen);
       } else {

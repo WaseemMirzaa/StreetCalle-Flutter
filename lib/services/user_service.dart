@@ -75,17 +75,22 @@ class UserService extends BaseService<User> {
     }
   }
 
-  Future<Either<String, User>> updateProfile(String userId, {required bool isUpdated, required String image}) async{
+  Future<Either<String, User>> updateProfile(String userId, {required bool isUpdated, required String image, required String name, required String phone, required String countryCode}) async{
     try {
-      final url = await _uploadImageToFirebase(image, userId ?? '');
-      if (url == null) {
-        return const Left('Something went wrong. Try again later.');
+      if (isUpdated) {
+        final url = await _uploadImageToFirebase(image, userId ?? '');
+        if (url == null) {
+          return const Left('Something went wrong. Try again later.');
+        }
+        User user = User(image: url, name: name, phone: phone, countryCode: countryCode);
+        await ref!.doc(userId).update(user.toJson());
+        return Right(user);
       }
-      User user = User(image: url);
-      await ref!.doc(userId).update({
-        UserKey.image: url,
-      });
+
+      User user = User(image: image, name: name, phone: phone, countryCode: countryCode);
+      await ref!.doc(userId).update(user.toJson());
       return Right(user);
+
     } catch (e) {
       return const Left('Something went wrong. Try again later.');
     }

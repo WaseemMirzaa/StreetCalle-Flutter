@@ -1,6 +1,6 @@
 part of 'image_cubit.dart';
 
-class ImageState extends Equatable {
+class ImageState {
   final XFile selectedImage;
   final bool? isUpdated;
   final String? url;
@@ -14,7 +14,4 @@ class ImageState extends Equatable {
         url: url ?? this.url
     );
   }
-
-  @override
-  List<Object?> get props => [selectedImage, isUpdated, url];
 }

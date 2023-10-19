@@ -294,6 +294,7 @@ class VendorHomeTab extends StatelessWidget {
     final pricingCategoryExpandCubit = context.read<PricingCategoryExpandedCubit>();
     final pricingCategoryTypeCubit = context.read<PricingCategoryCubit>();
 
+    imageCubit.resetForUpdateImage(item.image ?? '',);
     foodTypeCubit.loadFromFirebase();
     itemCubit.titleController.text = item.title ?? '';
     itemCubit.descriptionController.text = item.description ?? '';
@@ -322,6 +323,7 @@ class VendorHomeTab extends StatelessWidget {
     }
 
     if (itemCubit.smallItemTitleController.text.isNotEmpty) {
+      pricingCategoryTypeCubit.setCategoryType(PricingCategoryType.smallMedium);
       pricingCategoryExpandCubit.expand();
       if (itemCubit.largeItemTitleController.text.isNotEmpty) {
         pricingCategoryTypeCubit.setCategoryType(PricingCategoryType.large);
@@ -329,8 +331,6 @@ class VendorHomeTab extends StatelessWidget {
     } else {
       pricingCategoryExpandCubit.collapse();
     }
-
-    imageCubit.resetForUpdateImage(item.image ?? '',);
 
     context.pushNamed(AppRoutingName.addItem, pathParameters: {IS_UPDATE: true.toString(), IS_FROM_DETAIL: false.toString()});
   }
@@ -343,7 +343,7 @@ class VendorHomeTab extends StatelessWidget {
     _resetCubitStates(context);
 
     final addDealCubit = context.read<AddDealCubit>();
-    addDealCubit.clear();
+    addDealCubit.clearControllers();
 
     context.pushNamed(AppRoutingName.addDeal, pathParameters: {IS_UPDATE: false.toString(), IS_FROM_DETAIL: false.toString()});
   }

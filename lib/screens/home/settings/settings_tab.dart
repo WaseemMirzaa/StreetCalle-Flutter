@@ -29,7 +29,7 @@ class SettingsTab extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
           children: [
-            SettingItem(title: TempLanguage().lblProfile, onTap: (){}),
+            //SettingItem(title: TempLanguage().lblProfile, onTap: (){}),
             BlocSelector<UserCubit, UserState, bool>(
                 selector: (userState) => userState.isVendor,
                 builder: (context, isVendor) {

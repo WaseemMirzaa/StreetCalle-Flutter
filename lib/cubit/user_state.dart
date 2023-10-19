@@ -9,6 +9,7 @@ class UserState {
   final String userEmail;
   final String userImage;
   final String userPhone;
+  final String countryCode;
   final bool isLoggedIn;
   final bool isVendor;
   final bool isOnline;
@@ -19,6 +20,7 @@ class UserState {
     required this.userEmail,
     required this.userImage,
     required this.userPhone,
+    required this.countryCode,
     required this.isLoggedIn,
     required this.isVendor,
     required this.isOnline
@@ -32,7 +34,8 @@ class UserState {
     String? userPhone,
     bool? isLoggedIn,
     bool? isVendor,
-    bool? isOnline
+    bool? isOnline,
+    String? countryCode
   }) {
     return UserState(
       userId: userId ?? this.userId,
@@ -42,7 +45,8 @@ class UserState {
       userPhone: userPhone ?? this.userPhone,
       isLoggedIn: isLoggedIn ?? this.isLoggedIn,
       isVendor: isVendor ?? this.isVendor,
-      isOnline: isOnline ?? this.isOnline
+      isOnline: isOnline ?? this.isOnline,
+      countryCode: countryCode ?? this.countryCode,
     );
   }
 }
@@ -58,7 +62,8 @@ class UserCubit extends Cubit<UserState> {
       userPhone: '',
       isLoggedIn: false,
       isVendor: false,
-      isOnline: true
+      isOnline: true,
+      countryCode: initialCountyCode,
     ),
   );
 
@@ -90,6 +95,11 @@ class UserCubit extends Cubit<UserState> {
     sharedPreferencesService.setValue(SharePreferencesKey.USER_NUMBER, value);
   }
 
+  void setUserCountryCode(String value) {
+    emit(state.copyWith(countryCode: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.COUNTRY_CODE, value);
+  }
+
   void setIsLoggedIn(bool value) {
     emit(state.copyWith(isLoggedIn: value));
     sharedPreferencesService.setValue(SharePreferencesKey.IS_LOGGED_IN, value);
@@ -111,6 +121,7 @@ class UserCubit extends Cubit<UserState> {
     setUserImage(user.image ?? '');
     setUserId(user.uid ?? '');
     setUserPhone(user.phone ?? '');
+    setUserCountryCode(user.countryCode ?? initialCountyCode);
     setIsLoggedIn(isLoggedIn);
     setIsVendor(isVendor);
     setIsOnline(true);

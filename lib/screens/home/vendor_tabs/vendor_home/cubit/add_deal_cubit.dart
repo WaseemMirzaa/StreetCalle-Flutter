@@ -36,7 +36,7 @@ class AddDealCubit extends Cubit<AddDealState> {
     return super.close();
   }
 
-  void clear() {
+  void clearControllers() {
     titleController.clear();
     descriptionController.clear();
     foodTypeController.clear();

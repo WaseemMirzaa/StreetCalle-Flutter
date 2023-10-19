@@ -14,11 +14,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_i
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/food_type_expanded_widget.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
-
-OutlineInputBorder titleBorder = OutlineInputBorder(
-  borderSide: BorderSide.none,
-  borderRadius: BorderRadius.circular(40),
-);
+import 'package:street_calle/utils/common.dart';
 
 
 class AddDeal extends StatelessWidget {
