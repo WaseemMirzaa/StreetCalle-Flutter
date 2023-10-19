@@ -65,7 +65,7 @@ class _DealDetailState extends State<DealDetail> {
               left: 0,
               right: 0,
               child: Container(
-                height: MediaQuery.of(context).size.height - 320,
+                height: MediaQuery.of(context).size.height - 270,
                 decoration: const BoxDecoration(
                   color: AppColors.whiteColor,
                   borderRadius: BorderRadius.only(

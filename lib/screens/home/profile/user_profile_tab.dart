@@ -13,6 +13,7 @@ import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
 import 'package:street_calle/utils/common.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
 
 GlobalKey<State> _dialogKey = GlobalKey<State>();
 
@@ -194,7 +195,7 @@ class UserprofileTab extends StatelessWidget {
                 height: 16,
               ),
               Text(
-                '${TempLanguage().lblHiThere} ${context.read<UserCubit>().state.userName.toString().split(' ')[0]}!',
+                '${TempLanguage().lblHiThere} ${context.read<UserCubit>().state.userName.capitalizeEachFirstLetter()}!',
                 style: const TextStyle(
                     fontFamily: METROPOLIS_BOLD,
                     fontSize: 16,

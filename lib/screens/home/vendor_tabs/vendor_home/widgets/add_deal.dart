@@ -180,13 +180,7 @@ class AddDeal extends StatelessWidget {
                         child: AppButton(
                           elevation: 8.0,
                           text: TempLanguage().lblCustomItem,
-                          onTap: () async {
-                            final addDealCubit = context.read<AddDealCubit>();
-                            final result = await context.pushNamed(AppRoutingName.selectMenuItem);
-                            if (result != null) {
-                              addDealCubit.titleController.text += ' $result';
-                            }
-                          },
+                          onTap: () => context.read<AddCustomItemCubit>().expand(),
                           shapeBorder: RoundedRectangleBorder(
                               side: const BorderSide(color: AppColors.primaryColor),
                               borderRadius: BorderRadius.circular(30)
