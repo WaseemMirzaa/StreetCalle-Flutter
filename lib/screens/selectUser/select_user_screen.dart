@@ -12,6 +12,7 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/utils/permission_utils.dart';
 
 class SelectUserScreen extends StatefulWidget {
   const SelectUserScreen({Key? key}) : super(key: key);
@@ -22,6 +23,18 @@ class SelectUserScreen extends StatefulWidget {
 
 class _SelectUserScreenState extends State<SelectUserScreen> {
   UserType _user = UserType.client;
+
+  @override
+  void initState() {
+    super.initState();
+    PermissionUtils.requestCustomPermissions(
+      scaffoldContext: context,
+      onLocationDenied: (){},
+      onLocationGranted: (){},
+      onNotificationGranted: (){},
+      onNotificationDenied: (){},
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

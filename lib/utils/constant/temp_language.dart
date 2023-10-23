@@ -111,6 +111,7 @@ class TempLanguage {
   String get lblDeals => 'Deals';
   String get lblDelete => 'Delete';
   String get lblCancel => 'Cancel';
+  String get lblOk => 'Ok';
   String get lblDeleteItem => 'Delete Item?';
   String get lblDeleteDeal => 'Delete Deal?';
   String get lblAreYouSureYouWantToDeleteItem => 'Are you sure you want to delete this item?';
@@ -118,6 +119,21 @@ class TempLanguage {
   String get lblMenuItem => 'Add Menu Item';
   String get lblCustomItem => 'Add Custom Item';
   String get lblStartingFrom => 'Starting from:';
+
+  String get lblYourConsent => 'Your consent is required';
+  String get lblLocationPermissionRequired => 'Location permission is required to run the app smoothly and work properly.';
+  String get lblNotificationPermissionRequired => 'Notification permission is required to run the app smoothly and work properly.';
+  String get lblEnableLocationService => 'Enable location service';
+  String get lblDisableLocationService => 'Location services are disabled.';
+
+  String get lblPermissionDenied => 'Permission Denied';
+  String get lblPermissionDeniedPermanently => 'You have permanently denied the required permission. Please go to the app settings to enable the permission.';
+  String get lblOpenSettings => 'Open Settings';
+  String get lblNotificationPermission => 'Notification Permission Required';
+  String get lblLocationPermission => 'Location Permission Required';
+  String get lblLocationAndNotificationPermission => 'Notification and Location Permission Required';
+  String get lblHome => 'Home';
+  String get lblMore => 'More';
 
   String get lblLorem => '''
   One brave soul did take a stab at translating the almost-not-quite-Latin. According to The Guardian, Jaspreet Singh Boparai undertook the challenge with the goal of making the text “precisely as incoherent in English as it is in Latin - and to make it incoherent in the same way”. As a result, “the Greek 'eu' in Latin became the French 'bien' [...] and the '-ing' ending in 'lorem ipsum' seemed best rendered by an '-iendum' in English.”

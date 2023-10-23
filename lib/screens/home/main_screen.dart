@@ -8,6 +8,9 @@ import 'package:street_calle/screens/home/widgets/custom_bottom_nav_item.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/utils/location_utils.dart';
+import 'package:street_calle/utils/permission_utils.dart';
 
 
 class MainScreen extends StatefulWidget {
@@ -20,57 +23,25 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-  //
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getLocationUpdates();
-  // }
-  //
-  // void getCurrentLocation() {
-  //   BackgroundLocation().getCurrentLocation().then((location) {
-  //     print('This is current Location ${location.toMap()}');
-  //   });
-  // }
-  //
-  // Future<void> getLocationUpdates() async {
-  //   var status = await Permission.notification.status;
-  //   if (status.isDenied) {
-  //     final result = await Permission.notification.request();
-  //     if (result.isGranted) {
-  //       await BackgroundLocation.setAndroidNotification(
-  //         title: 'Background service is running',
-  //         message: 'Background location in progress',
-  //         icon: '@mipmap/ic_launcher',
-  //       );
-  //     }
-  //   } else {
-  //     await BackgroundLocation.setAndroidNotification(
-  //       title: 'Background service is running',
-  //       message: 'Background location in progress',
-  //       icon: '@mipmap/ic_launcher',
-  //     );
-  //   }
-  //
-  //   final userService = sl.get<UserService>();
-  //   //await BackgroundLocation.setAndroidConfiguration(1000);
-  //   await BackgroundLocation.startLocationService(distanceFilter: 10);
-  //   BackgroundLocation.getLocationUpdates((location) {
-  //
-  //     if (location.longitude != null && location.latitude != null) {
-  //       final sharedPref = sl.get<SharedPreferencesService>();
-  //       userService.updateUserLocation(location.latitude!, location.longitude!, sharedPref.getStringAsync(SharePreferencesKey.USER_ID));
-  //      }
-  //   });
-  // }
-  //
-  // @override
-  // void dispose() {
-  //   BackgroundLocation.stopLocationService();
-  //   super.dispose();
-  // }
 
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    PermissionUtils.checkPermissionsAndNavigateToScreen(context).then((value){
+      LocationUtils.getBackgroundLocation();
+    });
+  }
+
+  @override
+  void dispose() {
+    LocationUtils.stopBackgroundLocation();
+    super.dispose();
+  }
 
   static const List<Widget> _vendorWidgets = <Widget>[
     VendorHomeTab(),
@@ -106,19 +77,19 @@ class _MainScreenState extends State<MainScreen> {
         child: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: CustomBottomNavItem(iconAsset: AppAssets.home, text: 'Home', isSelected: _selectedIndex == 0,),
+              icon: CustomBottomNavItem(iconAsset: AppAssets.home, text: TempLanguage().lblHome, isSelected: _selectedIndex == 0,),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: CustomBottomNavItem(iconAsset: AppAssets.menu, text: 'Menu', isSelected: _selectedIndex == 1,),
+              icon: CustomBottomNavItem(iconAsset: AppAssets.menu, text: TempLanguage().lblMenu, isSelected: _selectedIndex == 1,),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: CustomBottomNavItem(iconAsset: AppAssets.user, text: 'Profile', isSelected: _selectedIndex == 2,),
+              icon: CustomBottomNavItem(iconAsset: AppAssets.user, text: TempLanguage().lblProfile, isSelected: _selectedIndex == 2,),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: CustomBottomNavItem(iconAsset: AppAssets.more, text: 'More', isSelected: _selectedIndex == 3,),
+              icon: CustomBottomNavItem(iconAsset: AppAssets.more, text: TempLanguage().lblMore, isSelected: _selectedIndex == 3,),
               label: '',
             ),
           ],

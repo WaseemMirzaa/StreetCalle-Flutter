@@ -52,11 +52,11 @@
     <string>Street Calle app requires access to the photo library to upload your profile photo.</string>
 
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>This app needs access to location.</string>
+    <string>Location permission is required to run the app smoothly and work properly.</string>
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>This app needs access to location.</string>
+    <string>Location permission is required to run the app smoothly and work properly.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>This app needs access to location.</string>
+    <string>Location permission is required to run the app smoothly and work properly.</string>
     <key>UIBackgroundModes</key>
     <array>
     	<string>fetch</string>
