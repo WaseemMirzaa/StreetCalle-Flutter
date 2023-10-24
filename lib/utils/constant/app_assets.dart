@@ -11,6 +11,10 @@ class AppAssets {
   static const twitter = 'assets/images/twitter.png';
   static const person = 'assets/images/person.svg';
   static const phone = 'assets/images/phone.svg';
+  static const people = 'assets/images/people.svg';
+  static const block = 'assets/images/block.svg';
+  static const pencil = 'assets/images/pencil.svg';
+  static const itemListIcon = 'assets/images/list_item.svg';
 
   static const home = 'assets/images/home.png';
   static const menu = 'assets/images/menu.png';
@@ -39,7 +43,6 @@ class AppAssets {
   static const bottomSearch = 'assets/images/bottom_search.png';
   static const clientIcon = 'assets/images/client_icon.png';
   static const vendorIcon = 'assets/images/vendor_icon.png';
-
 
   static const burgerImage = 'assets/images/burger_image.png';
   static const backgroundImage = 'assets/images/background_image.png';

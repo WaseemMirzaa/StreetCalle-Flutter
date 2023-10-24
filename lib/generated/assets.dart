@@ -4,24 +4,130 @@ class Assets {
 
   static const String assetsImagesPerson = 'assets/images/person.svg';
   static const String assetsImagesPhone = 'assets/images/phone.svg';
-  static const String fontsCabin-Bold = 'assets/fonts/Cabin-Bold.ttf';
-  static const String fontsEuropa-Bold = 'assets/fonts/Europa-Bold.ttf';
-  static const String fontsMetropolis-Bold = 'assets/fonts/Metropolis-Bold.otf';
-  static const String fontsMetropolis-ExtraBold = 'assets/fonts/Metropolis-ExtraBold.otf';
-  static const String fontsMetropolis-Medium = 'assets/fonts/Metropolis-Medium.otf';
-  static const String fontsMetropolis-Regular = 'assets/fonts/Metropolis-Regular.otf';
-  static const String fontsMetropolis-SemiBold = 'assets/fonts/Metropolis-SemiBold.otf';
-  static const String fontsPoppins-Regular = 'assets/fonts/Poppins-Regular.ttf';
+  static const String fontsCabin
+
+  -
+
+  Bold
+
+  =
+
+  '
+
+  assets/fonts/Cabin-Bold.ttf
+
+  ';
+
+  static const String fontsEuropa
+
+  -
+
+  Bold
+
+  =
+
+  '
+
+  assets/fonts/Europa-Bold.ttf
+
+  ';
+
+  static const String fontsMetropolis
+
+  -
+
+  Bold
+
+  =
+
+  '
+
+  assets/fonts/Metropolis-Bold.otf
+
+  ';
+
+  static const String fontsMetropolis
+
+  -
+
+  ExtraBold
+
+  =
+
+  '
+
+  assets/fonts/Metropolis-ExtraBold.otf
+
+  ';
+
+  static const String fontsMetropolis
+
+  -
+
+  Medium
+
+  =
+
+  '
+
+  assets/fonts/Metropolis-Medium.otf
+
+  ';
+
+  static const String fontsMetropolis
+
+  -
+
+  Regular
+
+  =
+
+  '
+
+  assets/fonts/Metropolis-Regular.otf
+
+  ';
+
+  static const String fontsMetropolis
+
+  -
+
+  SemiBold
+
+  =
+
+  '
+
+  assets/fonts/Metropolis-SemiBold.otf
+
+  ';
+
+  static const String fontsPoppins
+
+  -
+
+  Regular
+
+  =
+
+  '
+
+  assets/fonts/Poppins-Regular.ttf
+
+  ';
+
   static const String fontsRiftSoftDemi = 'assets/fonts/Rift_Soft_Demi.otf';
   static const String imagesAdd = 'assets/images/add.png';
   static const String imagesBack = 'assets/images/back.png';
   static const String imagesBackgroundImage = 'assets/images/background_image.png';
   static const String imagesBackgroundImg = 'assets/images/background_img.png';
+  static const String imagesBlock = 'assets/images/block.svg';
   static const String imagesBottomSearch = 'assets/images/bottom_search.png';
   static const String imagesBurgerImage = 'assets/images/burger_image.png';
   static const String imagesCamera = 'assets/images/camera.png';
   static const String imagesCheckMark = 'assets/images/check_mark.png';
   static const String imagesClient = 'assets/images/client.png';
+  static const String imagesClientIcon = 'assets/images/client_icon.png';
   static const String imagesCustomRectangle = 'assets/images/custom_rectangle.png';
   static const String imagesDelete = 'assets/images/delete.png';
   static const String imagesEdit = 'assets/images/edit.png';
@@ -32,10 +138,9 @@ class Assets {
   static const String imagesFilter = 'assets/images/filter.png';
   static const String imagesFilterIcon = 'assets/images/filter_icon.png';
   static const String imagesGoogle = 'assets/images/google.png';
-  static const String imagesGroup 9249 = 'assets/images/client_icon.png';
-  static const String imagesGroup 9250 = 'assets/images/vendor_icon.png';
   static const String imagesHome = 'assets/images/home.png';
   static const String imagesIconImage = 'assets/images/icon_image.png';
+  static const String imagesListItem = 'assets/images/list_item.svg';
   static const String imagesLocationMarker = 'assets/images/location_marker.png';
   static const String imagesLogo = 'assets/images/logo.svg';
   static const String imagesMarker = 'assets/images/marker.png';
@@ -45,6 +150,8 @@ class Assets {
   static const String imagesOffline = 'assets/images/offline.png';
   static const String imagesOnline = 'assets/images/online.png';
   static const String imagesPassword = 'assets/images/password.svg';
+  static const String imagesPencil = 'assets/images/pencil.svg';
+  static const String imagesPeople = 'assets/images/people.svg';
   static const String imagesPerson = 'assets/images/person.png';
   static const String imagesPhone = 'assets/images/phone.png';
   static const String imagesSearchIcon = 'assets/images/search_icon.png';
@@ -53,6 +160,7 @@ class Assets {
   static const String imagesTwitter = 'assets/images/twitter.png';
   static const String imagesUser = 'assets/images/user.png';
   static const String imagesVendor = 'assets/images/vendor.png';
+  static const String imagesVendorIcon = 'assets/images/vendor_icon.png';
   static const String imagesWhiteIconImage = 'assets/images/white_icon_image.png';
 
 }

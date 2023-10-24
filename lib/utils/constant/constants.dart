@@ -1,7 +1,7 @@
-
 const METROPOLIS_MEDIUM = 'MetropolisMD';
 const METROPOLIS_SEMI_BOLD = 'MetropolisSM';
-const METROPOLIS_BOLD = 'MetropolisB'; //TODO: Also create a separate TextStyle for it
+const METROPOLIS_BOLD =
+    'MetropolisB'; //TODO: Also create a separate TextStyle for it
 const METROPOLIS_EXTRA_BOLD = 'MetropolisEB';
 const METROPOLIS_R = 'MetropolisR';
 const EUROPA_BOLD = 'EuropaBD';
@@ -16,12 +16,12 @@ const defaultHorizontalPadding = 28.0;
 const defaultVerticalPadding = 16.0;
 const initialCountyCode = 'US';
 
-
 /// PathParameters (for items and deals) --> change these wisely
 const IS_UPDATE = 'isUpdate';
 const IS_FROM_DETAIL = 'isFromDetail';
 const USER = 'user';
 const EMAIL = 'email';
+const VENDOR_TYPE = 'vendor_type';
 
 class Collections {
   static const String users = 'users';
@@ -31,7 +31,6 @@ class Collections {
 }
 
 class SharePreferencesKey {
-
   static const IS_LOGGED_IN = 'IS_LOGGED_IN';
   static const USER_ID = 'USER_ID';
   static const USER_NAME = 'USER_NAME';
@@ -41,6 +40,7 @@ class SharePreferencesKey {
   static const USER_IMAGE = 'USER_IMAGE';
   static const IS_VENDOR = 'IS_VENDOR';
   static const IS_ONLINE = 'IS_ONLINE';
+  static const VENDOR_TYPE = 'VENDOR_TYPE';
 }
 
 class UserKey {
@@ -57,6 +57,7 @@ class UserKey {
   static const String latitude = 'latitude';
   static const String longitude = 'longitude';
   static const String countryCode = 'countryCode';
+  static const String vendorType = 'vendorType';
 }
 
 class ItemKey {

@@ -1,0 +1,18 @@
+<svg height="11.3" viewBox="0 0 16.3 11.3" width="16.3" xmlns="http://www.w3.org/2000/svg">
+    <g data-name="Group 9254" id="Group_9254" transform="translate(-2.35 -5.35)">
+        <line data-name="Line 106" fill="none" id="Line_106" stroke="#000" stroke-linecap="round"
+            stroke-linejoin="round" stroke-width="1.3" transform="translate(7 6)" x2="11" />
+        <line data-name="Line 107" fill="none" id="Line_107" stroke="#000" stroke-linecap="round"
+            stroke-linejoin="round" stroke-width="1.3" transform="translate(7 11)" x2="11" />
+        <line data-name="Line 108" fill="none" id="Line_108" stroke="#000" stroke-linecap="round"
+            stroke-linejoin="round" stroke-width="1.3" transform="translate(7 16)" x2="11" />
+        <line data-name="Line 109" fill="none" id="Line_109" stroke="#000" stroke-linecap="round"
+            stroke-linejoin="round" stroke-width="1.3" transform="translate(3 6)" x2="0.008" />
+        <line data-name="Line 110" fill="none" id="Line_110" stroke="#000"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" transform="translate(3 10.84)"
+            x2="0.008" />
+        <line data-name="Line 111" fill="none" id="Line_111" stroke="#000"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" transform="translate(3 15.68)"
+            x2="0.008" />
+    </g>
+</svg>

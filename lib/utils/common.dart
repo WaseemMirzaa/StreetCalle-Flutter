@@ -8,7 +8,8 @@ void showToast(BuildContext context, String title) {
   scaffold.showSnackBar(
     SnackBar(
       content: Text(title),
-      action: SnackBarAction(label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+      action: SnackBarAction(
+          label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
     ),
   );
 }
@@ -18,7 +19,7 @@ bool hasMatch(String? s, String p) {
   return (s == null) ? false : RegExp(p).hasMatch(s);
 }
 
-void showLoadingDialog(BuildContext context, GlobalKey<State>? dialogKey ) {
+void showLoadingDialog(BuildContext context, GlobalKey<State>? dialogKey) {
   showDialog(
     context: context,
     barrierDismissible: false, // Prevent user from dismissing the dialog
@@ -29,7 +30,9 @@ void showLoadingDialog(BuildContext context, GlobalKey<State>? dialogKey ) {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              const CircularProgressIndicator(color: Colors.black,),
+              const CircularProgressIndicator(
+                color: Colors.black,
+              ),
               const SizedBox(width: 16),
               Text(TempLanguage().lblPleaseWait),
             ],
@@ -44,7 +47,9 @@ num calculateDiscountAmount(num? actualPrice, num? disCountedPrice) {
   if (actualPrice == null || disCountedPrice == null) {
     return defaultPrice;
   }
-  num price = (actualPrice > disCountedPrice)  ? actualPrice - disCountedPrice : actualPrice;
+  num price = (actualPrice > disCountedPrice)
+      ? actualPrice - disCountedPrice
+      : actualPrice;
   return price.abs();
 }
 
@@ -59,6 +64,11 @@ OutlineInputBorder clientSearchBorder = OutlineInputBorder(
 );
 
 OutlineInputBorder titleBorder = OutlineInputBorder(
+  borderSide: BorderSide.none,
+  borderRadius: BorderRadius.circular(40),
+);
+
+OutlineInputBorder vendorSelectionBorder = OutlineInputBorder(
   borderSide: BorderSide.none,
   borderRadius: BorderRadius.circular(40),
 );

@@ -20,4 +20,8 @@ class AppRoutingName {
   static const dealDetail = '/dealDetail';
   static const clientMenu = '/clientMenu';
   static const clientMenuItemDetail = '/clientMenuItemDetail:';
+  static const manageEmployee = '/manageEmployee';
+  static const createEmployeeProfileScreen = '/createEmployeeProfileScreen';
+  static const addEmployeeMenuItems = '/addEmployeeMenuItems';
+  static const employeeDetail = '/employeeDetail';
 }

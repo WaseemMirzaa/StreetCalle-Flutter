@@ -15,6 +15,7 @@ import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
@@ -41,27 +42,64 @@ class VendorHomeTab extends StatelessWidget {
         padding: const EdgeInsets.only(top: 36.0, bottom: 24),
         child: Column(
           children: [
-            const SizedBox(height: 10,),
-            Container(
-              width: 110,
-              height: 110,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.primaryColor,
-              ),
-              child: context.read<UserCubit>().state.userImage.isEmpty
-                    ? const Icon(Icons.image_outlined, color: AppColors.whiteColor,)
-                    : ClipOval(
-                child: Image.network(context.read<UserCubit>().state.userImage, fit: BoxFit.cover,),
-              )
+            const SizedBox(
+              height: 10,
             ),
-            const SizedBox(height: 2,),
+            Container(
+                width: 110,
+                height: 110,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.primaryColor,
+                ),
+                child: context.read<UserCubit>().state.userImage.isEmpty
+                    ? const Icon(
+                        Icons.image_outlined,
+                        color: AppColors.whiteColor,
+                      )
+                    : ClipOval(
+                        child: Image.network(
+                          context.read<UserCubit>().state.userImage,
+                          fit: BoxFit.cover,
+                        ),
+                      )),
+            const SizedBox(
+              height: 2,
+            ),
             Text(
               '${TempLanguage().lblHello} ${context.read<UserCubit>().state.userName.capitalizeEachFirstLetter()}!',
               textAlign: TextAlign.center,
-              style: context.currentTextTheme.titleMedium?.copyWith(fontSize: 20, color: AppColors.primaryFontColor),
+              style: context.currentTextTheme.titleMedium
+                  ?.copyWith(fontSize: 20, color: AppColors.primaryFontColor),
             ),
-            const SizedBox(height: 16,),
+            const SizedBox(
+              height: 16,
+            ),
+
+            BlocSelector<UserCubit, UserState, String>(
+              selector: (userState) => userState.vendorType,
+              builder: (context, state) {
+                return (state.isEmpty ||
+                        state.toLowerCase() == VendorType.individual.name)
+                    ? const SizedBox.shrink()
+                    : InkWell(
+                        onTap: () {
+                          context.pushNamed(AppRoutingName.manageEmployee);
+                        },
+                        child: Text(
+                          TempLanguage().lblManageEmployees,
+                          style: context.currentTextTheme.titleMedium?.copyWith(
+                              color: AppColors.primaryColor,
+                              fontSize: 24,
+                              decoration: TextDecoration.underline),
+                        ),
+                      );
+              },
+            ),
+
+            const SizedBox(
+              height: 16,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: TextField(
@@ -74,11 +112,16 @@ class VendorHomeTab extends StatelessWidget {
                     children: [
                       Container(
                         margin: const EdgeInsets.only(left: 5),
-                        child: Image.asset(AppAssets.searchIcon, width: 18, height: 18,),
+                        child: Image.asset(
+                          AppAssets.searchIcon,
+                          width: 18,
+                          height: 18,
+                        ),
                       )
                     ],
                   ),
-                  hintStyle: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.placeholderColor, fontSize: 15),
+                  hintStyle: context.currentTextTheme.displaySmall?.copyWith(
+                      color: AppColors.placeholderColor, fontSize: 15),
                   hintText: TempLanguage().lblSearchItemDeal,
                   fillColor: Colors.white70,
                   border: searchBorder,
@@ -99,29 +142,37 @@ class VendorHomeTab extends StatelessWidget {
                     child: SizedBox(
                       height: defaultButtonSize,
                       child: AppButton(
-                       elevation: 0.0,
+                        elevation: 0.0,
                         onTap: () {
                           _addItem(context);
                         },
                         shapeBorder: RoundedRectangleBorder(
-                            side: const BorderSide(color: AppColors.primaryColor),
-                            borderRadius: BorderRadius.circular(30)
-                        ),
-                        textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                            side:
+                                const BorderSide(color: AppColors.primaryColor),
+                            borderRadius: BorderRadius.circular(30)),
+                        textStyle: context.currentTextTheme.labelLarge
+                            ?.copyWith(color: AppColors.whiteColor),
                         color: AppColors.primaryColor,
-                       child: Row(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         children: [
-                           Image.asset(AppAssets.add, width: 15, height: 15,),
-                           const SizedBox(
-                             width: 16,
-                           ),
-                           Text(
-                             TempLanguage().lblAddItem,
-                             style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor, fontSize: 16),
-                           ),
-                         ],
-                       ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              AppAssets.add,
+                              width: 15,
+                              height: 15,
+                            ),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Text(
+                              TempLanguage().lblAddItem,
+                              style: context.currentTextTheme.labelLarge
+                                  ?.copyWith(
+                                      color: AppColors.whiteColor,
+                                      fontSize: 16),
+                            ),
+                          ],
+                        ),
                       ),
                       // child: ElevatedButton(
                       //   style: ElevatedButton.styleFrom(
@@ -143,7 +194,9 @@ class VendorHomeTab extends StatelessWidget {
                       // ),
                     ),
                   ),
-                  const SizedBox(width: 12,),
+                  const SizedBox(
+                    width: 12,
+                  ),
                   Expanded(
                     child: SizedBox(
                       height: defaultButtonSize,
@@ -153,21 +206,29 @@ class VendorHomeTab extends StatelessWidget {
                           _addDeal(context);
                         },
                         shapeBorder: RoundedRectangleBorder(
-                            side: const BorderSide(color: AppColors.primaryColor),
-                            borderRadius: BorderRadius.circular(30)
-                        ),
-                        textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                            side:
+                                const BorderSide(color: AppColors.primaryColor),
+                            borderRadius: BorderRadius.circular(30)),
+                        textStyle: context.currentTextTheme.labelLarge
+                            ?.copyWith(color: AppColors.whiteColor),
                         color: AppColors.primaryColor,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(AppAssets.add, width: 15, height: 15,),
+                            Image.asset(
+                              AppAssets.add,
+                              width: 15,
+                              height: 15,
+                            ),
                             const SizedBox(
                               width: 16,
                             ),
                             Text(
                               TempLanguage().lblAddDeal,
-                              style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor, fontSize: 16),
+                              style: context.currentTextTheme.labelLarge
+                                  ?.copyWith(
+                                      color: AppColors.whiteColor,
+                                      fontSize: 16),
                             ),
                           ],
                         ),
@@ -202,11 +263,14 @@ class VendorHomeTab extends StatelessWidget {
             //TODO: Do it with bloc rather than direct use
             Expanded(
               child: StreamBuilder<List<Item>>(
-                stream: itemService.getItems(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_ID)),
+                stream: itemService.getItems(sharedPreferencesService
+                    .getStringAsync(SharePreferencesKey.USER_ID)),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
-                      child: CircularProgressIndicator(color: AppColors.primaryColor,),
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryColor,
+                      ),
                     );
                   }
                   if (snapshot.hasData && snapshot.data != null) {
@@ -236,11 +300,12 @@ class VendorHomeTab extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final item = list[index];
                             return ItemView(
-                                index: index,
-                                item: item,
-                                onUpdate: () => _onUpdate(context, item),
-                                onDelete: () => _showDeleteConfirmationDialog(context, item, itemService),
-                                onTap: ()=> _goToItemDetail(context, item),
+                              index: index,
+                              item: item,
+                              onUpdate: () => _onUpdate(context, item),
+                              onDelete: () => _showDeleteConfirmationDialog(
+                                  context, item, itemService),
+                              onTap: () => _goToItemDetail(context, item),
                             );
                           },
                         );
@@ -262,7 +327,8 @@ class VendorHomeTab extends StatelessWidget {
     );
   }
 
-  void _showDeleteConfirmationDialog(BuildContext context, Item item, ItemService itemService) {
+  void _showDeleteConfirmationDialog(
+      BuildContext context, Item item, ItemService itemService) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -271,47 +337,57 @@ class VendorHomeTab extends StatelessWidget {
           body: TempLanguage().lblAreYouSureYouWantToDeleteItem,
           onConfirm: () async {
             final result = await itemService.deleteItem(item);
-           if (result) {
-             if (context.mounted) {
-               showToast(context, TempLanguage().lblItemDeletedSuccessfully);
-             }
-           } else {
-             if (context.mounted) {
-               showToast(context, TempLanguage().lblSomethingWentWrong);
-             }
-           }
+            if (result) {
+              if (context.mounted) {
+                showToast(context, TempLanguage().lblItemDeletedSuccessfully);
+              }
+            } else {
+              if (context.mounted) {
+                showToast(context, TempLanguage().lblSomethingWentWrong);
+              }
+            }
           },
         );
       },
     );
   }
 
-  void _onUpdate (BuildContext context, Item item) {
-    final imageCubit =  context.read<ImageCubit>();
+  void _onUpdate(BuildContext context, Item item) {
+    final imageCubit = context.read<ImageCubit>();
     final itemCubit = context.read<AddItemCubit>();
     final foodTypeExpandedCubit = context.read<FoodTypeExpandedCubit>();
     final foodTypeCubit = context.read<FoodTypeCubit>();
-    final pricingCategoryExpandCubit = context.read<PricingCategoryExpandedCubit>();
+    final pricingCategoryExpandCubit =
+        context.read<PricingCategoryExpandedCubit>();
     final pricingCategoryTypeCubit = context.read<PricingCategoryCubit>();
 
-    imageCubit.resetForUpdateImage(item.image ?? '',);
+    imageCubit.resetForUpdateImage(
+      item.image ?? '',
+    );
     foodTypeCubit.loadFromFirebase();
     itemCubit.titleController.text = item.title ?? '';
     itemCubit.descriptionController.text = item.description ?? '';
     itemCubit.foodTypeController.text = item.foodType ?? '';
     itemCubit.actualPriceController.text = item.actualPrice.toString() ?? '';
-    itemCubit.discountedPriceController.text = item.discountedPrice.toString() ?? '';
+    itemCubit.discountedPriceController.text =
+        item.discountedPrice.toString() ?? '';
     itemCubit.id = item.id ?? '';
     itemCubit.createdAt = item.createdAt ?? Timestamp.now();
     itemCubit.smallItemTitleController.text = item.smallItemTitle ?? '';
     itemCubit.mediumItemTitleController.text = item.mediumItemTitle ?? '';
     itemCubit.largeItemTitleController.text = item.largeItemTitle ?? '';
-    itemCubit.smallItemActualPriceController.text = item.smallItemActualPrice.toString() ?? '';
-    itemCubit.mediumItemActualPriceController.text = item.mediumItemActualPrice.toString() ?? '';
-    itemCubit.largeItemActualPriceController.text = item.largeItemActualPrice.toString() ?? '';
-    itemCubit.smallItemDiscountedPriceController.text = item.smallItemDiscountedPrice.toString() ?? '';
-    itemCubit.mediumItemDiscountedPriceController.text = item.mediumItemDiscountedPrice.toString() ?? '';
-    itemCubit.largeItemDiscountedPriceController.text = item.largeItemDiscountedPrice.toString() ?? '';
+    itemCubit.smallItemActualPriceController.text =
+        item.smallItemActualPrice.toString() ?? '';
+    itemCubit.mediumItemActualPriceController.text =
+        item.mediumItemActualPrice.toString() ?? '';
+    itemCubit.largeItemActualPriceController.text =
+        item.largeItemActualPrice.toString() ?? '';
+    itemCubit.smallItemDiscountedPriceController.text =
+        item.smallItemDiscountedPrice.toString() ?? '';
+    itemCubit.mediumItemDiscountedPriceController.text =
+        item.mediumItemDiscountedPrice.toString() ?? '';
+    itemCubit.largeItemDiscountedPriceController.text =
+        item.largeItemDiscountedPrice.toString() ?? '';
 
     if (itemCubit.foodTypeController.text.isNotEmpty) {
       foodTypeExpandedCubit.expand();
@@ -332,7 +408,10 @@ class VendorHomeTab extends StatelessWidget {
       pricingCategoryExpandCubit.collapse();
     }
 
-    context.pushNamed(AppRoutingName.addItem, pathParameters: {IS_UPDATE: true.toString(), IS_FROM_DETAIL: false.toString()});
+    context.pushNamed(AppRoutingName.addItem, pathParameters: {
+      IS_UPDATE: true.toString(),
+      IS_FROM_DETAIL: false.toString()
+    });
   }
 
   void _searchQuery(BuildContext context, String? value) {
@@ -345,7 +424,10 @@ class VendorHomeTab extends StatelessWidget {
     final addDealCubit = context.read<AddDealCubit>();
     addDealCubit.clearControllers();
 
-    context.pushNamed(AppRoutingName.addDeal, pathParameters: {IS_UPDATE: false.toString(), IS_FROM_DETAIL: false.toString()});
+    context.pushNamed(AppRoutingName.addDeal, pathParameters: {
+      IS_UPDATE: false.toString(),
+      IS_FROM_DETAIL: false.toString()
+    });
   }
 
   void _addItem(BuildContext context) {
@@ -359,7 +441,10 @@ class VendorHomeTab extends StatelessWidget {
     pricingCubit.setCategoryType(PricingCategoryType.none);
     addItemCubit.clear();
 
-    context.pushNamed(AppRoutingName.addItem, pathParameters: {IS_UPDATE: false.toString(), IS_FROM_DETAIL: false.toString()});
+    context.pushNamed(AppRoutingName.addItem, pathParameters: {
+      IS_UPDATE: false.toString(),
+      IS_FROM_DETAIL: false.toString()
+    });
   }
 
   void _resetCubitStates(BuildContext context) {

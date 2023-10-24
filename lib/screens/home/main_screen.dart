@@ -11,11 +11,11 @@ import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/utils/permission_utils.dart';
-
+import 'package:street_calle/widgets/location_service.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key, required this.user}) : super(key: key);
-  final String user;
+  const MainScreen({Key? key, required this.userName}) : super(key: key);
+  final String userName;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -24,7 +24,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-
   @override
   void initState() {
     super.initState();
@@ -32,8 +31,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> init() async {
-    PermissionUtils.checkPermissionsAndNavigateToScreen(context).then((value){
-      LocationUtils.getBackgroundLocation();
+    PermissionUtils.checkPermissionsAndNavigateToScreen(context).then((value) {
+      LocationUtils.getBackgroundLocation().then((value) {});
     });
   }
 
@@ -66,9 +65,11 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.user == UserType.client.name
-          ?  _clientWidgets.elementAt(_selectedIndex)
-          : _vendorWidgets.elementAt(_selectedIndex),
+      body: LocationService(
+        child: widget.userName == UserType.client.name
+            ? _clientWidgets.elementAt(_selectedIndex)
+            : _vendorWidgets.elementAt(_selectedIndex),
+      ),
       bottomNavigationBar: Theme(
         data: ThemeData(
           splashColor: Colors.transparent,
@@ -77,19 +78,35 @@ class _MainScreenState extends State<MainScreen> {
         child: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: CustomBottomNavItem(iconAsset: AppAssets.home, text: TempLanguage().lblHome, isSelected: _selectedIndex == 0,),
+              icon: CustomBottomNavItem(
+                iconAsset: AppAssets.home,
+                text: TempLanguage().lblHome,
+                isSelected: _selectedIndex == 0,
+              ),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: CustomBottomNavItem(iconAsset: AppAssets.menu, text: TempLanguage().lblMenu, isSelected: _selectedIndex == 1,),
+              icon: CustomBottomNavItem(
+                iconAsset: AppAssets.menu,
+                text: TempLanguage().lblMenu,
+                isSelected: _selectedIndex == 1,
+              ),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: CustomBottomNavItem(iconAsset: AppAssets.user, text: TempLanguage().lblProfile, isSelected: _selectedIndex == 2,),
+              icon: CustomBottomNavItem(
+                iconAsset: AppAssets.user,
+                text: TempLanguage().lblProfile,
+                isSelected: _selectedIndex == 2,
+              ),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: CustomBottomNavItem(iconAsset: AppAssets.more, text: TempLanguage().lblMore, isSelected: _selectedIndex == 3,),
+              icon: CustomBottomNavItem(
+                iconAsset: AppAssets.more,
+                text: TempLanguage().lblMore,
+                isSelected: _selectedIndex == 3,
+              ),
               label: '',
             ),
           ],

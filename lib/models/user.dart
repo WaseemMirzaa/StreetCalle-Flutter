@@ -18,38 +18,39 @@ class User extends Equatable {
   final List<dynamic>? fcmTokens;
   final double? latitude;
   final double? longitude;
+  final String? vendorType;
 
-  User({
-    this.uid,
-    this.image,
-    this.name,
-    this.email,
-    this.phone,
-    this.createdAt,
-    this.updatedAt,
-    this.fcmTokens,
-    this.isVendor,
-    this.isOnline,
-    this.latitude,
-    this.longitude,
-    this.countryCode
-  });
+  User(
+      {this.uid,
+      this.image,
+      this.name,
+      this.email,
+      this.phone,
+      this.createdAt,
+      this.updatedAt,
+      this.fcmTokens,
+      this.isVendor,
+      this.isOnline,
+      this.latitude,
+      this.longitude,
+      this.countryCode,
+      this.vendorType});
 
-  User copyWith({
-    String? uid,
-    String? image,
-    String? name,
-    String? email,
-    String? phone,
-    Timestamp? createdAt,
-    Timestamp? updatedAt,
-    List<dynamic>? fcmTokens,
-    bool? isVendor,
-    bool? isOnline,
-    double? latitude,
-    double? longitude,
-    String? countryCode,
-  }){
+  User copyWith(
+      {String? uid,
+      String? image,
+      String? name,
+      String? email,
+      String? phone,
+      Timestamp? createdAt,
+      Timestamp? updatedAt,
+      List<dynamic>? fcmTokens,
+      bool? isVendor,
+      bool? isOnline,
+      double? latitude,
+      double? longitude,
+      String? countryCode,
+      String? vendorType}) {
     return User(
       uid: uid ?? this.uid,
       image: image ?? this.image,
@@ -63,9 +64,10 @@ class User extends Equatable {
       isOnline: isOnline ?? this.isOnline,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
-      countryCode: countryCode ?? this.countryCode
+      countryCode: countryCode ?? this.countryCode,
+      vendorType: vendorType ?? this.vendorType,
     );
- }
+  }
 
   factory User.fromJson(Map<String, dynamic> json, String userId) {
     return User(
@@ -82,6 +84,7 @@ class User extends Equatable {
       latitude: json[UserKey.latitude],
       longitude: json[UserKey.longitude],
       countryCode: json[UserKey.countryCode],
+      vendorType: json[UserKey.vendorType],
     );
   }
 
@@ -100,10 +103,10 @@ class User extends Equatable {
     data[UserKey.latitude] = latitude;
     data[UserKey.longitude] = longitude;
     data[UserKey.countryCode] = countryCode;
+    data[UserKey.vendorType] = vendorType;
     return data;
   }
 
   @override
   List<Object?> get props => [uid];
-
 }

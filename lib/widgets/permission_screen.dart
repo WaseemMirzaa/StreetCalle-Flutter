@@ -6,19 +6,20 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
-import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/utils/permission_utils.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 
 class PermissionScreen extends StatefulWidget {
   const PermissionScreen({super.key, required this.title});
+
   final String title;
 
   @override
   PermissionScreenState createState() => PermissionScreenState();
 }
 
-class PermissionScreenState extends State<PermissionScreen> with WidgetsBindingObserver {
+class PermissionScreenState extends State<PermissionScreen>
+    with WidgetsBindingObserver {
   bool isGranted = false;
 
   @override
@@ -36,15 +37,15 @@ class PermissionScreenState extends State<PermissionScreen> with WidgetsBindingO
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
-
       bool isLocationGranted = await PermissionUtils.locationStatus();
       bool isNotificationGranted = await PermissionUtils.notificationStatus();
       bool isVersion12 = await PermissionUtils.checkAndroidSDK();
 
-      if (isVersion12 ? (isLocationGranted && isNotificationGranted) : isLocationGranted) {
+      if (isVersion12
+          ? (isLocationGranted && isNotificationGranted)
+          : isLocationGranted) {
         Navigator.pop(context, true);
       }
-
     }
   }
 
@@ -73,32 +74,31 @@ class PermissionScreenState extends State<PermissionScreen> with WidgetsBindingO
                   height: 300,
                   fit: BoxFit.fitHeight,
                 ),
-                Text(widget.title,
+                Text(
+                  widget.title,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: AppColors.primaryFontColor),
+                  style: context.currentTextTheme.labelLarge,
                 ),
                 const SizedBox(height: 30),
-
                 SizedBox(
-                  height: defaultButtonSize,
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: AppButton(
-                    text: TempLanguage().lblOpenSettings,
-                    elevation: 0.0,
-                    onTap: () async {
-                      // await PermissionUtils.requestLocationPermissions(context).then((isPermissionGranted) {
-                      //    isGranted = isPermissionGranted;
-                      //    Navigator.pop(context, isGranted);
-                      // });
-                      openAppSettings();
-                    },
-                    shapeBorder: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)
-                    ),
-                    textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                    color: AppColors.primaryColor,
-                  )
-                ),
+                    height: defaultButtonSize,
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: AppButton(
+                      text: TempLanguage().lblOpenSettings,
+                      elevation: 0.0,
+                      onTap: () async {
+                        // await PermissionUtils.requestLocationPermissions(context).then((isPermissionGranted) {
+                        //    isGranted = isPermissionGranted;
+                        //    Navigator.pop(context, isGranted);
+                        // });
+                        openAppSettings();
+                      },
+                      shapeBorder: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      textStyle: context.currentTextTheme.labelLarge
+                          ?.copyWith(color: AppColors.whiteColor),
+                      color: AppColors.primaryColor,
+                    )),
               ],
             ),
           ),

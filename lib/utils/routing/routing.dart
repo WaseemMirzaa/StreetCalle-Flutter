@@ -9,8 +9,12 @@ import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu_item_detail.dart';
 import 'package:street_calle/screens/home/main_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_deal.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_employee_menu_item_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_item.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/create_employee_profile_screen.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee_detail_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_detail.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/manage_employees_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/select_menu_item.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/deal_detail.dart';
 import 'package:street_calle/screens/selectUser/select_user_screen.dart';
@@ -74,8 +78,8 @@ final router = GoRouter(
       //        ),
       // ],
       builder: (context, state) {
-        final user = state.pathParameters[USER]!;
-        return MainScreen(user: user);
+        final userName = state.pathParameters[USER]!;
+        return MainScreen(userName: userName);
       },
     ),
     GoRoute(
@@ -99,7 +103,9 @@ final router = GoRouter(
       builder: (context, state) {
         final isUpdate = state.pathParameters[IS_UPDATE]!;
         final isFromDetail = state.pathParameters[IS_FROM_DETAIL]!;
-        return AddItem(isUpdate: bool.parse(isUpdate), isFromDetail: bool.parse(isFromDetail));
+        return AddItem(
+            isUpdate: bool.parse(isUpdate),
+            isFromDetail: bool.parse(isFromDetail));
       },
     ),
     GoRoute(
@@ -137,7 +143,9 @@ final router = GoRouter(
       builder: (context, state) {
         final isUpdate = state.pathParameters[IS_UPDATE]!;
         final isFromDetail = state.pathParameters[IS_FROM_DETAIL]!;
-        return AddDeal(isUpdate: bool.parse(isUpdate), isFromDetail: bool.parse(isFromDetail));
+        return AddDeal(
+            isUpdate: bool.parse(isUpdate),
+            isFromDetail: bool.parse(isFromDetail));
       },
     ),
     GoRoute(
@@ -168,6 +176,34 @@ final router = GoRouter(
       builder: (context, state) {
         final user = state.extra as User;
         return ClientMenuItemDetail(user: user);
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.manageEmployee,
+      name: AppRoutingName.manageEmployee,
+      builder: (context, state) {
+        return const ManageEmployeesScreen();
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.createEmployeeProfileScreen,
+      name: AppRoutingName.createEmployeeProfileScreen,
+      builder: (context, state) {
+        return const CreateEmployeeProfileScreen();
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.employeeDetail,
+      name: AppRoutingName.employeeDetail,
+      builder: (context, state) {
+        return const EmployeeDetailScreen();
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.addEmployeeMenuItems,
+      name: AppRoutingName.addEmployeeMenuItems,
+      builder: (context, state) {
+        return const AddEmployeeMenuItemsScreen();
       },
     ),
   ],
