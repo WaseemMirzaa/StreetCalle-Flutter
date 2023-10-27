@@ -40,48 +40,10 @@ class PermissionUtils {
             break;
         }
 
-        notificationStatus().then((isNotificationGranted) async {
-          if (!isNotificationGranted) {
-            PermissionResponse permissionResponse = await showCustomNotificationPermissionDialog(
-              scaffoldContext: scaffoldContext,
-              title: TempLanguage().lblYourConsent,
-              message: TempLanguage().lblNotificationPermissionRequired,
-            );
-
-            switch(permissionResponse) {
-              case PermissionResponse.granted:
-                onNotificationGranted();
-                break;
-              case PermissionResponse.denied:
-                onNotificationDenied();
-                break;
-              case PermissionResponse.canceled:
-                break;
-            }
-          }
-        });
+        checkAndRequestNotificationPermission(scaffoldContext, onNotificationGranted(), onNotificationDenied());
 
       } else {
-        notificationStatus().then((isNotificationGranted) async {
-          if (!isNotificationGranted) {
-            PermissionResponse permissionResponse = await showCustomNotificationPermissionDialog(
-              scaffoldContext: scaffoldContext,
-              title: TempLanguage().lblYourConsent,
-              message: TempLanguage().lblNotificationPermissionRequired,
-            );
-
-            switch(permissionResponse) {
-              case PermissionResponse.granted:
-                onNotificationGranted();
-                break;
-              case PermissionResponse.denied:
-                onNotificationDenied();
-                break;
-              case PermissionResponse.canceled:
-                break;
-            }
-          }
-        });
+        checkAndRequestNotificationPermission(scaffoldContext, onNotificationGranted(), onNotificationDenied());
       }
     });
   }
@@ -193,6 +155,29 @@ class PermissionUtils {
   // }
 
   /// Notification Permission
+
+  static Future<void> checkAndRequestNotificationPermission(BuildContext scaffoldContext, Function onNotificationGranted, Function onNotificationDenied) async {
+    notificationStatus().then((isNotificationGranted) async {
+      if (!isNotificationGranted) {
+        PermissionResponse permissionResponse = await showCustomNotificationPermissionDialog(
+          scaffoldContext: scaffoldContext,
+          title: TempLanguage().lblYourConsent,
+          message: TempLanguage().lblNotificationPermissionRequired,
+        );
+
+        switch(permissionResponse) {
+          case PermissionResponse.granted:
+            onNotificationGranted();
+            break;
+          case PermissionResponse.denied:
+            onNotificationDenied();
+            break;
+          case PermissionResponse.canceled:
+            break;
+        }
+      }
+    });
+  }
 
   static Future<bool> notificationStatus() async {
     if (isAndroid && (await DeviceInformation.apiLevel >= 31)) {

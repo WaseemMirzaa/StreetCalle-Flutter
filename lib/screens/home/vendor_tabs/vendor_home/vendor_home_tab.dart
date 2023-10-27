@@ -84,6 +84,8 @@ class VendorHomeTab extends StatelessWidget {
                     ? const SizedBox.shrink()
                     : InkWell(
                         onTap: () {
+                         // var id =  context.read<UserCubit>().state.userId;
+                         //  debugPrint('Print $id');
                           context.pushNamed(AppRoutingName.manageEmployee);
                         },
                         child: Text(

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/client_home_tab.dart';
 import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
@@ -11,8 +12,11 @@ import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/utils/permission_utils.dart';
-import 'package:street_calle/widgets/location_service.dart';
 
+
+
+
+var auth = FirebaseAuth.instance.currentUser;
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key, required this.userName}) : super(key: key);
   final String userName;
@@ -65,11 +69,15 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LocationService(
-        child: widget.userName == UserType.client.name
-            ? _clientWidgets.elementAt(_selectedIndex)
-            : _vendorWidgets.elementAt(_selectedIndex),
-      ),
+      // TODO: Maybe there is better solution for it
+      // body: LocationService(
+      //   child: widget.userName == UserType.client.name
+      //       ? _clientWidgets.elementAt(_selectedIndex)
+      //       : _vendorWidgets.elementAt(_selectedIndex),
+      // ),
+      body: widget.userName == UserType.client.name
+          ? _clientWidgets.elementAt(_selectedIndex)
+          : _vendorWidgets.elementAt(_selectedIndex),
       bottomNavigationBar: Theme(
         data: ThemeData(
           splashColor: Colors.transparent,

@@ -9,7 +9,6 @@ import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu_item_detail.dart';
 import 'package:street_calle/screens/home/main_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_deal.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_employee_menu_item_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_item.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/create_employee_profile_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee_detail_screen.dart';
@@ -189,7 +188,8 @@ final router = GoRouter(
       path: AppRoutingName.createEmployeeProfileScreen,
       name: AppRoutingName.createEmployeeProfileScreen,
       builder: (context, state) {
-        return const CreateEmployeeProfileScreen();
+        // return const CreateEmployeeProfileScreen();
+        return CreateEmployeeProfileScreen();
       },
     ),
     GoRoute(
@@ -199,12 +199,12 @@ final router = GoRouter(
         return const EmployeeDetailScreen();
       },
     ),
-    GoRoute(
-      path: AppRoutingName.addEmployeeMenuItems,
-      name: AppRoutingName.addEmployeeMenuItems,
-      builder: (context, state) {
-        return const AddEmployeeMenuItemsScreen();
-      },
-    ),
+    // GoRoute(
+    //   path: AppRoutingName.addEmployeeMenuItems,
+    //   name: AppRoutingName.addEmployeeMenuItems,
+    //   builder: (context, state) {
+    //     return   AddEmployeeMenuItemsScreen();
+    //   },
+    // ),
   ],
 );

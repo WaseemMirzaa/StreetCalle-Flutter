@@ -45,6 +45,7 @@ class SharePreferencesKey {
 
 class UserKey {
   static const String uid = 'uid';
+  static const String vendorId = 'vendorId';
   static const String image = 'image';
   static const String name = 'name';
   static const String email = 'email';
@@ -52,8 +53,11 @@ class UserKey {
   static const String createdAt = 'createdAt';
   static const String updatedAt = 'updatedAt';
   static const String fcmTokens = 'fcmTokens';
+  static const String employeeItemList = 'employeeItemList';
   static const String isVendor = 'isVendor';
   static const String isOnline = 'isOnline';
+  static const String isEmployee = 'isEmployee';
+  static const String isEmployeeBlocked = 'isEmployeeBlocked';
   static const String latitude = 'latitude';
   static const String longitude = 'longitude';
   static const String countryCode = 'countryCode';

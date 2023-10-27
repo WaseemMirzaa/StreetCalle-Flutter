@@ -36,7 +36,7 @@ class LocationUtils {
     final sharedPref = sl.get<SharedPreferencesService>();
     final userService = sl.get<UserService>();
     //await BackgroundLocation.setAndroidConfiguration(1000);
-    await BackgroundLocation.startLocationService(distanceFilter: 20);
+    await BackgroundLocation.startLocationService(distanceFilter: 0);
 
     BackgroundLocation.getLocationUpdates((location) {
       if (location.longitude != null && location.latitude != null) {
