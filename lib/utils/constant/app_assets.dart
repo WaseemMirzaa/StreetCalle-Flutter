@@ -46,4 +46,9 @@ class AppAssets {
 
   static const burgerImage = 'assets/images/burger_image.png';
   static const backgroundImage = 'assets/images/background_image.png';
+
+  /// Google map markers
+  static const truckMarker = 'assets/images/box_truck.png';
+  static const cargoTruckMarker = 'assets/images/cargo-truck.png';
+  static const ambulanceMarker = 'assets/images/ambulance.png';
 }

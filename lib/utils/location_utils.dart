@@ -50,4 +50,15 @@ class LocationUtils {
    BackgroundLocation.stopLocationService();
  }
 
+  String calculateVendorsDistance(double startLatitude, double startLongitude, double endLatitude, double endLongitude) {
+    var distance = Geolocator.distanceBetween(
+        startLatitude,
+        startLongitude,
+        endLatitude,
+        endLongitude
+    );
+    var distanceInKm = distance / 1000;
+    return distanceInKm.toStringAsFixed(2);
+  }
+
 }

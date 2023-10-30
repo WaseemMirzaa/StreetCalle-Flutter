@@ -4,127 +4,26 @@ class Assets {
 
   static const String assetsImagesPerson = 'assets/images/person.svg';
   static const String assetsImagesPhone = 'assets/images/phone.svg';
-  static const String fontsCabin
-
-  -
-
-  Bold
-
-  =
-
-  '
-
-  assets/fonts/Cabin-Bold.ttf
-
-  ';
-
-  static const String fontsEuropa
-
-  -
-
-  Bold
-
-  =
-
-  '
-
-  assets/fonts/Europa-Bold.ttf
-
-  ';
-
-  static const String fontsMetropolis
-
-  -
-
-  Bold
-
-  =
-
-  '
-
-  assets/fonts/Metropolis-Bold.otf
-
-  ';
-
-  static const String fontsMetropolis
-
-  -
-
-  ExtraBold
-
-  =
-
-  '
-
-  assets/fonts/Metropolis-ExtraBold.otf
-
-  ';
-
-  static const String fontsMetropolis
-
-  -
-
-  Medium
-
-  =
-
-  '
-
-  assets/fonts/Metropolis-Medium.otf
-
-  ';
-
-  static const String fontsMetropolis
-
-  -
-
-  Regular
-
-  =
-
-  '
-
-  assets/fonts/Metropolis-Regular.otf
-
-  ';
-
-  static const String fontsMetropolis
-
-  -
-
-  SemiBold
-
-  =
-
-  '
-
-  assets/fonts/Metropolis-SemiBold.otf
-
-  ';
-
-  static const String fontsPoppins
-
-  -
-
-  Regular
-
-  =
-
-  '
-
-  assets/fonts/Poppins-Regular.ttf
-
-  ';
-
+  static const String fontsCabin-Bold = 'assets/fonts/Cabin-Bold.ttf';
+  static const String fontsEuropa-Bold = 'assets/fonts/Europa-Bold.ttf';
+  static const String fontsMetropolis-Bold = 'assets/fonts/Metropolis-Bold.otf';
+  static const String fontsMetropolis-ExtraBold = 'assets/fonts/Metropolis-ExtraBold.otf';
+  static const String fontsMetropolis-Medium = 'assets/fonts/Metropolis-Medium.otf';
+  static const String fontsMetropolis-Regular = 'assets/fonts/Metropolis-Regular.otf';
+  static const String fontsMetropolis-SemiBold = 'assets/fonts/Metropolis-SemiBold.otf';
+  static const String fontsPoppins-Regular = 'assets/fonts/Poppins-Regular.ttf';
   static const String fontsRiftSoftDemi = 'assets/fonts/Rift_Soft_Demi.otf';
   static const String imagesAdd = 'assets/images/add.png';
+  static const String imagesAmbulance = 'assets/images/ambulance.png';
   static const String imagesBack = 'assets/images/back.png';
   static const String imagesBackgroundImage = 'assets/images/background_image.png';
   static const String imagesBackgroundImg = 'assets/images/background_img.png';
   static const String imagesBlock = 'assets/images/block.svg';
   static const String imagesBottomSearch = 'assets/images/bottom_search.png';
+  static const String imagesBoxTruck = 'assets/images/box_truck.png';
   static const String imagesBurgerImage = 'assets/images/burger_image.png';
   static const String imagesCamera = 'assets/images/camera.png';
+  static const String imagesCargo-truck = 'assets/images/cargo-truck.png';
   static const String imagesCheckMark = 'assets/images/check_mark.png';
   static const String imagesClient = 'assets/images/client.png';
   static const String imagesClientIcon = 'assets/images/client_icon.png';

@@ -1,4 +1,7 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
@@ -72,3 +75,19 @@ OutlineInputBorder vendorSelectionBorder = OutlineInputBorder(
   borderSide: BorderSide.none,
   borderRadius: BorderRadius.circular(40),
 );
+
+
+Future<BitmapDescriptor> createCustomMarkerIconLocal(String imagePath, {int imageWidth = 100}) async {
+  final Uint8List? markerIcon = await getBytesFromAsset(imagePath, imageWidth);
+  return BitmapDescriptor.fromBytes(markerIcon!);
+}
+
+Future<Uint8List?> getBytesFromAsset(String path, int width) async {
+  ByteData data = await rootBundle.load(path);
+  ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+      targetWidth: width);
+  ui.FrameInfo fi = await codec.getNextFrame();
+  return (await fi.image.toByteData(format: ui.ImageByteFormat.png))
+      ?.buffer
+      .asUint8List();
+}

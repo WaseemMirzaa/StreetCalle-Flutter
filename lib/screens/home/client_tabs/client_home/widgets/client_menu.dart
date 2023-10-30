@@ -66,7 +66,9 @@ class ClientMenu extends StatelessWidget {
                 ),
                 const SizedBox(width: 16,),
                 InkWell(
-                  onTap: (){},
+                  onTap: (){
+                    context.pop();
+                  },
                   child: Container(
                     width: 50,
                     height: 50,

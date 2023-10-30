@@ -12,7 +12,9 @@ import 'package:street_calle/screens/auth/password_reset_screen.dart';
 import 'package:street_calle/screens/auth/login_screen.dart';
 import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/client_home_tab.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/marker_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
@@ -119,6 +121,10 @@ Future<void> main() async {
         ),
         BlocProvider(
           create: (context)=> sl<EditProfileEnableCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<MarkersCubit>(),
+          child: const ClientHomeTab(),
         ),
       ],
       // child: DevicePreview(
