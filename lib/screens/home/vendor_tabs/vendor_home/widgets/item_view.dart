@@ -92,7 +92,7 @@ class ItemView extends StatelessWidget {
             style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),
           ),
         ),
-        const SizedBox(height: 12,),
+        const SizedBox(height: 15,),
       ],
     );
   }

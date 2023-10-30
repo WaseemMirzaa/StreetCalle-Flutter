@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/client_home_tab.dart';
 import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/vendor_home_tab.dart';
 import 'package:street_calle/screens/home/settings/settings_tab.dart';
@@ -8,7 +7,6 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/vendor_menu_ta
 import 'package:street_calle/screens/home/widgets/custom_bottom_nav_item.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/utils/permission_utils.dart';
@@ -53,13 +51,6 @@ class _MainScreenState extends State<MainScreen> {
     SettingsTab()
   ];
 
-  static const List<Widget> _clientWidgets = <Widget>[
-    ClientHomeTab(),
-    VendorMenuTab(),
-    UserprofileTab(),
-    SettingsTab()
-  ];
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -75,9 +66,7 @@ class _MainScreenState extends State<MainScreen> {
       //       ? _clientWidgets.elementAt(_selectedIndex)
       //       : _vendorWidgets.elementAt(_selectedIndex),
       // ),
-      body: widget.userName == UserType.client.name
-          ? _clientWidgets.elementAt(_selectedIndex)
-          : _vendorWidgets.elementAt(_selectedIndex),
+      body: _vendorWidgets.elementAt(_selectedIndex),
       bottomNavigationBar: Theme(
         data: ThemeData(
           splashColor: Colors.transparent,

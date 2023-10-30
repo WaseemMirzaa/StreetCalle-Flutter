@@ -6,6 +6,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/vendor_menu_ta
 import 'package:street_calle/screens/home/widgets/custom_bottom_nav_item.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 
 class ClientMainScreen extends StatefulWidget {
   const ClientMainScreen({Key? key, required this.user}) : super(key: key);
@@ -43,19 +44,19 @@ class _MainScreenState extends State<ClientMainScreen> {
         child: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: CustomBottomNavItem(iconAsset: AppAssets.home, text: 'Home', isSelected: _selectedIndex == 0,),
+              icon: CustomBottomNavItem(iconAsset: AppAssets.home, text: TempLanguage().lblHome, isSelected: _selectedIndex == 0,),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: CustomBottomNavItem(iconAsset: AppAssets.bottomSearch, text: 'Search', isSelected: _selectedIndex == 1,),
+              icon: CustomBottomNavItem(iconAsset: AppAssets.bottomSearch, text: TempLanguage().lblSearch, isSelected: _selectedIndex == 1,),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: CustomBottomNavItem(iconAsset: AppAssets.favourite, text: 'Favourites', isSelected: _selectedIndex == 2,),
+              icon: CustomBottomNavItem(iconAsset: AppAssets.favourite, text: TempLanguage().lblFavourites, isSelected: _selectedIndex == 2,),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: CustomBottomNavItem(iconAsset: AppAssets.more, text: 'More', isSelected: _selectedIndex == 3,),
+              icon: CustomBottomNavItem(iconAsset: AppAssets.more, text: TempLanguage().lblMore, isSelected: _selectedIndex == 3,),
               label: '',
             ),
           ],

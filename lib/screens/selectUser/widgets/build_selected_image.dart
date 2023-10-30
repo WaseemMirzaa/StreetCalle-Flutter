@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:street_calle/utils/my_sizer.dart';
 
 class BuildSelectableImage extends StatelessWidget {
   BuildSelectableImage({Key? key, required this.assetPath, required this.isSelected, required this.onTap, required this.title}) : super(key: key);
@@ -10,13 +11,16 @@ class BuildSelectableImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MySizer().init(context);
     return GestureDetector(
       onTap: onTap,
       child: Stack(
         children: [
           SizedBox(
-            width: 170,
-            height: 170,
+            // width: 170,
+            // height: 170,
+            width: MySizer.scaleFactorWidth * 170,
+            height: MySizer.scaleFactorHeight * 170,
             child: Center(
               child: Image.asset(assetPath),
             ),

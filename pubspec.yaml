@@ -57,8 +57,14 @@ dependencies:
   background_location: ^0.11.8
   permission_handler: ^11.0.1
   intl_phone_field: ^3.2.0
-  geolocator: ^10.1.0
   device_information: ^0.0.4
+
+  # map
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  google_maps_flutter: ^2.5.0
+  location: ^5.0.3
+  flutter_polyline_points: ^2.0.0
 
 
 dev_dependencies:

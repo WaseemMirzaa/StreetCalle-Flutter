@@ -1,51 +1,26 @@
 {
   "project_info": {
-    "project_number": "141561923614",
-    "project_id": "street-calle",
-    "storage_bucket": "street-calle.appspot.com"
+    "project_number": "554187940881",
+    "project_id": "street-calle-72cff",
+    "storage_bucket": "street-calle-72cff.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:141561923614:android:f29b01503f9a3354ea460f",
+        "mobilesdk_app_id": "1:554187940881:android:defc7f6858577e30427db0",
         "android_client_info": {
           "package_name": "com.developlogix.streetcalle.street_calle"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "141561923614-2opmk3pd27j99tmt8vu73nor5kdhqua8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.developlogix.streetcalle.street_calle",
-            "certificate_hash": "68be6207bedc9a0a51ea7bffe3f2fdfa29b0a2f6"
-          }
-        },
-        {
-          "client_id": "141561923614-el7j483kqlj2ldmifivm84e6l3he43ko.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCsptEaKdfa5Jh7ADbLheWibs5NudSSOO0"
+          "current_key": "AIzaSyB_NMd-RkaBZ1TkmB6M08BefczCZymjY10"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "141561923614-el7j483kqlj2ldmifivm84e6l3he43ko.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "141561923614-ppquocke4elr1qegs0i36j10hgti6jn9.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.developlogix.streetcalle.streetCalle"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

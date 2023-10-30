@@ -301,6 +301,7 @@ class TempLanguage {
   String get lblEditAddMenuItems => 'Edit or Add Menu Items';
 
   String get lblAddMenuItems => 'Add Menu Items';
+  String get lblSearch => 'Search';
 
   String get lblAddItemsForEmployee => 'Add Items For Employee';
 

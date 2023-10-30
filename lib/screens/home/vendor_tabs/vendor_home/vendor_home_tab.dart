@@ -20,6 +20,7 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
+import 'package:street_calle/utils/my_sizer.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
@@ -36,10 +37,11 @@ class VendorHomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final sharedPreferencesService = sl.get<SharedPreferencesService>();
     final itemService = sl.get<ItemService>();
+    MySizer().init(context);
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top: 36.0, bottom: 24),
+        padding: const EdgeInsets.only(top: 36.0),
         child: Column(
           children: [
             const SizedBox(
@@ -160,18 +162,18 @@ class VendorHomeTab extends StatelessWidget {
                           children: [
                             Image.asset(
                               AppAssets.add,
-                              width: 15,
-                              height: 15,
+                              width: MySizer.size15,
+                              height: MySizer.size15,
                             ),
-                            const SizedBox(
-                              width: 16,
+                            SizedBox(
+                              width: MySizer.size16,
                             ),
                             Text(
                               TempLanguage().lblAddItem,
                               style: context.currentTextTheme.labelLarge
                                   ?.copyWith(
                                       color: AppColors.whiteColor,
-                                      fontSize: 16),
+                                      fontSize: MySizer.size16),
                             ),
                           ],
                         ),
@@ -219,18 +221,18 @@ class VendorHomeTab extends StatelessWidget {
                           children: [
                             Image.asset(
                               AppAssets.add,
-                              width: 15,
-                              height: 15,
+                              width: MySizer.size15,
+                              height: MySizer.size15,
                             ),
-                            const SizedBox(
-                              width: 16,
+                            SizedBox(
+                              width: MySizer.size16,
                             ),
                             Text(
                               TempLanguage().lblAddDeal,
                               style: context.currentTextTheme.labelLarge
                                   ?.copyWith(
                                       color: AppColors.whiteColor,
-                                      fontSize: 16),
+                                      fontSize: MySizer.size16),
                             ),
                           ],
                         ),

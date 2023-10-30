@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCsptEaKdfa5Jh7ADbLheWibs5NudSSOO0',
-    appId: '1:141561923614:android:f29b01503f9a3354ea460f',
-    messagingSenderId: '141561923614',
-    projectId: 'street-calle',
-    storageBucket: 'street-calle.appspot.com',
+    apiKey: 'AIzaSyB_NMd-RkaBZ1TkmB6M08BefczCZymjY10',
+    appId: '1:554187940881:android:defc7f6858577e30427db0',
+    messagingSenderId: '554187940881',
+    projectId: 'street-calle-72cff',
+    storageBucket: 'street-calle-72cff.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyArnDB-tQ928TKR-fZmm1CDMvoG3DR_g9U',
-    appId: '1:141561923614:ios:2a5d7f6e6dfa1020ea460f',
-    messagingSenderId: '141561923614',
-    projectId: 'street-calle',
-    storageBucket: 'street-calle.appspot.com',
+    apiKey: 'AIzaSyB0YOiTNZAGz2I28aacOtIVuVHPYWDRiPY',
+    appId: '1:554187940881:ios:323911d44d30196e427db0',
+    messagingSenderId: '554187940881',
+    projectId: 'street-calle-72cff',
+    storageBucket: 'street-calle-72cff.appspot.com',
     iosBundleId: 'com.developlogix.streetcalle.streetCalle',
   );
 }
