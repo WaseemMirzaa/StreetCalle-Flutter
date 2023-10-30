@@ -196,7 +196,8 @@ final router = GoRouter(
       path: AppRoutingName.employeeDetail,
       name: AppRoutingName.employeeDetail,
       builder: (context, state) {
-        return const EmployeeDetailScreen();
+        final user = state.extra as User;
+        return EmployeeDetailScreen(user: user);
       },
     ),
     // GoRoute(

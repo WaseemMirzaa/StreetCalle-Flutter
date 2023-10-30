@@ -32,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (isLoggedIn) {
         final userCubit = context.read<UserCubit>();
         userCubit.setUserImage(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_IMAGE));
+        userCubit.setUserId(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_ID));
         userCubit.setUsername(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_NAME));
         userCubit.setUserPhone(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_NUMBER));
         userCubit.setUserEmail(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_EMAIL));

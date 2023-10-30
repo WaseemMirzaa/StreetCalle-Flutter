@@ -118,4 +118,10 @@ class UserService extends BaseService<User> {
     return userList;
   }
 
+  Stream<List<User>> getEmployees(String userId) {
+    return ref!.where(UserKey.vendorId, isEqualTo: userId)
+        .orderBy(UserKey.updatedAt, descending: true)
+        .snapshots()
+        .map((value) => value.docs.map((e) => e.data()).toList());
+  }
 }

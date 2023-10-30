@@ -23,5 +23,5 @@ class AppRoutingName {
   static const manageEmployee = '/manageEmployee';
   static const createEmployeeProfileScreen = '/createEmployeeProfileScreen';
   static const addEmployeeMenuItems = '/addEmployeeMenuItems';
-  static const employeeDetail = '/employeeDetail';
+  static const employeeDetail = '/employeeDetail:';
 }

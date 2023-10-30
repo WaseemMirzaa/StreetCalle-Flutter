@@ -40,10 +40,50 @@ class PermissionUtils {
             break;
         }
 
-        checkAndRequestNotificationPermission(scaffoldContext, onNotificationGranted(), onNotificationDenied());
+        //checkAndRequestNotificationPermission(scaffoldContext, onNotificationGranted(), onNotificationDenied());
+        notificationStatus().then((isNotificationGranted) async {
+          if (!isNotificationGranted) {
+            PermissionResponse permissionResponse = await showCustomNotificationPermissionDialog(
+              scaffoldContext: scaffoldContext,
+              title: TempLanguage().lblYourConsent,
+              message: TempLanguage().lblNotificationPermissionRequired,
+            );
+
+            switch(permissionResponse) {
+              case PermissionResponse.granted:
+                onNotificationGranted();
+                break;
+              case PermissionResponse.denied:
+                onNotificationDenied();
+                break;
+              case PermissionResponse.canceled:
+                break;
+            }
+          }
+        });
 
       } else {
-        checkAndRequestNotificationPermission(scaffoldContext, onNotificationGranted(), onNotificationDenied());
+        //checkAndRequestNotificationPermission(scaffoldContext, onNotificationGranted(), onNotificationDenied());
+        notificationStatus().then((isNotificationGranted) async {
+          if (!isNotificationGranted) {
+            PermissionResponse permissionResponse = await showCustomNotificationPermissionDialog(
+              scaffoldContext: scaffoldContext,
+              title: TempLanguage().lblYourConsent,
+              message: TempLanguage().lblNotificationPermissionRequired,
+            );
+
+            switch(permissionResponse) {
+              case PermissionResponse.granted:
+                onNotificationGranted();
+                break;
+              case PermissionResponse.denied:
+                onNotificationDenied();
+                break;
+              case PermissionResponse.canceled:
+                break;
+            }
+          }
+        });
       }
     });
   }

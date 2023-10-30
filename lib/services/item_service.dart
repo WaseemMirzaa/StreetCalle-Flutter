@@ -99,4 +99,10 @@ class ItemService extends BaseService<Item> {
     return querySnapshot.docs.map((e) => e.data()).toList();
   }
 
+  Stream<List<Item>> getEmployeeItems(List<dynamic>? employeeItemList) {
+    return ref!.where(FieldPath.documentId, whereIn: employeeItemList)
+        .orderBy(ItemKey.updatedAt, descending: true)
+        .snapshots()
+        .map((value) => value.docs.map((e) => e.data()).toList());
+  }
 }

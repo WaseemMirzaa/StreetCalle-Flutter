@@ -1,17 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
-import 'package:street_calle/cubit/user_state.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee_detail_screen.dart';
+import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/models/user.dart';
+import 'package:street_calle/cubit/user_state.dart';
 
 class ManageEmployeesScreen extends StatelessWidget {
   const ManageEmployeesScreen({Key? key}) : super(key: key);
@@ -19,6 +20,8 @@ class ManageEmployeesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userService = sl.get<UserService>();
+
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -49,21 +52,21 @@ class ManageEmployeesScreen extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          StreamBuilder(stream: FirebaseFirestore.instance.collection('users').where('vendorId',
-              isEqualTo:context.read<UserCubit>().state.userId).snapshots(),
+          StreamBuilder<List<User>>(
+             // stream: FirebaseFirestore.instance.collection('users').where('vendorId', isEqualTo:context.read<UserCubit>().state.userId).snapshots(),
+            stream: userService.getEmployees(context.read<UserCubit>().state.userId),
               builder: (context,snapshot){
-
-            if(!snapshot.hasData || snapshot.data!.docs.isEmpty){
-              return const Center(
-                child:  Column(
-                  mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
+               if(!snapshot.hasData || snapshot.data == null){
+                 return Center(
+                  child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                     Text('No data found'),
+                     Text(TempLanguage().lblNoDataFound),
                   ],
                 ),
-              );
-            }
-            else if(snapshot.hasError){
+                 );
+               } else if(snapshot.hasError){
               return  Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,21 +76,19 @@ class ManageEmployeesScreen extends StatelessWidget {
                 ),
               );
             }else if(snapshot.connectionState == ConnectionState.waiting){
-              return const Center(child: CircularProgressIndicator(),);
-            }
-            else{
-
-              return Padding(
+                 return const Center(child: CircularProgressIndicator(),);
+               } else{
+                 return Padding(
                 padding: const EdgeInsets.fromLTRB(24, 10, 24, 0),
                 child: ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
+                  itemCount: snapshot.data?.length ?? 0,
                   itemBuilder: (context, index) {
 
-                    var userData = snapshot.data!.docs[index].data();
+                    var userData = snapshot.data![index];
                     return InkWell(
                       onTap: () {
-                        // context.pushNamed(AppRoutingName.employeeDetail,);
-                       Navigator.push(context, MaterialPageRoute(builder: (context)=> EmployeeDetailScreen(userData: userData,)));
+                         context.pushNamed(AppRoutingName.employeeDetail, extra: userData);
+                       //Navigator.push(context, MaterialPageRoute(builder: (context)=> EmployeeDetailScreen(userData: userData.toJson(),)));
                       },
                       child: Column(
                         children: [
@@ -104,15 +105,9 @@ class ManageEmployeesScreen extends StatelessWidget {
                                 clipBehavior: Clip.hardEdge,
 
                                 child: CachedNetworkImage(
-                                  imageUrl: userData['image'] ?? '',
+                                  imageUrl: userData.image ?? '',
                                   fit: BoxFit.cover,
                                 ),
-                                // Image.network(userData['image'],fit: BoxFit.cover,),
-
-                                // Image.asset(
-                                //   AppAssets.burgerImage,
-                                //   fit: BoxFit.cover,
-                                // ),
                               ),
                               const SizedBox(
                                 width: 12,
@@ -126,8 +121,7 @@ class ManageEmployeesScreen extends StatelessWidget {
                                         Expanded(
                                           flex: 2,
                                           child: Text(
-                                            // 'Shehzad',
-                                            '${userData['name']}',
+                                            '${userData.name}',
                                             style: const TextStyle(
                                                 fontSize: 24,
                                                 fontFamily: METROPOLIS_BOLD,
@@ -179,8 +173,7 @@ class ManageEmployeesScreen extends StatelessWidget {
                   },
                 ),
               );
-            }
-
+              }
           }),
           Positioned(
             bottom: 20,
