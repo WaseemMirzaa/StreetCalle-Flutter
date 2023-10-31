@@ -45,6 +45,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 24,),
+
                 BlocBuilder<ImageCubit, ImageState>(
                   builder: (context, state) {
                     return GestureDetector(
@@ -170,6 +171,8 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24,),
+
+
 
                 BlocConsumer<SignUpCubit, SignUpState>(
                   listener: (context, state) {
