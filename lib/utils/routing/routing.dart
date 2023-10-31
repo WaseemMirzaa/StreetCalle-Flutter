@@ -7,6 +7,8 @@ import 'package:street_calle/screens/auth/login_screen.dart';
 import 'package:street_calle/screens/home/client_main_screen.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu_item_detail.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_all_deals.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_all_items.dart';
 import 'package:street_calle/screens/home/main_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_deal.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_item.dart';
@@ -133,7 +135,8 @@ final router = GoRouter(
       name: AppRoutingName.itemDetail,
       builder: (context, state) {
         final item = state.extra as Item;
-        return ItemDetail(item: item);
+        final isClient = state.pathParameters[IS_CLIENT]!;
+        return ItemDetail(item: item, isClient: bool.parse(isClient),);
       },
     ),
     GoRoute(
@@ -159,7 +162,8 @@ final router = GoRouter(
       name: AppRoutingName.dealDetail,
       builder: (context, state) {
         final deal = state.extra as Deal;
-        return DealDetail(deal: deal);
+        final isClient = state.pathParameters[IS_CLIENT]!;
+        return DealDetail(deal: deal, isClient: bool.parse(isClient));
       },
     ),
     GoRoute(
@@ -207,5 +211,21 @@ final router = GoRouter(
     //     return   AddEmployeeMenuItemsScreen();
     //   },
     // ),
+    GoRoute(
+      path: AppRoutingName.viewAllDeals,
+      name: AppRoutingName.viewAllDeals,
+      builder: (context, state) {
+        // return const CreateEmployeeProfileScreen();
+        return const ViewAllDeals();
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.viewAllItems,
+      name: AppRoutingName.viewAllItems,
+      builder: (context, state) {
+        // return const CreateEmployeeProfileScreen();
+        return const ViewAllItems();
+      },
+    ),
   ],
 );

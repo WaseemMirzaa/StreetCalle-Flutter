@@ -133,6 +133,6 @@ class DealsTab extends StatelessWidget {
   }
 
   void _goToDealDetail(BuildContext context, Deal deal) {
-    context.pushNamed(AppRoutingName.dealDetail, extra: deal);
+    context.pushNamed(AppRoutingName.dealDetail, extra: deal, pathParameters: {IS_CLIENT: false.toString()});
   }
 }

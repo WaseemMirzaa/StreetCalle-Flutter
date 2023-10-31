@@ -14,6 +14,10 @@ class UserState {
   final bool isVendor;
   final bool isOnline;
   final String vendorType;
+  // final String? vendorId;
+  // final bool? isEmployee;
+  // final bool? isEmployeeBlocked;
+  // final List<dynamic>? employeeItemsList;
 
   UserState({
     required this.userId,

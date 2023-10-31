@@ -20,6 +20,7 @@ class User extends Equatable {
   final Timestamp? updatedAt;
   final List<dynamic>? fcmTokens;
   final List<dynamic>? employeeItemsList;
+  final List<dynamic>? favouriteVendors;
   final double? latitude;
   final double? longitude;
   final String? vendorType;
@@ -42,7 +43,8 @@ class User extends Equatable {
       this.latitude,
       this.longitude,
       this.countryCode,
-      this.vendorType});
+      this.vendorType,
+      this.favouriteVendors});
 
   User copyWith(
       {String? uid,
@@ -55,6 +57,7 @@ class User extends Equatable {
       Timestamp? updatedAt,
       List<dynamic>? fcmTokens,
       List<dynamic>? employeeItemsList,
+      List<dynamic>? favouriteVendors,
       bool? isVendor,
       bool? isOnline,
       bool? isEmployee,
@@ -74,6 +77,7 @@ class User extends Equatable {
       updatedAt: updatedAt ?? this.updatedAt,
       fcmTokens: fcmTokens ?? this.fcmTokens,
       employeeItemsList: employeeItemsList ?? this.employeeItemsList,
+      favouriteVendors: favouriteVendors ?? this.favouriteVendors,
       isVendor: isVendor ?? this.isVendor,
       isOnline: isOnline ?? this.isOnline,
       isEmployee: isEmployee ?? this.isEmployee,
@@ -105,6 +109,7 @@ class User extends Equatable {
       longitude: json[UserKey.longitude],
       countryCode: json[UserKey.countryCode],
       vendorType: json[UserKey.vendorType],
+      favouriteVendors: json[UserKey.favouriteVendors],
     );
   }
 
@@ -128,6 +133,7 @@ class User extends Equatable {
     data[UserKey.longitude] = longitude;
     data[UserKey.countryCode] = countryCode;
     data[UserKey.vendorType] = vendorType;
+    data[UserKey.favouriteVendors] = favouriteVendors;
     return data;
   }
 

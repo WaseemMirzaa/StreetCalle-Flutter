@@ -12,6 +12,7 @@ import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/user_service.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 
 class ClientMenu extends StatelessWidget {
   const ClientMenu({Key? key}) : super(key: key);
@@ -42,7 +43,7 @@ class ClientMenu extends StatelessWidget {
                     ),
                     child: TextField(
                       textAlign: TextAlign.center,
-                      onChanged: (String? value) {},
+                      onChanged: (String? value) => _searchQuery(context, value),
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(20),
                         filled: true,
@@ -122,17 +123,39 @@ class ClientMenu extends StatelessWidget {
                         ),
                       );
                     }
-                    return ListView.builder(
-                      itemCount: snapshot.data?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        final user = snapshot.data![index];
+                    return BlocBuilder<ClientMenuSearchCubit, String>(
+                      builder: (context, state) {
 
-                        return ClientMenuItem(
-                            user: user,
-                            onTap: (){
-                              context.read<ClientSelectedVendorCubit>().selectedVendorId(user.uid);
-                              context.pushNamed(AppRoutingName.clientMenuItemDetail, extra: user);
-                            }
+                        List<User> list = [];
+                        if (state.isNotEmpty) {
+                          list = snapshot.data!.where((user) {
+                            final userName = user.name?.toLowerCase() ?? '';
+                            return userName.contains(state.toLowerCase());
+                          }).toList();
+                        } else {
+                          list = snapshot.data!;
+                        }
+
+                        return list.isEmpty
+                            ? Center(
+                          child: Text(
+                            TempLanguage().lblNoDataFound,
+                            style: context.currentTextTheme.displaySmall,
+                          ),
+                        )
+                            : ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: list.length,
+                          itemBuilder: (context, index) {
+                            final user = list[index];
+                            return ClientMenuItem(
+                                user: user,
+                                onTap: (){
+                                  context.read<ClientSelectedVendorCubit>().selectedVendorId(user.uid);
+                                  context.pushNamed(AppRoutingName.clientMenuItemDetail, extra: user);
+                                }
+                            );
+                          },
                         );
                       },
                     );
@@ -150,5 +173,9 @@ class ClientMenu extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _searchQuery(BuildContext context, String? value) {
+    context.read<ClientMenuSearchCubit>().updateQuery(value ?? '');
   }
 }

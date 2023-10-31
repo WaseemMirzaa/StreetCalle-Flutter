@@ -83,12 +83,22 @@ class UserService extends BaseService<User> {
           return const Left('Something went wrong. Try again later.');
         }
         User user = User(image: url, name: name, phone: phone, countryCode: countryCode);
-        await ref!.doc(userId).update(user.toJson());
+        await ref!.doc(userId).update({
+          UserKey.image: url,
+          UserKey.name: name,
+          UserKey.phone: phone,
+          UserKey.countryCode: countryCode
+        });
         return Right(user);
       }
 
       User user = User(image: image, name: name, phone: phone, countryCode: countryCode);
-      await ref!.doc(userId).update(user.toJson());
+      await ref!.doc(userId).update({
+        UserKey.image: image,
+        UserKey.name: name,
+        UserKey.phone: phone,
+        UserKey.countryCode: countryCode
+      });
       return Right(user);
 
     } catch (e) {
@@ -123,5 +133,68 @@ class UserService extends BaseService<User> {
         .orderBy(UserKey.updatedAt, descending: true)
         .snapshots()
         .map((value) => value.docs.map((e) => e.data()).toList());
+  }
+
+  Future<bool> updateFavourites(String vendorId, String userId, bool addToFav) async {
+    try {
+      await ref!.doc(userId).update({
+        UserKey.favouriteVendors: addToFav ? FieldValue.arrayUnion([vendorId]) : FieldValue.arrayRemove([vendorId])
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> isVendorInFavorites(String userId, String vendorId) async {
+    try {
+      final userDoc = await ref!.doc(userId).get();
+      if (userDoc.exists) {
+        final user = userDoc.data();
+        final favouriteVendors = user?.favouriteVendors ?? [];
+
+        if (favouriteVendors.isNotEmpty && favouriteVendors.contains(vendorId)) {
+          return true;
+        }
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<List<User>> getFavouriteVendors(String userId) async {
+    try {
+      final userDoc = await ref!.doc(userId).get();
+      if (userDoc.exists) {
+        final user = userDoc.data();
+        final favouriteVendorIds = user?.favouriteVendors ?? [];
+        final favoriteUsers = await getVendorsForIds(favouriteVendorIds);
+        return favoriteUsers;
+      }
+      return [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<User>> getVendorsForIds(List<dynamic> vendorIds) async {
+    try {
+      final List<User> favoriteUsers = [];
+
+      for (String vendorId in vendorIds) {
+        final vendorDoc = await ref!.doc(vendorId).get();
+        if (vendorDoc.exists) {
+          final userData = vendorDoc.data();
+          if (userData != null) {
+            favoriteUsers.add(userData);
+          }
+        }
+      }
+
+      return favoriteUsers;
+    } catch (e) {
+      return [];
+    }
   }
 }

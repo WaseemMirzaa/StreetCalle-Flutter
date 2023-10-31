@@ -9,8 +9,9 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 
 class DealWidget extends StatelessWidget {
-  const DealWidget({Key? key, required this.deal, required this.onTap, required this.onUpdate, required this.onDelete}) : super(key: key);
+  const DealWidget({Key? key, required this.deal, required this.onTap, required this.onUpdate, required this.onDelete, this.isFromClient = false}) : super(key: key);
   final Deal deal;
+  final bool isFromClient;
   final VoidCallback onTap;
   final VoidCallback onUpdate;
   final VoidCallback onDelete;
@@ -101,7 +102,7 @@ class DealWidget extends StatelessWidget {
               ),
             ],
           ),
-          Row(
+          isFromClient ? const SizedBox.shrink() : Row(
             children: [
               const Spacer(),
               InkWell(
@@ -112,11 +113,11 @@ class DealWidget extends StatelessWidget {
                   )),
               const SizedBox(width: 4,),
               InkWell(
-                  onTap: onDelete,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(AppAssets.delete, color: AppColors.redColor, width: 15, height: 15),
-                  ),
+                onTap: onDelete,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(AppAssets.delete, color: AppColors.redColor, width: 15, height: 15),
+                ),
               ),
             ],
           ),

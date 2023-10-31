@@ -157,6 +157,6 @@ class ItemsTab extends StatelessWidget {
   }
 
   void _goToItemDetail(BuildContext context, Item item) {
-    context.pushNamed(AppRoutingName.itemDetail, extra: item);
+    context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: false.toString()});
   }
 }

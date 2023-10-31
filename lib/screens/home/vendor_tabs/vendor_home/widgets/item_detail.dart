@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/models/item.dart';
+import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
@@ -17,10 +18,16 @@ import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
+import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/services/user_service.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
 
 class ItemDetail extends StatefulWidget {
-  const ItemDetail({Key? key, required this.item}) : super(key: key);
+  const ItemDetail({Key? key, required this.item, this.isClient = false}) : super(key: key);
   final Item item;
+  final bool isClient;
 
   @override
   State<ItemDetail> createState() => _ItemDetailState();
@@ -38,6 +45,10 @@ class _ItemDetailState extends State<ItemDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final userService = sl.get<UserService>();
+    String? vendorId = context.read<ClientSelectedVendorCubit>().state;
+    String? userId = context.read<UserCubit>().state.userId;
+
     return Scaffold(
       body: SizedBox(
         width: context.width,
@@ -156,7 +167,7 @@ class _ItemDetailState extends State<ItemDetail> {
               top: 240,
               right: 15,
               child: InkWell(
-                onTap: () => _onUpdate(context, item),
+                onTap: () => widget.isClient ? _favouriteItem(userService, userId, vendorId ?? '') : _onUpdate(context, item),
                 child: Container(
                   width: 70,
                   height: 70,
@@ -167,12 +178,20 @@ class _ItemDetailState extends State<ItemDetail> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 8.0, right: 8.0),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Image.asset(AppAssets.edit, width: 25, height: 25,)
-                      ],
-                    ),
+                      child: BlocBuilder<FavoriteCubit, FavoriteStatus>(
+                        builder: (context, state) {
+                          return Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              widget.isClient
+                                  ? state == FavoriteStatus.isFavorite
+                                  ? const Icon(Icons.favorite, size: 25, color: AppColors.redColor,)
+                                  : const Icon(Icons.favorite_border_rounded, size: 25,)
+                                  : Image.asset(AppAssets.edit, width: 25, height: 25,)
+                            ],
+                          );
+                        },
+                      ),
                   ),
                 ),
               ),
@@ -245,6 +264,17 @@ class _ItemDetailState extends State<ItemDetail> {
         item = result as Item;
       });
     }
+  }
+
+  void _favouriteItem(UserService userService, String userId, String vendorId) {
+    final favouriteCubit = context.read<FavoriteCubit>();
+    final isFavourite = favouriteCubit.state == FavoriteStatus.isFavorite;
+    if (isFavourite) {
+      context.read<FavouriteListCubit>().removeUser(vendorId);
+    }
+
+    favouriteCubit.updateFavouriteStatue(!isFavourite);
+    userService.updateFavourites(vendorId, userId, !isFavourite);
   }
 }
 

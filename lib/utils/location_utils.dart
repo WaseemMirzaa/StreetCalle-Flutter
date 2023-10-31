@@ -1,5 +1,7 @@
 import 'package:background_location/background_location.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
@@ -46,11 +48,11 @@ class LocationUtils {
     });
   }
 
- static void stopBackgroundLocation() {
+  static void stopBackgroundLocation() {
    BackgroundLocation.stopLocationService();
- }
+  }
 
-  String calculateVendorsDistance(double startLatitude, double startLongitude, double endLatitude, double endLongitude) {
+  static String calculateVendorsDistance(double startLatitude, double startLongitude, double endLatitude, double endLongitude) {
     var distance = Geolocator.distanceBetween(
         startLatitude,
         startLongitude,
@@ -59,6 +61,22 @@ class LocationUtils {
     );
     var distanceInKm = distance / 1000;
     return distanceInKm.toStringAsFixed(2);
+  }
+
+  static Future<String?> getAddressFromLatLng(LatLng latLng) async {
+    try {
+      List<Placemark> placeMarks = await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+      if (placeMarks.isNotEmpty) {
+        Placemark placeMark = placeMarks[0];
+        //String address = '${placeMark.street}, ${placeMark.locality}, ${placeMark.postalCode}, ${placeMark.country}';
+        String address = '${placeMark.street}, ${placeMark.locality}';
+        return address;
+      } else {
+        return TempLanguage().lblAddressNotFound;
+      }
+    } catch (e) {
+      return null;
+    }
   }
 
 }

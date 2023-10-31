@@ -14,14 +14,16 @@ class AppRoutingName {
   static const privacyPolicy = '/privacyPolicy';
   static const termsAndConditions = '/termsAndConditions';
   static const vendorSubscriptions = '/vendorSubscriptions';
-  static const itemDetail = '/itemDetail';
+  static const itemDetail = '/itemDetail/:$IS_CLIENT';
   static const addDeal = '/addDeal/:$IS_UPDATE/:$IS_FROM_DETAIL';
   static const selectMenuItem = '/selectMenuItem';
-  static const dealDetail = '/dealDetail';
+  static const dealDetail = '/dealDetail/:$IS_CLIENT';
   static const clientMenu = '/clientMenu';
   static const clientMenuItemDetail = '/clientMenuItemDetail:';
   static const manageEmployee = '/manageEmployee';
   static const createEmployeeProfileScreen = '/createEmployeeProfileScreen';
   static const addEmployeeMenuItems = '/addEmployeeMenuItems';
   static const employeeDetail = '/employeeDetail:';
+  static const viewAllDeals = '/viewAllDeals';
+  static const viewAllItems = '/viewAllItems';
 }

@@ -22,6 +22,9 @@ const IS_FROM_DETAIL = 'isFromDetail';
 const USER = 'user';
 const EMAIL = 'email';
 const VENDOR_TYPE = 'vendor_type';
+const IS_CLIENT = 'isClient';
+const IS_FAVOURITE = 'isFavourite';
+/// PathParameters (for items and deals) --> change these wisely
 
 class Collections {
   static const String users = 'users';
@@ -62,6 +65,7 @@ class UserKey {
   static const String longitude = 'longitude';
   static const String countryCode = 'countryCode';
   static const String vendorType = 'vendorType';
+  static const String favouriteVendors = 'favouriteVendors';
 }
 
 class ItemKey {

@@ -152,6 +152,8 @@ class TempLanguage {
   String get lblSearchFood => 'Search Food';
 
   String get lblSearchFoodTrucks => 'Search food trucks';
+  String get lblSearchDeals => 'Search Deals';
+  String get lblSearchItems => 'Search Items';
 
   String get lblChooseAPlane => 'Choose A Plan';
 
@@ -302,6 +304,7 @@ class TempLanguage {
 
   String get lblAddMenuItems => 'Add Menu Items';
   String get lblSearch => 'Search';
+  String get lblAddressNotFound => 'Address not found';
 
   String get lblAddItemsForEmployee => 'Add Items For Employee';
 

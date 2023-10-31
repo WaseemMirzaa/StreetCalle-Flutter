@@ -10,6 +10,7 @@ import 'package:street_calle/screens/auth/cubit/guest/guest_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/marker_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
@@ -47,6 +48,7 @@ Future<void> init() async {
   sl.registerFactory(() => AddDealCubit(sl.call(), sl.call()));
   sl.registerFactory(() => ProfileStatusCubit(sl.call(), sl.call()));
   sl.registerFactory(() => EditProfileCubit(sl.call(), sl.call()));
+  sl.registerFactory(() => FavoriteCubit(sl.call()));
   sl.registerFactory(() => ClientSelectedVendorCubit());
   sl.registerFactory(() => EditProfileEnableCubit());
   sl.registerFactory(() => MarkersCubit());

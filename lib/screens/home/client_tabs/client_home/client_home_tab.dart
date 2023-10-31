@@ -15,6 +15,7 @@ import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/marker_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 
 class ClientHomeTab extends StatefulWidget {
   const ClientHomeTab({Key? key}) : super(key: key);
@@ -53,7 +54,7 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));
                 } else if (snapshot.hasError) {
-                  return Text(TempLanguage().lblSomethingWentWrong);
+                  return Center(child: Text(TempLanguage().lblSomethingWentWrong));
                 } else {
                   return FutureBuilder<List<User>>(
                       future: userService.getVendors(),
@@ -163,24 +164,32 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
 
  Future<Set<Marker>> addVendorMarkers(List<User> users, Position position) async {
    Set<Marker> markers = <Marker>{};
+   final markerAssets = [
+     AppAssets.truckMarker,
+     AppAssets.cargoTruckMarker,
+     AppAssets.ambulanceMarker
+   ];
+   int markerIndex = 0;
 
    for (User user in users) {
      if (user.latitude != null && user.longitude != null) {
-       final icon = await createCustomMarkerIconLocal(AppAssets.truckMarker);
+       final icon = await createCustomMarkerIconLocal(markerAssets[markerIndex]);
 
        /// Inside 5km area
-       if (double.parse(LocationUtils().calculateVendorsDistance(position.latitude, position.longitude, user.latitude!, user.longitude!)) <= 5) {
+       if (double.parse(LocationUtils.calculateVendorsDistance(position.latitude, position.longitude, user.latitude!, user.longitude!)) <= 5) {
          final marker = Marker(
            icon: icon,
            markerId: MarkerId('${user.uid}'),
            position: LatLng(user.latitude!, user.longitude!),
            onTap: (){
+             context.read<ClientSelectedVendorCubit>().selectedVendorId(user.uid);
              context.pushNamed(AppRoutingName.clientMenuItemDetail, extra: user);
            }
          );
 
          markers.add(marker);
        }
+       markerIndex = (markerIndex + 1) % markerAssets.length;
      }
    }
    return markers;

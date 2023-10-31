@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,11 +61,18 @@ class VendorHomeTab extends StatelessWidget {
                         color: AppColors.whiteColor,
                       )
                     : ClipOval(
-                        child: Image.network(
-                          context.read<UserCubit>().state.userImage,
+                        child: CachedNetworkImage(
+                          imageUrl: context.read<UserCubit>().state.userImage,
                           fit: BoxFit.cover,
+                          placeholder: (context, url) => const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
                         ),
-                      )),
+                        // child: Image.network(
+                        //   context.read<UserCubit>().state.userImage,
+                        //   fit: BoxFit.cover,
+                        // ),
+                      ),
+            ),
             const SizedBox(
               height: 2,
             ),
@@ -298,7 +306,14 @@ class VendorHomeTab extends StatelessWidget {
                           list = snapshot.data!;
                         }
 
-                        return ListView.builder(
+                        return list.isEmpty
+                            ? Center(
+                          child: Text(
+                            TempLanguage().lblNoDataFound,
+                            style: context.currentTextTheme.displaySmall,
+                          ),
+                        )
+                            : ListView.builder(
                           padding: EdgeInsets.zero,
                           itemCount: list.length,
                           itemBuilder: (context, index) {
@@ -465,6 +480,6 @@ class VendorHomeTab extends StatelessWidget {
   }
 
   void _goToItemDetail(BuildContext context, Item item) {
-    context.pushNamed(AppRoutingName.itemDetail, extra: item);
+    context.pushNamed(AppRoutingName.itemDetail, extra: item,pathParameters: {IS_CLIENT: false.toString()});
   }
 }

@@ -15,10 +15,17 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_typ
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
+import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/services/user_service.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
 
 class DealDetail extends StatefulWidget {
-  const DealDetail({Key? key, required this.deal}) : super(key: key);
+  const DealDetail({Key? key, required this.deal, this.isClient = false}) : super(key: key);
   final Deal deal;
+  final bool isClient;
 
   @override
   State<DealDetail> createState() => _DealDetailState();
@@ -35,6 +42,10 @@ class _DealDetailState extends State<DealDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final userService = sl.get<UserService>();
+    String? vendorId = context.read<ClientSelectedVendorCubit>().state;
+    String? userId = context.read<UserCubit>().state.userId;
+
     return Scaffold(
       body: SizedBox(
         width: context.width,
@@ -153,7 +164,7 @@ class _DealDetailState extends State<DealDetail> {
               top: 240,
               right: 15,
               child: InkWell(
-                onTap: () => _onUpdate(context, deal),
+                onTap: () => widget.isClient ? _favouriteDeal(userService, userId, vendorId ?? '') : _onUpdate(context, deal),
                 child: Container(
                   width: 70,
                   height: 70,
@@ -164,12 +175,20 @@ class _DealDetailState extends State<DealDetail> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 8.0, right: 8.0),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Image.asset(AppAssets.edit, width: 25, height: 25,)
-                      ],
-                    ),
+                    child: BlocBuilder<FavoriteCubit, FavoriteStatus>(
+                      builder: (context, state) {
+                        return Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            widget.isClient
+                                ? state == FavoriteStatus.isFavorite
+                                  ? const Icon(Icons.favorite, size: 25, color: AppColors.redColor,)
+                                  : const Icon(Icons.favorite_border_rounded, size: 25,)
+                                : Image.asset(AppAssets.edit, width: 25, height: 25,)
+                          ],
+                        );
+                      },
+                    )
                   ),
                 ),
               ),
@@ -222,5 +241,16 @@ class _DealDetailState extends State<DealDetail> {
         deal = result as Deal;
       });
     }
+  }
+
+  void _favouriteDeal(UserService userService, String userId, String vendorId) {
+    final favouriteCubit = context.read<FavoriteCubit>();
+    final isFavourite = favouriteCubit.state == FavoriteStatus.isFavorite;
+    if (isFavourite) {
+      context.read<FavouriteListCubit>().removeUser(vendorId);
+    }
+
+    favouriteCubit.updateFavouriteStatue(!isFavourite);
+    userService.updateFavourites(vendorId, userId, !isFavourite);
   }
 }

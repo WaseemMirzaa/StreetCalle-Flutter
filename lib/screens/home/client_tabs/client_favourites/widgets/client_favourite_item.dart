@@ -1,15 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:street_calle/models/item.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/models/user.dart';
+import 'package:street_calle/utils/location_utils.dart';
 
 class ClientFavouriteItem extends StatelessWidget {
-  const ClientFavouriteItem({Key? key, required this.item, required this.onTap}) : super(key: key);
-  final Item item;
+  const ClientFavouriteItem({Key? key, required this.user, required this.onTap, required this.onDelete}) : super(key: key);
+  final User user;
   final VoidCallback onTap;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +30,8 @@ class ClientFavouriteItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20)
                 ),
                 clipBehavior: Clip.hardEdge,
-                child: Image.asset(
-                  '${item.image}',
+                child: CachedNetworkImage(
+                  imageUrl: '${user.image}',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -41,7 +44,7 @@ class ClientFavouriteItem extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '${item.title}',
+                          '${user.name}',
                           style: const TextStyle(
                               fontSize: 24,
                               fontFamily: METROPOLIS_BOLD,
@@ -49,15 +52,12 @@ class ClientFavouriteItem extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 6,),
-                        Image.asset(AppAssets.online, width: 10, height: 10,),
+                        Image.asset(user.isOnline ?? false ? AppAssets.online : AppAssets.offline, width: 10, height: 10,),
                         const Spacer(),
-                        InkWell(
-                          onTap: (){},
-                          child: const Icon(Icons.favorite, size: 20, color: AppColors.redColor),
-                        ),
+                        const Icon(Icons.favorite, size: 20, color: AppColors.redColor),
                         const SizedBox(width: 12,),
                         InkWell(
-                          onTap: (){},
+                          onTap: onDelete,
                           child: Image.asset(AppAssets.delete, width: 16, height: 16,),
                         ),
                       ],
@@ -70,22 +70,37 @@ class ClientFavouriteItem extends StatelessWidget {
                       children: [
                         Image.asset(AppAssets.marker, width: 16, height: 16, color: AppColors.primaryColor,),
                         const SizedBox(width: 4,),
-                        Text(
-                            'test location',
-                            style: context.currentTextTheme.displaySmall?.copyWith(fontSize: 14)
+                        Flexible(
+                          child: FutureBuilder<String?>(
+                              future: LocationUtils.getAddressFromLatLng(LatLng(user.latitude!, user.longitude!)),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return const SizedBox.shrink();
+                                }
+                                if (snapshot.hasData && snapshot.data != null) {
+                                  return Text(
+                                      '${snapshot.data}',
+                                      textAlign: TextAlign.start,
+                                      maxLines: 2,
+                                      style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.placeholderColor, fontSize: 14)
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              }
+                          ),
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 2.0),
-                      child: Text(
-                          '${item.foodType}',
-                          style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14)
-                      ),
-                    ),
+                    // const SizedBox(
+                    //   height: 6,
+                    // ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(left: 2.0),
+                    //   child: Text(
+                    //       '${item.foodType}',
+                    //       style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14)
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

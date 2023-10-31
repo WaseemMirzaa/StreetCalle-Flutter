@@ -237,6 +237,7 @@ class UserInfo extends StatelessWidget {
     final editCubit = context.read<EditProfileCubit>();
     editCubit.nameController.text = userCubit.state.userName;
     editCubit.phoneController.text = userCubit.state.userPhone;
+    editCubit.customPhoneController.text = userCubit.state.userPhone;
     editCubit.countryCodeController.text = userCubit.state.countryCode;
 
 
