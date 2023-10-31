@@ -9,6 +9,7 @@ import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu_item_detail.dart';
 import 'package:street_calle/screens/home/main_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_deal.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_employee_menu_item_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_item.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/create_employee_profile_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee_detail_screen.dart';
@@ -200,12 +201,13 @@ final router = GoRouter(
         return EmployeeDetailScreen(user: user);
       },
     ),
-    // GoRoute(
-    //   path: AppRoutingName.addEmployeeMenuItems,
-    //   name: AppRoutingName.addEmployeeMenuItems,
-    //   builder: (context, state) {
-    //     return   AddEmployeeMenuItemsScreen();
-    //   },
-    // ),
+    GoRoute(
+      path: AppRoutingName.addEmployeeMenuItems,
+      name: AppRoutingName.addEmployeeMenuItems,
+      builder: (context, state) {
+        final user = state.extra as User;
+        return  AddEmployeeMenuItemsScreen(user: user,);
+      },
+    ),
   ],
 );

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/screens/auth/cubit/create_employee/create_employee_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/email_verification/email_verification_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/forget_password/forget_password_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.dart';
@@ -26,13 +27,17 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_typ
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/vendor_home_tab.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_employee_menu_item_screen.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/create_employee_profile_screen.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/utils/routing/routing.dart';
 import 'package:street_calle/utils/themes/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/firebase_options.dart';
 import 'package:street_calle/dependency_injection.dart';
+
 
 
 Future<void> main() async {
@@ -120,6 +125,16 @@ Future<void> main() async {
         BlocProvider(
           create: (context)=> sl<EditProfileEnableCubit>(),
         ),
+        BlocProvider(
+          create: (context)=> sl<CreateEmployeeCubit>(),
+          child: CreateEmployeeProfileScreen(),
+        ),
+
+        BlocProvider(
+          create: (context)=> sl<SelectedItemsCubit>(),
+          child: AddEmployeeMenuItemsScreen(),
+        ),
+
       ],
       // child: DevicePreview(
       //   enabled: !kReleaseMode,

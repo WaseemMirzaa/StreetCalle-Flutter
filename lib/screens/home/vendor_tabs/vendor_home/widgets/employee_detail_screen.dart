@@ -13,6 +13,8 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/utils/routing/app_routing_name.dart';
+
 
 class EmployeeDetailScreen extends StatefulWidget {
   final User? user;
@@ -116,11 +118,15 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                               const SizedBox(
                                 width: 4,
                               ),
-                              Text('No 03, 4th Lane, Newyork',
-                                  style: context.currentTextTheme.displaySmall
-                                      ?.copyWith(
-                                          color: AppColors.placeholderColor,
-                                          fontSize: 14)),
+                              Expanded(
+                                child: Text('No 03, 4th Lane, Newyork',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: context.currentTextTheme.displaySmall
+                                        ?.copyWith(
+                                            color: AppColors.placeholderColor,
+                                            fontSize: 14)),
+                              ),
                             ],
                           ),
                         ],
@@ -154,97 +160,8 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                 const SizedBox(
                   height: 12,
                 ),
-
-                /// this is initial code written by shehzad
-                // Expanded(
-                //   child: ListView.builder(
-                //     itemCount: 10,
-                //     itemBuilder: (context, index) {
-                //       return Column(
-                //         children: [
-                //           const SizedBox(
-                //             height: 12,
-                //           ),
-                //           Row(
-                //             children: [
-                //               Container(
-                //                 width: 90,
-                //                 height: 90,
-                //                 decoration: BoxDecoration(
-                //                     borderRadius: BorderRadius.circular(10)),
-                //                 clipBehavior: Clip.hardEdge,
-                //                 child: Image.asset(
-                //                   AppAssets.burgerImage,
-                //                   fit: BoxFit.cover,
-                //                 ),
-                //               ),
-                //               const SizedBox(
-                //                 width: 12,
-                //               ),
-                //               Expanded(
-                //                 child: Column(
-                //                   crossAxisAlignment: CrossAxisAlignment.start,
-                //                   children: [
-                //                     const Row(
-                //                       children: [
-                //                         Expanded(
-                //                           flex: 2,
-                //                           child: Text(
-                //                             'Shehzad',
-                //                             style: TextStyle(
-                //                                 fontSize: 24,
-                //                                 fontFamily: METROPOLIS_BOLD,
-                //                                 color:
-                //                                     AppColors.primaryFontColor),
-                //                           ),
-                //                         ),
-                //                       ],
-                //                     ),
-                //                     const SizedBox(
-                //                       height: 6,
-                //                     ),
-                //                     Row(
-                //                       children: [
-                //                         Image.asset(
-                //                           AppAssets.marker,
-                //                           width: 12,
-                //                           height: 12,
-                //                           color: AppColors.primaryColor,
-                //                         ),
-                //                         const SizedBox(
-                //                           width: 4,
-                //                         ),
-                //                         Text('No 03, 4th Lane, Newyork',
-                //                             style: context
-                //                                 .currentTextTheme.displaySmall
-                //                                 ?.copyWith(
-                //                                     color: AppColors
-                //                                         .placeholderColor,
-                //                                     fontSize: 14)),
-                //                       ],
-                //                     ),
-                //                   ],
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //           const SizedBox(
-                //             height: 20,
-                //           ),
-                //           const Divider(
-                //             color: AppColors.dividerColor,
-                //           ),
-                //           SizedBox(
-                //             height: index == 9 ? 60 : 0,
-                //           ),
-                //         ],
-                //       );
-                //     },
-                //   ),
-                // ),
-
-                widget.user?.employeeItemsList?.isNotEmpty ?? false ? StreamBuilder<List<Item>>(
-                        //stream: FirebaseFirestore.instance.collection('items').where(FieldPath.documentId, whereIn: widget.user?.employeeItemsList).snapshots(),
+                widget.user?.employeeItemsList?.isNotEmpty ?? false ?
+                StreamBuilder<List<Item>>(
                         stream: itemService.getEmployeeItems(widget.user?.employeeItemsList),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
@@ -261,10 +178,12 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                               child: CircularProgressIndicator(),
                             );
                           } else {
-                            QuerySnapshot querySnapshot = snapshot.data as QuerySnapshot;
-                            List<DocumentSnapshot> documents = querySnapshot.docs;
 
-                            if (documents.isEmpty) {
+
+                            List<Item> items = snapshot.data ?? [];
+
+
+                            if (items.isEmpty) {
                               return const Center(
                                 child: Text(
                                     'No items found with the provided IDs'),
@@ -274,9 +193,9 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                             return Expanded(
                               child: ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: documents.length,
+                                itemCount: items.length,
                                 itemBuilder: (context, index) {
-                                  var itemData = documents[index].data() as Map<String, dynamic>;
+                                  var itemData = items[index];
                                   return Column(
                                     children: [
                                       const SizedBox(
@@ -293,7 +212,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                                           10)),
                                               clipBehavior: Clip.hardEdge,
                                               child: Image.network(
-                                                itemData['image'],
+                                                itemData.image!,
                                                 fit: BoxFit.cover,
                                               )
                                               // Image.asset(
@@ -314,7 +233,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                                     Expanded(
                                                       flex: 2,
                                                       child: Text(
-                                                        itemData['title'],
+                                                        itemData.title!,
                                                         // 'Shehzad',
                                                         style: const TextStyle(
                                                             fontSize: 24,
@@ -386,10 +305,45 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child:
                   widget.user?.isEmployeeBlocked ?? false ?
-                      AppButton(
-                        text: 'Blocked',
+                  isLoading ? const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                       CircularProgressIndicator(),
+                    ],
+                  ) :    AppButton(
+                        text: 'Unblock',
                         textColor: AppColors.whiteColor,
-                        onTap: (){},
+                        onTap:(){
+                          setState(() {
+                            isLoading = true;
+                          });
+                          // FirebaseFirestore.instance.collection('users').where('uid', isEqualTo: widget.user!.uid).get().then((QuerySnapshot querySnapshot) {
+                          //   querySnapshot.docs.forEach((doc) {
+                          //     FirebaseFirestore.instance.collection('users').doc(doc.id).update({
+                          //       'isEmployeeBlocked': false,
+                          //     });
+                          //     setState(() {
+                          //
+                          //     });
+                          //   });
+                          // })
+                          FirebaseFirestore.instance.collection('users').doc(widget.user!.uid).set(
+                              {
+                                'isEmployeeBlocked': false,
+                              },SetOptions(merge: true))
+                              .then((value) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            Navigator.pop(context);
+                          }).onError((error, stackTrace) {
+                            print('Error $error');
+                            setState(() {
+                              isLoading = false;
+                            });
+                          });
+
+                        },
                         width: context.width,
                         shapeBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
@@ -398,31 +352,28 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
               Row(
                 children: [
                 isLoading ? const CircularProgressIndicator() :   GestureDetector(
+
                     onTap:(){
-                      // setState(() {
-                      //   isLoading = true;
-                      // });
-                      // FirebaseFirestore.instance.collection('users').where('uid', isEqualTo: widget.userData!['uid']).get().then((QuerySnapshot querySnapshot) {
-                      //   querySnapshot.docs.forEach((doc) {
-                      //     FirebaseFirestore.instance.collection('users').doc(doc.id).update({
-                      //       'isEmployeeBlocked': true,
-                      //     });
-                      //     setState(() {
-                      //
-                      //     });
-                      //   });
-                      // }).then((value) {
-                      //   setState(() {
-                      //     isLoading = false;
-                      //   });
-                      // }).onError((error, stackTrace) {
-                      //   print('Error $error');
-                      //   setState(() {
-                      //     isLoading = false;
-                      //   });
-                      // });
+                      setState(() {
+                        isLoading = true;
+                      });
+                      FirebaseFirestore.instance.collection('users').doc(widget.user!.uid).set(
+                          {
+                            'isEmployeeBlocked': true,
+                          },SetOptions(merge: true)).then((value) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                        Navigator.pop(context);
+                      }).onError((error, stackTrace) {
+                        print('Error $error');
+                        setState(() {
+                          isLoading = false;
+                        });
+                      });
 
                     },
+
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: const BoxDecoration(
@@ -448,11 +399,9 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                       child: AppButton(
                         elevation: 0.0,
                         onTap: () {
-                          // context
-                          //     .pushNamed(AppRoutingName.addEmployeeMenuItems);
 
-                         // Navigator.push(context, MaterialPageRoute(builder: (context)=>AddEmployeeMenuItemsScreen(id:widget.userData!['uid'],selectedItemId: listData,)));
-                        },
+                          context.pushNamed(AppRoutingName.addEmployeeMenuItems, extra: widget.user);
+                          },
                         shapeBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
                         color: AppColors.primaryColor,
@@ -466,7 +415,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                             Text(
                               TempLanguage().lblEditAddMenuItems,
                               style: context.currentTextTheme.labelLarge
-                                  ?.copyWith(color: AppColors.whiteColor),
+                                  ?.copyWith(color: AppColors.whiteColor,fontSize: 16),
                             ),
                           ],
                         ),

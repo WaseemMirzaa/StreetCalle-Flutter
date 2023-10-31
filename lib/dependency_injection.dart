@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/screens/auth/cubit/create_employee/create_employee_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/email_verification/email_verification_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/forget_password/forget_password_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.dart';
@@ -16,6 +17,7 @@ import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dar
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_item_cubit.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/deal_service.dart';
 import 'package:street_calle/services/item_service.dart';
@@ -48,6 +50,8 @@ Future<void> init() async {
   sl.registerFactory(() => EditProfileCubit(sl.call(), sl.call()));
   sl.registerFactory(() => ClientSelectedVendorCubit());
   sl.registerFactory(() => EditProfileEnableCubit());
+  sl.registerFactory(() => CreateEmployeeCubit(sl.call(), sl.call()));
+  sl.registerFactory(() => SelectedItemsCubit());
 
 
   ///  [registerLazySingleton] which registers a singleton object that will be

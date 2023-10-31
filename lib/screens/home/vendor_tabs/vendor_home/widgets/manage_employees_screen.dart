@@ -28,10 +28,6 @@ class ManageEmployeesScreen extends StatelessWidget {
         leading: GestureDetector(
 
           onTap: () => context.pop(),
-          // onTap: (){
-          //   print('id');
-          //   print(context.read<UserCubit>().state.userId);
-          // },
 
           child: Stack(
             alignment: Alignment.center,
@@ -53,10 +49,10 @@ class ManageEmployeesScreen extends StatelessWidget {
       body: Stack(
         children: [
           StreamBuilder<List<User>>(
-             // stream: FirebaseFirestore.instance.collection('users').where('vendorId', isEqualTo:context.read<UserCubit>().state.userId).snapshots(),
             stream: userService.getEmployees(context.read<UserCubit>().state.userId),
               builder: (context,snapshot){
-               if(!snapshot.hasData || snapshot.data == null){
+
+               if(!snapshot.hasData || snapshot.data == null || snapshot.data!.isEmpty){
                  return Center(
                   child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -88,7 +84,6 @@ class ManageEmployeesScreen extends StatelessWidget {
                     return InkWell(
                       onTap: () {
                          context.pushNamed(AppRoutingName.employeeDetail, extra: userData);
-                       //Navigator.push(context, MaterialPageRoute(builder: (context)=> EmployeeDetailScreen(userData: userData.toJson(),)));
                       },
                       child: Column(
                         children: [
@@ -128,6 +123,12 @@ class ManageEmployeesScreen extends StatelessWidget {
                                                 color: AppColors.primaryFontColor),
                                           ),
                                         ),
+                                       userData.isEmployeeBlocked != true || userData.isEmployeeBlocked == null ?
+                                         const SizedBox.shrink():
+                                       const Text('Blocked', style: TextStyle(
+                                           fontSize: 16,
+                                           fontFamily: METROPOLIS_R,
+                                           color: AppColors.redColor),)
                                       ],
                                     ),
                                     const SizedBox(

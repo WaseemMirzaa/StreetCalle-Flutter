@@ -29,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    init();
+    // init();
   }
 
   Future<void> init() async {

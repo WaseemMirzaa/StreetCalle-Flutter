@@ -101,8 +101,15 @@ class ItemService extends BaseService<Item> {
 
   Stream<List<Item>> getEmployeeItems(List<dynamic>? employeeItemList) {
     return ref!.where(FieldPath.documentId, whereIn: employeeItemList)
-        .orderBy(ItemKey.updatedAt, descending: true)
         .snapshots()
         .map((value) => value.docs.map((e) => e.data()).toList());
   }
+
+  Stream<List<Item>> getVendorItems(String vendorId) {
+    return ref!.where(ItemKey.uid, isEqualTo: vendorId)
+        .snapshots()
+        .map((value) => value.docs.map((e) => e.data()).toList());
+  }
+
+
 }
