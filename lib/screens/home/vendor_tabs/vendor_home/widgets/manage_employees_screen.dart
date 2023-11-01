@@ -13,10 +13,10 @@ import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/widgets/address_widget.dart';
 
 class ManageEmployeesScreen extends StatelessWidget {
   const ManageEmployeesScreen({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,7 @@ class ManageEmployeesScreen extends StatelessWidget {
       appBar: AppBar(
         titleSpacing: 0,
         leading: GestureDetector(
-
           onTap: () => context.pop(),
-
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -49,133 +47,120 @@ class ManageEmployeesScreen extends StatelessWidget {
       body: Stack(
         children: [
           StreamBuilder<List<User>>(
-            stream: userService.getEmployees(context.read<UserCubit>().state.userId),
-              builder: (context,snapshot){
-
-               if(!snapshot.hasData || snapshot.data == null || snapshot.data!.isEmpty){
-                 return Center(
-                  child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                     Text(TempLanguage().lblNoDataFound),
-                  ],
-                ),
-                 );
-               } else if(snapshot.hasError){
-              return  Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text('Error: ${snapshot.hasError}'),
-                  ],
-                ),
-              );
-            }else if(snapshot.connectionState == ConnectionState.waiting){
-                 return const Center(child: CircularProgressIndicator(),);
-               } else{
-                 return Padding(
-                padding: const EdgeInsets.fromLTRB(24, 10, 24, 0),
-                child: ListView.builder(
-                  itemCount: snapshot.data?.length ?? 0,
-                  itemBuilder: (context, index) {
-
-                    var userData = snapshot.data![index];
-                    return InkWell(
-                      onTap: () {
-                         context.pushNamed(AppRoutingName.employeeDetail, extra: userData);
-                      },
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          Row(
+              stream: userService.getEmployees(context.read<UserCubit>().state.userId),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData || snapshot.data == null || snapshot.data!.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(TempLanguage().lblNoDataFound),
+                      ],
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Error: ${snapshot.hasError}'),
+                      ],
+                    ),
+                  );
+                } else if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 10, 24, 0),
+                    child: ListView.builder(
+                      itemCount: snapshot.data?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        var userData = snapshot.data![index];
+                        return InkWell(
+                          onTap: () {
+                            context.pushNamed(AppRoutingName.employeeDetail,
+                                extra: userData);
+                          },
+                          child: Column(
                             children: [
-                              Container(
-                                width: 90,
-                                height: 90,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10)),
-                                clipBehavior: Clip.hardEdge,
-
-                                child: CachedNetworkImage(
-                                  imageUrl: userData.image ?? '',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
                               const SizedBox(
-                                width: 12,
+                                height: 12,
                               ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                     Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 2,
-                                          child: Text(
-                                            '${userData.name}',
-                                            style: const TextStyle(
-                                                fontSize: 24,
-                                                fontFamily: METROPOLIS_BOLD,
-                                                color: AppColors.primaryFontColor),
-                                          ),
-                                        ),
-                                       userData.isEmployeeBlocked != true || userData.isEmployeeBlocked == null ?
-                                         const SizedBox.shrink():
-                                       const Text('Blocked', style: TextStyle(
-                                           fontSize: 16,
-                                           fontFamily: METROPOLIS_R,
-                                           color: AppColors.redColor),)
-                                      ],
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 90,
+                                    height: 90,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10)
                                     ),
-                                    const SizedBox(
-                                      height: 6,
+                                    clipBehavior: Clip.hardEdge,
+                                    child: CachedNetworkImage(
+                                      imageUrl: userData.image ?? '',
+                                      fit: BoxFit.cover,
                                     ),
-                                    Row(
+                                  ),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Image.asset(
-                                          AppAssets.marker,
-                                          width: 12,
-                                          height: 12,
-                                          color: AppColors.primaryColor,
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: Text(
+                                                '${userData.name}',
+                                                style: const TextStyle(
+                                                    fontSize: 24,
+                                                    fontFamily: METROPOLIS_BOLD,
+                                                    color: AppColors.primaryFontColor
+                                                ),
+                                              ),
+                                            ),
+                                            userData.isEmployeeBlocked != true || userData.isEmployeeBlocked == null
+                                                ? const SizedBox.shrink()
+                                                : Text(
+                                                    TempLanguage().lblBlocked,
+                                                    style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontFamily: METROPOLIS_R,
+                                                        color: AppColors.redColor),
+                                                  )
+                                          ],
                                         ),
                                         const SizedBox(
-                                          width: 4,
+                                          height: 6,
                                         ),
-                                        Text('No 03, 4th Lane, Newyork',
-                                            style: context
-                                                .currentTextTheme.displaySmall
-                                                ?.copyWith(
-                                                color:
-                                                AppColors.placeholderColor,
-                                                fontSize: 14)),
+                                        AddressWidget(latitude: userData.latitude, longitude: userData.longitude,),
                                       ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              const Divider(
+                                color: AppColors.dividerColor,
+                              ),
+                              SizedBox(
+                                height: index == 9 ? 60 : 0,
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          const Divider(
-                            color: AppColors.dividerColor,
-                          ),
-                          SizedBox(
-                            height: index == 9 ? 60 : 0,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              );
-              }
-          }),
+                        );
+                      },
+                    ),
+                  );
+                }
+              }),
           Positioned(
             bottom: 20,
             right: 0,

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -7,6 +6,7 @@ import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
+import 'package:street_calle/widgets/image_widget.dart';
 
 class DealWidget extends StatelessWidget {
   const DealWidget({Key? key, required this.deal, required this.onTap, required this.onUpdate, required this.onDelete, this.isFromClient = false}) : super(key: key);
@@ -25,18 +25,7 @@ class DealWidget extends StatelessWidget {
           const SizedBox(height: 12,),
           Row(
             children: [
-              Container(
-                width: 90,
-                height: 90,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                clipBehavior: Clip.hardEdge,
-                child: CachedNetworkImage(
-                  imageUrl: '${deal.image}',
-                  fit: BoxFit.cover,
-                ),
-              ),
+              ImageWidget(image: deal.image),
               const SizedBox(width: 12,),
               Expanded(
                 child: Column(

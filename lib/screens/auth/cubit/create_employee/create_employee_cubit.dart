@@ -48,6 +48,8 @@ class CreateEmployeeCubit extends Cubit<CreateEmployeeState> {
               email: emailController.text,
               vendorId: vendorId,
               isVendor: false,
+              isEmployee: true,
+              isEmployeeBlocked: false,
               isOnline: true,
               createdAt: Timestamp.now(),
               updatedAt: Timestamp.now(),

@@ -7,7 +7,6 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/deal_w
 import 'package:street_calle/services/deal_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/deal.dart';
-import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
@@ -18,6 +17,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/delete
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
+import 'package:street_calle/widgets/no_data_found_widget.dart';
 
 class DealsTab extends StatelessWidget {
   const DealsTab({Key? key}) : super(key: key);
@@ -38,12 +38,7 @@ class DealsTab extends StatelessWidget {
         }
         if (snapshot.hasData && snapshot.data != null) {
           if (snapshot.data!.isEmpty) {
-            return Center(
-              child: Text(
-                TempLanguage().lblNoDataFound,
-                style: context.currentTextTheme.displaySmall,
-              ),
-            );
+            return const NoDataFoundWidget();
           }
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -53,12 +48,7 @@ class DealsTab extends StatelessWidget {
               itemBuilder: (context, index) {
                 final deal = snapshot.data?[index];
                 if (deal == null) {
-                  return Center(
-                    child: Text(
-                      TempLanguage().lblNoDataFound,
-                      style: context.currentTextTheme.displaySmall,
-                    ),
-                  );
+                  return const NoDataFoundWidget();
                 }
                 return DealWidget(
                   deal: deal,
@@ -70,12 +60,7 @@ class DealsTab extends StatelessWidget {
             ),
           );
         }
-        return Center(
-          child: Text(
-            TempLanguage().lblNoDataFound,
-            style: context.currentTextTheme.displaySmall,
-          ),
-        );
+        return const NoDataFoundWidget();
       },
     );
   }

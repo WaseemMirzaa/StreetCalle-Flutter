@@ -80,11 +80,11 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
               builder: (context,snapshot){
             if(!snapshot.hasData || snapshot.data!.isEmpty){
 
-              return const Center(
+              return Center(
                 child:  Column(
                   mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('No data found'),
+                    Text(TempLanguage().lblNoDataFound),
                   ],
                 ),
               );
@@ -271,7 +271,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                      CircularProgressIndicator(),
                   ],
                 ) :  AppButton(
-                  text: 'Add Item For Employee',
+                  text: TempLanguage().lblAddItemForEmployee,
                   elevation: 0.0,
                   onTap: () {
 

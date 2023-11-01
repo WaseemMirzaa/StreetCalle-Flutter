@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/client_favourite.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/client_home_tab.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/client_search_tab.dart';
 import 'package:street_calle/screens/home/settings/settings_tab.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/vendor_menu_tab.dart';
 import 'package:street_calle/screens/home/widgets/custom_bottom_nav_item.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -21,7 +21,7 @@ class _MainScreenState extends State<ClientMainScreen> {
 
   static const List<Widget> _clientWidgets = <Widget>[
     ClientHomeTab(),
-    VendorMenuTab(),
+    ClientSearchTab(),
     ClientFavourite(),
     SettingsTab()
   ];

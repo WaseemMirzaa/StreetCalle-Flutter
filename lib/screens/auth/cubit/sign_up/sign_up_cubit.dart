@@ -57,6 +57,8 @@ class SignUpCubit extends Cubit<SignUpState> {
             phone: phoneController.text,
             countryCode: countryCodeController.text.isEmpty ? initialCountyCode : countryCodeController.text,
             isVendor: false,
+            isEmployee: false,
+            isEmployeeBlocked: false,
             isOnline: true,
             createdAt: Timestamp.now(),
             updatedAt: Timestamp.now(),

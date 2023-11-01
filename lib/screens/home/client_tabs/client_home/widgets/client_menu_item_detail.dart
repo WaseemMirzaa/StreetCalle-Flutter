@@ -15,6 +15,9 @@ import 'package:street_calle/screens/home/client_tabs/client_home/widgets/food_s
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/widgets/filter_bottom_sheet.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
+import 'package:street_calle/widgets/show_favourite_item_widget.dart';
 
 class ClientMenuItemDetail extends StatelessWidget {
   const ClientMenuItemDetail({Key? key, required this.user}) : super(key: key);
@@ -25,6 +28,7 @@ class ClientMenuItemDetail extends StatelessWidget {
     String? vendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
     String? userId = context.read<UserCubit>().state.userId;
     context.read<FavoriteCubit>().checkFavoriteStatus(userId, vendorId ?? '');
+    context.read<FoodSearchCubit>().updateQuery('');
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -51,7 +55,7 @@ class ClientMenuItemDetail extends StatelessWidget {
                     ),
                     const Spacer(),
                     IconButton(
-                        onPressed: (){},
+                        onPressed: ()=> _filterBottomSheet(context),
                         icon: Image.asset(AppAssets.filterIcon, width: 24, height: 24,),
                     ),
                     IconButton(
@@ -113,25 +117,7 @@ class ClientMenuItemDetail extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 6,),
-                          BlocBuilder<FavoriteCubit, FavoriteStatus>(
-                            builder: (context, state) {
-                              switch (state) {
-                                case FavoriteStatus.loading:
-                                  return const CircularProgressIndicator(); // Display a loading indicator.
-                                case FavoriteStatus.isFavorite:
-                                  return const Icon(
-                                    Icons.favorite_outlined,
-                                    color: AppColors.redColor,
-                                  );
-                                case FavoriteStatus.isNotFavorite:
-                                  return const Icon(
-                                    Icons.favorite_border_rounded,
-                                  );
-                                default:
-                                  return const SizedBox(); // Handle other states as needed.
-                              }
-                            },
-                          ),
+                          const ShowFavouriteItemWidget(),
                           // FutureBuilder(
                           //     future: userService.isVendorInFavorites(userId ?? '', clientVendorId ?? ''),
                           //     builder: (context, snapshot) {
@@ -227,6 +213,15 @@ class ClientMenuItemDetail extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _filterBottomSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return const FilterBottomSheet();
+      },
     );
   }
 }

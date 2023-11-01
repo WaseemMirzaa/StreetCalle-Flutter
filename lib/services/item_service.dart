@@ -111,5 +111,10 @@ class ItemService extends BaseService<Item> {
         .map((value) => value.docs.map((e) => e.data()).toList());
   }
 
-
+  Stream<List<Item>> getAllItems() {
+    return ref!
+        .orderBy(ItemKey.updatedAt, descending: true)
+        .snapshots()
+        .map((value) => value.docs.map((e) => e.data()).toList());
+  }
 }

@@ -90,4 +90,11 @@ class DealService extends BaseService<Deal> {
     }
   }
 
+  Stream<List<Deal>> getAllDeals() {
+    return ref!
+        .orderBy(ItemKey.updatedAt, descending: true)
+        .snapshots()
+        .map((value) => value.docs.map((e) => e.data()).toList());
+  }
+
 }

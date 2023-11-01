@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/services/item_service.dart';
-import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -20,6 +19,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/delete_confirmation_dialog.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
+import 'package:street_calle/widgets/no_data_found_widget.dart';
 
 class ItemsTab extends StatelessWidget {
   const ItemsTab({Key? key}) : super(key: key);
@@ -40,12 +40,7 @@ class ItemsTab extends StatelessWidget {
         }
         if (snapshot.hasData && snapshot.data != null) {
           if (snapshot.data!.isEmpty) {
-            return Center(
-              child: Text(
-                TempLanguage().lblNoDataFound,
-                style: context.currentTextTheme.displaySmall,
-              ),
-            );
+            return const NoDataFoundWidget();
           }
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -55,12 +50,7 @@ class ItemsTab extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = snapshot.data?[index];
                 if (item == null) {
-                  return Center(
-                    child: Text(
-                      TempLanguage().lblNoDataFound,
-                      style: context.currentTextTheme.displaySmall,
-                    ),
-                  );
+                  return const NoDataFoundWidget();
                 }
                 return ItemWidget(
                   isFromItemTab: true,
@@ -73,12 +63,7 @@ class ItemsTab extends StatelessWidget {
             ),
           );
         }
-        return Center(
-          child: Text(
-            TempLanguage().lblNoDataFound,
-            style: context.currentTextTheme.displaySmall,
-          ),
-        );
+        return const NoDataFoundWidget();
       },
     );
   }

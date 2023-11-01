@@ -16,4 +16,5 @@ class AppColors {
   static const containerBackgroundColor = Color(0xffE9E9E9);
   static const chipColor = Color(0xffE1E3E9);
   static const textColor = Color(0xff6E8CA0);
+  static const chipBackgroundColor = Color(0xffE1E3E9);
 }

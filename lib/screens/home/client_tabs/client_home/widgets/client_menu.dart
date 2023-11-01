@@ -20,6 +20,7 @@ class ClientMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userService = sl.get<UserService>();
+    context.read<ClientMenuSearchCubit>().updateQuery('');
 
     return Scaffold(
       body: Column(

@@ -18,9 +18,9 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/user_service.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
+import 'package:street_calle/widgets/show_favourite_item_widget.dart';
 
 class DealDetail extends StatefulWidget {
   const DealDetail({Key? key, required this.deal, this.isClient = false}) : super(key: key);
@@ -43,8 +43,9 @@ class _DealDetailState extends State<DealDetail> {
   @override
   Widget build(BuildContext context) {
     final userService = sl.get<UserService>();
-    String? vendorId = context.read<ClientSelectedVendorCubit>().state;
+    //String? vendorId = context.read<ClientSelectedVendorCubit>().state;
     String? userId = context.read<UserCubit>().state.userId;
+    context.read<FavoriteCubit>().checkFavoriteStatus(userId, deal.uid ?? '');
 
     return Scaffold(
       body: SizedBox(
@@ -164,7 +165,7 @@ class _DealDetailState extends State<DealDetail> {
               top: 240,
               right: 15,
               child: InkWell(
-                onTap: () => widget.isClient ? _favouriteDeal(userService, userId, vendorId ?? '') : _onUpdate(context, deal),
+                onTap: () => widget.isClient ? _favouriteDeal(userService, userId, deal.uid ?? '') : _onUpdate(context, deal),
                 child: Container(
                   width: 70,
                   height: 70,
@@ -181,9 +182,7 @@ class _DealDetailState extends State<DealDetail> {
                           alignment: Alignment.center,
                           children: [
                             widget.isClient
-                                ? state == FavoriteStatus.isFavorite
-                                  ? const Icon(Icons.favorite, size: 25, color: AppColors.redColor,)
-                                  : const Icon(Icons.favorite_border_rounded, size: 25,)
+                                ? const ShowFavouriteItemWidget()
                                 : Image.asset(AppAssets.edit, width: 25, height: 25,)
                           ],
                         );

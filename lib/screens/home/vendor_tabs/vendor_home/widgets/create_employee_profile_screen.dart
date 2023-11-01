@@ -14,7 +14,6 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
-import 'package:street_calle/utils/routing/app_routing_name.dart';
 
 
 class CreateEmployeeProfileScreen extends StatefulWidget {
@@ -265,7 +264,8 @@ class _CreateEmployeeProfileScreenState extends State<CreateEmployeeProfileScree
       showToast(context, TempLanguage().lblPasswordMustBeGreater);
     } else {
       createEmployeeCubit.signUp(image,vendorId).then((value) {
-        context.pushNamed(AppRoutingName.manageEmployee);
+        //context.pushNamed(AppRoutingName.manageEmployee);
+        context.pop();
       });
     }
   }

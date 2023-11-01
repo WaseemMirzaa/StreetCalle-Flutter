@@ -22,6 +22,7 @@ class ViewAllItems extends StatelessWidget {
   Widget build(BuildContext context) {
     final itemService = sl.get<ItemService>();
     String? clientVendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
+    context.read<AllItemsSearchCubit>().updateQuery('');
 
     return Scaffold(
       appBar: AppBar(

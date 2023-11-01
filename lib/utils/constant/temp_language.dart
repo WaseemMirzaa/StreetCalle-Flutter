@@ -10,6 +10,7 @@ class TempLanguage {
   String get lblVendor => 'Vendor';
 
   String get lblLogin => 'Login';
+  String get lblApply => 'Apply';
 
   String get lblUpdate => 'Update';
 
@@ -120,6 +121,8 @@ class TempLanguage {
   String get lblItemAddPricingCategories => '+ Add Pricing Categories';
 
   String get lblPrice => 'Price';
+  String get lblMins => 'mins';
+  String get lblKm => 'km';
 
   String get lblPhoneNumber => 'Phone Number';
 
@@ -152,8 +155,19 @@ class TempLanguage {
   String get lblSearchFood => 'Search Food';
 
   String get lblSearchFoodTrucks => 'Search food trucks';
+  String get lblSearchItemOrDeal => 'Search item or deal';
   String get lblSearchDeals => 'Search Deals';
   String get lblSearchItems => 'Search Items';
+  String get lblBlocked => 'Blocked';
+  String get lblAddItemForEmployee => 'Add Item For Employee';
+  String get lblSelectFoodType => 'Select Food Type';
+  String get lblWesternFood => 'Western Food';
+  String get lblChineseFood => 'Chinese Food';
+  String get lblItalianFood => 'Italian Food';
+  String get lblFilter => 'Filter';
+  String get lblReset => 'Reset';
+  String get lblSetManually => 'Set Manually';
+  String get lblDistanceTime => 'Distance \\ Time';
 
   String get lblChooseAPlane => 'Choose A Plan';
 

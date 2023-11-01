@@ -38,6 +38,7 @@ class VendorHomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final sharedPreferencesService = sl.get<SharedPreferencesService>();
     final itemService = sl.get<ItemService>();
+    context.read<SearchCubit>().updateQuery('');
     MySizer().init(context);
 
     return Scaffold(

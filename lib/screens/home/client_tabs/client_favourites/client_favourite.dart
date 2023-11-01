@@ -12,6 +12,7 @@ import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
+import 'package:street_calle/widgets/no_data_found_widget.dart';
 
 class ClientFavourite extends StatelessWidget {
   const ClientFavourite({Key? key}) : super(key: key);
@@ -49,24 +50,14 @@ class ClientFavourite extends StatelessWidget {
             }
             if (snapshot.hasData && snapshot.data != null) {
               if (snapshot.data!.isEmpty) {
-                return Center(
-                  child: Text(
-                    TempLanguage().lblNoDataFound,
-                    style: context.currentTextTheme.displaySmall,
-                  ),
-                );
+                return const NoDataFoundWidget();
               }
 
               context.read<FavouriteListCubit>().addUsers(snapshot.data!);
               return BlocBuilder<FavouriteListCubit, List<User>>(
                 builder: (context, state) {
                   return state.isEmpty
-                      ? Center(
-                    child: Text(
-                      TempLanguage().lblNoDataFound,
-                      style: context.currentTextTheme.displaySmall,
-                    ),
-                  )
+                      ? const NoDataFoundWidget()
                       : ListView.builder(
                     itemCount: state.length,
                     itemBuilder: (context, index) {

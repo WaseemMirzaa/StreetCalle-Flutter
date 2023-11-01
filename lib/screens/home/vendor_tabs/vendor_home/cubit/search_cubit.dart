@@ -39,3 +39,20 @@ class AllItemsSearchCubit extends Cubit<String> {
     emit(query);
   }
 }
+
+
+class SearchItemsCubit extends Cubit<String> {
+  SearchItemsCubit() : super('');
+
+  void updateQuery(String query) {
+    emit(query);
+  }
+}
+
+class SearchDealsCubit extends Cubit<String> {
+  SearchDealsCubit() : super('');
+
+  void updateQuery(String query) {
+    emit(query);
+  }
+}

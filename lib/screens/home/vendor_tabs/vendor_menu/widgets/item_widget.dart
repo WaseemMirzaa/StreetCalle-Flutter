@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/pricing_widget.dart';
@@ -7,6 +6,7 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
+import 'package:street_calle/widgets/image_widget.dart';
 
 class ItemWidget extends StatelessWidget {
   const ItemWidget({Key? key, required this.item, required this.onUpdate, required this.onDelete, required this.onTap, required this.isFromItemTab}) : super(key: key);
@@ -25,18 +25,7 @@ class ItemWidget extends StatelessWidget {
           const SizedBox(height: 12,),
           Row(
             children: [
-              Container(
-                width: 90,
-                height: 90,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                clipBehavior: Clip.hardEdge,
-                child: CachedNetworkImage(
-                  imageUrl: '${item.image}',
-                  fit: BoxFit.cover,
-                ),
-              ),
+              ImageWidget(image: item.image),
               const SizedBox(width: 12,),
               Expanded(
                 child: Column(

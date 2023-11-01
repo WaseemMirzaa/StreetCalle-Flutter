@@ -14,6 +14,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_c
 import 'package:street_calle/services/deal_service.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/widgets/no_data_found_widget.dart';
 
 class ViewAllDeals extends StatelessWidget {
   const ViewAllDeals({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class ViewAllDeals extends StatelessWidget {
   Widget build(BuildContext context) {
     final dealService = sl.get<DealService>();
     String? clientVendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
+    context.read<AllDealsSearchCubit>().updateQuery('');
 
     return Scaffold(
       appBar: AppBar(
@@ -125,12 +127,7 @@ class ViewAllDeals extends StatelessWidget {
                         }
 
                         return list.isEmpty
-                            ? Center(
-                          child: Text(
-                            TempLanguage().lblNoDataFound,
-                            style: context.currentTextTheme.displaySmall,
-                          ),
-                        )
+                            ? const NoDataFoundWidget()
                             : ListView.builder(
                           itemCount: list.length,
                           //padding: EdgeInsets.zero,

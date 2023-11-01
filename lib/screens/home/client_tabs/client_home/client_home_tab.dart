@@ -101,26 +101,32 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    onChanged: (String? value) {},
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(20),
-                      filled: true,
-                      prefixIcon: Container(
-                          margin: const EdgeInsets.only(left: 5, right: 5),
-                          decoration: const BoxDecoration(
-                              color: AppColors.primaryLightColor,
-                              shape: BoxShape.circle
-                          ),
-                          child: const Icon(Icons.search, color: AppColors.hintColor,)),
-                      hintStyle: context.currentTextTheme.displaySmall,
-                      hintText: TempLanguage().lblSearchFoodTrucks,
-                      fillColor: AppColors.whiteColor,
-                      border: clientSearchBorder,
-                      focusedBorder: clientSearchBorder,
-                      disabledBorder: clientSearchBorder,
-                      enabledBorder: clientSearchBorder,
+                  child: InkWell(
+                    onTap: (){
+                      context.pushNamed(AppRoutingName.clientMenu);
+                    },
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      onChanged: (String? value) {},
+                      decoration: InputDecoration(
+                        enabled: false,
+                        contentPadding: const EdgeInsets.all(20),
+                        filled: true,
+                        prefixIcon: Container(
+                            margin: const EdgeInsets.only(left: 5, right: 5),
+                            decoration: const BoxDecoration(
+                                color: AppColors.primaryLightColor,
+                                shape: BoxShape.circle
+                            ),
+                            child: const Icon(Icons.search, color: AppColors.hintColor,)),
+                        hintStyle: context.currentTextTheme.displaySmall,
+                        hintText: TempLanguage().lblSearchFoodTrucks,
+                        fillColor: AppColors.whiteColor,
+                        border: clientSearchBorder,
+                        focusedBorder: clientSearchBorder,
+                        disabledBorder: clientSearchBorder,
+                        enabledBorder: clientSearchBorder,
+                      ),
                     ),
                   ),
                 ),

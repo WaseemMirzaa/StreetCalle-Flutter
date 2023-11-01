@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/screens/selectUser/widgets/build_selected_image.dart';
+import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -14,6 +15,7 @@ import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/permission_utils.dart';
 import 'package:street_calle/utils/common.dart';
+import 'package:street_calle/dependency_injection.dart';
 
 class SelectUserScreen extends StatefulWidget {
   const SelectUserScreen({Key? key}) : super(key: key);
@@ -23,8 +25,8 @@ class SelectUserScreen extends StatefulWidget {
 }
 
 class _SelectUserScreenState extends State<SelectUserScreen> {
-  UserType _user = UserType.client;
-  VendorType _vendor = VendorType.individual;
+  UserType _userType = UserType.client;
+  VendorType _vendorType = VendorType.individual;
 
   List<DropDownItem> items = [
     DropDownItem(
@@ -79,23 +81,21 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                 children: [
                   BuildSelectableImage(
                     assetPath: AppAssets.clientIcon,
-                    isSelected: _user == UserType.client,
+                    isSelected: _userType == UserType.client,
                     title: TempLanguage().lblClient,
                     onTap: () {
-                      context.read<UserCubit>().setIsVendor(false);
                       setState(() {
-                        _user = UserType.client;
+                        _userType = UserType.client;
                       });
                     },
                   ),
                   BuildSelectableImage(
                     assetPath: AppAssets.vendorIcon,
-                    isSelected: _user == UserType.vendor,
+                    isSelected: _userType == UserType.vendor,
                     title: TempLanguage().lblVendor,
                     onTap: () {
-                      context.read<UserCubit>().setIsVendor(true);
                       setState(() {
-                        _user = UserType.vendor;
+                        _userType = UserType.vendor;
                       });
                     },
                   ),
@@ -103,7 +103,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
               ),
             ),
           ),
-          _user.name == UserType.vendor.name
+          _userType.name == UserType.vendor.name
               ? Expanded(
                   child: Column(
                     children: [
@@ -139,9 +139,9 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                               }
                               if (value.title.toLowerCase() ==
                                   VendorType.individual.name.toLowerCase()) {
-                                _vendor = VendorType.individual;
+                                _vendorType = VendorType.individual;
                               } else {
-                                _vendor = VendorType.agency;
+                                _vendorType = VendorType.agency;
                               }
                             },
                             selectedItemBuilder: (BuildContext context) {
@@ -216,15 +216,22 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                     text: TempLanguage().lblNext,
                     elevation: 0.0,
                     onTap: () {
-                      if (_user.name == UserType.vendor.name) {
-                        context.read<UserCubit>().setVendorType(_vendor.name);
+                      final userCubit = context.read<UserCubit>();
+                      final userService = sl.get<UserService>();
+
+                      if (_userType.name == UserType.vendor.name) {
+                        userCubit.setVendorType(_vendorType.name);
+                        userCubit.setIsVendor(true);
+                        //userService.setUserType(userCubit.state.userId, _vendorType.name);
+                      } else {
+                        userCubit.setIsVendor(false);
                       }
 
                       context.pushNamed(
-                          _user.name == UserType.client.name
+                          _userType.name == UserType.client.name
                               ? AppRoutingName.clientMainScreen
                               : AppRoutingName.mainScreen,
-                          pathParameters: {USER: _user.name});
+                          pathParameters: {USER: _userType.name});
                     },
                     shapeBorder: RoundedRectangleBorder(
                         side: const BorderSide(color: AppColors.primaryColor),

@@ -198,7 +198,7 @@ class UserService extends BaseService<User> {
     }
   }
 
-Future<void> updateUserMenuItems(String userId, List<dynamic> selectedItemIds)async{
+  Future<void> updateUserMenuItems(String userId, List<dynamic> selectedItemIds)async{
     try{
       await ref!.doc(userId).update({
         UserKey.employeeItemList: selectedItemIds,
@@ -207,4 +207,16 @@ Future<void> updateUserMenuItems(String userId, List<dynamic> selectedItemIds)as
         print('Error: ${e.toString()}');
     }
 }
+
+  Future<void> setUserType(String userId, String vendorType) async {
+    try{
+      await ref!.doc(userId).update({
+        UserKey.vendorType: vendorType,
+        UserKey.isVendor: true,
+        UserKey.isEmployee: false
+      });
+    }catch(e){
+      print('Error: ${e.toString()}');
+    }
+  }
 }
