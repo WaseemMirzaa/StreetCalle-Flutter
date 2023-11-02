@@ -26,4 +26,6 @@ class AppRoutingName {
   static const employeeDetail = '/employeeDetail:';
   static const viewAllDeals = '/viewAllDeals';
   static const viewAllItems = '/viewAllItems';
+  static const profile = '/profile';
+  static const clientVendorDirection = '/clientVendorDirection';
 }

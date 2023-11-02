@@ -97,4 +97,10 @@ class DealService extends BaseService<Deal> {
         .map((value) => value.docs.map((e) => e.data()).toList());
   }
 
+  Stream<List<Deal>> getEmployeeDeals(List<dynamic>? employeeItemList) {
+    return ref!.where(FieldPath.documentId, whereIn: employeeItemList)
+        .snapshots()
+        .map((value) => value.docs.map((e) => e.data()).toList());
+  }
+
 }

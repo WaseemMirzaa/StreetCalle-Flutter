@@ -5,19 +5,20 @@ import 'package:street_calle/utils/constant/constants.dart';
 
 class UserState {
   final String userId;
+  final String vendorId;
+  final String userImage;
   final String userName;
   final String userEmail;
-  final String userImage;
   final String userPhone;
   final String countryCode;
   final bool isLoggedIn;
   final bool isVendor;
   final bool isOnline;
+  final bool isEmployee;
+  final bool isEmployeeBlocked;
   final String vendorType;
-  // final String? vendorId;
-  // final bool? isEmployee;
-  // final bool? isEmployeeBlocked;
-  // final List<dynamic>? employeeItemsList;
+  final String employeeOwnerImage;
+  final String employeeOwnerName;
 
   UserState({
     required this.userId,
@@ -30,10 +31,16 @@ class UserState {
     required this.isVendor,
     required this.isOnline,
     required this.vendorType,
+    required this.vendorId,
+    required this.isEmployee,
+    required this.isEmployeeBlocked,
+    required this.employeeOwnerName,
+    required this.employeeOwnerImage
   });
 
   UserState copyWith(
       {String? userId,
+      String? vendorId,
       String? userName,
       String? userEmail,
       String? userImage,
@@ -42,9 +49,15 @@ class UserState {
       bool? isVendor,
       bool? isOnline,
       String? countryCode,
-      String? vendorType}) {
+      String? vendorType,
+      bool? isEmployee,
+      bool? isEmployeeBlocked,
+      String? employeeOwnerImage,
+      String? employeeOwnerName
+      }) {
     return UserState(
       userId: userId ?? this.userId,
+      vendorId: vendorId ?? this.vendorId,
       userName: userName ?? this.userName,
       userEmail: userEmail ?? this.userEmail,
       userImage: userImage ?? this.userImage,
@@ -54,6 +67,10 @@ class UserState {
       isOnline: isOnline ?? this.isOnline,
       countryCode: countryCode ?? this.countryCode,
       vendorType: vendorType ?? this.vendorType,
+      isEmployee: isEmployee ?? this.isEmployee,
+      isEmployeeBlocked: isEmployeeBlocked ?? this.isEmployeeBlocked,
+      employeeOwnerImage: employeeOwnerImage ?? this.employeeOwnerImage,
+      employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName
     );
   }
 }
@@ -63,6 +80,7 @@ class UserCubit extends Cubit<UserState> {
       : super(
           UserState(
             userId: '',
+            vendorId: '',
             userName: '',
             userEmail: '',
             userImage: '',
@@ -72,6 +90,10 @@ class UserCubit extends Cubit<UserState> {
             isOnline: true,
             countryCode: initialCountyCode,
             vendorType: '',
+            isEmployee: false,
+            isEmployeeBlocked: false,
+            employeeOwnerName: '',
+            employeeOwnerImage: ''
           ),
         );
 
@@ -91,6 +113,11 @@ class UserCubit extends Cubit<UserState> {
   void setUserId(String value) {
     emit(state.copyWith(userId: value));
     sharedPreferencesService.setValue(SharePreferencesKey.USER_ID, value);
+  }
+
+  void setVendorId(String value) {
+    emit(state.copyWith(vendorId: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.VENDOR_ID, value);
   }
 
   void setUserImage(String value) {
@@ -123,22 +150,47 @@ class UserCubit extends Cubit<UserState> {
     sharedPreferencesService.setValue(SharePreferencesKey.IS_ONLINE, value);
   }
 
+  void setIsEmployee(bool value) {
+    emit(state.copyWith(isEmployee: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.IS_EMPLOYEE, value);
+  }
+
+  void setIsEmployeeBlocked(bool value) {
+    emit(state.copyWith(isEmployeeBlocked: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.IS_EMPLOYEE_BLOCKED, value);
+  }
+
   void setVendorType(String value) {
     emit(state.copyWith(vendorType: value));
     sharedPreferencesService.setValue(SharePreferencesKey.VENDOR_TYPE, value);
   }
 
+  void setEmployeeOwnerImage(String value) {
+    emit(state.copyWith(employeeOwnerImage: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.EMPLOYEE_OWNER_IMAGE, value);
+  }
+
+  void setEmployeeOwnerName(String value) {
+    emit(state.copyWith(employeeOwnerName: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.EMPLOYEE_OWNER_NAME, value);
+  }
+
   void setUserModel(User user,
-      {bool isLoggedIn = false, bool isVendor = false, bool isOnline = true}) {
+      {bool isLoggedIn = false}) {
     setUsername(user.name ?? '');
+    setVendorId(user.vendorId ?? '');
     setUserEmail(user.email ?? '');
     setUserImage(user.image ?? '');
     setUserId(user.uid ?? '');
     setUserPhone(user.phone ?? '');
     setUserCountryCode(user.countryCode ?? initialCountyCode);
     setIsLoggedIn(isLoggedIn);
-    setIsVendor(isVendor);
-    setIsOnline(true);
+    setIsVendor(user.isVendor);
+    setIsOnline(user.isOnline);
+    setIsEmployee(user.isEmployee);
+    setIsEmployeeBlocked(user.isEmployeeBlocked);
+    setEmployeeOwnerImage(user.employeeOwnerImage ?? '');
+    setEmployeeOwnerName(user.employeeOwnerName ?? '');
     setVendorType(user.vendorType ?? '');
   }
 }

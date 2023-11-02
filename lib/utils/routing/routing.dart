@@ -7,9 +7,11 @@ import 'package:street_calle/screens/auth/login_screen.dart';
 import 'package:street_calle/screens/home/client_main_screen.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu_item_detail.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_vendor_direction.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_all_deals.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_all_items.dart';
 import 'package:street_calle/screens/home/main_screen.dart';
+import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_deal.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_employee_menu_item_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_item.dart';
@@ -234,6 +236,20 @@ final router = GoRouter(
       builder: (context, state) {
         final user = state.extra as User;
         return  AddEmployeeMenuItemsScreen(user: user,);
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.profile,
+      name: AppRoutingName.profile,
+      builder: (context, state) {
+        return const UserprofileTab();
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.clientVendorDirection,
+      name: AppRoutingName.clientVendorDirection,
+      builder: (context, state) {
+        return const ClientVendorDirection();
       },
     ),
   ],

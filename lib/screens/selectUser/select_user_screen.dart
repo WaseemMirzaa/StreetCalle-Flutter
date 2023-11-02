@@ -227,7 +227,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                         userCubit.setIsVendor(false);
                       }
 
-                      context.pushNamed(
+                      context.goNamed(
                           _userType.name == UserType.client.name
                               ? AppRoutingName.clientMainScreen
                               : AppRoutingName.mainScreen,

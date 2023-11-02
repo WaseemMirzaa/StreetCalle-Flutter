@@ -57,7 +57,7 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                   return Center(child: Text(TempLanguage().lblSomethingWentWrong));
                 } else {
                   return FutureBuilder<List<User>>(
-                      future: userService.getVendors(),
+                      future: userService.getVendorsAndEmployees(),
                       builder: (context, snap) {
                         if (snap.connectionState == ConnectionState.waiting) {
                           return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));

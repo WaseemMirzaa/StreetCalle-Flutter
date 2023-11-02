@@ -17,6 +17,7 @@ class SettingsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sharedPreferencesService = sl.get<SharedPreferencesService>();
+    final userCubit = context.read<UserCubit>();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -29,7 +30,11 @@ class SettingsTab extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
           children: [
-            //SettingItem(title: TempLanguage().lblProfile, onTap: (){}),
+            (userCubit.state.isVendor || userCubit.state.isEmployee)
+                ? const SizedBox.shrink()
+                : SettingItem(title: TempLanguage().lblProfile, onTap: (){
+                  context.pushNamed(AppRoutingName.profile);
+            }),
             BlocSelector<UserCubit, UserState, bool>(
                 selector: (userState) => userState.isVendor,
                 builder: (context, isVendor) {

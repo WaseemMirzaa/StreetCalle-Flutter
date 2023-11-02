@@ -10,9 +10,9 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
-
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
+import 'package:street_calle/utils/constant/app_enum.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -26,20 +26,52 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    init();
+  }
+
+  void init() {
     final sharedPreferencesService = sl.get<SharedPreferencesService>();
     final isLoggedIn = sharedPreferencesService.getBoolAsync(SharePreferencesKey.IS_LOGGED_IN);
+
     Timer(const Duration(milliseconds: 3000), () {
       if (isLoggedIn) {
         final userCubit = context.read<UserCubit>();
-        userCubit.setUserImage(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_IMAGE));
+
+        final isOnline = sharedPreferencesService.getBoolAsync(SharePreferencesKey.IS_ONLINE);
+        final isVendor = sharedPreferencesService.getBoolAsync(SharePreferencesKey.IS_VENDOR);
+        final isEmployee = sharedPreferencesService.getBoolAsync(SharePreferencesKey.IS_EMPLOYEE);
+        final isEmployeeBlocked = sharedPreferencesService.getBoolAsync(SharePreferencesKey.IS_EMPLOYEE_BLOCKED);
+
+
         userCubit.setUserId(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_ID));
+        userCubit.setVendorId(sharedPreferencesService.getStringAsync(SharePreferencesKey.VENDOR_ID));
+
         userCubit.setUsername(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_NAME));
+        userCubit.setUserImage(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_IMAGE));
         userCubit.setUserPhone(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_NUMBER));
         userCubit.setUserEmail(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_EMAIL));
-        userCubit.setIsOnline(sharedPreferencesService.getBoolAsync(SharePreferencesKey.IS_ONLINE));
         userCubit.setUserCountryCode(sharedPreferencesService.getStringAsync(SharePreferencesKey.COUNTRY_CODE));
+        userCubit.setVendorType(sharedPreferencesService.getStringAsync(SharePreferencesKey.VENDOR_TYPE));
+
+
+        userCubit.setIsOnline(isOnline);
+        userCubit.setIsLoggedIn(isLoggedIn);
+        userCubit.setIsVendor(isVendor);
+        userCubit.setIsEmployee(isEmployee);
+        userCubit.setIsEmployeeBlocked(isEmployeeBlocked);
+
+        userCubit.setEmployeeOwnerName(sharedPreferencesService.getStringAsync(SharePreferencesKey.EMPLOYEE_OWNER_NAME));
+        userCubit.setEmployeeOwnerImage(sharedPreferencesService.getStringAsync(SharePreferencesKey.EMPLOYEE_OWNER_IMAGE));
+
         context.read<ProfileStatusCubit>().defaultStatus(userCubit.state.isOnline);
-        context.goNamed(AppRoutingName.selectUserScreen);
+
+        if (isVendor) {
+          context.goNamed(AppRoutingName.mainScreen, pathParameters: {USER: UserType.vendor.name});
+        } else {
+          context.goNamed(AppRoutingName.clientMainScreen, pathParameters: {USER: UserType.client.name});
+        }
+
+        //context.goNamed(AppRoutingName.selectUserScreen);
       } else {
         context.goNamed(AppRoutingName.authScreen);
       }

@@ -34,7 +34,7 @@ class CreateEmployeeCubit extends Cubit<CreateEmployeeState> {
     nameController.clear();
   }
 
-  Future<void> signUp(String image, String vendorId) async {
+  Future<void> signUp(String image, String vendorId, String employeeOwnerName, String employeeOwnerImage) async {
     emit(SignUpLoading());
     final firebaseUser = await authService.signUpWithEmailAndPassword(emailController.text, passwordController.text);
     firebaseUser.fold(
@@ -54,6 +54,8 @@ class CreateEmployeeCubit extends Cubit<CreateEmployeeState> {
               createdAt: Timestamp.now(),
               updatedAt: Timestamp.now(),
               employeeItemsList: const[],
+              employeeOwnerName: employeeOwnerName,
+              employeeOwnerImage: employeeOwnerImage
             );
             final result = await userService.saveUserData(user, image);
             if (result) {

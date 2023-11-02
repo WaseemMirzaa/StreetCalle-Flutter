@@ -36,6 +36,7 @@ class Collections {
 class SharePreferencesKey {
   static const IS_LOGGED_IN = 'IS_LOGGED_IN';
   static const USER_ID = 'USER_ID';
+  static const VENDOR_ID = 'VENDOR_ID';
   static const USER_NAME = 'USER_NAME';
   static const USER_NUMBER = 'USER_NUMBER';
   static const COUNTRY_CODE = 'COUNTRY_CODE';
@@ -43,7 +44,11 @@ class SharePreferencesKey {
   static const USER_IMAGE = 'USER_IMAGE';
   static const IS_VENDOR = 'IS_VENDOR';
   static const IS_ONLINE = 'IS_ONLINE';
+  static const IS_EMPLOYEE = 'IS_EMPLOYEE';
+  static const IS_EMPLOYEE_BLOCKED = 'IS_EMPLOYEE_BLOCKED';
   static const VENDOR_TYPE = 'VENDOR_TYPE';
+  static const EMPLOYEE_OWNER_NAME = 'EMPLOYEE_OWNER_NAME';
+  static const EMPLOYEE_OWNER_IMAGE = 'EMPLOYEE_OWNER_IMAGE';
 }
 
 class UserKey {
@@ -66,6 +71,8 @@ class UserKey {
   static const String countryCode = 'countryCode';
   static const String vendorType = 'vendorType';
   static const String favouriteVendors = 'favouriteVendors';
+  static const String employeeOwnerImage = 'employeeOwnerImage';
+  static const String employeeOwnerName = 'employeeOwnerName';
 }
 
 class ItemKey {

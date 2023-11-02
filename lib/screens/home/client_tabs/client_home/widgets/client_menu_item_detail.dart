@@ -13,7 +13,6 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/food_search_field.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/filter_bottom_sheet.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
@@ -25,9 +24,10 @@ class ClientMenuItemDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? vendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
+    //String? vendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
     String? userId = context.read<UserCubit>().state.userId;
-    context.read<FavoriteCubit>().checkFavoriteStatus(userId, vendorId ?? '');
+    context.read<FavoriteCubit>().checkFavoriteStatus(userId, user.uid ?? '');
+    //context.read<FavoriteCubit>().checkFavoriteStatus(userId, user.isVendor ? user.uid ?? '' : user.vendorId ?? '');
     context.read<FoodSearchCubit>().updateQuery('');
 
     return Scaffold(
@@ -59,7 +59,9 @@ class ClientMenuItemDetail extends StatelessWidget {
                         icon: Image.asset(AppAssets.filterIcon, width: 24, height: 24,),
                     ),
                     IconButton(
-                        onPressed: (){},
+                        onPressed: (){
+                          context.pushNamed(AppRoutingName.clientVendorDirection);
+                        },
                         icon: Image.asset(AppAssets.marker, width: 24, height: 24,),
                     ),
                   ],
@@ -89,18 +91,14 @@ class ClientMenuItemDetail extends StatelessWidget {
                             ],
                           ),
                         ),
-                        child: user.image == null
-                            ? CircleAvatar(
-                          backgroundImage: Image.asset(AppAssets.teaImage, fit: BoxFit.cover).image,
-                        )
-                            : ClipOval(
-                              child: CachedNetworkImage(
-                                imageUrl: user.image!,
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => const Icon(Icons.error),
-                              ),
-                            )
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            imageUrl: user.isVendor ? user.image! : user.employeeOwnerImage!,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                          ),
+                        ),
                     ),
                     const SizedBox(width: 12,),
                     Expanded(
@@ -109,7 +107,7 @@ class ClientMenuItemDetail extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${user.name}',
+                            '${user.isVendor ? user.name : user.employeeOwnerName}',
                             style: const TextStyle(
                                 fontSize: 24,
                                 fontFamily: METROPOLIS_BOLD,
@@ -172,7 +170,7 @@ class ClientMenuItemDetail extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
-              const VendorDealsWidget(),
+              VendorDealsWidget(user: user),
 
               const SizedBox(
                 height: 24,
@@ -208,7 +206,7 @@ class ClientMenuItemDetail extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const VendorItemsWidget(),
+              VendorItemsWidget(user: user),
             ],
           ),
         ],

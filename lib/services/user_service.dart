@@ -128,6 +128,29 @@ class UserService extends BaseService<User> {
     return userList;
   }
 
+  Future<List<User>> getVendorsAndEmployees() async {
+    final vendorQuerySnapshot = await ref!
+        .where(UserKey.isVendor, isEqualTo: true)
+        .where(UserKey.isEmployee, isEqualTo: false)
+        .where(UserKey.isOnline, isEqualTo: true)
+        .orderBy(UserKey.updatedAt, descending: true)
+        .get();
+
+    final employeeQuerySnapshot = await ref!
+        .where(UserKey.isVendor, isEqualTo: false)
+        .where(UserKey.isEmployee, isEqualTo: true)
+        .where(UserKey.isEmployeeBlocked, isEqualTo: false)
+        .where(UserKey.isOnline, isEqualTo: true)
+        .orderBy(UserKey.updatedAt, descending: true)
+        .get();
+
+    List<User> userList = [];
+    userList.addAll(vendorQuerySnapshot.docs.map((user) => user.data()));
+    userList.addAll(employeeQuerySnapshot.docs.map((user) => user.data()));
+
+    return userList;
+  }
+
   Stream<List<User>> getEmployees(String userId) {
     return ref!.where(UserKey.vendorId, isEqualTo: userId)
         .orderBy(UserKey.updatedAt, descending: true)
@@ -218,5 +241,9 @@ class UserService extends BaseService<User> {
     }catch(e){
       print('Error: ${e.toString()}');
     }
+  }
+
+  Stream<DocumentSnapshot> getUser(String userId) {
+    return ref!.doc(userId).snapshots();
   }
 }

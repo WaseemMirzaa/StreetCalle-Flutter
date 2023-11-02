@@ -244,6 +244,10 @@ class _CreateEmployeeProfileScreenState extends State<CreateEmployeeProfileScree
   Future<void> signUp(BuildContext context) async {
     final imageCubit = context.read<ImageCubit>();
     final createEmployeeCubit = context.read<CreateEmployeeCubit>();
+    final userCubit = context.read<UserCubit>();
+
+    final employeeOwnerImage = userCubit.state.userImage;
+    final employeeOwnerName = userCubit.state.userName;
     final image = imageCubit.state.selectedImage.path;
     final name = createEmployeeCubit.nameController.text;
     final email = createEmployeeCubit.emailController.text;
@@ -263,7 +267,7 @@ class _CreateEmployeeProfileScreenState extends State<CreateEmployeeProfileScree
     }  else if (password.isEmpty || password.length < 6) {
       showToast(context, TempLanguage().lblPasswordMustBeGreater);
     } else {
-      createEmployeeCubit.signUp(image,vendorId).then((value) {
+      createEmployeeCubit.signUp(image, vendorId, employeeOwnerName, employeeOwnerImage).then((value) {
         //context.pushNamed(AppRoutingName.manageEmployee);
         context.pop();
       });

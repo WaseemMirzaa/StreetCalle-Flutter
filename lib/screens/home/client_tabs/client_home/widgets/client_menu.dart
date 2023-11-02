@@ -100,7 +100,7 @@ class ClientMenu extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
               child: FutureBuilder<List<User>>(
-                future: userService.getVendors(),
+                future: userService.getVendorsAndEmployees(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(

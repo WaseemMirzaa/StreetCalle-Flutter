@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
@@ -24,12 +25,26 @@ class UserprofileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userCubit = context.read<UserCubit>();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
           TempLanguage().lblProfile,
           style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
+        ),
+        titleSpacing: (userCubit.state.isVendor || userCubit.state.isEmployee) ? 15 : 0,
+        leadingWidth: (userCubit.state.isVendor || userCubit.state.isEmployee) ? 0 : 60,
+        leading: (userCubit.state.isVendor || userCubit.state.isEmployee)
+            ? const SizedBox.shrink()
+            : GestureDetector(
+          onTap: () => context.pop(),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Image.asset(AppAssets.backIcon, width: 20, height: 20,)
+            ],
+          ),
         ),
         actions: const [
           UpdateWidget(),
@@ -168,13 +183,18 @@ class UserprofileTab extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              Text(
-                '${TempLanguage().lblHiThere} ${context.read<UserCubit>().state.userName.capitalizeEachFirstLetter()}!',
-                style: const TextStyle(
-                    fontFamily: METROPOLIS_BOLD,
-                    fontSize: 16,
-                    color: AppColors.primaryFontColor
-                ),
+              BlocSelector<UserCubit, UserState, String>(
+                  selector: (userState) => userState.userName,
+                  builder: (context, userName) {
+                    return Text(
+                      '${TempLanguage().lblHiThere} ${userName.capitalizeEachFirstLetter()}!',
+                      style: const TextStyle(
+                          fontFamily: METROPOLIS_BOLD,
+                          fontSize: 16,
+                          color: AppColors.primaryFontColor
+                      ),
+                    );
+                  }
               ),
 
               const SizedBox(
@@ -506,7 +526,7 @@ class UpdateWidget extends StatelessWidget {
       showToast(context, TempLanguage().lblSelectImage);
     } else if (name.isEmpty) {
       showToast(context, TempLanguage().lblEnterYourName);
-    } else if (phone.isEmpty) {
+    } else if (phone.isEmpty || !phone.validatePhone()) {
       showToast(context, TempLanguage().lblEnterYourPhone);
     } else {
       showLoadingDialog(context, _dialogKey);

@@ -52,6 +52,13 @@ class AuthService {
         email: email,
         password: password,
       );
+
+      // Check if the user's email is verified
+      if (!userCredential.user!.emailVerified) {
+        await userCredential.user!.sendEmailVerification();
+        return const Left('Email not verified. A verification email has been sent.');
+      }
+
       return Right(userCredential.user);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -205,14 +212,14 @@ class AuthService {
 
         uModel = uModel.copyWith(
           updatedAt: Timestamp.now(),
-          createdAt: Timestamp.now()
+          createdAt: Timestamp.now(),
         );
 
         await userService.addDocumentWithCustomId(user.uid, uModel);
 
       } else {
 
-        uModel = uModel.copyWith();
+        //uModel = uModel.copyWith();
         await userService.updateDocument({
           UserKey.updatedAt: Timestamp.now(),
         }, user.uid);

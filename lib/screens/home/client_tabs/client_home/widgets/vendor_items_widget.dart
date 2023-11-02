@@ -10,18 +10,19 @@ import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/widgets/no_data_found_widget.dart';
+import 'package:street_calle/models/user.dart';
 
 class VendorItemsWidget extends StatelessWidget {
-  const VendorItemsWidget({Key? key}) : super(key: key);
+  VendorItemsWidget({Key? key, required this.user}) : super(key: key);
+  final User user;
 
   @override
   Widget build(BuildContext context) {
     final itemService = sl.get<ItemService>();
-    String? clientVendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
+    //String? clientVendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
 
 
     return Expanded(
@@ -36,8 +37,8 @@ class VendorItemsWidget extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.centerLeft,
-            child: FutureBuilder<List<Item>>(
-              future: itemService.getMenuItems(clientVendorId ?? ''),
+            child: StreamBuilder<List<Item>>(
+              stream: user.isVendor ? itemService.getItems(user.uid ?? '') : itemService.getEmployeeItems(user.employeeItemsList),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

@@ -19,14 +19,14 @@ class ClientMenuItem extends StatelessWidget {
           const SizedBox(height: 12,),
           Row(
             children: [
-              ImageWidget(image: user.image),
+              ImageWidget(image: user.isVendor ? user.image : user.employeeOwnerImage),
               const SizedBox(width: 12,),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${user.name}',
+                      '${user.isVendor ? user.name : user.employeeOwnerName}',
                       style: const TextStyle(
                           fontSize: 24,
                           fontFamily: METROPOLIS_BOLD,

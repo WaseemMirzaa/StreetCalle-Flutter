@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
@@ -8,17 +7,18 @@ import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/deal_service.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/models/user.dart';
 
 class VendorDealsWidget extends StatelessWidget {
-  const VendorDealsWidget({Key? key}) : super(key: key);
+  VendorDealsWidget({Key? key, required this.user}) : super(key: key);
+  final User user;
 
   @override
   Widget build(BuildContext context) {
     final dealService = sl.get<DealService>();
-    String? clientVendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
+    //String? clientVendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -31,7 +31,7 @@ class VendorDealsWidget extends StatelessWidget {
           color: AppColors.containerBackgroundColor.withOpacity(0.9), // Adjust opacity for the glass effect
         ),
         child: StreamBuilder<List<Deal>>(
-          stream: dealService.getDeals(clientVendorId ?? ''),
+          stream: user.isVendor ? dealService.getDeals(user.uid ?? '') : dealService.getEmployeeDeals(user.employeeItemsList ?? []),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(

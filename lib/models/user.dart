@@ -12,10 +12,10 @@ class User extends Equatable {
   final String? email;
   final String? phone;
   final String? countryCode;
-  final bool? isVendor;
-  final bool? isOnline;
-  final bool? isEmployee;
-  final bool? isEmployeeBlocked;
+  final bool isVendor;
+  final bool isOnline;
+  final bool isEmployee;
+  final bool isEmployeeBlocked;
   final Timestamp? createdAt;
   final Timestamp? updatedAt;
   final List<dynamic>? fcmTokens;
@@ -24,6 +24,8 @@ class User extends Equatable {
   final double? latitude;
   final double? longitude;
   final String? vendorType;
+  final String? employeeOwnerImage;
+  final String? employeeOwnerName;
 
   User(
       {this.uid,
@@ -36,15 +38,17 @@ class User extends Equatable {
       this.updatedAt,
       this.fcmTokens,
       this.employeeItemsList,
-      this.isVendor,
-      this.isOnline,
-      this.isEmployee,
-      this.isEmployeeBlocked,
+      this.isVendor = false,
+      this.isOnline = true,
+      this.isEmployee = false,
+      this.isEmployeeBlocked = false,
       this.latitude,
       this.longitude,
       this.countryCode,
       this.vendorType,
-      this.favouriteVendors});
+      this.favouriteVendors,
+      this.employeeOwnerImage,
+      this.employeeOwnerName});
 
   User copyWith(
       {String? uid,
@@ -65,7 +69,9 @@ class User extends Equatable {
       double? latitude,
       double? longitude,
       String? countryCode,
-      String? vendorType}) {
+      String? vendorType,
+      String? employeeOwnerImage,
+      String? employeeOwnerName}) {
     return User(
       uid: uid ?? this.uid,
       vendorId: vendorId ?? this.vendorId,
@@ -86,6 +92,8 @@ class User extends Equatable {
       longitude: longitude ?? this.longitude,
       countryCode: countryCode ?? this.countryCode,
       vendorType: vendorType ?? this.vendorType,
+      employeeOwnerImage: employeeOwnerImage ?? this.employeeOwnerImage,
+      employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName
     );
   }
 
@@ -110,6 +118,8 @@ class User extends Equatable {
       countryCode: json[UserKey.countryCode],
       vendorType: json[UserKey.vendorType],
       favouriteVendors: json[UserKey.favouriteVendors],
+      employeeOwnerName: json[UserKey.employeeOwnerName],
+      employeeOwnerImage: json[UserKey.employeeOwnerImage],
     );
   }
 
@@ -134,6 +144,8 @@ class User extends Equatable {
     data[UserKey.countryCode] = countryCode;
     data[UserKey.vendorType] = vendorType;
     data[UserKey.favouriteVendors] = favouriteVendors;
+    data[UserKey.employeeOwnerImage] = employeeOwnerImage;
+    data[UserKey.employeeOwnerName] = employeeOwnerName;
     return data;
   }
 
