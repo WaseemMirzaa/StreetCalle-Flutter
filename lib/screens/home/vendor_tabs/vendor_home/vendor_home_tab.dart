@@ -38,6 +38,7 @@ class VendorHomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final sharedPreferencesService = sl.get<SharedPreferencesService>();
     final itemService = sl.get<ItemService>();
+    final cubitService = context.read<UserCubit>();
     context.read<SearchCubit>().updateQuery('');
     MySizer().init(context);
 
@@ -97,7 +98,11 @@ class VendorHomeTab extends StatelessWidget {
                         onTap: () {
                          // var id =  context.read<UserCubit>().state.userId;
                          //  debugPrint('Print $id');
-                          context.pushNamed(AppRoutingName.manageEmployee);
+                          if (cubitService.state.isSubscribed && cubitService.state.subscriptionType.toLowerCase() == SubscriptionType.agency.name.toLowerCase()) {
+                            context.pushNamed(AppRoutingName.manageEmployee);
+                          } else {
+                            showToast(context, TempLanguage().lblPleaseSubscribedAgencyFirst);
+                          }
                         },
                         child: Text(
                           TempLanguage().lblManageEmployees,
@@ -157,7 +162,11 @@ class VendorHomeTab extends StatelessWidget {
                       child: AppButton(
                         elevation: 0.0,
                         onTap: () {
-                          _addItem(context);
+                          if (cubitService.state.isSubscribed) {
+                            _addItem(context);
+                          } else {
+                            showToast(context, TempLanguage().lblPleaseSubscribedFirst);
+                          }
                         },
                         shapeBorder: RoundedRectangleBorder(
                             side:

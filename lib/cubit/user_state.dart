@@ -16,9 +16,11 @@ class UserState {
   final bool isOnline;
   final bool isEmployee;
   final bool isEmployeeBlocked;
+  final bool isSubscribed;
   final String vendorType;
   final String employeeOwnerImage;
   final String employeeOwnerName;
+  final String subscriptionType;
 
   UserState({
     required this.userId,
@@ -34,8 +36,10 @@ class UserState {
     required this.vendorId,
     required this.isEmployee,
     required this.isEmployeeBlocked,
+    required this.isSubscribed,
     required this.employeeOwnerName,
-    required this.employeeOwnerImage
+    required this.employeeOwnerImage,
+    required this.subscriptionType
   });
 
   UserState copyWith(
@@ -52,8 +56,10 @@ class UserState {
       String? vendorType,
       bool? isEmployee,
       bool? isEmployeeBlocked,
+      bool? isSubscribed,
       String? employeeOwnerImage,
-      String? employeeOwnerName
+      String? employeeOwnerName,
+      String? subscriptionType
       }) {
     return UserState(
       userId: userId ?? this.userId,
@@ -69,8 +75,10 @@ class UserState {
       vendorType: vendorType ?? this.vendorType,
       isEmployee: isEmployee ?? this.isEmployee,
       isEmployeeBlocked: isEmployeeBlocked ?? this.isEmployeeBlocked,
+      isSubscribed: isSubscribed ?? this.isSubscribed,
       employeeOwnerImage: employeeOwnerImage ?? this.employeeOwnerImage,
-      employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName
+      employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName,
+      subscriptionType: subscriptionType ?? this.subscriptionType
     );
   }
 }
@@ -92,8 +100,10 @@ class UserCubit extends Cubit<UserState> {
             vendorType: '',
             isEmployee: false,
             isEmployeeBlocked: false,
+            isSubscribed: false,
             employeeOwnerName: '',
-            employeeOwnerImage: ''
+            employeeOwnerImage: '',
+            subscriptionType: ''
           ),
         );
 
@@ -160,6 +170,11 @@ class UserCubit extends Cubit<UserState> {
     sharedPreferencesService.setValue(SharePreferencesKey.IS_EMPLOYEE_BLOCKED, value);
   }
 
+  void setIsSubscribed(bool value) {
+    emit(state.copyWith(isSubscribed: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.IS_SUBSCRIBED, value);
+  }
+
   void setVendorType(String value) {
     emit(state.copyWith(vendorType: value));
     sharedPreferencesService.setValue(SharePreferencesKey.VENDOR_TYPE, value);
@@ -173,6 +188,11 @@ class UserCubit extends Cubit<UserState> {
   void setEmployeeOwnerName(String value) {
     emit(state.copyWith(employeeOwnerName: value));
     sharedPreferencesService.setValue(SharePreferencesKey.EMPLOYEE_OWNER_NAME, value);
+  }
+
+  void setSubscriptionType(String value) {
+    emit(state.copyWith(subscriptionType: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.SUBSCRIPTION_TYPE, value);
   }
 
   void setUserModel(User user,
@@ -189,8 +209,10 @@ class UserCubit extends Cubit<UserState> {
     setIsOnline(user.isOnline);
     setIsEmployee(user.isEmployee);
     setIsEmployeeBlocked(user.isEmployeeBlocked);
+    setIsSubscribed(user.isSubscribed);
     setEmployeeOwnerImage(user.employeeOwnerImage ?? '');
     setEmployeeOwnerName(user.employeeOwnerName ?? '');
     setVendorType(user.vendorType ?? '');
+    setSubscriptionType(user.subscriptionType ?? '');
   }
 }

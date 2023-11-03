@@ -46,9 +46,11 @@ class SharePreferencesKey {
   static const IS_ONLINE = 'IS_ONLINE';
   static const IS_EMPLOYEE = 'IS_EMPLOYEE';
   static const IS_EMPLOYEE_BLOCKED = 'IS_EMPLOYEE_BLOCKED';
+  static const IS_SUBSCRIBED = 'IS_SUBSCRIBED';
   static const VENDOR_TYPE = 'VENDOR_TYPE';
   static const EMPLOYEE_OWNER_NAME = 'EMPLOYEE_OWNER_NAME';
   static const EMPLOYEE_OWNER_IMAGE = 'EMPLOYEE_OWNER_IMAGE';
+  static const SUBSCRIPTION_TYPE = 'SUBSCRIPTION_TYPE';
 }
 
 class UserKey {
@@ -66,6 +68,7 @@ class UserKey {
   static const String isOnline = 'isOnline';
   static const String isEmployee = 'isEmployee';
   static const String isEmployeeBlocked = 'isEmployeeBlocked';
+  static const String isSubscribed = 'isSubscribed';
   static const String latitude = 'latitude';
   static const String longitude = 'longitude';
   static const String countryCode = 'countryCode';
@@ -73,6 +76,7 @@ class UserKey {
   static const String favouriteVendors = 'favouriteVendors';
   static const String employeeOwnerImage = 'employeeOwnerImage';
   static const String employeeOwnerName = 'employeeOwnerName';
+  static const String subscriptionType = 'subscriptionType';
 }
 
 class ItemKey {

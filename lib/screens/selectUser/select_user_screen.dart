@@ -222,7 +222,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                       if (_userType.name == UserType.vendor.name) {
                         userCubit.setVendorType(_vendorType.name);
                         userCubit.setIsVendor(true);
-                        //userService.setUserType(userCubit.state.userId, _vendorType.name);
+                        userService.setUserType(userCubit.state.userId, _vendorType.name);
                       } else {
                         userCubit.setIsVendor(false);
                       }

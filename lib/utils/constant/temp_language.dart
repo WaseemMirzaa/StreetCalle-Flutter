@@ -25,6 +25,9 @@ class TempLanguage {
 
   String get lblAddYourSignDetails => 'Add your details to sign up';
 
+  String get lblPleaseSubscribedFirst => 'Please subscribed first to perform this action';
+  String get lblPleaseSubscribedAgencyFirst => 'Please subscribed to agency first to perform this action';
+
   String get lblEmail => 'Email';
 
   String get lblPassword => 'Password';

@@ -133,6 +133,7 @@ class UserService extends BaseService<User> {
         .where(UserKey.isVendor, isEqualTo: true)
         .where(UserKey.isEmployee, isEqualTo: false)
         .where(UserKey.isOnline, isEqualTo: true)
+        .where(UserKey.isSubscribed, isEqualTo: true)
         .orderBy(UserKey.updatedAt, descending: true)
         .get();
 
@@ -243,7 +244,19 @@ class UserService extends BaseService<User> {
     }
   }
 
-  Stream<DocumentSnapshot> getUser(String userId) {
+  Stream<DocumentSnapshot<User>> getUser(String userId) {
     return ref!.doc(userId).snapshots();
+  }
+
+  Future<bool> updateUserSubscription(bool isSubscribed, String subscriptionType, String userId) async {
+     try {
+       await ref!.doc(userId).update({
+         UserKey.isSubscribed: isSubscribed,
+         UserKey.subscriptionType: subscriptionType,
+       });
+       return true;
+     } catch (e) {
+       return false;
+     }
   }
 }

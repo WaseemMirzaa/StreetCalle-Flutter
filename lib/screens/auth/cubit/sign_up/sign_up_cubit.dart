@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/user_service.dart';
+import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 part 'sign_up_state.dart';
 
@@ -60,6 +61,8 @@ class SignUpCubit extends Cubit<SignUpState> {
             isEmployee: false,
             isEmployeeBlocked: false,
             isOnline: true,
+            isSubscribed: false,
+            subscriptionType: SubscriptionType.none.name,
             createdAt: Timestamp.now(),
             updatedAt: Timestamp.now(),
           );

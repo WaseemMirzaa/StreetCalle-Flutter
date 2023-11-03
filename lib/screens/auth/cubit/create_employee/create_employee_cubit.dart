@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/user_service.dart';
+import 'package:street_calle/utils/constant/app_enum.dart';
 
 
 part 'create_employee_state.dart';
@@ -51,6 +52,8 @@ class CreateEmployeeCubit extends Cubit<CreateEmployeeState> {
               isEmployee: true,
               isEmployeeBlocked: false,
               isOnline: true,
+              isSubscribed: false,
+              subscriptionType: SubscriptionType.none.name,
               createdAt: Timestamp.now(),
               updatedAt: Timestamp.now(),
               employeeItemsList: const[],

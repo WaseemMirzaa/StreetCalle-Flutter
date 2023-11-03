@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu_item.dart';
@@ -13,6 +14,7 @@ import 'package:street_calle/models/user.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
+import 'package:street_calle/utils/location_utils.dart';
 
 class ClientMenu extends StatelessWidget {
   const ClientMenu({Key? key}) : super(key: key);
@@ -99,74 +101,104 @@ class ClientMenu extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              child: FutureBuilder<List<User>>(
-                future: userService.getVendorsAndEmployees(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(color: AppColors.primaryColor,),
-                    );
-                  }
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        TempLanguage().lblSomethingWentWrong,
-                        style: context.currentTextTheme.displaySmall,
-                      ),
-                    );
-                  }
-                  if (snapshot.hasData && snapshot.data != null) {
-                    if (snapshot.data!.isEmpty) {
-                      return Center(
-                        child: Text(
-                          TempLanguage().lblNoVendorFound,
-                          style: context.currentTextTheme.displaySmall,
-                        ),
-                      );
-                    }
-                    return BlocBuilder<ClientMenuSearchCubit, String>(
-                      builder: (context, state) {
-
-                        List<User> list = [];
-                        if (state.isNotEmpty) {
-                          list = snapshot.data!.where((user) {
-                            final userName = user.name?.toLowerCase() ?? '';
-                            return userName.contains(state.toLowerCase());
-                          }).toList();
-                        } else {
-                          list = snapshot.data!;
+              child: FutureBuilder<Position>(
+                future: LocationUtils.fetchLocation(),
+                builder: (context, snap) {
+                  if (snap.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));
+                  } else if (snap.hasError) {
+                    return Center(child: Text(TempLanguage().lblSomethingWentWrong));
+                  } else {
+                    return FutureBuilder<List<User>>(
+                      future: userService.getVendorsAndEmployees(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(color: AppColors.primaryColor,),
+                          );
                         }
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text(
+                              TempLanguage().lblSomethingWentWrong,
+                              style: context.currentTextTheme.displaySmall,
+                            ),
+                          );
+                        }
+                        if (snapshot.hasData && snapshot.data != null) {
+                          if (snapshot.data!.isEmpty) {
+                            return Center(
+                              child: Text(
+                                TempLanguage().lblNoVendorFound,
+                                style: context.currentTextTheme.displaySmall,
+                              ),
+                            );
+                          }
 
-                        return list.isEmpty
-                            ? Center(
+                          return BlocBuilder<ClientMenuSearchCubit, String>(
+                            builder: (context, state) {
+
+                              List<User> list = [];
+                              if (state.isNotEmpty) {
+                                list = snapshot.data!.where((user) {
+                                  final userName = user.name?.toLowerCase() ?? '';
+                                  return userName.contains(state.toLowerCase());
+                                }).toList();
+                              } else {
+                                list = snapshot.data!;
+                              }
+
+                              if (snap.data != null) {
+                                final position = snap.data!;
+                                list = list.where((user) {
+                                  if (user.latitude != null && user.longitude != null) {
+                                    // Inside 5km area
+                                    return double.parse(LocationUtils.calculateVendorsDistance(
+                                      position.latitude,
+                                      position.longitude,
+                                      user.latitude!,
+                                      user.longitude!,
+                                    )) <= 5;
+                                  } else {
+                                    return false;
+                                  }
+                                }).toList();
+                              }
+
+
+                              return list.isEmpty
+                                  ? Center(
+                                child: Text(
+                                  TempLanguage().lblNoDataFound,
+                                  style: context.currentTextTheme.displaySmall,
+                                ),
+                              )
+                                  : ListView.builder(
+                                padding: EdgeInsets.zero,
+                                itemCount: list.length,
+                                itemBuilder: (context, index) {
+                                  final user = list[index];
+                                  return ClientMenuItem(
+                                      user: user,
+                                      onTap: (){
+                                        context.read<ClientSelectedVendorCubit>().selectedVendorId(user.uid);
+                                        context.pushNamed(AppRoutingName.clientMenuItemDetail, extra: user);
+                                      }
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        }
+                        return Center(
                           child: Text(
-                            TempLanguage().lblNoDataFound,
+                            TempLanguage().lblSomethingWentWrong,
                             style: context.currentTextTheme.displaySmall,
                           ),
-                        )
-                            : ListView.builder(
-                          padding: EdgeInsets.zero,
-                          itemCount: list.length,
-                          itemBuilder: (context, index) {
-                            final user = list[index];
-                            return ClientMenuItem(
-                                user: user,
-                                onTap: (){
-                                  context.read<ClientSelectedVendorCubit>().selectedVendorId(user.uid);
-                                  context.pushNamed(AppRoutingName.clientMenuItemDetail, extra: user);
-                                }
-                            );
-                          },
                         );
                       },
                     );
                   }
-                  return Center(
-                    child: Text(
-                      TempLanguage().lblSomethingWentWrong,
-                      style: context.currentTextTheme.displaySmall,
-                    ),
-                  );
                 },
               ),
             ),

@@ -16,6 +16,7 @@ class User extends Equatable {
   final bool isOnline;
   final bool isEmployee;
   final bool isEmployeeBlocked;
+  final bool isSubscribed;
   final Timestamp? createdAt;
   final Timestamp? updatedAt;
   final List<dynamic>? fcmTokens;
@@ -26,6 +27,7 @@ class User extends Equatable {
   final String? vendorType;
   final String? employeeOwnerImage;
   final String? employeeOwnerName;
+  final String? subscriptionType;
 
   User(
       {this.uid,
@@ -42,13 +44,15 @@ class User extends Equatable {
       this.isOnline = true,
       this.isEmployee = false,
       this.isEmployeeBlocked = false,
+      this.isSubscribed = false,
       this.latitude,
       this.longitude,
       this.countryCode,
       this.vendorType,
       this.favouriteVendors,
       this.employeeOwnerImage,
-      this.employeeOwnerName});
+      this.employeeOwnerName,
+      this.subscriptionType});
 
   User copyWith(
       {String? uid,
@@ -66,12 +70,14 @@ class User extends Equatable {
       bool? isOnline,
       bool? isEmployee,
       bool? isEmployeeBlocked,
+      bool? isSubscribed,
       double? latitude,
       double? longitude,
       String? countryCode,
       String? vendorType,
       String? employeeOwnerImage,
-      String? employeeOwnerName}) {
+      String? employeeOwnerName,
+      String? subscriptionType}) {
     return User(
       uid: uid ?? this.uid,
       vendorId: vendorId ?? this.vendorId,
@@ -88,12 +94,14 @@ class User extends Equatable {
       isOnline: isOnline ?? this.isOnline,
       isEmployee: isEmployee ?? this.isEmployee,
       isEmployeeBlocked: isEmployeeBlocked ?? this.isEmployeeBlocked,
+      isSubscribed: isSubscribed ?? this.isSubscribed,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       countryCode: countryCode ?? this.countryCode,
       vendorType: vendorType ?? this.vendorType,
       employeeOwnerImage: employeeOwnerImage ?? this.employeeOwnerImage,
-      employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName
+      employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName,
+      subscriptionType: subscriptionType ?? this.subscriptionType
     );
   }
 
@@ -113,6 +121,7 @@ class User extends Equatable {
       isOnline: json[UserKey.isOnline],
       isEmployeeBlocked: json[UserKey.isEmployeeBlocked],
       isEmployee: json[UserKey.isEmployee],
+      isSubscribed: json[UserKey.isSubscribed],
       latitude: json[UserKey.latitude],
       longitude: json[UserKey.longitude],
       countryCode: json[UserKey.countryCode],
@@ -120,6 +129,7 @@ class User extends Equatable {
       favouriteVendors: json[UserKey.favouriteVendors],
       employeeOwnerName: json[UserKey.employeeOwnerName],
       employeeOwnerImage: json[UserKey.employeeOwnerImage],
+      subscriptionType: json[UserKey.subscriptionType]
     );
   }
 
@@ -138,6 +148,7 @@ class User extends Equatable {
     data[UserKey.isVendor] = isVendor;
     data[UserKey.isOnline] = isOnline;
     data[UserKey.isEmployee] = isEmployee;
+    data[UserKey.isSubscribed] = isSubscribed;
     data[UserKey.isEmployeeBlocked] = isEmployeeBlocked;
     data[UserKey.latitude] = latitude;
     data[UserKey.longitude] = longitude;
@@ -146,6 +157,7 @@ class User extends Equatable {
     data[UserKey.favouriteVendors] = favouriteVendors;
     data[UserKey.employeeOwnerImage] = employeeOwnerImage;
     data[UserKey.employeeOwnerName] = employeeOwnerName;
+    data[UserKey.subscriptionType] = subscriptionType;
     return data;
   }
 
