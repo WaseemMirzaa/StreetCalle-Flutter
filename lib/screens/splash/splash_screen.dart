@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
         context.read<ProfileStatusCubit>().defaultStatus(userCubit.state.isOnline);
 
-        if (isVendor) {
+        if (isVendor || isEmployee) {
           context.goNamed(AppRoutingName.mainScreen, pathParameters: {USER: UserType.vendor.name});
         } else {
           context.goNamed(AppRoutingName.clientMainScreen, pathParameters: {USER: UserType.client.name});

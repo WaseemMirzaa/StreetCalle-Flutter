@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -18,7 +19,6 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/delete_confirmation_dialog.dart';
 import 'package:street_calle/dependency_injection.dart';
-import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/widgets/no_data_found_widget.dart';
 
 class ItemsTab extends StatelessWidget {
@@ -26,12 +26,15 @@ class ItemsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sharedPreferencesService = sl.get<SharedPreferencesService>();
+    final userCubit = context.read<UserCubit>();
     final itemService = sl.get<ItemService>();
-    final userId = sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_ID);
+    final userId = userCubit.state.userId;
+    final isEmployee = userCubit.state.isEmployee;
 
     return StreamBuilder<List<Item>>(
-      stream: itemService.getItems(userId),
+      stream: isEmployee
+          ? itemService.getEmployeeItemsStream(userId)
+          : itemService.getItems(userId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -53,7 +56,7 @@ class ItemsTab extends StatelessWidget {
                   return const NoDataFoundWidget();
                 }
                 return ItemWidget(
-                  isFromItemTab: true,
+                  isFromItemTab: isEmployee ? false : true,
                   item: item,
                   onTap: () => _goToItemDetail(context, item),
                   onUpdate: () => _onUpdate(context, item),

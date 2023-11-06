@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/deal_widget.dart';
 import 'package:street_calle/services/deal_service.dart';
@@ -16,7 +17,6 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_typ
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/delete_confirmation_dialog.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/dependency_injection.dart';
-import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/widgets/no_data_found_widget.dart';
 
 class DealsTab extends StatelessWidget {
@@ -24,12 +24,15 @@ class DealsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sharedPreferencesService = sl.get<SharedPreferencesService>();
+    final userCubit = context.read<UserCubit>();
     final dealService = sl.get<DealService>();
-    final userId = sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_ID);
+    final userId = userCubit.state.userId;
+    final isEmployee = userCubit.state.isEmployee;
 
     return StreamBuilder<List<Deal>>(
-      stream: dealService.getDeals(userId),
+      stream: isEmployee
+          ? dealService.getEmployeeDealsStream(userId)
+          : dealService.getDeals(userId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -52,6 +55,7 @@ class DealsTab extends StatelessWidget {
                 }
                 return DealWidget(
                   deal: deal,
+                  isFromClient: isEmployee,
                   onTap: ()=> _goToDealDetail(context, deal),
                   onDelete: ()=> _showDeleteConfirmationDialog(context, deal, dealService),
                   onUpdate: ()=> _onUpdate(context, deal),

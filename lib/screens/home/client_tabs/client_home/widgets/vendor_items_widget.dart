@@ -14,6 +14,7 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/widgets/no_data_found_widget.dart';
 import 'package:street_calle/models/user.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/apply_filter_cubit.dart';
 
 class VendorItemsWidget extends StatelessWidget {
   VendorItemsWidget({Key? key, required this.user}) : super(key: key);
@@ -23,7 +24,7 @@ class VendorItemsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final itemService = sl.get<ItemService>();
     //String? clientVendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
-
+    context.read<ApplyFilterCubit>().resetApplyFilter();
 
     return Expanded(
       child: Stack(
@@ -37,7 +38,7 @@ class VendorItemsWidget extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.centerLeft,
-            child: StreamBuilder<List<Item>>(
+            child: StreamBuilder<List<Item>>(  /// get vendor items
               stream: user.isVendor ? itemService.getItems(user.uid ?? '') : itemService.getEmployeeItems(user.employeeItemsList),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -49,45 +50,8 @@ class VendorItemsWidget extends StatelessWidget {
                   if (snapshot.data!.isEmpty) {
                     return const NoDataFoundWidget();
                   }
-                  return BlocBuilder<FoodSearchCubit, String>(
-                    builder: (context, state) {
 
-                      List<Item> list = [];
-                      if (state.isNotEmpty) {
-                        list = snapshot.data!.where((item) {
-                          final itemName = item.title!.toLowerCase();
-                          return itemName.contains(state.toLowerCase());
-                        }).toList();
-                      } else {
-                        list = snapshot.data!;
-                      }
-                      context.read<ItemList>().addItems(list);
-
-                      return list.isEmpty
-                          ? const NoDataFoundWidget()
-                          : BlocBuilder<FilterFoodCubit, List<Item>>(
-                            builder: (context, filteredList) {
-                              List<Item> items = [];
-                              filteredList.isEmpty ? items = list : items = filteredList;
-
-                            return ListView.builder(
-                            itemCount: items.length,
-                            //padding: EdgeInsets.zero,
-                            itemBuilder: (context, index) {
-                              final item = items[index];
-
-                              return InkWell(
-                                onTap: () {
-                                  context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
-                                },
-                                child: ItemWidget(item: item),
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
-                  );
+                  return SearchingItemWidget(items: snapshot.data!);
                 }
                 return const NoDataFoundWidget();
               },
@@ -98,6 +62,79 @@ class VendorItemsWidget extends StatelessWidget {
     );
   }
 }
+
+class SearchingItemWidget extends StatelessWidget {
+  SearchingItemWidget({Key? key, required this.items}) : super(key: key);
+  final List<Item> items;
+
+  @override
+  Widget build(BuildContext context) {
+    /// [BlocBuilder] is for searching items
+    return BlocBuilder<FoodSearchCubit, String>(
+      builder: (context, state) {
+
+        List<Item> list = [];
+        if (state.isNotEmpty) {
+          list = items.where((item) {
+            final itemName = item.title!.toLowerCase();
+            return itemName.contains(state.toLowerCase());
+          }).toList();
+        } else {
+          list = items;
+        }
+        context.read<ItemList>().addItems(list);
+
+        return ApplyFilteredWidget(itemsList: list);
+
+      },
+    );
+  }
+}
+
+class ApplyFilteredWidget extends StatelessWidget {
+  ApplyFilteredWidget({Key? key, required this.itemsList}) : super(key: key);
+  final  List<Item> itemsList;
+
+  @override
+  Widget build(BuildContext context) {
+    /// [BlocBuilder] checks filter is applied or not
+    return BlocBuilder<ApplyFilterCubit, bool>(
+      builder: (context, isApplied){
+
+        return itemsList.isEmpty
+            ? const NoDataFoundWidget()
+            : BlocBuilder<FilterFoodCubit, List<Item>>( /// [BlocBuilder] shows the filtered list of items
+          builder: (context, filteredList) {
+            List<Item> items = [];
+            (filteredList.isEmpty && !isApplied)
+                ? items = itemsList
+                : items = filteredList;
+
+            return items.isEmpty
+                ? const NoDataFoundWidget()
+                : ListView.builder(
+              itemCount: items.length,
+              //padding: EdgeInsets.zero,
+              itemBuilder: (context, index) {
+                final item = items[index];
+
+                return InkWell(
+                  onTap: () {
+                    context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
+                  },
+                  child: ItemWidget(item: item),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+
+/// These widgets are for showing custom item
 
 class ItemWidget extends StatelessWidget {
   const ItemWidget({Key? key, required this.item}) : super(key: key);

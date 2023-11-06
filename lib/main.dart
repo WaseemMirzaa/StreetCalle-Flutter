@@ -15,6 +15,7 @@ import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/client_home_tab.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/apply_filter_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/direction_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
@@ -95,16 +96,16 @@ Future<void> main() async {
         //   create: (context)=> ItemBloc(itemService, sharedPreferencesService),
         // ),
         BlocProvider(
-          create: (context)=> FoodTypeCubit(),
+          create: (context)=> sl<FoodTypeCubit>(),
         ),
         BlocProvider(
-          create: (context)=> FoodTypeExpandedCubit(),
+          create: (context)=> sl<FoodTypeExpandedCubit>(),
         ),
         BlocProvider(
-          create: (context)=> PricingCategoryExpandedCubit(),
+          create: (context)=> sl<PricingCategoryExpandedCubit>(),
         ),
         BlocProvider(
-          create: (context)=> FoodTypeDropDownCubit(),
+          create: (context)=> sl<FoodTypeDropDownCubit>(),
         ),
         BlocProvider(
           create: (context)=> sl<PricingCategoryCubit>(),
@@ -167,16 +168,19 @@ Future<void> main() async {
           create: (context)=> sl<FavoriteCubit>(),
         ),
         BlocProvider(
-          create: (context)=> FavouriteListCubit(),
+          create: (context)=> sl<FavouriteListCubit>(),
         ),
         BlocProvider(
-          create: (context)=> FilterFoodCubit(),
+          create: (context)=> sl<FilterFoodCubit>(),
         ),
         BlocProvider(
-          create: (context)=> ItemList(),
+          create: (context)=> sl<ItemList>(),
         ),
         BlocProvider(
-          create: (context)=> DirectionCubit(),
+          create: (context)=> sl<DirectionCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> ApplyFilterCubit(),
         ),
       ],
       // child: DevicePreview(

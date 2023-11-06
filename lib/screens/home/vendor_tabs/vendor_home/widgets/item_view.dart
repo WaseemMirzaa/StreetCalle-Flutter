@@ -13,6 +13,7 @@ class ItemView extends StatelessWidget {
     Key? key,
     required this.index,
     required this.item,
+    required this.isEmployee,
     required this.onUpdate,
     required this.onDelete,
     required this.onTap
@@ -20,6 +21,7 @@ class ItemView extends StatelessWidget {
 
   final int index;
   final Item item;
+  final bool isEmployee;
   final VoidCallback onUpdate;
   final VoidCallback onDelete;
   final VoidCallback onTap;
@@ -29,7 +31,9 @@ class ItemView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
+        isEmployee
+            ? const SizedBox.shrink()
+            : Row(
           children: [
             // const SizedBox(width: 6,),
             // index == 0
@@ -57,7 +61,7 @@ class ItemView extends StatelessWidget {
             const SizedBox(width: 16,),
           ],
         ),
-        SizedBox(height: index == 0 ? 0 : 10,),
+        SizedBox(height: isEmployee ? 10 : index == 0 ? 0 : 10,),
         InkWell(
           onTap: onTap,
           child: SizedBox(

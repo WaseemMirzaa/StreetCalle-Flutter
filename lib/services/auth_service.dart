@@ -53,10 +53,13 @@ class AuthService {
         password: password,
       );
 
-      // Check if the user's email is verified
-      if (!userCredential.user!.emailVerified) {
-        await userCredential.user!.sendEmailVerification();
-        return const Left('Email not verified. A verification email has been sent.');
+      userModel.User user = await UserService().userByUid(userCredential.user!.uid);
+      if (!user.isEmployee) {
+        // Check if the user's email is verified
+        if (!userCredential.user!.emailVerified) {
+          await userCredential.user!.sendEmailVerification();
+          return const Left('Email not verified. A verification email has been sent.');
+        }
       }
 
       return Right(userCredential.user);

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:street_calle/services/base_service.dart';
+import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/dependency_injection.dart';
@@ -117,4 +118,10 @@ class ItemService extends BaseService<Item> {
         .snapshots()
         .map((value) => value.docs.map((e) => e.data()).toList());
   }
+
+  Stream<List<Item>> getEmployeeItemsStream(String userId) async* {
+    final userDoc = await UserService().userByUid(userId);
+    yield* getEmployeeItems(userDoc.employeeItemsList);
+  }
+
 }

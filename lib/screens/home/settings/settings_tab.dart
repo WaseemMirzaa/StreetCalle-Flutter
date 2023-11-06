@@ -30,19 +30,18 @@ class SettingsTab extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
           children: [
-            (userCubit.state.isVendor || userCubit.state.isEmployee)
+            userCubit.state.isEmployee
                 ? const SizedBox.shrink()
                 : SettingItem(title: TempLanguage().lblProfile, onTap: (){
-                  context.pushNamed(AppRoutingName.profile);
+                  if (userCubit.state.isVendor ) {
+                    context.pushNamed(AppRoutingName.vendorProfile);
+                  } else {
+                    context.pushNamed(AppRoutingName.profile);
+                  }
             }),
-            BlocSelector<UserCubit, UserState, bool>(
-                selector: (userState) => userState.isVendor,
-                builder: (context, isVendor) {
-                  return isVendor
-                      ? SettingItem(title: TempLanguage().lblSubscription, onTap: (){context.push(AppRoutingName.vendorSubscriptions);})
-                      : const SizedBox.shrink();
-                }
-            ),
+            userCubit.state.isVendor
+                ? SettingItem(title: TempLanguage().lblSubscription, onTap: (){context.push(AppRoutingName.vendorSubscriptions);})
+                : const SizedBox.shrink(),
             SettingItem(title: TempLanguage().lblPrivacyPolicy, onTap: (){
               context.push(AppRoutingName.privacyPolicy);
             }),

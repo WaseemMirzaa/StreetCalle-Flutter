@@ -12,6 +12,7 @@ import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_a
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_all_items.dart';
 import 'package:street_calle/screens/home/main_screen.dart';
 import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
+import 'package:street_calle/screens/home/settings/widgets/vendor_profile.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_deal.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_employee_menu_item_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_item.dart';
@@ -250,6 +251,13 @@ final router = GoRouter(
       name: AppRoutingName.clientVendorDirection,
       builder: (context, state) {
         return const ClientVendorDirection();
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.vendorProfile,
+      name: AppRoutingName.vendorProfile,
+      builder: (context, state) {
+        return const VendorProfile();
       },
     ),
   ],

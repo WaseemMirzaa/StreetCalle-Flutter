@@ -29,329 +29,371 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_typ
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
 import 'package:street_calle/dependency_injection.dart';
-import 'package:street_calle/services/shared_preferences_service.dart';
+import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 
 class VendorHomeTab extends StatelessWidget {
   const VendorHomeTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final sharedPreferencesService = sl.get<SharedPreferencesService>();
     final itemService = sl.get<ItemService>();
-    final cubitService = context.read<UserCubit>();
+    final userCubit = context.read<UserCubit>();
     context.read<SearchCubit>().updateQuery('');
     MySizer().init(context);
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 36.0),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-                width: 110,
-                height: 110,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primaryColor,
-                ),
-                child: context.read<UserCubit>().state.userImage.isEmpty
-                    ? const Icon(
-                        Icons.image_outlined,
-                        color: AppColors.whiteColor,
-                      )
-                    : ClipOval(
-                        child: CachedNetworkImage(
-                          imageUrl: context.read<UserCubit>().state.userImage,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => const Icon(Icons.error),
-                        ),
-                        // child: Image.network(
-                        //   context.read<UserCubit>().state.userImage,
-                        //   fit: BoxFit.cover,
-                        // ),
-                      ),
-            ),
-            const SizedBox(
-              height: 2,
-            ),
-            Text(
-              '${TempLanguage().lblHello} ${context.read<UserCubit>().state.userName.capitalizeEachFirstLetter()}!',
-              textAlign: TextAlign.center,
-              style: context.currentTextTheme.titleMedium
-                  ?.copyWith(fontSize: 20, color: AppColors.primaryFontColor),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
+      appBar: AppBar(
+        actions: [
+          SizedBox(
+            height: 30,
+            width: 50,
+            child: FittedBox(
+              child: BlocBuilder<ProfileStatusCubit, bool>(
+                builder: (context, state) {
+                  return Switch(
+                    value: state,
+                    activeColor: const Color(0xff4BC551),
+                    onChanged: (bool value) {
+                      final profileCubit = context.read<ProfileStatusCubit>();
+                      final userCubit = context.read<UserCubit>();
 
-            BlocSelector<UserCubit, UserState, String>(
-              selector: (userState) => userState.vendorType,
-              builder: (context, state) {
-                return (state.isEmpty ||
-                        state.toLowerCase() == VendorType.individual.name)
-                    ? const SizedBox.shrink()
-                    : InkWell(
-                        onTap: () {
-                         // var id =  context.read<UserCubit>().state.userId;
-                         //  debugPrint('Print $id');
-                          if (cubitService.state.isSubscribed && cubitService.state.subscriptionType.toLowerCase() == SubscriptionType.agency.name.toLowerCase()) {
-                            context.pushNamed(AppRoutingName.manageEmployee);
-                          } else {
-                            showToast(context, TempLanguage().lblPleaseSubscribedAgencyFirst);
-                          }
-                        },
-                        child: Text(
-                          TempLanguage().lblManageEmployees,
-                          style: context.currentTextTheme.titleMedium?.copyWith(
-                              color: AppColors.primaryColor,
-                              fontSize: 24,
-                              decoration: TextDecoration.underline),
-                        ),
-                      );
-              },
-            ),
-
-            const SizedBox(
-              height: 16,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0),
-              child: TextField(
-                onChanged: (String? value) => _searchQuery(context, value),
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(20),
-                  filled: true,
-                  prefixIcon: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(left: 5),
-                        child: Image.asset(
-                          AppAssets.searchIcon,
-                          width: 18,
-                          height: 18,
-                        ),
-                      )
-                    ],
-                  ),
-                  hintStyle: context.currentTextTheme.displaySmall?.copyWith(
-                      color: AppColors.placeholderColor, fontSize: 15),
-                  hintText: TempLanguage().lblSearchItemDeal,
-                  fillColor: Colors.white70,
-                  border: searchBorder,
-                  focusedBorder: searchBorder,
-                  disabledBorder: searchBorder,
-                  enabledBorder: searchBorder,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: defaultButtonSize,
-                      child: AppButton(
-                        elevation: 0.0,
-                        onTap: () {
-                          if (cubitService.state.isSubscribed) {
-                            _addItem(context);
-                          } else {
-                            showToast(context, TempLanguage().lblPleaseSubscribedFirst);
-                          }
-                        },
-                        shapeBorder: RoundedRectangleBorder(
-                            side:
-                                const BorderSide(color: AppColors.primaryColor),
-                            borderRadius: BorderRadius.circular(30)),
-                        textStyle: context.currentTextTheme.labelLarge
-                            ?.copyWith(color: AppColors.whiteColor),
-                        color: AppColors.primaryColor,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              AppAssets.add,
-                              width: MySizer.size15,
-                              height: MySizer.size15,
-                            ),
-                            SizedBox(
-                              width: MySizer.size16,
-                            ),
-                            Text(
-                              TempLanguage().lblAddItem,
-                              style: context.currentTextTheme.labelLarge
-                                  ?.copyWith(
-                                      color: AppColors.whiteColor,
-                                      fontSize: MySizer.size16),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // child: ElevatedButton(
-                      //   style: ElevatedButton.styleFrom(
-                      //     backgroundColor: AppColors.primaryColor,
-                      //   ),
-                      //   onPressed: () => _addItem(context),
-                      //   child: Row(
-                      //     children: [
-                      //       Image.asset(AppAssets.add, width: 15, height: 15,),
-                      //       const SizedBox(
-                      //         width: 16,
-                      //       ),
-                      //       Text(
-                      //         TempLanguage().lblAddItem,
-                      //         style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor, fontSize: 16),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      height: defaultButtonSize,
-                      child: AppButton(
-                        elevation: 0.0,
-                        onTap: () {
-                          _addDeal(context);
-                        },
-                        shapeBorder: RoundedRectangleBorder(
-                            side:
-                                const BorderSide(color: AppColors.primaryColor),
-                            borderRadius: BorderRadius.circular(30)),
-                        textStyle: context.currentTextTheme.labelLarge
-                            ?.copyWith(color: AppColors.whiteColor),
-                        color: AppColors.primaryColor,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              AppAssets.add,
-                              width: MySizer.size15,
-                              height: MySizer.size15,
-                            ),
-                            SizedBox(
-                              width: MySizer.size16,
-                            ),
-                            Text(
-                              TempLanguage().lblAddDeal,
-                              style: context.currentTextTheme.labelLarge
-                                  ?.copyWith(
-                                      color: AppColors.whiteColor,
-                                      fontSize: MySizer.size16),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // child: ElevatedButton(
-                      //   style: ElevatedButton.styleFrom(
-                      //     backgroundColor: AppColors.primaryColor,
-                      //   ),
-                      //   onPressed: () => _addDeal(context),
-                      //   child: Row(
-                      //     children: [
-                      //       Image.asset(AppAssets.add, width: 15, height: 15,),
-                      //       const SizedBox(
-                      //         width: 16,
-                      //       ),
-                      //       Text(
-                      //         TempLanguage().lblAddDeal,
-                      //         style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor, fontSize: 16),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-
-            //TODO: Do it with bloc rather than direct use
-            Expanded(
-              child: StreamBuilder<List<Item>>(
-                stream: itemService.getItems(sharedPreferencesService
-                    .getStringAsync(SharePreferencesKey.USER_ID)),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primaryColor,
-                      ),
-                    );
-                  }
-                  if (snapshot.hasData && snapshot.data != null) {
-                    if (snapshot.data!.isEmpty) {
-                      return Center(
-                        child: Text(
-                          TempLanguage().lblNoDataFound,
-                          style: context.currentTextTheme.displaySmall,
-                        ),
-                      );
-                    }
-                    return BlocBuilder<SearchCubit, String>(
-                      builder: (context, state) {
-                        List<Item> list = [];
-                        if (state.isNotEmpty) {
-                          list = snapshot.data!.where((item) {
-                            final itemName = item.title!.toLowerCase();
-                            return itemName.contains(state.toLowerCase());
-                          }).toList();
-                        } else {
-                          list = snapshot.data!;
-                        }
-
-                        return list.isEmpty
-                            ? Center(
-                          child: Text(
-                            TempLanguage().lblNoDataFound,
-                            style: context.currentTextTheme.displaySmall,
-                          ),
-                        )
-                            : ListView.builder(
-                          padding: EdgeInsets.zero,
-                          itemCount: list.length,
-                          itemBuilder: (context, index) {
-                            final item = list[index];
-                            return ItemView(
-                              index: index,
-                              item: item,
-                              onUpdate: () => _onUpdate(context, item),
-                              onDelete: () => _showDeleteConfirmationDialog(
-                                  context, item, itemService),
-                              onTap: () => _goToItemDetail(context, item),
-                            );
-                          },
-                        );
-                      },
-                    );
-                  }
-                  return Center(
-                    child: Text(
-                      TempLanguage().lblNoDataFound,
-                      style: context.currentTextTheme.displaySmall,
-                    ),
+                      if (state) {
+                        profileCubit.goOffline();
+                        userCubit.setIsOnline(false);
+                      } else {
+                        profileCubit.goOnline();
+                        userCubit.setIsOnline(true);
+                      }
+                    },
                   );
                 },
               ),
             ),
-          ],
-        ),
+          ),
+          BlocBuilder<ProfileStatusCubit, bool>(
+            builder: (context, state) {
+              return Text(
+                state ? TempLanguage().lblOnline : TempLanguage().lblOffline,
+                style: const TextStyle(
+                  // fontFamily: RIFTSOFT,
+                  fontSize: 18,
+                ),
+              );
+            },
+          ),
+          const SizedBox(width: 20,),
+        ],
+      ),
+      body: Column(
+        children: [
+          // const SizedBox(
+          //   height: 10,
+          // ),
+          Container(
+              width: 110,
+              height: 110,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.primaryColor,
+              ),
+              child: context.read<UserCubit>().state.userImage.isEmpty
+                  ? const Icon(
+                      Icons.image_outlined,
+                      color: AppColors.whiteColor,
+                    )
+                  : ClipOval(
+                      child: CachedNetworkImage(
+                        imageUrl: context.read<UserCubit>().state.userImage,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      ),
+                      // child: Image.network(
+                      //   context.read<UserCubit>().state.userImage,
+                      //   fit: BoxFit.cover,
+                      // ),
+                    ),
+          ),
+          const SizedBox(
+            height: 2,
+          ),
+          Text(
+            '${TempLanguage().lblHello} ${context.read<UserCubit>().state.userName.capitalizeEachFirstLetter()}!',
+            textAlign: TextAlign.center,
+            style: context.currentTextTheme.titleMedium
+                ?.copyWith(fontSize: 20, color: AppColors.primaryFontColor),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+
+          BlocSelector<UserCubit, UserState, String>(
+            selector: (userState) => userState.vendorType,
+            builder: (context, state) {
+              return (state.isEmpty ||
+                      state.toLowerCase() == VendorType.individual.name)
+                  ? const SizedBox.shrink()
+                  : InkWell(
+                      onTap: () {
+                       // var id =  context.read<UserCubit>().state.userId;
+                       //  debugPrint('Print $id');
+                        if (userCubit.state.isSubscribed && userCubit.state.subscriptionType.toLowerCase() == SubscriptionType.agency.name.toLowerCase()) {
+                          context.pushNamed(AppRoutingName.manageEmployee);
+                        } else {
+                          showToast(context, TempLanguage().lblPleaseSubscribedAgencyFirst);
+                        }
+                      },
+                      child: Text(
+                        TempLanguage().lblManageEmployees,
+                        style: context.currentTextTheme.titleMedium?.copyWith(
+                            color: AppColors.primaryColor,
+                            fontSize: 24,
+                            decoration: TextDecoration.underline),
+                      ),
+                    );
+            },
+          ),
+
+          const SizedBox(
+            height: 16,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+            child: TextField(
+              onChanged: (String? value) => _searchQuery(context, value),
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(20),
+                filled: true,
+                prefixIcon: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 5),
+                      child: Image.asset(
+                        AppAssets.searchIcon,
+                        width: 18,
+                        height: 18,
+                      ),
+                    )
+                  ],
+                ),
+                hintStyle: context.currentTextTheme.displaySmall?.copyWith(
+                    color: AppColors.placeholderColor, fontSize: 15),
+                hintText: TempLanguage().lblSearchItemDeal,
+                fillColor: Colors.white70,
+                border: searchBorder,
+                focusedBorder: searchBorder,
+                disabledBorder: searchBorder,
+                enabledBorder: searchBorder,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: userCubit.state.isEmployee ? 0 : 24,
+          ),
+          userCubit.state.isEmployee
+              ? const SizedBox.shrink()
+              : Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: SizedBox(
+                    height: defaultButtonSize,
+                    child: AppButton(
+                      elevation: 0.0,
+                      onTap: () {
+                        if (userCubit.state.isSubscribed) {
+                          _addItem(context);
+                        } else {
+                          showToast(context, TempLanguage().lblPleaseSubscribedFirst);
+                        }
+                      },
+                      shapeBorder: RoundedRectangleBorder(
+                          side:
+                              const BorderSide(color: AppColors.primaryColor),
+                          borderRadius: BorderRadius.circular(30)),
+                      textStyle: context.currentTextTheme.labelLarge
+                          ?.copyWith(color: AppColors.whiteColor),
+                      color: AppColors.primaryColor,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            AppAssets.add,
+                            width: MySizer.size15,
+                            height: MySizer.size15,
+                          ),
+                          SizedBox(
+                            width: MySizer.size16,
+                          ),
+                          Text(
+                            TempLanguage().lblAddItem,
+                            style: context.currentTextTheme.labelLarge
+                                ?.copyWith(
+                                    color: AppColors.whiteColor,
+                                    fontSize: MySizer.size16),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // child: ElevatedButton(
+                    //   style: ElevatedButton.styleFrom(
+                    //     backgroundColor: AppColors.primaryColor,
+                    //   ),
+                    //   onPressed: () => _addItem(context),
+                    //   child: Row(
+                    //     children: [
+                    //       Image.asset(AppAssets.add, width: 15, height: 15,),
+                    //       const SizedBox(
+                    //         width: 16,
+                    //       ),
+                    //       Text(
+                    //         TempLanguage().lblAddItem,
+                    //         style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor, fontSize: 16),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 12,
+                ),
+                Expanded(
+                  child: SizedBox(
+                    height: defaultButtonSize,
+                    child: AppButton(
+                      elevation: 0.0,
+                      onTap: () {
+                        _addDeal(context);
+                      },
+                      shapeBorder: RoundedRectangleBorder(
+                          side:
+                              const BorderSide(color: AppColors.primaryColor),
+                          borderRadius: BorderRadius.circular(30)),
+                      textStyle: context.currentTextTheme.labelLarge
+                          ?.copyWith(color: AppColors.whiteColor),
+                      color: AppColors.primaryColor,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            AppAssets.add,
+                            width: MySizer.size15,
+                            height: MySizer.size15,
+                          ),
+                          SizedBox(
+                            width: MySizer.size16,
+                          ),
+                          Text(
+                            TempLanguage().lblAddDeal,
+                            style: context.currentTextTheme.labelLarge
+                                ?.copyWith(
+                                    color: AppColors.whiteColor,
+                                    fontSize: MySizer.size16),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // child: ElevatedButton(
+                    //   style: ElevatedButton.styleFrom(
+                    //     backgroundColor: AppColors.primaryColor,
+                    //   ),
+                    //   onPressed: () => _addDeal(context),
+                    //   child: Row(
+                    //     children: [
+                    //       Image.asset(AppAssets.add, width: 15, height: 15,),
+                    //       const SizedBox(
+                    //         width: 16,
+                    //       ),
+                    //       Text(
+                    //         TempLanguage().lblAddDeal,
+                    //         style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor, fontSize: 16),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+
+          //TODO: Do it with bloc rather than direct use
+          Expanded(
+            child: StreamBuilder<List<Item>>(
+              stream: userCubit.state.isEmployee
+                  ? itemService.getEmployeeItemsStream(userCubit.state.userId)
+                  : itemService.getItems(userCubit.state.userId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryColor,
+                    ),
+                  );
+                }
+                if (snapshot.hasData && snapshot.data != null) {
+                  if (snapshot.data!.isEmpty) {
+                    return Center(
+                      child: Text(
+                        TempLanguage().lblNoDataFound,
+                        style: context.currentTextTheme.displaySmall,
+                      ),
+                    );
+                  }
+                  return BlocBuilder<SearchCubit, String>(
+                    builder: (context, state) {
+                      List<Item> list = [];
+                      if (state.isNotEmpty) {
+                        list = snapshot.data!.where((item) {
+                          final itemName = item.title!.toLowerCase();
+                          return itemName.contains(state.toLowerCase());
+                        }).toList();
+                      } else {
+                        list = snapshot.data!;
+                      }
+
+                      return list.isEmpty
+                          ? Center(
+                        child: Text(
+                          TempLanguage().lblNoDataFound,
+                          style: context.currentTextTheme.displaySmall,
+                        ),
+                      )
+                          : ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: list.length,
+                        itemBuilder: (context, index) {
+                          final item = list[index];
+                          return ItemView(
+                            index: index,
+                            item: item,
+                            isEmployee: userCubit.state.isEmployee,
+                            onUpdate: () => _onUpdate(context, item),
+                            onDelete: () => _showDeleteConfirmationDialog(
+                                context, item, itemService),
+                            onTap: () => _goToItemDetail(context, item),
+                          );
+                        },
+                      );
+                    },
+                  );
+                }
+                return Center(
+                  child: Text(
+                    TempLanguage().lblNoDataFound,
+                    style: context.currentTextTheme.displaySmall,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -23,7 +23,7 @@ bool hasMatch(String? s, String p) {
 }
 
 void showLoadingDialog(BuildContext context, GlobalKey<State>? dialogKey) {
-  showDialog(
+  showAdaptiveDialog(
     context: context,
     barrierDismissible: false, // Prevent user from dismissing the dialog
     builder: (BuildContext context) {
@@ -43,6 +43,23 @@ void showLoadingDialog(BuildContext context, GlobalKey<State>? dialogKey) {
         ),
       );
     },
+  );
+}
+
+DialogRoute showProgressDialog(BuildContext context) {
+  return DialogRoute(
+      context: context,
+      builder: (_)=> AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircularProgressIndicator(color: AppColors.blackColor,),
+            const SizedBox(height: 16.0),
+            Text(TempLanguage().lblPleaseWait),
+          ],
+        ),
+      ),
+      barrierDismissible: false
   );
 }
 

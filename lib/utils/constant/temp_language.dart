@@ -13,6 +13,8 @@ class TempLanguage {
   String get lblApply => 'Apply';
 
   String get lblUpdate => 'Update';
+  String get lblLiveLocation => 'Live Location';
+  String get lblNearestToYou => 'Nearest to you:';
 
   String get lblEditProfileSuccessfully => 'Edit profile successfully';
 

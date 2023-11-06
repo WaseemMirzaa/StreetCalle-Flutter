@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
-import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
+import 'package:street_calle/screens/home/profile/widget/user_online_offline_widget.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/custom_widgets/custom_intl_phone_field.dart';
@@ -17,8 +17,6 @@ import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
-
-GlobalKey<State> _dialogKey = GlobalKey<State>();
 
 class UserprofileTab extends StatelessWidget {
   const UserprofileTab({Key? key}) : super(key: key);
@@ -200,43 +198,7 @@ class UserprofileTab extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              SizedBox(
-                height: 30,
-                width: 50,
-                child: FittedBox(
-                  child: BlocBuilder<ProfileStatusCubit, bool>(
-                    builder: (context, state) {
-                      return Switch(
-                        value: state,
-                        activeColor: const Color(0xff4BC551),
-                        onChanged: (bool value) {
-                          final profileCubit = context.read<ProfileStatusCubit>();
-                          final userCubit = context.read<UserCubit>();
-
-                          if (state) {
-                            profileCubit.goOffline();
-                            userCubit.setIsOnline(false);
-                          } else {
-                            profileCubit.goOnline();
-                            userCubit.setIsOnline(true);
-                          }
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ),
-              BlocBuilder<ProfileStatusCubit, bool>(
-                builder: (context, state) {
-                  return Text(
-                    state ? TempLanguage().lblOnline : TempLanguage().lblOffline,
-                    style: const TextStyle(
-                      // fontFamily: RIFTSOFT,
-                      fontSize: 18,
-                    ),
-                  );
-                },
-              ),
+              const UserOnlineOfflineWidget(),
 
               const UserInfo(),
 
@@ -378,7 +340,7 @@ class UserInfo extends StatelessWidget {
         const SizedBox(
           height: 16,
         ),
-        Container(
+        userCubit.state.isEmployee ? const SizedBox.shrink() : Container(
           width: context.width,
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
           decoration: BoxDecoration(
@@ -455,7 +417,6 @@ class UserInfo extends StatelessWidget {
                       initialCountryCode: editCubit.countryCodeController.text.isEmpty ? initialCountyCode : editCubit.countryCodeController.text,
                       onChanged: (phone) {
                         context.read<EditProfileCubit>().customPhoneController.text = phone.completeNumber;
-                        print(context.read<EditProfileCubit>().customPhoneController.text);
                       },
                       onCountryChanged: (Country? country) {
                         context.read<EditProfileCubit>().countryCodeController.text = country?.code ?? initialCountyCode;
@@ -477,6 +438,7 @@ class UpdateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DialogRoute? progressDialog;
     return BlocListener<EditProfileCubit, EditProfileState>(
       listener: (context, state) {
         if (state is EditProfileSuccess) {
@@ -490,11 +452,19 @@ class UpdateWidget extends StatelessWidget {
 
           showToast(context, TempLanguage().lblEditProfileSuccessfully);
           context.read<EditProfileEnableCubit>().updateButtonClicked();
+          if (progressDialog != null) {
+            Navigator.of(context).removeRoute(progressDialog as Route);
+          }
 
         } else if (state is EditProfileFailure) {
           showToast(context, state.error);
+          if (progressDialog != null) {
+            Navigator.of(context).removeRoute(progressDialog as Route);
+          }
+        } else if (state is EditProfileLoading) {
+          progressDialog = showProgressDialog(context);
+          Navigator.of(context).push(progressDialog as Route);
         }
-        Navigator.of(_dialogKey.currentContext!).pop();
       },
       child: BlocBuilder<EditProfileEnableCubit, bool>(
         builder: (context, state) {
@@ -514,6 +484,7 @@ class UpdateWidget extends StatelessWidget {
 
   void _update(BuildContext context) {
     final imageCubit = context.read<ImageCubit>();
+    final userCubit = context.read<UserCubit>();
     final editProfileCubit = context.read<EditProfileCubit>();
 
     final image = imageCubit.state.selectedImage.path;
@@ -526,15 +497,13 @@ class UpdateWidget extends StatelessWidget {
       showToast(context, TempLanguage().lblSelectImage);
     } else if (name.isEmpty) {
       showToast(context, TempLanguage().lblEnterYourName);
-    } else if (phone.isEmpty || !phone.validatePhone()) {
+    } else if (!userCubit.state.isEmployee && (phone.isEmpty || !phone.validatePhone())) {
       showToast(context, TempLanguage().lblEnterYourPhone);
     } else {
-      showLoadingDialog(context, _dialogKey);
       if (isUpdated ?? false) {
         editProfileCubit.editProfile(image: image, isUpdate: true);
       } else {
         editProfileCubit.editProfile(image: url ?? '', isUpdate: false);
-        //context.read<EditProfileEnableCubit>().updateButtonClicked();
       }
     }
   }

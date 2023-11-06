@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:street_calle/services/base_service.dart';
+import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/dependency_injection.dart';
@@ -101,6 +102,11 @@ class DealService extends BaseService<Deal> {
     return ref!.where(FieldPath.documentId, whereIn: employeeItemList)
         .snapshots()
         .map((value) => value.docs.map((e) => e.data()).toList());
+  }
+
+  Stream<List<Deal>> getEmployeeDealsStream(String userId) async* {
+    final userDoc = await UserService().userByUid(userId);
+    yield* getEmployeeDeals(userDoc.employeeItemsList);
   }
 
 }

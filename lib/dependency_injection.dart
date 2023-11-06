@@ -10,15 +10,22 @@ import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.
 import 'package:street_calle/screens/auth/cubit/guest/guest_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/direction_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_food_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/marker_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_drop_down_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_item_cubit.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/deal_service.dart';
@@ -56,6 +63,14 @@ Future<void> init() async {
   sl.registerFactory(() => MarkersCubit());
   sl.registerFactory(() => CreateEmployeeCubit(sl.call(), sl.call()));
   sl.registerFactory(() => SelectedItemsCubit());
+  sl.registerFactory(() => FavouriteListCubit());
+  sl.registerFactory(() => FilterFoodCubit());
+  sl.registerFactory(() => ItemList());
+  sl.registerFactory(() => DirectionCubit());
+  sl.registerFactory(() => FoodTypeCubit());
+  sl.registerFactory(() => FoodTypeExpandedCubit());
+  sl.registerFactory(() => PricingCategoryExpandedCubit());
+  sl.registerFactory(() => FoodTypeDropDownCubit());
 
 
   ///  [registerLazySingleton] which registers a singleton object that will be

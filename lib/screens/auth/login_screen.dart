@@ -91,7 +91,7 @@ class LoginScreen extends StatelessWidget {
                        context.read<ProfileStatusCubit>().defaultStatus(true);
                        //context.pushNamed(AppRoutingName.selectUserScreen);
 
-                       if (state.user.isVendor) {
+                       if (state.user.isVendor || state.user.isEmployee) {
                          context.goNamed(AppRoutingName.mainScreen, pathParameters: {USER: UserType.vendor.name});
                        } else {
                          context.goNamed(AppRoutingName.clientMainScreen, pathParameters: {USER: UserType.client.name});

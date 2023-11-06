@@ -43,8 +43,9 @@ class _DealDetailState extends State<DealDetail> {
   @override
   Widget build(BuildContext context) {
     final userService = sl.get<UserService>();
-    //String? vendorId = context.read<ClientSelectedVendorCubit>().state;
-    String? userId = context.read<UserCubit>().state.userId;
+    final userCubit = context.read<UserCubit>();
+    String? userId = userCubit.state.userId;
+    final isEmployee = userCubit.state.isEmployee;
     context.read<FavoriteCubit>().checkFavoriteStatus(userId, deal.uid ?? '');
 
     return Scaffold(
@@ -161,7 +162,9 @@ class _DealDetailState extends State<DealDetail> {
               ),
             ),
 
-            Positioned(
+            isEmployee
+                ? const SizedBox.shrink()
+                : Positioned(
               top: 240,
               right: 15,
               child: InkWell(

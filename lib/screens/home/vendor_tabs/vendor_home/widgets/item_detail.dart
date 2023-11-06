@@ -47,7 +47,8 @@ class _ItemDetailState extends State<ItemDetail> {
   Widget build(BuildContext context) {
     final userService = sl.get<UserService>();
     //String? vendorId = context.read<ClientSelectedVendorCubit>().state;
-    String? userId = context.read<UserCubit>().state.userId;
+    final userCubit = context.read<UserCubit>();
+    String? userId = userCubit.state.userId;
     context.read<FavoriteCubit>().checkFavoriteStatus(userId, item.uid ?? '');
 
     return Scaffold(
@@ -164,7 +165,9 @@ class _ItemDetailState extends State<ItemDetail> {
               ),
             ),
 
-            Positioned(
+            userCubit.state.isEmployee
+                ? const SizedBox.shrink()
+                : Positioned(
               top: 240,
               right: 15,
               child: InkWell(
