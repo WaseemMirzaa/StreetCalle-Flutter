@@ -8,8 +8,8 @@ class AppRoutingName {
   static const signUpScreen = '/createAccountScreen';
   static const passwordResetScreen = '/passwordResetScreen';
   static const emailVerificationScreen = '/emailVerificationScreen/:$EMAIL';
-  static const mainScreen = '/mainScreen/:$USER';
-  static const clientMainScreen = '/clientMainScreen/:$USER';
+  static const mainScreen = '/mainScreen';
+  static const clientMainScreen = '/clientMainScreen';
   static const addItem = '/addItem/:$IS_UPDATE/:$IS_FROM_DETAIL';
   static const privacyPolicy = '/privacyPolicy';
   static const termsAndConditions = '/termsAndConditions';

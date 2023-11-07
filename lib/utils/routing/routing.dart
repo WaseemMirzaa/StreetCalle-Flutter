@@ -83,8 +83,7 @@ final router = GoRouter(
       //        ),
       // ],
       builder: (context, state) {
-        final userName = state.pathParameters[USER]!;
-        return MainScreen(userName: userName);
+        return const MainScreen();
       },
     ),
     GoRoute(
@@ -98,8 +97,8 @@ final router = GoRouter(
       //        ),
       // ],
       builder: (context, state) {
-        final user = state.pathParameters[USER]!;
-        return ClientMainScreen(user: user);
+        //final user = state.pathParameters[USER]!;
+        return const ClientMainScreen();
       },
     ),
     GoRoute(

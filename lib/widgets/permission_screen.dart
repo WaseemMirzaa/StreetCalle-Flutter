@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
@@ -36,15 +38,20 @@ class PermissionScreenState extends State<PermissionScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
+    final userCubit = context.read<UserCubit>();
     if (state == AppLifecycleState.resumed) {
       bool isLocationGranted = await PermissionUtils.locationStatus();
       bool isNotificationGranted = await PermissionUtils.notificationStatus();
       bool isVersion12 = await PermissionUtils.checkAndroidSDK();
 
-      if (isVersion12
-          ? (isLocationGranted && isNotificationGranted)
-          : isLocationGranted) {
-        Navigator.pop(context, true);
+      if (userCubit.state.isVendor || userCubit.state.isEmployee && !userCubit.state.isEmployeeBlocked) {
+        if (isVersion12 ? (isLocationGranted && isNotificationGranted) : isLocationGranted) {
+          Navigator.pop(context, true);
+        }
+      } else {
+        if (isLocationGranted) {
+          Navigator.pop(context, true);
+        }
       }
     }
   }

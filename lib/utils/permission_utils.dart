@@ -396,4 +396,24 @@ class PermissionUtils {
   static Future<bool> checkAndroidSDK() async {
     return isAndroid && (await DeviceInformation.apiLevel >= 31);
   }
+
+  static Future<bool> checkLocationPermissionsAndNavigateToScreen(BuildContext context) async {
+    bool isLocationGranted = await locationStatus();
+
+    if (!isLocationGranted) {
+      String title = TempLanguage().lblLocationPermission;
+
+      final returnedResult = await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => PermissionScreen(title: title),
+        ),
+      );
+
+      if (returnedResult != null) {
+        return returnedResult;
+      }
+    }
+
+    return false;
+  }
 }

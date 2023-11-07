@@ -64,16 +64,6 @@ class ClientFavouriteItem extends StatelessWidget {
                       height: 4,
                     ),
                     AddressWidget(latitude: user.latitude, longitude: user.longitude,),
-                    // const SizedBox(
-                    //   height: 6,
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(left: 2.0),
-                    //   child: Text(
-                    //       '${item.foodType}',
-                    //       style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14)
-                    //   ),
-                    // ),
                   ],
                 ),
               ),

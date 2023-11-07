@@ -12,7 +12,6 @@ import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
-import 'package:street_calle/utils/constant/app_enum.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -51,6 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
         userCubit.setUserImage(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_IMAGE));
         userCubit.setUserPhone(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_NUMBER));
         userCubit.setUserEmail(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_EMAIL));
+        userCubit.setUserAbout(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_ABOUT));
         userCubit.setUserCountryCode(sharedPreferencesService.getStringAsync(SharePreferencesKey.COUNTRY_CODE));
         userCubit.setVendorType(sharedPreferencesService.getStringAsync(SharePreferencesKey.VENDOR_TYPE));
         userCubit.setSubscriptionType(sharedPreferencesService.getStringAsync(SharePreferencesKey.SUBSCRIPTION_TYPE));
@@ -69,9 +69,9 @@ class _SplashScreenState extends State<SplashScreen> {
         context.read<ProfileStatusCubit>().defaultStatus(userCubit.state.isOnline);
 
         if (isVendor || isEmployee) {
-          context.goNamed(AppRoutingName.mainScreen, pathParameters: {USER: UserType.vendor.name});
+          context.goNamed(AppRoutingName.mainScreen);
         } else {
-          context.goNamed(AppRoutingName.clientMainScreen, pathParameters: {USER: UserType.client.name});
+          context.goNamed(AppRoutingName.clientMainScreen);
         }
 
         //context.goNamed(AppRoutingName.selectUserScreen);

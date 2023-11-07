@@ -6,6 +6,7 @@ import 'package:street_calle/models/user.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 
 
 part 'create_employee_state.dart';
@@ -65,10 +66,10 @@ class CreateEmployeeCubit extends Cubit<CreateEmployeeState> {
               final user = await userService.userByUid(r.uid);
               emit(SignUpSuccess(user));
             } else {
-              emit(SignUpFailure('Sign-up failed. Please try again.'));
+              emit(SignUpFailure(TempLanguage().lblSignUpFailed));
             }
           } else {
-            emit(SignUpFailure('Sign-up failed. Please try again.'));
+            emit(SignUpFailure(TempLanguage().lblSignUpFailed));
           }
         }
     );

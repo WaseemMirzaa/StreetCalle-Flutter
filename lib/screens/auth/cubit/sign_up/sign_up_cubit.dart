@@ -7,6 +7,7 @@ import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 part 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
@@ -72,10 +73,10 @@ class SignUpCubit extends Cubit<SignUpState> {
             final user = await userService.userByUid(r.uid);
             emit(SignUpSuccess(user));
           } else {
-            emit(SignUpFailure('Sign-up failed. Please try again.'));
+            emit(SignUpFailure(TempLanguage().lblSignUpFailed));
           }
         } else {
-          emit(SignUpFailure('Sign-up failed. Please try again.'));
+          emit(SignUpFailure(TempLanguage().lblSignUpFailed));
         }
       }
     );

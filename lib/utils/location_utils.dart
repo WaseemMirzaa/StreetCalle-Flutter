@@ -30,15 +30,15 @@ class LocationUtils {
   static Future<void> getBackgroundLocation() async {
 
     await BackgroundLocation.setAndroidNotification(
-      title: 'Background service is running',
-      message: 'Background location in progress',
+      title: TempLanguage().lblBackgroundServiceIsRunning,
+      message: TempLanguage().lblBackgroundLocationInProgress,
       icon: '@mipmap/ic_launcher',
     );
 
     final sharedPref = sl.get<SharedPreferencesService>();
     final userService = sl.get<UserService>();
     //await BackgroundLocation.setAndroidConfiguration(1000);
-    await BackgroundLocation.startLocationService(distanceFilter: 0);
+    await BackgroundLocation.startLocationService(distanceFilter: 20);
 
     BackgroundLocation.getLocationUpdates((location) {
       if (location.longitude != null && location.latitude != null) {

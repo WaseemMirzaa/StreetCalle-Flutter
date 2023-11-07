@@ -230,8 +230,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                       context.goNamed(
                           _userType.name == UserType.client.name
                               ? AppRoutingName.clientMainScreen
-                              : AppRoutingName.mainScreen,
-                          pathParameters: {USER: _userType.name});
+                              : AppRoutingName.mainScreen);
                     },
                     shapeBorder: RoundedRectangleBorder(
                         side: const BorderSide(color: AppColors.primaryColor),
@@ -240,18 +239,6 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                         ?.copyWith(color: AppColors.whiteColor),
                     color: AppColors.primaryColor,
                   ),
-                  // child: ElevatedButton(
-                  //   style: ElevatedButton.styleFrom(
-                  //     backgroundColor: AppColors.primaryColor,
-                  //   ),
-                  //   onPressed: (){
-                  //     context.pushNamed(_user.name == UserType.client.name ? AppRoutingName.clientMainScreen : AppRoutingName.mainScreen, pathParameters: {USER: _user.name});
-                  //   },
-                  //   child: Text(
-                  //     TempLanguage().lblNext,
-                  //     style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                  //   ),
-                  // ),
                 ),
               ),
             ),

@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/models/user.dart';
 
 void showToast(BuildContext context, String title) {
   final scaffold = ScaffoldMessenger.of(context);
@@ -107,4 +110,25 @@ Future<Uint8List?> getBytesFromAsset(String path, int width) async {
   return (await fi.image.toByteData(format: ui.ImageByteFormat.png))
       ?.buffer
       .asUint8List();
+}
+
+
+Future<User?> findNearestUser(List<User> users, Position currentLocation) {
+  double shortestDistance = double.infinity;
+  User? nearestUser;
+
+  for (User user in users) {
+    double distance = Geolocator.distanceBetween(
+      currentLocation.latitude,
+      currentLocation.longitude,
+      user.latitude!,
+      user.longitude!,
+    );
+
+    if (distance < shortestDistance) {
+      shortestDistance = distance;
+      nearestUser = user;
+    }
+  }
+  return Future.value(nearestUser);
 }

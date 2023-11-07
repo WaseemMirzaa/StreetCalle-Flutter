@@ -75,36 +75,6 @@ class AddItemButton extends StatelessWidget {
                 ],
               ),
             ),
-            // child: ElevatedButton(
-            //   style: ElevatedButton.styleFrom(
-            //     backgroundColor: AppColors.primaryColor,
-            //   ),
-            //   onPressed: () => isUpdate
-            //       ? updateItem(context)
-            //       : addItem(context),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: [
-            //       isUpdate
-            //           ? const SizedBox.shrink()
-            //           : Image.asset(
-            //         AppAssets.add,
-            //         width: 15,
-            //         height: 15,
-            //       ),
-            //       SizedBox(
-            //         width: isUpdate ? 0 : 16,
-            //       ),
-            //       Text(
-            //         isUpdate
-            //             ? TempLanguage().lblItemUpdateToMenu
-            //             : TempLanguage().lblItemAddToMenu,
-            //         style: context.currentTextTheme.labelLarge
-            //             ?.copyWith(color: AppColors.whiteColor),
-            //       ),
-            //     ],
-            //   ),
-            // ),
           ),
         );
       },

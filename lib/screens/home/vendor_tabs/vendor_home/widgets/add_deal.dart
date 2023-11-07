@@ -143,28 +143,6 @@ class AddDeal extends StatelessWidget {
                               color: AppColors.whiteColor),
                           color: AppColors.primaryColor,
                         ),
-                        // child: ElevatedButton(
-                        //   style: ElevatedButton.styleFrom(
-                        //     backgroundColor: AppColors.primaryColor,
-                        //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                        //     elevation: 8,
-                        //     shadowColor: AppColors.blackColor
-                        //   ),
-                        //   onPressed: () async {
-                        //     final addDealCubit = context.read<AddDealCubit>();
-                        //     final result = await context.pushNamed(AppRoutingName.selectMenuItem);
-                        //     if (result != null) {
-                        //       addDealCubit.titleController.text += ' $result';
-                        //     }
-                        //   },
-                        //   child: Text(
-                        //     TempLanguage().lblMenuItem,
-                        //     style: context.currentTextTheme.displaySmall
-                        //         ?.copyWith(
-                        //         fontSize: 13,
-                        //         color: AppColors.whiteColor),
-                        //   ),
-                        // ),
                       ),
                     ),
                     const SizedBox(
@@ -187,22 +165,6 @@ class AddDeal extends StatelessWidget {
                               color: AppColors.whiteColor),
                           color: AppColors.primaryColor,
                         ),
-                        // child: ElevatedButton(
-                        //   style: ElevatedButton.styleFrom(
-                        //       backgroundColor: AppColors.primaryColor,
-                        //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                        //       elevation: 8,
-                        //       shadowColor: AppColors.blackColor,
-                        //   ),
-                        //   onPressed: () => context.read<AddCustomItemCubit>().expand(),
-                        //   child: Text(
-                        //     TempLanguage().lblCustomItem,
-                        //     style: context.currentTextTheme.displaySmall
-                        //         ?.copyWith(
-                        //         fontSize: 11,
-                        //         color: AppColors.whiteColor),
-                        //   ),
-                        // ),
                       ),
                     ),
                   ],

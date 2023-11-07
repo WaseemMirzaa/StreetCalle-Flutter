@@ -6,6 +6,7 @@ import 'package:street_calle/models/user.dart' as userModel;
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -21,28 +22,28 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'email-already-in-use':
-          return const Left('Email address is already in use.');
+          return Left(TempLanguage().lblEmailAddressInUse);
         // case 'weak-password':
         //   return const Left('Password is too weak. Please choose a stronger password.');
         case 'invalid-email':
-          return const Left('Invalid email address.');
+          return Left(TempLanguage().lblInvalidEmailAddress);
         case 'user-not-found':
-          return const Left('No user found for that email.');
+          return Left(TempLanguage().lblNoUserFound);
         case 'wrong-password':
-          return const Left('Invalid credentials. Please check your email and password.');
+          return  Left(TempLanguage().lblInvalidCredentials);
         case 'too-many-requests':
-          return const Left('Too many login attempts. Please try again later.');
+          return  Left(TempLanguage().lblTooManyRequest);
         case 'user-disabled':
-          return const Left('Your account has been disabled.');
+          return  Left(TempLanguage().lblAccountDisable);
         case 'operation-not-allowed':
-          return const Left('This operation is not allowed.');
+          return  Left(TempLanguage().lblOperationNotAllowed);
         case 'network-request-failed':
-          return const Left('Network request failed. Please check your internet connection.');
+          return  Left(TempLanguage().lblNetworkRequestFailed);
         default:
-          return Left('Error during sign-up: ${e.message}');
+          return Left(TempLanguage().lblErrorDuringSignUp);
       }
     } catch (e) {
-      return Left('Error during sign-up: ${e.toString()}');
+      return Left(TempLanguage().lblErrorDuringSignUp);
     }
   }
 
@@ -58,7 +59,7 @@ class AuthService {
         // Check if the user's email is verified
         if (!userCredential.user!.emailVerified) {
           await userCredential.user!.sendEmailVerification();
-          return const Left('Email not verified. A verification email has been sent.');
+          return Left(TempLanguage().lblEmailNotVerified);
         }
       }
 
@@ -70,26 +71,26 @@ class AuthService {
         // case 'weak-password':
         //   return const Left('Password is too weak. Please choose a stronger password.');
         case 'INVALID_LOGIN_CREDENTIALS':
-          return const Left('Invalid credentials. Please check your email and password.');
+          return Left(TempLanguage().lblInvalidCredentials);
         case 'invalid-email':
-          return const Left('Invalid email address.');
+          return Left(TempLanguage().lblInvalidEmailAddress);
         case 'user-not-found':
-          return const Left('No user found for that email.');
+          return Left(TempLanguage().lblNoUserFound);
         case 'wrong-password':
-          return const Left('Invalid credentials. Please check your email and password.');
+          return  Left(TempLanguage().lblInvalidCredentials);
         case 'too-many-requests':
-          return const Left('Too many login attempts. Please try again later.');
+          return  Left(TempLanguage().lblTooManyRequest);
         case 'user-disabled':
-          return const Left('Your account has been disabled.');
+          return  Left(TempLanguage().lblAccountDisable);
         case 'operation-not-allowed':
-          return const Left('This operation is not allowed.');
+          return  Left(TempLanguage().lblOperationNotAllowed);
         case 'network-request-failed':
-          return const Left('Network request failed. Please check your internet connection.');
+          return  Left(TempLanguage().lblNetworkRequestFailed);
         default:
-          return Left('Error during log-in: ${e.message}');
+          return Left(TempLanguage().lblErrorDuringLogIn);
       }
     } catch (e) {
-      return Left('Error during login: $e');
+      return Left(TempLanguage().lblErrorDuringLogIn);
     }
   }
 
@@ -98,7 +99,7 @@ class AuthService {
       final user = await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
       if (user.isEmpty) {
         // Email does not exist
-        return const Left('No user found for that email.');
+        return Left(TempLanguage().lblNoUserFound);
       }
 
       await _auth.sendPasswordResetEmail(email: email);
@@ -107,21 +108,16 @@ class AuthService {
       String errorMessage;
       switch (e.code) {
         case 'invalid-email':
-          errorMessage = 'Invalid email address.';
-          break;
+          return Left(TempLanguage().lblInvalidEmailAddress);
         case 'user-not-found':
-          errorMessage = 'No user found for that email.';
-          break;
+          return Left(TempLanguage().lblNoUserFound);
         case 'too-many-requests':
-          errorMessage = 'Too many reset password requests. Please try again later.';
-          break;
+          return Left(TempLanguage().lblTooManyRequest);
         default:
-          errorMessage = 'Error during password reset: ${e.message}';
-          break;
+          return Left(TempLanguage().lblErrorDuringResetPassword);
       }
-      return Left(errorMessage); // Return the error message
     } catch (e) {
-      return Left('Error during password reset: $e'); // Generic error message
+      return Left(TempLanguage().lblErrorDuringResetPassword);
     }
   }
 
@@ -154,14 +150,14 @@ class AuthService {
         // Handle specific exceptions here
         if (e.code == 'operation-not-allowed') {
           // The operation is not allowed (e.g., anonymous sign-in is disabled)
-         return const Left('Guest sign-in is disabled');
+         return Left(TempLanguage().lblGuestSignInDisable);
         } else {
           // Other Firebase Authentication exceptions
-          return Left('Error during log-in: ${e.message}');
+          return Left(TempLanguage().lblErrorDuringLogIn);
         }
       } else {
         // Handle other types of exceptions (e.g., network errors)
-        return const Left('Login failed. Try again later');
+        return Left(TempLanguage().lblErrorDuringLogIn);
       }
     }
   }
@@ -231,13 +227,13 @@ class AuthService {
       return Right(user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
-        return const Left('The account already exists with a different credential');
+        return Left(TempLanguage().lblAccountExistWithDifferentCredentials);
       } else if (e.code == 'invalid-credential') {
-        return const Left('Error occurred while accessing credentials. Try again.');
+        return Left(TempLanguage().lblErrorAccessingCredentials);
       }
     } catch (e) {
-      return const Left('Error occurred using Google Sign In. Try again.');
+      return Left(TempLanguage().lblGoogleSignInError);
     }
-    return const Left('Error occurred using Google Sign In. Try again.');
+    return Left(TempLanguage().lblGoogleSignInError);
   }
 }

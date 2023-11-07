@@ -11,6 +11,7 @@ class EditProfileCubit extends Cubit<EditProfileState>{
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController customPhoneController = TextEditingController();
   final TextEditingController countryCodeController = TextEditingController();
+  final TextEditingController aboutController = TextEditingController();
   final UserService userService;
   final SharedPreferencesService sharedPref;
 
@@ -22,6 +23,7 @@ class EditProfileCubit extends Cubit<EditProfileState>{
     phoneController.dispose();
     customPhoneController.dispose();
     countryCodeController.dispose();
+    aboutController.dispose();
     return super.close();
   }
 
@@ -30,6 +32,7 @@ class EditProfileCubit extends Cubit<EditProfileState>{
     phoneController.clear();
     customPhoneController.clear();
     countryCodeController.clear();
+    aboutController.clear();
   }
 
 
@@ -41,6 +44,7 @@ class EditProfileCubit extends Cubit<EditProfileState>{
         image: image,
         name: nameController.text.trim(),
         phone: phoneController.text.trim(),
+        about: aboutController.text.trim(),
         countryCode: countryCodeController.text.isEmpty ? initialCountyCode : countryCodeController.text
     );
 

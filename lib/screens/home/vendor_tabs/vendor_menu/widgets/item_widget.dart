@@ -45,39 +45,6 @@ class ItemWidget extends StatelessWidget {
                           ),
                         ),
                         PricingWidget(item: item)
-                        // Expanded(
-                        //   child: (item.discountedPrice != null && item.discountedPrice != defaultPrice)
-                        //       ? Column(
-                        //     crossAxisAlignment: CrossAxisAlignment.end,
-                        //     children: [
-                        //       Text('\$${calculateDiscountAmount(item.actualPrice, item.discountedPrice)}',
-                        //         style: const TextStyle(
-                        //             fontFamily: METROPOLIS_BOLD,
-                        //             fontSize: 23,
-                        //             color: AppColors.primaryFontColor
-                        //         ),
-                        //       ),
-                        //       Text('\$${item.actualPrice}',
-                        //         style: const TextStyle(
-                        //           fontFamily: METROPOLIS_BOLD,
-                        //           fontSize: 16,
-                        //           color: AppColors.primaryFontColor,
-                        //           decoration: TextDecoration.lineThrough,
-                        //           decorationColor: AppColors.redColor,
-                        //           decorationThickness: 4.0,
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   )
-                        //       : Text('\$${item.actualPrice}',
-                        //     textAlign: TextAlign.end,
-                        //     style: const TextStyle(
-                        //         fontFamily: METROPOLIS_BOLD,
-                        //         fontSize: 23,
-                        //         color: AppColors.primaryFontColor
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                     const SizedBox(

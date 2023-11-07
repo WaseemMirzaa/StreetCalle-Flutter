@@ -82,16 +82,6 @@ class PasswordResetScreen extends StatelessWidget {
                             textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
                             color: AppColors.primaryColor,
                           ),
-                          // child: ElevatedButton(
-                          //   style: ElevatedButton.styleFrom(
-                          //     backgroundColor: AppColors.primaryColor,
-                          //   ),
-                          //   onPressed: ()=> resetPassword(context),
-                          //   child: Text(
-                          //     TempLanguage().lblSend,
-                          //     style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                          //   ),
-                          // ),
                         );
                       },
                     ),

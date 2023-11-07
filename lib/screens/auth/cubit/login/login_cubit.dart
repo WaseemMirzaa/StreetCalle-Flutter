@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/user_service.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 part 'login_state.dart';
 
 
@@ -40,10 +41,10 @@ class LoginCubit extends Cubit<LoginState>{
            clearControllers();
            emit(LoginSuccess(result));
          } catch (e) {
-           emit(LoginFailure('User not found'));
+           emit(LoginFailure(TempLanguage().lblUserNotFound));
          }
        } else {
-         emit(LoginFailure('Login failed. Please try again later.'));
+         emit(LoginFailure(TempLanguage().lblLoginFailed));
        }
      }
     );

@@ -240,6 +240,7 @@ class _ItemDetailState extends State<ItemDetail> {
     itemCubit.mediumItemDiscountedPriceController.text = itemParam.mediumItemDiscountedPrice.toString();
     itemCubit.largeItemDiscountedPriceController.text = itemParam.largeItemDiscountedPrice.toString();
 
+    foodTypeCubit.loadFromFirebase();
     if (itemCubit.foodTypeController.text.isNotEmpty) {
       foodTypeExpandedCubit.expand();
       foodTypeCubit.addString(itemCubit.foodTypeController.text);

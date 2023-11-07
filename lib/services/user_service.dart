@@ -6,6 +6,7 @@ import 'package:street_calle/services/base_service.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 
 /// This service use for all (Users, Vendors, Employees)
 class UserService extends BaseService<User> {
@@ -48,9 +49,9 @@ class UserService extends BaseService<User> {
   Future<User> userByUid(String? uid) async {
     return ref!.limit(1).where(UserKey.uid, isEqualTo: uid).get().then((value) {
       if (value.docs.isNotEmpty) return value.docs.first.data();
-      throw 'User Not Found';
+      throw TempLanguage().lblUserNotFound;
     }).catchError((e) {
-      throw 'User Not Found';
+      throw TempLanguage().lblUserNotFound;
     });
   }
 
@@ -75,34 +76,36 @@ class UserService extends BaseService<User> {
     }
   }
 
-  Future<Either<String, User>> updateProfile(String userId, {required bool isUpdated, required String image, required String name, required String phone, required String countryCode}) async{
+  Future<Either<String, User>> updateProfile(String userId, {required bool isUpdated, required String image, required String name, required String phone, required String countryCode, required String about}) async{
     try {
       if (isUpdated) {
         final url = await _uploadImageToFirebase(image, userId ?? '');
         if (url == null) {
-          return const Left('Something went wrong. Try again later.');
+          return Left(TempLanguage().lblSomethingWentWrong);
         }
-        User user = User(image: url, name: name, phone: phone, countryCode: countryCode);
+        User user = User(image: url, name: name, phone: phone, countryCode: countryCode, about: about);
         await ref!.doc(userId).update({
           UserKey.image: url,
           UserKey.name: name,
           UserKey.phone: phone,
-          UserKey.countryCode: countryCode
+          UserKey.countryCode: countryCode,
+          UserKey.about: about
         });
         return Right(user);
       }
 
-      User user = User(image: image, name: name, phone: phone, countryCode: countryCode);
+      User user = User(image: image, name: name, phone: phone, countryCode: countryCode, about: about);
       await ref!.doc(userId).update({
         UserKey.image: image,
         UserKey.name: name,
         UserKey.phone: phone,
-        UserKey.countryCode: countryCode
+        UserKey.countryCode: countryCode,
+        UserKey.about: about
       });
       return Right(user);
 
     } catch (e) {
-      return const Left('Something went wrong. Try again later.');
+      return Left(TempLanguage().lblSomethingWentWrong);
     }
   }
 
@@ -157,6 +160,22 @@ class UserService extends BaseService<User> {
         .orderBy(UserKey.updatedAt, descending: true)
         .snapshots()
         .map((value) => value.docs.map((e) => e.data()).toList());
+  }
+
+  Future<List<User>> getOnlineEmployees(String userId) async {
+    try {
+      final result = await ref!
+          .where(UserKey.vendorId, isEqualTo: userId)
+          .where(UserKey.isEmployee, isEqualTo: true)
+          .where(UserKey.isEmployeeBlocked, isEqualTo: false)
+          .orderBy(UserKey.updatedAt, descending: true)
+          .get();
+
+      List<User> users = result.docs.map((e) => e.data()).toList();
+      return users;
+    } catch (e) {
+      return [];
+    }
   }
 
   Future<bool> updateFavourites(String vendorId, String userId, bool addToFav) async {

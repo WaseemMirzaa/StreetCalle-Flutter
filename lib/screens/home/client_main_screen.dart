@@ -7,10 +7,11 @@ import 'package:street_calle/screens/home/widgets/custom_bottom_nav_item.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/utils/permission_utils.dart';
+import 'package:street_calle/widgets/location_service.dart';
 
 class ClientMainScreen extends StatefulWidget {
-  const ClientMainScreen({Key? key, required this.user}) : super(key: key);
-  final String user;
+  const ClientMainScreen({Key? key}) : super(key: key);
 
   @override
   State<ClientMainScreen> createState() => _MainScreenState();
@@ -33,9 +34,17 @@ class _MainScreenState extends State<ClientMainScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    PermissionUtils.checkLocationPermissionsAndNavigateToScreen(context).then((value) {
+
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _clientWidgets.elementAt(_selectedIndex),
+      body: LocationService(child: _clientWidgets.elementAt(_selectedIndex),),
       bottomNavigationBar: Theme(
         data: ThemeData(
           splashColor: Colors.transparent,

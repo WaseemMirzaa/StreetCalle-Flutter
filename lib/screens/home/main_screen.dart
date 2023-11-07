@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/vendor_home_tab.dart';
 import 'package:street_calle/screens/home/settings/settings_tab.dart';
@@ -10,14 +11,11 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/utils/permission_utils.dart';
+import 'package:street_calle/widgets/employee_status_checker_widget.dart';
+import 'package:street_calle/widgets/location_service.dart';
 
-
-
-
-var auth = FirebaseAuth.instance.currentUser;
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key, required this.userName}) : super(key: key);
-  final String userName;
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -29,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    //init();
+    init();
   }
 
   Future<void> init() async {
@@ -59,6 +57,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userCubit = context.read<UserCubit>();
     return Scaffold(
       // TODO: Maybe there is better solution for it
       // body: LocationService(
@@ -66,7 +65,11 @@ class _MainScreenState extends State<MainScreen> {
       //       ? _clientWidgets.elementAt(_selectedIndex)
       //       : _vendorWidgets.elementAt(_selectedIndex),
       // ),
-      body: _vendorWidgets.elementAt(_selectedIndex),
+      body: LocationService(
+        child: userCubit.state.isEmployee
+            ? EmployeeStatusCheckerWidget(child: _vendorWidgets.elementAt(_selectedIndex))
+            : _vendorWidgets.elementAt(_selectedIndex),
+      ),
       bottomNavigationBar: Theme(
         data: ThemeData(
           splashColor: Colors.transparent,

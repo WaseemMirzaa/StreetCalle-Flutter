@@ -12,6 +12,7 @@ class User extends Equatable {
   final String? email;
   final String? phone;
   final String? countryCode;
+  final String? about;
   final bool isVendor;
   final bool isOnline;
   final bool isEmployee;
@@ -39,6 +40,7 @@ class User extends Equatable {
       this.createdAt,
       this.updatedAt,
       this.fcmTokens,
+      this.about,
       this.employeeItemsList,
       this.isVendor = false,
       this.isOnline = true,
@@ -61,6 +63,7 @@ class User extends Equatable {
       String? name,
       String? email,
       String? phone,
+      String? about,
       Timestamp? createdAt,
       Timestamp? updatedAt,
       List<dynamic>? fcmTokens,
@@ -85,6 +88,7 @@ class User extends Equatable {
       name: name ?? this.name,
       email: email ?? this.email,
       phone: phone ?? this.phone,
+      about: about ?? this.about,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       fcmTokens: fcmTokens ?? this.fcmTokens,
@@ -113,6 +117,7 @@ class User extends Equatable {
       name: json[UserKey.name],
       email: json[UserKey.email],
       phone: json[UserKey.phone],
+      about: json[UserKey.about],
       createdAt: json[UserKey.createdAt],
       updatedAt: json[UserKey.updatedAt],
       fcmTokens: json[UserKey.fcmTokens],
@@ -141,6 +146,7 @@ class User extends Equatable {
     data[UserKey.name] = name;
     data[UserKey.email] = email;
     data[UserKey.phone] = phone;
+    data[UserKey.about] = about;
     data[UserKey.createdAt] = createdAt;
     data[UserKey.updatedAt] = updatedAt;
     data[UserKey.fcmTokens] = fcmTokens;

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/user_service.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 part 'google_login_state.dart';
 
 class GoogleLoginCubit extends Cubit<GoogleLoginState> {
@@ -22,10 +23,10 @@ class GoogleLoginCubit extends Cubit<GoogleLoginState> {
               final result = await userService.userByUid(r.uid);
               emit(GoogleLoginSuccess(result));
             } catch (e) {
-              emit(GoogleLoginFailure('Login failed. Please try again later.'));
+              emit(GoogleLoginFailure(TempLanguage().lblSignUpFailed));
             }
           } else {
-            emit(GoogleLoginFailure('Login failed. Please try again later.'));
+            emit(GoogleLoginFailure(TempLanguage().lblSignUpFailed));
           }
         }
     );

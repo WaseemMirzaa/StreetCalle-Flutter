@@ -93,16 +93,6 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24,),
 
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-                //   child: CustomTextField(
-                //     hintText: TempLanguage().lblPhone,
-                //     keyboardType: TextInputType.phone,
-                //     asset: AppAssets.phone,
-                //     controller: context.read<SignUpCubit>().phoneController,
-                //     isPassword: false,
-                //   ),
-                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                   child: Container(
@@ -206,16 +196,6 @@ class SignUpScreen extends StatelessWidget {
                         textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
                         color: AppColors.primaryColor,
                       ),
-                      // child: ElevatedButton(
-                      //     style: ElevatedButton.styleFrom(
-                      //       backgroundColor: AppColors.primaryColor,
-                      //     ),
-                      //     onPressed: () => signUp(context),
-                      //     child: Text(
-                      //       TempLanguage().lblSignUp,
-                      //       style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                      //     ),
-                      // ),
                     ),
                         );
                   },

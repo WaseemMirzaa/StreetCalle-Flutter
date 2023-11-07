@@ -237,24 +237,6 @@ class VendorHomeTab extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // child: ElevatedButton(
-                    //   style: ElevatedButton.styleFrom(
-                    //     backgroundColor: AppColors.primaryColor,
-                    //   ),
-                    //   onPressed: () => _addItem(context),
-                    //   child: Row(
-                    //     children: [
-                    //       Image.asset(AppAssets.add, width: 15, height: 15,),
-                    //       const SizedBox(
-                    //         width: 16,
-                    //       ),
-                    //       Text(
-                    //         TempLanguage().lblAddItem,
-                    //         style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor, fontSize: 16),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ),
                 ),
                 const SizedBox(
@@ -296,24 +278,6 @@ class VendorHomeTab extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // child: ElevatedButton(
-                    //   style: ElevatedButton.styleFrom(
-                    //     backgroundColor: AppColors.primaryColor,
-                    //   ),
-                    //   onPressed: () => _addDeal(context),
-                    //   child: Row(
-                    //     children: [
-                    //       Image.asset(AppAssets.add, width: 15, height: 15,),
-                    //       const SizedBox(
-                    //         width: 16,
-                    //       ),
-                    //       Text(
-                    //         TempLanguage().lblAddDeal,
-                    //         style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor, fontSize: 16),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ),
                 ),
               ],
@@ -490,6 +454,7 @@ class VendorHomeTab extends StatelessWidget {
   }
 
   void _addDeal(BuildContext context) {
+    context.read<FoodTypeCubit>().loadFromFirebase();
     _resetCubitStates(context);
 
     final addDealCubit = context.read<AddDealCubit>();
@@ -507,7 +472,9 @@ class VendorHomeTab extends StatelessWidget {
     final pricingCubit = context.read<PricingCategoryCubit>();
     final pricingExpandedCubit = context.read<PricingCategoryExpandedCubit>();
     final addItemCubit = context.read<AddItemCubit>();
+    final foodTypeCubit = context.read<FoodTypeCubit>();
 
+    foodTypeCubit.loadFromFirebase();
     pricingExpandedCubit.collapse();
     pricingCubit.setCategoryType(PricingCategoryType.none);
     addItemCubit.clear();

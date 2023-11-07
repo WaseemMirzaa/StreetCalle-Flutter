@@ -193,6 +193,7 @@ class TempLanguage {
   String get lblFavourites => 'Favourites';
 
   String get lblMobileNo => 'Mobile No';
+  String get lblAbout => 'About';
 
   String get lblEditProfile => 'Edit Profile';
 
@@ -302,6 +303,7 @@ class TempLanguage {
   String get lblAgency => 'Agency';
 
   String get lblItemList => 'Item List';
+  String get lblYouHaveBennBlockedByAdmin => 'You have been blocked by Owner';
 
   String get lblLocationServiceDisabled =>
       'Location service is disabled. Please enable it to run the app smoothly and work properly. ';
@@ -320,6 +322,8 @@ class TempLanguage {
   String get lblEmployeeDetails => 'Employee Details';
 
   String get lblEditAddMenuItems => 'Edit or Add Menu Items';
+  String get lblBackgroundServiceIsRunning => 'Background service is running';
+  String get lblBackgroundLocationInProgress => 'Background location in progress';
 
   String get lblAddMenuItems => 'Add Menu Items';
   String get lblSearch => 'Search';
@@ -329,6 +333,25 @@ class TempLanguage {
 
   String get lblSetEmployeeCredentials =>
       'Set a Username and password for your employee to login';
+
+  String get lblEmailNotVerified => 'Email not verified. A verification email has been sent.';
+  String get lblInvalidCredentials => 'Invalid credentials. Please check your email and password.';
+  String get lblInvalidEmailAddress => 'Invalid email address.';
+  String get lblNoUserFound => 'No user found for that email.';
+  String get lblTooManyRequest => 'Too many login attempts. Please try again later.';
+  String get lblAccountDisable => 'Your account has been disabled.';
+  String get lblOperationNotAllowed => 'This operation is not allowed.';
+  String get lblNetworkRequestFailed => 'Network request failed. Please check your internet connection.';
+  String get lblErrorDuringLogIn => 'Error during log-in:';
+  String get lblEmailAddressInUse => 'Email address is already in use.';
+  String get lblErrorDuringSignUp => 'Error during sign-up:';
+  String get lblErrorDuringResetPassword => 'Error during password reset:';
+  String get lblGuestSignInDisable => 'Guest sign-in is disabled';
+  String get lblAccountExistWithDifferentCredentials => 'The account already exists with a different credential';
+  String get lblErrorAccessingCredentials => 'Error occurred while accessing credentials. Try again.';
+  String get lblGoogleSignInError => 'Error occurred using Google Sign In. Try again.';
+  String get lblUserNotFound => 'User Not Found';
+  String get lblSignUpFailed => 'Sign-up failed. Please try again.';
 
   String get lblLorem => '''
   One brave soul did take a stab at translating the almost-not-quite-Latin. According to The Guardian, Jaspreet Singh Boparai undertook the challenge with the goal of making the text “precisely as incoherent in English as it is in Latin - and to make it incoherent in the same way”. As a result, “the Greek 'eu' in Latin became the French 'bien' [...] and the '-ing' ending in 'lorem ipsum' seemed best rendered by an '-iendum' in English.”

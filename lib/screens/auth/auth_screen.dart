@@ -34,25 +34,6 @@ class AuthScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 44.0),
-                //   child: SizedBox(
-                //     width: context.width,
-                //     height: defaultButtonSize,
-                //     child: ElevatedButton(
-                //       style: ElevatedButton.styleFrom(
-                //         backgroundColor: AppColors.primaryColor,
-                //       ),
-                //       onPressed: (){
-                //         context.pushNamed(AppRoutingName.loginScreen);
-                //       },
-                //       child: Text(
-                //         TempLanguage().lblLogin,
-                //         style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 44.0),
                   child: SizedBox(
@@ -74,27 +55,6 @@ class AuthScreen extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 20,),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 44.0),
-                //   child: SizedBox(
-                //     width: context.width,
-                //     height: defaultButtonSize,
-                //     child: ElevatedButton(
-                //       style: ElevatedButton.styleFrom(
-                //         backgroundColor: AppColors.whiteColor,
-                //         surfaceTintColor: AppColors.whiteColor,
-                //         side: const BorderSide(color: AppColors.primaryColor)
-                //       ),
-                //       onPressed: (){
-                //         context.pushNamed(AppRoutingName.signUpScreen);
-                //       },
-                //       child: Text(
-                //         TempLanguage().lblCreateAccount,
-                //         style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.primaryColor),
-                //       ),
-                //     ),
-                //   ),
-                // ),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 44.0),

@@ -70,31 +70,6 @@ class EmailVerificationScreen extends StatelessWidget {
             ),
             const SizedBox(height: 130,),
 
-            // BlocConsumer<EmailVerificationCubit, bool>(
-            //     builder: (context, state) {
-            //       return SizedBox(
-            //         width: context.width,
-            //         height: defaultButtonSize,
-            //         child: ElevatedButton(
-            //           style: ElevatedButton.styleFrom(
-            //             backgroundColor: AppColors.primaryColor,
-            //           ),
-            //           onPressed: ()=> context.read<EmailVerificationCubit>().isUserEmailVerified(),
-            //           child: Text(
-            //             TempLanguage().lblContinue,
-            //             style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-            //           ),
-            //         ),
-            //       );
-            //     },
-            //   listener: (context, state) {
-            //     if (state) {
-            //       context.goNamed(AppRoutingName.selectUserScreen);
-            //     } else {
-            //       showToast(context, TempLanguage().lblVerifyYourEmail);
-            //     }
-            //   },
-            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
               child: SizedBox(
@@ -123,28 +98,7 @@ class EmailVerificationScreen extends StatelessWidget {
                   textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
                   color: AppColors.primaryColor,
                 ),
-                // child: ElevatedButton(
-                //   style: ElevatedButton.styleFrom(
-                //     backgroundColor: AppColors.primaryColor,
-                //   ),
-                //   onPressed: () async {
-                //     final result = await authService.isUserEmailVerified();
-                //     if (!context.mounted) return;
-                //     if (result) {
-                //       if (timerCubit.state != 0) {
-                //         timerCubit.stop();
-                //       }
-                //       context.read<UserCubit>().setIsLoggedIn(true);
-                //       context.goNamed(AppRoutingName.selectUserScreen);
-                //     } else {
-                //       showToast(context, TempLanguage().lblVerifyYourEmail);
-                //     }
-                //   },
-                //   child: Text(
-                //     TempLanguage().lblContinue,
-                //     style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                //   ),
-                // ),
+
               ),
             ),
             const SizedBox(height: 28,),

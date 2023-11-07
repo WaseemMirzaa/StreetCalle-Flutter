@@ -18,6 +18,7 @@ class SettingsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final sharedPreferencesService = sl.get<SharedPreferencesService>();
     final userCubit = context.read<UserCubit>();
+    final firebaseAuth = sl.get<FirebaseAuth>();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -49,7 +50,7 @@ class SettingsTab extends StatelessWidget {
               context.push(AppRoutingName.termsAndConditions);
             }),
             SettingItem(title: TempLanguage().lblSignOut, onTap: () async {
-              await FirebaseAuth.instance.signOut();
+              await firebaseAuth.signOut();
               await sharedPreferencesService.clearSharedPref();
               if (context.mounted) {
                 context.goNamed(AppRoutingName.authScreen);

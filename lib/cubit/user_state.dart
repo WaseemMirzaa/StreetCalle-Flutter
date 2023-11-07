@@ -11,6 +11,7 @@ class UserState {
   final String userEmail;
   final String userPhone;
   final String countryCode;
+  final String userAbout;
   final bool isLoggedIn;
   final bool isVendor;
   final bool isOnline;
@@ -28,6 +29,7 @@ class UserState {
     required this.userEmail,
     required this.userImage,
     required this.userPhone,
+    required this.userAbout,
     required this.countryCode,
     required this.isLoggedIn,
     required this.isVendor,
@@ -49,6 +51,7 @@ class UserState {
       String? userEmail,
       String? userImage,
       String? userPhone,
+      String? userAbout,
       bool? isLoggedIn,
       bool? isVendor,
       bool? isOnline,
@@ -68,6 +71,7 @@ class UserState {
       userEmail: userEmail ?? this.userEmail,
       userImage: userImage ?? this.userImage,
       userPhone: userPhone ?? this.userPhone,
+      userAbout: userAbout ?? this.userAbout,
       isLoggedIn: isLoggedIn ?? this.isLoggedIn,
       isVendor: isVendor ?? this.isVendor,
       isOnline: isOnline ?? this.isOnline,
@@ -93,6 +97,7 @@ class UserCubit extends Cubit<UserState> {
             userEmail: '',
             userImage: '',
             userPhone: '',
+            userAbout: '',
             isLoggedIn: false,
             isVendor: false,
             isOnline: true,
@@ -138,6 +143,11 @@ class UserCubit extends Cubit<UserState> {
   void setUserPhone(String value) {
     emit(state.copyWith(userPhone: value));
     sharedPreferencesService.setValue(SharePreferencesKey.USER_NUMBER, value);
+  }
+
+  void setUserAbout(String value) {
+    emit(state.copyWith(userAbout: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.USER_ABOUT, value);
   }
 
   void setUserCountryCode(String value) {
@@ -203,6 +213,7 @@ class UserCubit extends Cubit<UserState> {
     setUserImage(user.image ?? '');
     setUserId(user.uid ?? '');
     setUserPhone(user.phone ?? '');
+    setUserAbout(user.about ?? '');
     setUserCountryCode(user.countryCode ?? initialCountyCode);
     setIsLoggedIn(isLoggedIn);
     setIsVendor(user.isVendor);

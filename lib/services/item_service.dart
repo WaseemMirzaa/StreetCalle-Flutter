@@ -7,6 +7,7 @@ import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 
 
 class ItemService extends BaseService<Item> {
@@ -23,7 +24,7 @@ class ItemService extends BaseService<Item> {
     try {
       final url = await _uploadImageToFirebase(image, item.uid ?? '');
       if (url == null) {
-        return const Left('Something went wrong. Try again later.');
+        return Left(TempLanguage().lblSomethingWentWrong);
       }
 
       item = item.copyWith(image: url);
@@ -33,7 +34,7 @@ class ItemService extends BaseService<Item> {
 
       return Right(item);
     } catch (e) {
-      return const Left('Something went wrong. Try again later.');
+      return Left(TempLanguage().lblSomethingWentWrong);
     }
   }
 
@@ -43,7 +44,7 @@ class ItemService extends BaseService<Item> {
       if (isUpdated) {
         final url = await _uploadImageToFirebase(image, item.uid ?? '');
         if (url == null) {
-          return const Left('Something went wrong. Try again later.');
+          return Left(TempLanguage().lblSomethingWentWrong);
         }
         item = item.copyWith(image: url);
         await ref!.doc(item.id).update(item.toJson());
@@ -54,7 +55,7 @@ class ItemService extends BaseService<Item> {
       await ref!.doc(item.id).update(item.toJson());
       return Right(item);
     } catch (e) {
-      return const Left('Something went wrong. Try again later.');
+      return Left(TempLanguage().lblSomethingWentWrong);
     }
   }
 

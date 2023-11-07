@@ -16,7 +16,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/screens/auth/cubit/guest/guest_cubit.dart';
 import 'package:street_calle/cubit/user_state.dart';
-import 'package:street_calle/utils/constant/app_enum.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -92,9 +91,9 @@ class LoginScreen extends StatelessWidget {
                        //context.pushNamed(AppRoutingName.selectUserScreen);
 
                        if (state.user.isVendor || state.user.isEmployee) {
-                         context.goNamed(AppRoutingName.mainScreen, pathParameters: {USER: UserType.vendor.name});
+                         context.goNamed(AppRoutingName.mainScreen);
                        } else {
-                         context.goNamed(AppRoutingName.clientMainScreen, pathParameters: {USER: UserType.client.name});
+                         context.goNamed(AppRoutingName.clientMainScreen);
                        }
 
                      } else if (state is LoginFailure) {
@@ -122,16 +121,6 @@ class LoginScreen extends StatelessWidget {
                         textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
                         color: AppColors.primaryColor,
                       ),
-                      // child: ElevatedButton(
-                      //     style: ElevatedButton.styleFrom(
-                      //       backgroundColor: AppColors.primaryColor,
-                      //     ),
-                      //     onPressed: ()=> login(context),
-                      //     child: Text(
-                      //       TempLanguage().lblLogin,
-                      //       style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                      //     ),
-                      // ),
                     ),
                         );
                   },
@@ -160,16 +149,6 @@ class LoginScreen extends StatelessWidget {
                         textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
                         color: AppColors.guestColor,
                       ),
-                      // child: ElevatedButton(
-                      //     style: ElevatedButton.styleFrom(
-                      //       backgroundColor: AppColors.guestColor,
-                      //     ),
-                      //     onPressed: ()=> context.read<GuestCubit>().signInAsGuest(),
-                      //     child: Text(
-                      //       TempLanguage().lblGuest,
-                      //       style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                      //     ),
-                      // ),
                     ),
                         );
                   },
