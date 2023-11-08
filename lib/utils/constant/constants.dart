@@ -64,6 +64,7 @@ class UserKey {
   static const String updatedAt = 'updatedAt';
   static const String fcmTokens = 'fcmTokens';
   static const String employeeItemList = 'employeeItemList';
+  static const String employeeDealList = 'employeeDealList';
   static const String isVendor = 'isVendor';
   static const String isOnline = 'isOnline';
   static const String isEmployee = 'isEmployee';

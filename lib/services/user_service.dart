@@ -259,4 +259,14 @@ class UserService extends BaseService<User> {
        return false;
      }
   }
+
+  Future<void> updateUserMenuDeals(String userId, List<dynamic> selectedItemIds)async{
+    try{
+      await ref!.doc(userId).update({
+        UserKey.employeeDealList: selectedItemIds,
+      });
+    }catch(e){
+      print('Error: ${e.toString()}');
+    }
+  }
 }

@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/models/user.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/menu_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_item_cubit.dart';
+import 'package:street_calle/services/deal_service.dart';
 import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -26,6 +30,17 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
 
   bool isLoading = false;
   List<dynamic> selectedItemIds =[] ;
+  List<dynamic> selectedDealsIds =[] ;
+
+  final itemService = sl.get<ItemService>();
+  final dealService = sl.get<DealService>();
+  final userService = sl.get<UserService>();
+
+
+  final MenuCubit menuCubit = MenuCubit();
+
+
+
 
   @override
   void initState() {
@@ -33,278 +48,496 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
     if (widget.user?.employeeItemsList != null) {
       selectedItemIds = widget.user!.employeeItemsList as List<dynamic>;
     }
+    if (widget.user?.employeeDealsList != null) {
+      selectedDealsIds = widget.user!.employeeDealsList as List<dynamic>;
+    }
     super.initState();
   }
 
 
   @override
   Widget build(BuildContext context) {
-    final itemService = sl.get<ItemService>();
-    final userService = sl.get<UserService>();
 
-    print('--------------------ids---------------------');
+
+    print('--------------------Items Ids---------------------');
     print(selectedItemIds);
+    print('--------------------Deals Ids---------------------');
+    print(selectedDealsIds);
 
 
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        leading: GestureDetector(
-          onTap: () => context.pop(),
 
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Image.asset(
-                AppAssets.backIcon,
-                width: 20,
-                height: 20,
-              )
-            ],
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          titleSpacing: 0,
+          leading: GestureDetector(
+            onTap: () => context.pop(),
+
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Image.asset(
+                  AppAssets.backIcon,
+                  width: 20,
+                  height: 20,
+                )
+              ],
+            ),
+          ),
+          title: Text(
+            TempLanguage().lblAddMenuItems,
+            style: context.currentTextTheme.titleMedium
+                ?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
           ),
         ),
-        title: Text(
-          TempLanguage().lblAddMenuItems,
-          style: context.currentTextTheme.titleMedium
-              ?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
-        ),
-      ),
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
+        body: Stack(
+          alignment: Alignment.center,
+          children: [
 
-          widget.user!.vendorId?.isNotEmpty ?? false ?
 
-          StreamBuilder<List<Item>>(
-              stream:itemService.getVendorItems(widget.user!.vendorId!),
-              builder: (context,snapshot){
-            if(!snapshot.hasData || snapshot.data!.isEmpty){
+             Column(children: [
 
-              return Center(
-                child:  Column(
-                  mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(TempLanguage().lblNoDataFound),
-                  ],
+              /// the tab bar with two items
+              SizedBox(
+                height: 50,
+                child: AppBar(
+                  bottom: TabBar(
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    labelStyle: context.currentTextTheme.displaySmall,
+                    unselectedLabelStyle: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryFontColor),
+                    tabs:  [
+                      Tab(text: TempLanguage().lblItems),
+                      Tab(text: TempLanguage().lblDeals),
+                    ],
+                  ),
                 ),
-              );
-                 }
-              else if(snapshot.hasError){
-                return
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text('Error: ${snapshot.hasError}'),
-                      ],
-                    ),
-                  );
-    }           else if(snapshot.connectionState == ConnectionState.waiting){
-              return const Center(child: CircularProgressIndicator(),);
+              ),
 
-    }
-                 else{
-                           List<Item> items = snapshot.data ?? [];
+              /// create widgets for each tab bar here
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    /// Items tab bar
+                    widget.user!.vendorId?.isNotEmpty ?? false ?
+                    StreamBuilder<List<Item>>(
+                        stream:itemService.getVendorItems(widget.user!.vendorId!),
+                        builder: (context,snapshot){
+                          if(!snapshot.hasData || snapshot.data!.isEmpty){
 
-
-
-      if(items.isEmpty){
-        return  Center(
-          child: Text(TempLanguage().lblNoDataFound)
-        );
-      }
-      else {
-        return  Padding(
-            padding:
-            const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-            child:
-
-
-            BlocBuilder<SelectedItemsCubit,List<String>>(builder: (context,state){
-              return ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-
-
-
-                  var itemData  = items[index];
-                  bool isUserItem = widget.user!.employeeItemsList!.contains(itemData.id) ?? false;
-
-
-                  return  Column(
-                    children: [
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          context.read<SelectedItemsCubit>().toggleItem(itemData.id!);
-
-                          if(selectedItemIds != null)
-                            {
-                              if(selectedItemIds.contains(itemData.id)){
-                                selectedItemIds.remove(itemData.id);
-                              }
-                              else{
-                                selectedItemIds.add(itemData.id);
-                              }
-
-                          }else{
-                            selectedItemIds = [itemData.id];
-
-                          }
-
-
-
-
-                          print(selectedItemIds);
-
-                        },
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 90,
-                              height: 90,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              clipBehavior: Clip.hardEdge,
-                              child:  Image.network(itemData.image!, fit: BoxFit.cover),
-                            ),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            return Center(
+                              child:  Column(
+                                mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: Text(
-                                          itemData.title!,
-                                          style: const TextStyle(
-                                            fontSize: 24,
-                                            fontFamily: METROPOLIS_BOLD,
-                                            color: AppColors.primaryFontColor,
-                                          ),
-                                        ),
-                                      ),
-
-
-                                      Container(
-                                        height: 20,
-                                        width: 20,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-
-                                          color: isUserItem ?  AppColors.primaryColor : Colors.transparent,
-                                          border: Border.all(
-                                            color: isUserItem ?  Colors.transparent : AppColors.dividerColor,
-                                          ),
-                                        ),
-                                        child:const Icon(Icons.check,color: Colors.white,size: 15,),
-
-                                      ),
-
-
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 6,
-                                  ),
-                                  Text(
-                                    itemData.smallItemTitle!,
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: METROPOLIS_BOLD,
-                                      color: AppColors.primaryColor,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 6,
-                                  ),
+                                  Text(TempLanguage().lblNoDataFound),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      const Divider(
-                        color: AppColors.dividerColor,
-                      ),
-                    ],
-                  );
-                },
-              );
-            })
+                            );
+                          }
+                          else if(snapshot.hasError){
+                            return
+                              Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text('Error: ${snapshot.hasError}'),
+                                  ],
+                                ),
+                              );
+                          }           else if(snapshot.connectionState == ConnectionState.waiting){
+                            return const Center(child: CircularProgressIndicator(),);
 
-        );
-      }
-
-
+                          }
+                          else{
+                            List<Item> items = snapshot.data ?? [];
 
 
-          }})
 
-            : Center(child: Text(TempLanguage().lblNoDataFound),),
+                            if(items.isEmpty){
+                              return  Center(
+                                  child: Text(TempLanguage().lblNoDataFound)
+                              );
+                            }
+                            else {
+                              return  Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                                  child:
 
 
-          Positioned(
-            bottom: 20,
-            right: 0,
-            left: 0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 44.0),
-              child: SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                height: defaultButtonSize,
-                child: isLoading ?  const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                     CircularProgressIndicator(),
+                                  BlocBuilder<SelectedItemsCubit,List<String>>(builder: (context,state){
+                                    return ListView.builder(
+                                      itemCount: items.length,
+                                      itemBuilder: (context, index) {
+
+
+                                        var itemData  = items[index];
+                                        bool isUserItem = widget.user!.employeeItemsList!.contains(itemData.id) ?? false;
+
+
+                                        return  Column(
+                                          children: [
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            GestureDetector(
+                                              onTap: (){
+                                                context.read<SelectedItemsCubit>().toggleItem(itemData.id!);
+
+                                                if(selectedItemIds != null)
+                                                {
+                                                  if(selectedItemIds.contains(itemData.id)){
+                                                    selectedItemIds.remove(itemData.id);
+                                                  }
+                                                  else{
+                                                    selectedItemIds.add(itemData.id);
+                                                  }
+
+                                                }else{
+                                                  selectedItemIds = [itemData.id];
+
+                                                }
+
+
+
+
+                                                print(selectedItemIds);
+
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    width: 90,
+                                                    height: 90,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                    clipBehavior: Clip.hardEdge,
+                                                    child:  Image.network(itemData.image!, fit: BoxFit.cover),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 12,
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 2,
+                                                              child: Text(
+                                                                itemData.title!,
+                                                                style: const TextStyle(
+                                                                  fontSize: 24,
+                                                                  fontFamily: METROPOLIS_BOLD,
+                                                                  color: AppColors.primaryFontColor,
+                                                                ),
+                                                              ),
+                                                            ),
+
+
+                                                            Container(
+                                                              height: 20,
+                                                              width: 20,
+                                                              decoration: BoxDecoration(
+                                                                shape: BoxShape.circle,
+
+                                                                color: isUserItem ?  AppColors.primaryColor : Colors.transparent,
+                                                                border: Border.all(
+                                                                  color: isUserItem ?  Colors.transparent : AppColors.dividerColor,
+                                                                ),
+                                                              ),
+                                                              child:const Icon(Icons.check,color: Colors.white,size: 15,),
+
+                                                            ),
+
+
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 6,
+                                                        ),
+                                                        Text(
+                                                          itemData.smallItemTitle!,
+                                                          style: const TextStyle(
+                                                            fontSize: 12,
+                                                            fontFamily: METROPOLIS_BOLD,
+                                                            color: AppColors.primaryColor,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 6,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            const Divider(
+                                              color: AppColors.dividerColor,
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  })
+
+                              );
+                            }
+
+
+
+
+                          }})
+
+                        : Center(child: Text(TempLanguage().lblNoDataFound),),
+
+                    /// Deals tab bar
+                    widget.user!.vendorId?.isNotEmpty ?? false ?
+                    StreamBuilder<List<Deal>>(
+                        stream:dealService.getDeals(widget.user!.vendorId!),
+                        builder: (context,snapshot){
+                          if(!snapshot.hasData || snapshot.data!.isEmpty){
+
+                            return Center(
+                              child:  Column(
+                                mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(TempLanguage().lblNoDataFound),
+                                ],
+                              ),
+                            );
+                          }
+                          else if(snapshot.hasError){
+                            return
+                              Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text('Error: ${snapshot.hasError}'),
+                                  ],
+                                ),
+                              );
+                          }           else if(snapshot.connectionState == ConnectionState.waiting){
+                            return const Center(child: CircularProgressIndicator(),);
+
+                          }
+                          else{
+                            List<Deal> deals = snapshot.data ?? [];
+
+
+
+                            if(deals.isEmpty){
+                              return  Center(
+                                  child: Text(TempLanguage().lblNoDataFound)
+                              );
+                            }
+                            else {
+                              return  Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                                  child:
+
+
+                                  BlocBuilder<SelectedDealsCubit,List<String>>(builder: (context,state){
+                                    return ListView.builder(
+                                      itemCount: deals.length,
+                                      itemBuilder: (context, index) {
+
+
+                                        var dealData  = deals[index];
+                                        bool isUserDeal = widget.user!.employeeDealsList!.contains(dealData.id) ?? false;
+
+
+                                        return  Column(
+                                          children: [
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            GestureDetector(
+                                              onTap: (){
+                                                context.read<SelectedDealsCubit>().toggleItem(dealData.id!);
+
+                                                if(selectedDealsIds != null)
+                                                {
+                                                  if(selectedDealsIds.contains(dealData.id)){
+                                                    selectedDealsIds.remove(dealData.id);
+                                                  }
+                                                  else{
+                                                    selectedDealsIds.add(dealData.id);
+                                                  }
+
+                                                }else{
+                                                  selectedDealsIds = [dealData.id];
+
+                                                }
+
+
+
+
+                                                print(selectedDealsIds);
+
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    width: 90,
+                                                    height: 90,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                    clipBehavior: Clip.hardEdge,
+                                                    child:  Image.network(dealData.image!, fit: BoxFit.cover),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 12,
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 2,
+                                                              child: Text(
+                                                                dealData.title!,
+                                                                style: const TextStyle(
+                                                                  fontSize: 24,
+                                                                  fontFamily: METROPOLIS_BOLD,
+                                                                  color: AppColors.primaryFontColor,
+                                                                ),
+                                                              ),
+                                                            ),
+
+
+                                                            Container(
+                                                              height: 20,
+                                                              width: 20,
+                                                              decoration: BoxDecoration(
+                                                                shape: BoxShape.circle,
+
+                                                                color: isUserDeal ?  AppColors.primaryColor : Colors.transparent,
+                                                                border: Border.all(
+                                                                  color: isUserDeal ?  Colors.transparent : AppColors.dividerColor,
+                                                                ),
+                                                              ),
+                                                              child:const Icon(Icons.check,color: Colors.white,size: 15,),
+
+                                                            ),
+
+
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 6,
+                                                        ),
+                                                        Text(
+                                                          dealData.title!,
+                                                          style: const TextStyle(
+                                                            fontSize: 12,
+                                                            fontFamily: METROPOLIS_BOLD,
+                                                            color: AppColors.primaryColor,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 6,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            const Divider(
+                                              color: AppColors.dividerColor,
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  })
+
+                              );
+                            }
+
+
+
+
+                          }})
+
+                        : Center(child: Text(TempLanguage().lblNoDataFound),),
                   ],
-                ) :  AppButton(
-                  text: TempLanguage().lblAddItemForEmployee,
-                  elevation: 0.0,
-                  onTap: () {
-
-                    // userService.updateMenuItems(widget.user!.uid!, selectedItemIds);
-
-                    setState(() {
-                      isLoading = true;
-                    });
+                ),
+              ),
 
 
+            ],),
 
-                   userService.updateUserMenuItems(widget.user!.uid!, selectedItemIds).then((value){
-                      setState(() {
-                        isLoading = false;
-                      });
-                     Navigator.pop(context);
-                    }).onError((error, stackTrace) {
-                      setState(() {
-                        isLoading = false;
-                      });
-                    });
-                  },
-                  shapeBorder: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  textStyle: context.currentTextTheme.labelMedium
-                      ?.copyWith(color: AppColors.whiteColor,fontSize: 18),
-                  color: AppColors.primaryColor,
+
+            Positioned(
+              bottom: 20,
+              right: 0,
+              left: 0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 44.0),
+                child: SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: defaultButtonSize,
+                  child:
+                  BlocBuilder<MenuCubit,MenuState>(builder: (context,state){
+
+                    if (state == MenuState.loading) {
+                      return const Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                           CircularProgressIndicator(),
+                        ],
+                      ); // Show a loading indicator
+                    } else if (state == MenuState.loaded) {
+                      return const Text('Menu updated successfully');
+                    } else if (state == MenuState.error) {
+                      return const Text('An error occurred while updating the menu');
+                    }else{
+                      return AppButton(
+                        text: TempLanguage().lblAddMenuItems,
+                        elevation: 0.0,
+                        onTap: ()async {
+                          context.read<MenuCubit>().emit(MenuState.loading);
+
+                        await  updateMenu().then((value) {
+                          context.pop();
+                          context.read<MenuCubit>().emit(MenuState.initial);
+                        });
+                        },
+                        shapeBorder: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        textStyle: context.currentTextTheme.labelMedium
+                            ?.copyWith(color: AppColors.whiteColor,fontSize: 18),
+                        color: AppColors.primaryColor,
+                      );
+                    }
+                  }),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+
+
+  Future<void> updateMenu() async{
+   await menuCubit.updateUserMenu(widget.user!.uid!, selectedDealsIds, selectedItemIds);
   }
 }

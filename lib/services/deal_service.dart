@@ -109,4 +109,6 @@ class DealService extends BaseService<Deal> {
     yield* getEmployeeDeals(userDoc.employeeItemsList);
   }
 
+
+
 }
