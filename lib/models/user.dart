@@ -22,6 +22,7 @@ class User extends Equatable {
   final Timestamp? updatedAt;
   final List<dynamic>? fcmTokens;
   final List<dynamic>? employeeItemsList;
+  final List<dynamic>? employeeDealsList;
   final List<dynamic>? favouriteVendors;
   final double? latitude;
   final double? longitude;
@@ -42,6 +43,7 @@ class User extends Equatable {
       this.fcmTokens,
       this.about,
       this.employeeItemsList,
+      this.employeeDealsList,
       this.isVendor = false,
       this.isOnline = true,
       this.isEmployee = false,
@@ -68,6 +70,7 @@ class User extends Equatable {
       Timestamp? updatedAt,
       List<dynamic>? fcmTokens,
       List<dynamic>? employeeItemsList,
+      List<dynamic>? employeeDealsList,
       List<dynamic>? favouriteVendors,
       bool? isVendor,
       bool? isOnline,
@@ -93,6 +96,7 @@ class User extends Equatable {
       updatedAt: updatedAt ?? this.updatedAt,
       fcmTokens: fcmTokens ?? this.fcmTokens,
       employeeItemsList: employeeItemsList ?? this.employeeItemsList,
+      employeeDealsList: employeeDealsList ?? this.employeeDealsList,
       favouriteVendors: favouriteVendors ?? this.favouriteVendors,
       isVendor: isVendor ?? this.isVendor,
       isOnline: isOnline ?? this.isOnline,
@@ -122,6 +126,7 @@ class User extends Equatable {
       updatedAt: json[UserKey.updatedAt],
       fcmTokens: json[UserKey.fcmTokens],
       employeeItemsList: json[UserKey.employeeItemList],
+      employeeDealsList: json[UserKey.employeeDealList],
       isVendor: json[UserKey.isVendor],
       isOnline: json[UserKey.isOnline],
       isEmployeeBlocked: json[UserKey.isEmployeeBlocked],
@@ -151,6 +156,7 @@ class User extends Equatable {
     data[UserKey.updatedAt] = updatedAt;
     data[UserKey.fcmTokens] = fcmTokens;
     data[UserKey.employeeItemList] = employeeItemsList;
+    data[UserKey.employeeDealList] =employeeDealsList;
     data[UserKey.isVendor] = isVendor;
     data[UserKey.isOnline] = isOnline;
     data[UserKey.isEmployee] = isEmployee;

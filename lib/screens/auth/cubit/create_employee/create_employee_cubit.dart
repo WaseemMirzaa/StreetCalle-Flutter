@@ -58,6 +58,7 @@ class CreateEmployeeCubit extends Cubit<CreateEmployeeState> {
               createdAt: Timestamp.now(),
               updatedAt: Timestamp.now(),
               employeeItemsList: const[],
+              employeeDealsList: const[],
               employeeOwnerName: employeeOwnerName,
               employeeOwnerImage: employeeOwnerImage
             );

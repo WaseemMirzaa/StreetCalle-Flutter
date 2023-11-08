@@ -28,12 +28,14 @@ import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_custom_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/menu_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_drop_down_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/vendor_home_tab.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_employee_menu_item_screen.dart';
@@ -157,6 +159,14 @@ Future<void> main() async {
 
         BlocProvider(
           create: (context)=> sl<SelectedItemsCubit>(),
+          child: AddEmployeeMenuItemsScreen(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<MenuCubit>(),
+          child: AddEmployeeMenuItemsScreen(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<SelectedDealsCubit>(),
           child: AddEmployeeMenuItemsScreen(),
         ),
 
