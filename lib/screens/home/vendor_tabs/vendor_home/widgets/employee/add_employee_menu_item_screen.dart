@@ -16,6 +16,8 @@ import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
+import 'package:street_calle/widgets/image_widget.dart';
 
 class AddEmployeeMenuItemsScreen extends StatefulWidget {
   final User? user;
@@ -36,11 +38,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
   final dealService = sl.get<DealService>();
   final userService = sl.get<UserService>();
 
-
   final MenuCubit menuCubit = MenuCubit();
-
-
-
 
   @override
   void initState() {
@@ -57,15 +55,6 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
 
   @override
   Widget build(BuildContext context) {
-
-
-    print('--------------------Items Ids---------------------');
-    print(selectedItemIds);
-    print('--------------------Deals Ids---------------------');
-    print(selectedDealsIds);
-
-
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -94,10 +83,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
         body: Stack(
           alignment: Alignment.center,
           children: [
-
-
              Column(children: [
-
               /// the tab bar with two items
               SizedBox(
                 height: 50,
@@ -113,7 +99,6 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                   ),
                 ),
               ),
-
               /// create widgets for each tab bar here
               Expanded(
                 child: TabBarView(
@@ -140,7 +125,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text('Error: ${snapshot.hasError}'),
+                                    Text(TempLanguage().lblSomethingWentWrong),
                                   ],
                                 ),
                               );
@@ -206,15 +191,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                               },
                                               child: Row(
                                                 children: [
-                                                  Container(
-                                                    width: 90,
-                                                    height: 90,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                    ),
-                                                    clipBehavior: Clip.hardEdge,
-                                                    child:  Image.network(itemData.image!, fit: BoxFit.cover),
-                                                  ),
+                                                  ImageWidget(image: itemData.image!,),
                                                   const SizedBox(
                                                     width: 12,
                                                   ),
@@ -227,7 +204,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                             Expanded(
                                                               flex: 2,
                                                               child: Text(
-                                                                itemData.title!,
+                                                                itemData.title!.capitalizeEachFirstLetter(),
                                                                 style: const TextStyle(
                                                                   fontSize: 24,
                                                                   fontFamily: METROPOLIS_BOLD,
@@ -258,8 +235,8 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                         const SizedBox(
                                                           height: 6,
                                                         ),
-                                                        Text(
-                                                          itemData.smallItemTitle!,
+                                                        itemData.foodType == null ? const SizedBox.shrink() : Text(
+                                                          itemData.foodType!,
                                                           style: const TextStyle(
                                                             fontSize: 12,
                                                             fontFamily: METROPOLIS_BOLD,
@@ -319,7 +296,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text('Error: ${snapshot.hasError}'),
+                                    Text(TempLanguage().lblSomethingWentWrong),
                                   ],
                                 ),
                               );
@@ -385,15 +362,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                               },
                                               child: Row(
                                                 children: [
-                                                  Container(
-                                                    width: 90,
-                                                    height: 90,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                    ),
-                                                    clipBehavior: Clip.hardEdge,
-                                                    child:  Image.network(dealData.image!, fit: BoxFit.cover),
-                                                  ),
+                                                  ImageWidget(image: dealData.image!,),
                                                   const SizedBox(
                                                     width: 12,
                                                   ),
@@ -406,7 +375,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                             Expanded(
                                                               flex: 2,
                                                               child: Text(
-                                                                dealData.title!,
+                                                                dealData.title!.capitalizeEachFirstLetter(),
                                                                 style: const TextStyle(
                                                                   fontSize: 24,
                                                                   fontFamily: METROPOLIS_BOLD,
@@ -437,7 +406,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                         const SizedBox(
                                                           height: 6,
                                                         ),
-                                                        Text(
+                                                        dealData.foodType == null ? const SizedBox.shrink() : Text(
                                                           dealData.title!,
                                                           style: const TextStyle(
                                                             fontSize: 12,
@@ -478,11 +447,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                   ],
                 ),
               ),
-
-
             ],),
-
-
             Positioned(
               bottom: 20,
               right: 0,
@@ -504,9 +469,9 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                         ],
                       ); // Show a loading indicator
                     } else if (state == MenuState.loaded) {
-                      return const Text('Menu updated successfully');
+                      return Text(TempLanguage().lblMenuUpdatedSuccessfully);
                     } else if (state == MenuState.error) {
-                      return const Text('An error occurred while updating the menu');
+                      return Text(TempLanguage().lblErrorOccurred);
                     }else{
                       return AppButton(
                         text: TempLanguage().lblAddMenuItems,

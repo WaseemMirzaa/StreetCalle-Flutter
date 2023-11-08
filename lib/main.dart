@@ -38,8 +38,8 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_c
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/vendor_home_tab.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_employee_menu_item_screen.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/create_employee_profile_screen.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee/add_employee_menu_item_screen.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee/create_employee_profile_screen.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/utils/routing/routing.dart';
 import 'package:street_calle/utils/themes/app_theme.dart';

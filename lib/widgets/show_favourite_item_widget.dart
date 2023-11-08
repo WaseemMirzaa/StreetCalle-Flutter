@@ -4,7 +4,8 @@ import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourit
 import 'package:street_calle/utils/constant/app_colors.dart';
 
 class ShowFavouriteItemWidget extends StatelessWidget {
-  const ShowFavouriteItemWidget({Key? key}) : super(key: key);
+  const ShowFavouriteItemWidget({Key? key, this.onTap}) : super(key: key);
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +15,19 @@ class ShowFavouriteItemWidget extends StatelessWidget {
           case FavoriteStatus.loading:
             return const CircularProgressIndicator(); // Display a loading indicator.
           case FavoriteStatus.isFavorite:
-            return const Icon(
-              Icons.favorite_outlined,
-              color: AppColors.redColor,
+            return GestureDetector(
+              onTap: onTap,
+              child: const Icon(
+                Icons.favorite_outlined,
+                color: AppColors.redColor,
+              ),
             );
           case FavoriteStatus.isNotFavorite:
-            return const Icon(
-              Icons.favorite_border_rounded,
+            return GestureDetector(
+              onTap: onTap,
+              child: const Icon(
+                Icons.favorite_border_rounded,
+              ),
             );
           default:
             return const SizedBox(); // Handle other states as needed.

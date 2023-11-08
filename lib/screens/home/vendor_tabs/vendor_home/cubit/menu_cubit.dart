@@ -18,4 +18,6 @@ class MenuCubit extends Cubit<MenuState> {
       emit(MenuState.error);
     }
   }
+
+  resetState() => emit(MenuState.initial);
 }

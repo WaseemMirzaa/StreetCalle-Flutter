@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,7 +14,10 @@ import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee/employee_detail_header.dart';
+import 'package:street_calle/widgets/image_widget.dart';
 
 
 class EmployeeDetailScreen extends StatefulWidget {
@@ -71,102 +73,16 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                   const SizedBox(
                     height: 12,
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10)),
-                        clipBehavior: Clip.hardEdge,
-                        child:
-                        CachedNetworkImage(
-                          imageUrl: widget.user?.image ?? '',
-                          fit: BoxFit.cover,
-                        ),
-                        // Image.asset(
-                        //   AppAssets.burgerImage,
-                        //   fit: BoxFit.cover,
-                        // ),
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                             Row(
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    '${widget.user?.name}',
-                                    style: const TextStyle(
-                                        fontSize: 24,
-                                        fontFamily: METROPOLIS_BOLD,
-                                        color: AppColors.primaryFontColor),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  AppAssets.marker,
-                                  width: 12,
-                                  height: 12,
-                                  color: AppColors.primaryColor,
-                                ),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                Expanded(
-                                  child: Text('No 03, 4th Lane, Newyork',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: context.currentTextTheme.displaySmall
-                                          ?.copyWith(
-                                              color: AppColors.placeholderColor,
-                                              fontSize: 14)),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  EmployeeDetailHeader(user: widget.user),
                   const SizedBox(
                     height: 20,
                   ),
                   const Divider(
                     color: AppColors.dividerColor,
                   ),
-                  // const SizedBox(
-                  //   height: 20,
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     SvgPicture.asset(AppAssets.itemListIcon),
-                  //     const SizedBox(
-                  //       width: 8,
-                  //     ),
-                  //     Text(
-                  //       TempLanguage().lblItemList,
-                  //       style: context.currentTextTheme.labelLarge
-                  //           ?.copyWith(color: AppColors.primaryFontColor),
-                  //     ),
-                  //   ],
-                  // ),
                   const SizedBox(
                     height: 12,
                   ),
-
                   /// the tab bar with two items
                   SizedBox(
                     height: 50,
@@ -177,13 +93,11 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                         unselectedLabelStyle: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryFontColor),
                         tabs:  [
                           Tab(text: TempLanguage().lblItems),
-                           Tab(text: TempLanguage().lblDeals),
+                          Tab(text: TempLanguage().lblDeals),
                         ],
                       ),
                     ),
                   ),
-
-
                   /// create widgets for each tab bar here
                   Expanded(
                     child: TabBarView(
@@ -199,7 +113,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                               );
                             } else if (snapshot.hasError) {
                               return Center(
-                                child: Text('Error: ${snapshot.error}'),
+                                child: Text(TempLanguage().lblSomethingWentWrong),
                               );
                             } else if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
@@ -213,9 +127,8 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
 
 
                               if (items.isEmpty) {
-                                return const Center(
-                                  child: Text(
-                                      'No items found with the provided IDs'),
+                                return Center(
+                                  child: Text(TempLanguage().lblNoItemsFound),
                                 );
                               }
 
@@ -231,23 +144,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                       ),
                                       Row(
                                         children: [
-                                          Container(
-                                              width: 90,
-                                              height: 90,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      10)),
-                                              clipBehavior: Clip.hardEdge,
-                                              child: Image.network(
-                                                itemData.image!,
-                                                fit: BoxFit.cover,
-                                              )
-                                            // Image.asset(
-                                            //   AppAssets.burgerImage,
-                                            //   fit: BoxFit.cover,
-                                            // ),
-                                          ),
+                                          ImageWidget(image: itemData.image!,),
                                           const SizedBox(
                                             width: 12,
                                           ),
@@ -261,8 +158,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                                     Expanded(
                                                       flex: 2,
                                                       child: Text(
-                                                        itemData.title!,
-                                                        // 'Shehzad',
+                                                        itemData.title!.capitalizeEachFirstLetter(),
                                                         style: const TextStyle(
                                                             fontSize: 24,
                                                             fontFamily:
@@ -276,28 +172,10 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                                 const SizedBox(
                                                   height: 6,
                                                 ),
-                                                Row(
-                                                  children: [
-                                                    Image.asset(
-                                                      AppAssets.marker,
-                                                      width: 12,
-                                                      height: 12,
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 4,
-                                                    ),
-                                                    Text(
-                                                        'No 03, 4th Lane, Newyork',
-                                                        style: context
-                                                            .currentTextTheme
-                                                            .displaySmall
-                                                            ?.copyWith(
-                                                            color: AppColors
-                                                                .placeholderColor,
-                                                            fontSize: 14)),
-                                                  ],
+                                                itemData.foodType == null
+                                                    ? const SizedBox.shrink()
+                                                    : Text('${itemData.foodType}',
+                                                  style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14),
                                                 ),
                                               ],
                                             ),
@@ -333,7 +211,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                               );
                             } else if (snapshot.hasError) {
                               return Center(
-                                child: Text('Error: ${snapshot.error}'),
+                                child: Text(TempLanguage().lblSomethingWentWrong),
                               );
                             } else if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
@@ -347,9 +225,8 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
 
 
                               if (deals.isEmpty) {
-                                return const Center(
-                                  child: Text(
-                                      'No items found with the provided IDs'),
+                                return Center(
+                                  child: Text(TempLanguage().lblNoDealsFound),
                                 );
                               }
 
@@ -365,23 +242,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                       ),
                                       Row(
                                         children: [
-                                          Container(
-                                              width: 90,
-                                              height: 90,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      10)),
-                                              clipBehavior: Clip.hardEdge,
-                                              child: Image.network(
-                                                dealData.image!,
-                                                fit: BoxFit.cover,
-                                              )
-                                            // Image.asset(
-                                            //   AppAssets.burgerImage,
-                                            //   fit: BoxFit.cover,
-                                            // ),
-                                          ),
+                                          ImageWidget(image: dealData.image!,),
                                           const SizedBox(
                                             width: 12,
                                           ),
@@ -395,8 +256,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                                     Expanded(
                                                       flex: 2,
                                                       child: Text(
-                                                        dealData.title!,
-                                                        // 'Shehzad',
+                                                        dealData.title!.capitalizeEachFirstLetter(),
                                                         style: const TextStyle(
                                                             fontSize: 24,
                                                             fontFamily:
@@ -410,28 +270,10 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                                 const SizedBox(
                                                   height: 6,
                                                 ),
-                                                Row(
-                                                  children: [
-                                                    Image.asset(
-                                                      AppAssets.marker,
-                                                      width: 12,
-                                                      height: 12,
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 4,
-                                                    ),
-                                                    Text(
-                                                        'No 03, 4th Lane, Newyork',
-                                                        style: context
-                                                            .currentTextTheme
-                                                            .displaySmall
-                                                            ?.copyWith(
-                                                            color: AppColors
-                                                                .placeholderColor,
-                                                            fontSize: 14)),
-                                                  ],
+                                                dealData.foodType == null
+                                                    ? const SizedBox.shrink()
+                                                    : Text('${dealData.foodType}',
+                                                      style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14),
                                                 ),
                                               ],
                                             ),
@@ -458,9 +300,6 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                       ],
                     ),
                   ),
-
-
-
                ],
               ),
             ),
@@ -478,16 +317,16 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                          CircularProgressIndicator(),
                       ],
                     ) :    AppButton(
-                          text: 'Unblock',
+                          text: TempLanguage().lblUnblock,
                           textColor: AppColors.whiteColor,
                           onTap:(){
                             setState(() {
                               isLoading = true;
                             });
 
-                            FirebaseFirestore.instance.collection('users').doc(widget.user!.uid).set(
+                            FirebaseFirestore.instance.collection(Collections.users).doc(widget.user!.uid).set(
                                 {
-                                  'isEmployeeBlocked': false,
+                                  UserKey.isEmployeeBlocked: false,
                                 },SetOptions(merge: true))
                                 .then((value) {
                               setState(() {
@@ -517,9 +356,9 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                         setState(() {
                           isLoading = true;
                         });
-                        FirebaseFirestore.instance.collection('users').doc(widget.user!.uid).set(
+                        FirebaseFirestore.instance.collection(Collections.users).doc(widget.user!.uid).set(
                             {
-                              'isEmployeeBlocked': true,
+                              UserKey.isEmployeeBlocked: true,
                             },SetOptions(merge: true)).then((value) {
                           setState(() {
                             isLoading = false;

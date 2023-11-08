@@ -21,7 +21,7 @@ class ClientItemTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final itemService = sl.get<ItemService>();
     context.read<SearchItemsCubit>().updateQuery('');
-
+    itemService.getNearestItems();
     return Column(
       children: [
         Padding(

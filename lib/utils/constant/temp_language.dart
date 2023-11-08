@@ -9,11 +9,24 @@ class TempLanguage {
 
   String get lblVendor => 'Vendor';
 
+  String get lblUnblock => 'Unblock';
+
+  String get lblErrorOccurred => 'An error occurred while updating the menu';
+
+  String get lblMenuUpdatedSuccessfully => 'Menu updated successfully';
+
+  String get lblNoItemsFound => 'No items found with the provided IDs';
+
+  String get lblNoDealsFound => 'No deals found with the provided IDs';
+
   String get lblLogin => 'Login';
+
   String get lblApply => 'Apply';
 
   String get lblUpdate => 'Update';
+
   String get lblLiveLocation => 'Live Location';
+
   String get lblNearestToYou => 'Nearest to you:';
 
   String get lblEditProfileSuccessfully => 'Edit profile successfully';
@@ -27,8 +40,11 @@ class TempLanguage {
 
   String get lblAddYourSignDetails => 'Add your details to sign up';
 
-  String get lblPleaseSubscribedFirst => 'Please subscribed first to perform this action';
-  String get lblPleaseSubscribedAgencyFirst => 'Please subscribed to agency first to perform this action';
+  String get lblPleaseSubscribedFirst =>
+      'Please subscribed first to perform this action';
+
+  String get lblPleaseSubscribedAgencyFirst =>
+      'Please subscribed to agency first to perform this action';
 
   String get lblEmail => 'Email';
 
@@ -126,12 +142,15 @@ class TempLanguage {
   String get lblItemAddPricingCategories => '+ Add Pricing Categories';
 
   String get lblPrice => 'Price';
+
   String get lblMins => 'mins';
+
   String get lblKm => 'km';
 
   String get lblPhoneNumber => 'Phone Number';
 
   String get lblHiThere => 'Hi there';
+  String get lblHiIts => 'Hi its';
 
   String get lblActualPrice => 'Actual';
 
@@ -160,18 +179,31 @@ class TempLanguage {
   String get lblSearchFood => 'Search Food';
 
   String get lblSearchFoodTrucks => 'Search food trucks';
+
   String get lblSearchItemOrDeal => 'Search item or deal';
+
   String get lblSearchDeals => 'Search Deals';
+
   String get lblSearchItems => 'Search Items';
+
   String get lblBlocked => 'Blocked';
+
   String get lblAddItemForEmployee => 'Add Item For Employee';
+
   String get lblSelectFoodType => 'Select Food Type';
+
   String get lblWesternFood => 'Western Food';
+
   String get lblChineseFood => 'Chinese Food';
+
   String get lblItalianFood => 'Italian Food';
+
   String get lblFilter => 'Filter';
+
   String get lblReset => 'Reset';
+
   String get lblSetManually => 'Set Manually';
+
   String get lblDistanceTime => 'Distance \\ Time';
 
   String get lblChooseAPlane => 'Choose A Plan';
@@ -193,6 +225,7 @@ class TempLanguage {
   String get lblFavourites => 'Favourites';
 
   String get lblMobileNo => 'Mobile No';
+
   String get lblAbout => 'About';
 
   String get lblEditProfile => 'Edit Profile';
@@ -303,6 +336,7 @@ class TempLanguage {
   String get lblAgency => 'Agency';
 
   String get lblItemList => 'Item List';
+
   String get lblYouHaveBennBlockedByAdmin => 'You have been blocked by Owner';
 
   String get lblLocationServiceDisabled =>
@@ -322,11 +356,16 @@ class TempLanguage {
   String get lblEmployeeDetails => 'Employee Details';
 
   String get lblEditAddMenuItems => 'Edit or Add Menu Items';
+
   String get lblBackgroundServiceIsRunning => 'Background service is running';
-  String get lblBackgroundLocationInProgress => 'Background location in progress';
+
+  String get lblBackgroundLocationInProgress =>
+      'Background location in progress';
 
   String get lblAddMenuItems => 'Add Menu Items';
+
   String get lblSearch => 'Search';
+
   String get lblAddressNotFound => 'Address not found';
 
   String get lblAddItemsForEmployee => 'Add Items For Employee';
@@ -334,23 +373,47 @@ class TempLanguage {
   String get lblSetEmployeeCredentials =>
       'Set a Username and password for your employee to login';
 
-  String get lblEmailNotVerified => 'Email not verified. A verification email has been sent.';
-  String get lblInvalidCredentials => 'Invalid credentials. Please check your email and password.';
+  String get lblEmailNotVerified =>
+      'Email not verified. A verification email has been sent.';
+
+  String get lblInvalidCredentials =>
+      'Invalid credentials. Please check your email and password.';
+
   String get lblInvalidEmailAddress => 'Invalid email address.';
+
   String get lblNoUserFound => 'No user found for that email.';
-  String get lblTooManyRequest => 'Too many login attempts. Please try again later.';
+
+  String get lblTooManyRequest =>
+      'Too many login attempts. Please try again later.';
+
   String get lblAccountDisable => 'Your account has been disabled.';
+
   String get lblOperationNotAllowed => 'This operation is not allowed.';
-  String get lblNetworkRequestFailed => 'Network request failed. Please check your internet connection.';
+
+  String get lblNetworkRequestFailed =>
+      'Network request failed. Please check your internet connection.';
+
   String get lblErrorDuringLogIn => 'Error during log-in:';
+
   String get lblEmailAddressInUse => 'Email address is already in use.';
+
   String get lblErrorDuringSignUp => 'Error during sign-up:';
+
   String get lblErrorDuringResetPassword => 'Error during password reset:';
+
   String get lblGuestSignInDisable => 'Guest sign-in is disabled';
-  String get lblAccountExistWithDifferentCredentials => 'The account already exists with a different credential';
-  String get lblErrorAccessingCredentials => 'Error occurred while accessing credentials. Try again.';
-  String get lblGoogleSignInError => 'Error occurred using Google Sign In. Try again.';
+
+  String get lblAccountExistWithDifferentCredentials =>
+      'The account already exists with a different credential';
+
+  String get lblErrorAccessingCredentials =>
+      'Error occurred while accessing credentials. Try again.';
+
+  String get lblGoogleSignInError =>
+      'Error occurred using Google Sign In. Try again.';
+
   String get lblUserNotFound => 'User Not Found';
+
   String get lblSignUpFailed => 'Sign-up failed. Please try again.';
 
   String get lblLorem => '''

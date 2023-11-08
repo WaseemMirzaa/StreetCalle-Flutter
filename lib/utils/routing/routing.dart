@@ -8,18 +8,19 @@ import 'package:street_calle/screens/home/client_main_screen.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu_item_detail.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_vendor_direction.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_vendor_profile.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_all_deals.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_all_items.dart';
 import 'package:street_calle/screens/home/main_screen.dart';
 import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
 import 'package:street_calle/screens/home/settings/widgets/vendor_profile.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_deal.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_employee_menu_item_screen.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee/add_employee_menu_item_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_item.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/create_employee_profile_screen.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee_detail_screen.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee/create_employee_profile_screen.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee/employee_detail_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_detail.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/manage_employees_screen.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee/manage_employees_screen.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/select_menu_item.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/deal_detail.dart';
 import 'package:street_calle/screens/selectUser/select_user_screen.dart';
@@ -257,6 +258,14 @@ final router = GoRouter(
       name: AppRoutingName.vendorProfile,
       builder: (context, state) {
         return const VendorProfile();
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.clientVendorProfile,
+      name: AppRoutingName.clientVendorProfile,
+      builder: (context, state) {
+        final userId = state.extra as String;
+        return ClientVendorProfile(userId: userId,);
       },
     ),
   ],

@@ -27,7 +27,7 @@ class VendorProfile extends StatefulWidget {
 
 class _VendorProfileState extends State<VendorProfile> {
 
-  Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),

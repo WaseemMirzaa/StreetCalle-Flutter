@@ -136,4 +136,69 @@ class ItemService extends BaseService<Item> {
     }
   }
 
+  Future<List<Item>> getEmployeeItemList(List<dynamic>? employeeItemList) async {
+     final result = await ref!.where(FieldPath.documentId, whereIn: employeeItemList).get();
+     return result.docs.map((e) => e.data()).toList();
+  }
+
+  // Future<List<Item>> getNearestItems() async {
+  //   final position = await LocationUtils.fetchLocation();
+  //   final users = await sl.get<UserService>().getVendorsAndEmployees();
+  //   Set<dynamic> itemIds = {};
+  //   List<String> vendorIds = [];
+  //
+  //   for(User user in users) {
+  //     if (user.latitude != null && user.longitude != null) {
+  //       final distance = double.parse(LocationUtils.calculateVendorsDistance(position.latitude, position.longitude, user.latitude!, user.longitude!));
+  //       if (distance <= 5) {
+  //         if (user.isVendor) {
+  //           vendorIds.add(user.uid ?? '');
+  //         } else {
+  //           if (user.employeeItemsList != null && user.employeeItemsList!.isNotEmpty) {
+  //             for (String id in user.employeeItemsList?? []) {
+  //               itemIds.add(id);
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  //
+  //   Set<Item> vendorItems = {};
+  //   for(dynamic id in vendorIds) {
+  //     final items = await getMenuItems(id);
+  //     for(Item item in items) {
+  //       vendorItems.add(item);
+  //     }
+  //   }
+  //   final list = await getEmployeeItemList(itemIds.toList());
+  //   for(Item item in list) {
+  //     vendorItems.add(item);
+  //   }
+  //   return vendorItems.toList();
+  // }
+
+  Future<List<Item>> getNearestItems() async {
+    final position = await LocationUtils.fetchLocation();
+    final users = await sl.get<UserService>().getVendorsAndEmployees();
+    final vendorItems = <Item>{};
+
+    for (User user in users) {
+      if (user.latitude != null && user.longitude != null) {
+        final distance = double.parse(LocationUtils.calculateVendorsDistance(position.latitude, position.longitude, user.latitude!, user.longitude!));
+        if (distance <= 5) {
+          if (user.isVendor) {
+            vendorItems.addAll(await getMenuItems(user.uid ?? ''));
+          } else {
+            if (user.employeeItemsList != null) {
+              final itemIds = user.employeeItemsList ?? [];
+              vendorItems.addAll(await getEmployeeItemList(itemIds));
+            }
+          }
+        }
+      }
+    }
+
+    return vendorItems.toList();
+  }
 }

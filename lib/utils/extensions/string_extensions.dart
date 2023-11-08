@@ -23,7 +23,7 @@ extension StringExtension on String? {
 
     List<String> words = this!.split(' ');
     List<String> capitalizedWords = words.map((word) {
-      return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+      return word.trim().substring(0, 1).toUpperCase() + word.trim().substring(1).toLowerCase();
     }).toList();
 
     return capitalizedWords.join(' ');
@@ -32,7 +32,7 @@ extension StringExtension on String? {
 
   /// Capitalize given String
   String capitalizeFirstLetter() => (validate().length >= 1)
-      ? (this!.substring(0, 1).toUpperCase() + this!.substring(1).toLowerCase())
+      ? (this!.trim().substring(0, 1).toUpperCase() + this!.trim().substring(1).toLowerCase())
       : validate();
 
   // Check null string, return given value if null

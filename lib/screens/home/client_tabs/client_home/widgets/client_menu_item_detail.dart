@@ -12,11 +12,15 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/food_search_field.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/filter_bottom_sheet.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/widgets/show_favourite_item_widget.dart';
+import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/services/user_service.dart';
+import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
 
 class ClientMenuItemDetail extends StatelessWidget {
   const ClientMenuItemDetail({Key? key, required this.user}) : super(key: key);
@@ -73,71 +77,62 @@ class ClientMenuItemDetail extends StatelessWidget {
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 54.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        width: 80,
-                        height: 80,
-                        padding: const EdgeInsets.all(4), // Border width
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle, // Uncomment this line
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              AppColors.primaryColor,
-                              AppColors.primaryLightColor,
-                            ],
-                          ),
-                        ),
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                            imageUrl: user.isVendor ? user.image! : user.employeeOwnerImage!,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) => const Icon(Icons.error),
-                          ),
-                        ),
-                    ),
-                    const SizedBox(width: 12,),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${user.isVendor ? user.name : user.employeeOwnerName}',
-                            style: const TextStyle(
-                                fontSize: 24,
-                                fontFamily: METROPOLIS_BOLD,
-                                color: AppColors.primaryFontColor
+                child: InkWell(
+                  onTap: (){
+                    context.pushNamed(AppRoutingName.clientVendorProfile, extra: user.uid ?? '');
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: 80,
+                          height: 80,
+                          padding: const EdgeInsets.all(4), // Border width
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle, // Uncomment this line
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                AppColors.primaryColor,
+                                AppColors.primaryLightColor,
+                              ],
                             ),
                           ),
-                          const SizedBox(height: 6,),
-                          const ShowFavouriteItemWidget(),
-                          // FutureBuilder(
-                          //     future: userService.isVendorInFavorites(userId ?? '', clientVendorId ?? ''),
-                          //     builder: (context, snapshot) {
-                          //       if (snapshot.connectionState == ConnectionState.waiting) {
-                          //         return const Icon(
-                          //             Icons.favorite_border_rounded
-                          //         );
-                          //       }
-                          //       if (snapshot.hasData) {
-                          //         return const Icon(
-                          //             Icons.favorite_outlined, color: AppColors.redColor,
-                          //         );
-                          //       }
-                          //       return const Icon(
-                          //           Icons.favorite_border_rounded
-                          //       );
-                          //     }
-                          // ),
-                        ],
+                          child: ClipOval(
+                            child: CachedNetworkImage(
+                              imageUrl: user.isVendor ? user.image! : user.employeeOwnerImage!,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                            ),
+                          ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 12,),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user.isVendor ? user.name.capitalizeEachFirstLetter() : user.employeeOwnerName.capitalizeEachFirstLetter(),
+                              style: const TextStyle(
+                                  fontSize: 24,
+                                  fontFamily: METROPOLIS_BOLD,
+                                  color: AppColors.primaryFontColor
+                              ),
+                            ),
+                            const SizedBox(height: 6,),
+                            ShowFavouriteItemWidget(
+                              onTap: (){
+                                _favouriteItem(userId, user.uid ?? '', context);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
 
@@ -221,5 +216,17 @@ class ClientMenuItemDetail extends StatelessWidget {
         return const FilterBottomSheet();
       },
     );
+  }
+
+  void _favouriteItem(String userId, String vendorId, BuildContext context) {
+    final userService = sl.get<UserService>();
+    final favouriteCubit = context.read<FavoriteCubit>();
+    final isFavourite = favouriteCubit.state == FavoriteStatus.isFavorite;
+    if (isFavourite) {
+      context.read<FavouriteListCubit>().removeUser(vendorId);
+    }
+
+    favouriteCubit.updateFavouriteStatue(!isFavourite);
+    userService.updateFavourites(vendorId, userId, !isFavourite);
   }
 }

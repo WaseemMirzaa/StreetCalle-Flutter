@@ -63,7 +63,9 @@ class _LocationServiceState extends State<LocationService> {
     });
 
     Geolocator.getServiceStatusStream().listen((locationStatus) {
-      mergedStreamController.sink.add(locationStatus);
+      if(!mergedStreamController.isClosed) {
+        mergedStreamController.sink.add(locationStatus);
+      }
     });
 
     mergedStream = mergedStreamController.stream;

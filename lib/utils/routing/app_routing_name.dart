@@ -19,7 +19,7 @@ class AppRoutingName {
   static const selectMenuItem = '/selectMenuItem';
   static const dealDetail = '/dealDetail/:$IS_CLIENT';
   static const clientMenu = '/clientMenu';
-  static const clientMenuItemDetail = '/clientMenuItemDetail:';
+  static const clientMenuItemDetail = '/clientMenuItemDetail';
   static const manageEmployee = '/manageEmployee';
   static const createEmployeeProfileScreen = '/createEmployeeProfileScreen';
   static const addEmployeeMenuItems = '/addEmployeeMenuItems';
@@ -28,5 +28,6 @@ class AppRoutingName {
   static const viewAllItems = '/viewAllItems';
   static const profile = '/profile';
   static const vendorProfile = '/vendorProfile';
+  static const clientVendorProfile = '/clientVendorProfile';
   static const clientVendorDirection = '/clientVendorDirection';
 }
