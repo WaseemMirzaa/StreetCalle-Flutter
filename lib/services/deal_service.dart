@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -34,6 +35,7 @@ class DealService extends BaseService<Deal> {
 
       return Right(deal);
     } catch (e) {
+      log(e.toString());
       return Left(TempLanguage().lblSomethingWentWrong);
     }
   }
@@ -55,6 +57,7 @@ class DealService extends BaseService<Deal> {
       await ref!.doc(deal.id).update(deal.toJson());
       return Right(deal);
     } catch (e) {
+      log(e.toString());
       return Left(TempLanguage().lblSomethingWentWrong);
     }
   }
@@ -68,7 +71,8 @@ class DealService extends BaseService<Deal> {
       await storageReference.putFile(File(image));
       final downloadUrl = await storageReference.getDownloadURL();
       return downloadUrl;
-    } catch (error) {
+    } catch (e) {
+      log(e.toString());
       return null;
     }
   }
@@ -88,6 +92,7 @@ class DealService extends BaseService<Deal> {
       ref!.doc(deal.id).delete();
       return true;
     } catch (e) {
+      log(e.toString());
       return false;
     }
   }
@@ -106,8 +111,12 @@ class DealService extends BaseService<Deal> {
   }
 
   Stream<List<Deal>> getEmployeeDealsStream(String userId) async* {
-    final userDoc = await UserService().userByUid(userId);
-    yield* getEmployeeDeals(userDoc.employeeItemsList);
+    try {
+      final userDoc = await UserService().userByUid(userId);
+      yield* getEmployeeDeals(userDoc.employeeItemsList);
+    }catch(e){
+      log(e.toString());
+    }
   }
 
 }

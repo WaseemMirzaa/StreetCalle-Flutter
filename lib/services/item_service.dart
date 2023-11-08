@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -8,6 +9,8 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/utils/location_utils.dart';
+import 'package:street_calle/models/user.dart';
 
 
 class ItemService extends BaseService<Item> {
@@ -34,6 +37,7 @@ class ItemService extends BaseService<Item> {
 
       return Right(item);
     } catch (e) {
+      log(e.toString());
       return Left(TempLanguage().lblSomethingWentWrong);
     }
   }
@@ -55,6 +59,7 @@ class ItemService extends BaseService<Item> {
       await ref!.doc(item.id).update(item.toJson());
       return Right(item);
     } catch (e) {
+      log(e.toString());
       return Left(TempLanguage().lblSomethingWentWrong);
     }
   }
@@ -68,7 +73,8 @@ class ItemService extends BaseService<Item> {
       await storageReference.putFile(File(image));
       final downloadUrl = await storageReference.getDownloadURL();
       return downloadUrl;
-    } catch (error) {
+    } catch (e) {
+      log(e.toString());
       return null;
     }
   }
@@ -88,6 +94,7 @@ class ItemService extends BaseService<Item> {
       ref!.doc(item.id).delete();
       return true;
     } catch (e) {
+      log(e.toString());
       return false;
     }
   }
@@ -121,8 +128,12 @@ class ItemService extends BaseService<Item> {
   }
 
   Stream<List<Item>> getEmployeeItemsStream(String userId) async* {
-    final userDoc = await UserService().userByUid(userId);
-    yield* getEmployeeItems(userDoc.employeeItemsList);
+    try {
+      final userDoc = await UserService().userByUid(userId);
+      yield* getEmployeeItems(userDoc.employeeItemsList);
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
 }

@@ -70,8 +70,12 @@ class SignUpCubit extends Cubit<SignUpState> {
 
           final result = await userService.saveUserData(user, image);
           if (result) {
-            final user = await userService.userByUid(r.uid);
-            emit(SignUpSuccess(user));
+            try {
+              final user = await userService.userByUid(r.uid);
+              emit(SignUpSuccess(user));
+            } catch(e) {
+              emit(SignUpFailure(TempLanguage().lblSignUpFailed));
+            }
           } else {
             emit(SignUpFailure(TempLanguage().lblSignUpFailed));
           }

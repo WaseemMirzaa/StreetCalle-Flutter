@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -28,6 +29,7 @@ class UserService extends BaseService<User> {
       await ref!.doc(user.uid).set(user);
       return true;
     } catch (e) {
+      log(e.toString());
       return false;
     }
   }
@@ -41,7 +43,8 @@ class UserService extends BaseService<User> {
       await storageReference.putFile(File(image));
       final downloadUrl = await storageReference.getDownloadURL();
       return downloadUrl;
-    } catch (error) {
+    } catch (e) {
+      log(e.toString());
       return null;
     }
   }
@@ -51,6 +54,7 @@ class UserService extends BaseService<User> {
       if (value.docs.isNotEmpty) return value.docs.first.data();
       throw TempLanguage().lblUserNotFound;
     }).catchError((e) {
+      log(e.toString());
       throw TempLanguage().lblUserNotFound;
     });
   }
@@ -61,7 +65,7 @@ class UserService extends BaseService<User> {
         UserKey.isOnline: isOnline
       });
     } catch (e) {
-
+      log(e.toString());
     }
   }
 
@@ -72,7 +76,7 @@ class UserService extends BaseService<User> {
         UserKey.longitude: longitude
       });
     } catch (e) {
-
+      log(e.toString());
     }
   }
 
@@ -105,6 +109,7 @@ class UserService extends BaseService<User> {
       return Right(user);
 
     } catch (e) {
+      log(e.toString());
       return Left(TempLanguage().lblSomethingWentWrong);
     }
   }
@@ -174,6 +179,7 @@ class UserService extends BaseService<User> {
       List<User> users = result.docs.map((e) => e.data()).toList();
       return users;
     } catch (e) {
+      log(e.toString());
       return [];
     }
   }
@@ -185,6 +191,7 @@ class UserService extends BaseService<User> {
       });
       return true;
     } catch (e) {
+      log(e.toString());
       return false;
     }
   }
@@ -202,6 +209,7 @@ class UserService extends BaseService<User> {
       }
       return false;
     } catch (e) {
+      log(e.toString());
       return false;
     }
   }
@@ -217,6 +225,7 @@ class UserService extends BaseService<User> {
       }
       return [];
     } catch (e) {
+      log(e.toString());
       return [];
     }
   }
@@ -237,6 +246,7 @@ class UserService extends BaseService<User> {
 
       return favoriteUsers;
     } catch (e) {
+      log(e.toString());
       return [];
     }
   }
@@ -247,7 +257,7 @@ class UserService extends BaseService<User> {
         UserKey.employeeItemList: selectedItemIds,
       });
     }catch(e){
-        print('Error: ${e.toString()}');
+      log(e.toString());
     }
 }
 
@@ -259,7 +269,7 @@ class UserService extends BaseService<User> {
         UserKey.isEmployee: false
       });
     }catch(e){
-      print('Error: ${e.toString()}');
+      log(e.toString());
     }
   }
 
@@ -275,6 +285,7 @@ class UserService extends BaseService<User> {
        });
        return true;
      } catch (e) {
+       log(e.toString());
        return false;
      }
   }

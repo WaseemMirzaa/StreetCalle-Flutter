@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,6 +22,7 @@ class AuthService {
       await userCredential.user?.sendEmailVerification();
       return Right(userCredential.user);
     } on FirebaseAuthException catch (e) {
+      log(e.toString());
       switch (e.code) {
         case 'email-already-in-use':
           return Left(TempLanguage().lblEmailAddressInUse);
@@ -43,6 +46,7 @@ class AuthService {
           return Left(TempLanguage().lblErrorDuringSignUp);
       }
     } catch (e) {
+      log(e.toString());
       return Left(TempLanguage().lblErrorDuringSignUp);
     }
   }
@@ -54,17 +58,23 @@ class AuthService {
         password: password,
       );
 
-      userModel.User user = await UserService().userByUid(userCredential.user!.uid);
-      if (!user.isEmployee) {
-        // Check if the user's email is verified
-        if (!userCredential.user!.emailVerified) {
-          await userCredential.user!.sendEmailVerification();
-          return Left(TempLanguage().lblEmailNotVerified);
+      try {
+        userModel.User user = await UserService().userByUid(userCredential.user!.uid);
+        if (!user.isEmployee) {
+          // Check if the user's email is verified
+          if (!userCredential.user!.emailVerified) {
+            await userCredential.user!.sendEmailVerification();
+            return Left(TempLanguage().lblEmailNotVerified);
+          }
         }
+      } catch(e) {
+        log(e.toString());
+        return Left(TempLanguage().lblErrorDuringLogIn);
       }
 
       return Right(userCredential.user);
     } on FirebaseAuthException catch (e) {
+      log(e.toString());
       switch (e.code) {
         // case 'email-already-in-use':
         //   return const Left('Email address is already in use.');
@@ -90,6 +100,7 @@ class AuthService {
           return Left(TempLanguage().lblErrorDuringLogIn);
       }
     } catch (e) {
+      log(e.toString());
       return Left(TempLanguage().lblErrorDuringLogIn);
     }
   }
@@ -105,6 +116,7 @@ class AuthService {
       await _auth.sendPasswordResetEmail(email: email);
       return const Right(true); // Password reset email sent successfully
     } on FirebaseAuthException catch (e) {
+      log(e.toString());
       String errorMessage;
       switch (e.code) {
         case 'invalid-email':
@@ -117,6 +129,7 @@ class AuthService {
           return Left(TempLanguage().lblErrorDuringResetPassword);
       }
     } catch (e) {
+      log(e.toString());
       return Left(TempLanguage().lblErrorDuringResetPassword);
     }
   }
@@ -137,6 +150,7 @@ class AuthService {
       await _auth.currentUser!.sendEmailVerification();
       return true;
     } catch (e) {
+      log(e.toString());
       return false;
     }
   }
@@ -146,6 +160,7 @@ class AuthService {
       final UserCredential userCredential = await _auth.signInAnonymously();
       return Right(userCredential.user);
     } catch (e) {
+      log(e.toString());
       if (e is FirebaseAuthException) {
         // Handle specific exceptions here
         if (e.code == 'operation-not-allowed') {
@@ -191,11 +206,12 @@ class AuthService {
 
       user = userCredential.user!;
 
-      var doc = null;
+      userModel.User? doc;
 
       try {
         doc  = await userService.userByUid(user.uid);
       } catch (e) {
+        log(e.toString());
       }
 
       var uModel = userModel.User(
@@ -226,12 +242,14 @@ class AuthService {
 
       return Right(user);
     } on FirebaseAuthException catch (e) {
+      log(e.toString());
       if (e.code == 'account-exists-with-different-credential') {
         return Left(TempLanguage().lblAccountExistWithDifferentCredentials);
       } else if (e.code == 'invalid-credential') {
         return Left(TempLanguage().lblErrorAccessingCredentials);
       }
     } catch (e) {
+      log(e.toString());
       return Left(TempLanguage().lblGoogleSignInError);
     }
     return Left(TempLanguage().lblGoogleSignInError);
