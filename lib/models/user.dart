@@ -27,6 +27,7 @@ class User extends Equatable {
   final double? latitude;
   final double? longitude;
   final String? vendorType;
+  final String? userType;
   final String? employeeOwnerImage;
   final String? employeeOwnerName;
   final String? subscriptionType;
@@ -53,6 +54,7 @@ class User extends Equatable {
       this.longitude,
       this.countryCode,
       this.vendorType,
+      this.userType,
       this.favouriteVendors,
       this.employeeOwnerImage,
       this.employeeOwnerName,
@@ -81,6 +83,7 @@ class User extends Equatable {
       double? longitude,
       String? countryCode,
       String? vendorType,
+      String? userType,
       String? employeeOwnerImage,
       String? employeeOwnerName,
       String? subscriptionType}) {
@@ -107,6 +110,7 @@ class User extends Equatable {
       longitude: longitude ?? this.longitude,
       countryCode: countryCode ?? this.countryCode,
       vendorType: vendorType ?? this.vendorType,
+      userType: userType ?? this.userType,
       employeeOwnerImage: employeeOwnerImage ?? this.employeeOwnerImage,
       employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName,
       subscriptionType: subscriptionType ?? this.subscriptionType
@@ -136,6 +140,7 @@ class User extends Equatable {
       longitude: json[UserKey.longitude],
       countryCode: json[UserKey.countryCode],
       vendorType: json[UserKey.vendorType],
+      userType: json[UserKey.userType],
       favouriteVendors: json[UserKey.favouriteVendors],
       employeeOwnerName: json[UserKey.employeeOwnerName],
       employeeOwnerImage: json[UserKey.employeeOwnerImage],
@@ -166,6 +171,7 @@ class User extends Equatable {
     data[UserKey.longitude] = longitude;
     data[UserKey.countryCode] = countryCode;
     data[UserKey.vendorType] = vendorType;
+    data[UserKey.userType] = userType;
     data[UserKey.favouriteVendors] = favouriteVendors;
     data[UserKey.employeeOwnerImage] = employeeOwnerImage;
     data[UserKey.employeeOwnerName] = employeeOwnerName;

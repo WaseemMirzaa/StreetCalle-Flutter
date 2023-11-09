@@ -5,7 +5,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_item_button.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/add_item_button.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/pricing_category_expanded_widget.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -13,7 +13,7 @@ import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/common.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_image.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/item_image.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/food_type_expanded_widget.dart';
 
 

@@ -51,7 +51,7 @@ class LoginScreen extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       asset: AppAssets.emailIcon,
                       controller: context.read<LoginCubit>().emailController,
-                    isPassword: false,
+                    isSmall: false,
                   ),
                 ),
                 const SizedBox(height: 24,),
@@ -62,7 +62,7 @@ class LoginScreen extends StatelessWidget {
                     keyboardType: TextInputType.visiblePassword,
                     asset: AppAssets.passwordIcon,
                     controller: context.read<LoginCubit>().passwordController,
-                    isPassword: true,
+                    isSmall: true,
                     isObscure: true,
                   ),
                 ),
@@ -86,14 +86,17 @@ class LoginScreen extends StatelessWidget {
                 BlocConsumer<LoginCubit, LoginState>(
                   listener: (context, state) {
                      if (state is LoginSuccess) {
-                       context.read<UserCubit>().setUserModel(state.user, isLoggedIn: true);
+                       final user = state.user;
+                       context.read<UserCubit>().setUserModel(user, isLoggedIn: true);
                        context.read<ProfileStatusCubit>().defaultStatus(true);
-                       //context.pushNamed(AppRoutingName.selectUserScreen);
-
-                       if (state.user.isVendor || state.user.isEmployee) {
-                         context.goNamed(AppRoutingName.mainScreen);
+                       if (user.userType == null) {
+                         context.pushNamed(AppRoutingName.selectUserScreen);
                        } else {
-                         context.goNamed(AppRoutingName.clientMainScreen);
+                         if (state.user.isVendor || state.user.isEmployee) {
+                           context.goNamed(AppRoutingName.mainScreen);
+                         } else {
+                           context.goNamed(AppRoutingName.clientMainScreen);
+                         }
                        }
 
                      } else if (state is LoginFailure) {
@@ -161,8 +164,7 @@ class LoginScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 24,),
-                Text(
-                TempLanguage().lblLoginWith, style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 15),),
+                Text(TempLanguage().lblLoginWith, style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 15),),
                 const SizedBox(height: 24,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 78.0),

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
 
 class FoodTypeCubit extends Cubit<List<String>> {
   FoodTypeCubit() : super([TempLanguage().lblSelect, '+ ${TempLanguage().lblAddFoodType}']);
@@ -12,8 +13,15 @@ class FoodTypeCubit extends Cubit<List<String>> {
     try {
       final documentSnapshot = await sl.get<FirebaseFirestore>().collection(Collections.foodType).doc(Collections.foodType).get();
       if (documentSnapshot.exists && documentSnapshot.data() != null) {
-        final List<String> foodTypesFromFirebase = List<String>.from(documentSnapshot.data()?['types']);
+        List<String> foodTypesFromFirebase = List<String>.from(documentSnapshot.data()?['types']);
         //final List<String> mergedList = state.toSet().union(foodTypesFromFirebase.toSet()).toList();
+        foodTypesFromFirebase = foodTypesFromFirebase.map((foodType) {
+          if (foodType.isNotEmpty) {
+            return foodType.capitalizeEachFirstLetter();
+          } else {
+            return foodType; // Return unchanged if it's an empty string
+          }
+        }).toList();
 
         foodTypesFromFirebase.insert(0, TempLanguage().lblSelect);
         foodTypesFromFirebase.add('+ ${TempLanguage().lblAddFoodType}');

@@ -65,11 +65,11 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
           const SizedBox(
             height: 70,
           ),
-          Expanded(
+          SizedBox(
+            width: 200,
+            height: 200,
             child: SvgPicture.asset(
               AppAssets.logo,
-              width: 230,
-              height: 230,
             ),
           ),
           Expanded(
@@ -103,6 +103,9 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
               ),
             ),
           ),
+          const SizedBox(
+            height: 20,
+          ),
           _userType.name == UserType.vendor.name
               ? Expanded(
                   child: Column(
@@ -123,9 +126,8 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                               BoxShadow(
                                 color: AppColors.blackColor.withOpacity(0.15),
                                 spreadRadius: 3, // Spread radius
-                                blurRadius: 15, // Blur radius
-                                offset: const Offset(
-                                    1, 3), // Offset in the Y direction
+                                blurRadius: 18, // Blur radius
+                                offset: const Offset(0, 2), // Offset in the Y direction
                               ),
                             ],
                           ),
@@ -189,7 +191,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                                     fontSize: 18,
                                     color: AppColors.primaryFontColor),
                             decoration: InputDecoration(
-                              //contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
                               //isDense: true,
                               filled: true,
                               fillColor: AppColors.whiteColor,
@@ -204,7 +206,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                     ],
                   ),
                 )
-              : const SizedBox.shrink(),
+              : Expanded(child: Container()),
           Expanded(
             child: Center(
               child: Padding(
@@ -220,11 +222,14 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                       final userService = sl.get<UserService>();
 
                       if (_userType.name == UserType.vendor.name) {
+                        userCubit.setUserType(_userType.name);
                         userCubit.setVendorType(_vendorType.name);
                         userCubit.setIsVendor(true);
-                        userService.setUserType(userCubit.state.userId, _vendorType.name);
+                        userService.setVendorType(userCubit.state.userId, _vendorType.name, _userType.name);
                       } else {
+                        userCubit.setUserType(_userType.name);
                         userCubit.setIsVendor(false);
+                        userService.setUserType(userCubit.state.userId, _userType.name);
                       }
 
                       context.goNamed(

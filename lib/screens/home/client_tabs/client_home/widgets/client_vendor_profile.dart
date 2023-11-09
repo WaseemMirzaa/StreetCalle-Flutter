@@ -84,7 +84,7 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
                   return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
                 } else {
                   final user = snapshot.data!;
-                  bool isAboutAvailable = user.about != null;
+                  bool isAboutAvailable = !user.about.isEmptyOrNull;
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 34.0),
                     child: Column(

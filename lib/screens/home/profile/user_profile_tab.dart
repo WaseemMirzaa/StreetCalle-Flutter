@@ -13,6 +13,7 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
+import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
 
 class UserprofileTab extends StatelessWidget {
   const UserprofileTab({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class UserprofileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userCubit = context.read<UserCubit>();
+    context.read<EditProfileEnableCubit>().updateButtonClicked();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -71,10 +73,10 @@ class UserprofileTab extends StatelessWidget {
                     );
                   }
               ),
-              const SizedBox(
-                height: 16,
+              SizedBox(
+                height: userCubit.state.isVendor ? 16 : 0,
               ),
-              const UserOnlineOfflineWidget(),
+              userCubit.state.isVendor ? const UserOnlineOfflineWidget() : const SizedBox.shrink(),
               const UserInfo(),
             ],
           ),

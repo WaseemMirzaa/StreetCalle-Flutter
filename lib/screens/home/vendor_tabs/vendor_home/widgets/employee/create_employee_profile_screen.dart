@@ -91,7 +91,7 @@ class _CreateEmployeeProfileScreenState extends State<CreateEmployeeProfileScree
 
                         Center(
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(30),
                             child: Image.file(File(state.selectedImage.path), fit: BoxFit.cover,
                               width: 120,
                               height: 120,),
@@ -126,7 +126,7 @@ class _CreateEmployeeProfileScreenState extends State<CreateEmployeeProfileScree
                   keyboardType: TextInputType.name,
                   asset: AppAssets.person,
                   controller: context.read<CreateEmployeeCubit>().nameController,
-                  isPassword: false,
+                  isSmall: true,
                 ),
                 const SizedBox(
                   height: 24,
@@ -136,7 +136,7 @@ class _CreateEmployeeProfileScreenState extends State<CreateEmployeeProfileScree
                   keyboardType: TextInputType.emailAddress,
                   asset: AppAssets.emailIcon,
                   controller: context.read<CreateEmployeeCubit>().emailController,
-                  isPassword: false,
+                  isSmall: false,
                 ),
                 const SizedBox(
                   height: 24,
@@ -146,7 +146,7 @@ class _CreateEmployeeProfileScreenState extends State<CreateEmployeeProfileScree
                   keyboardType: TextInputType.visiblePassword,
                   asset: AppAssets.passwordIcon,
                   controller: context.read<CreateEmployeeCubit>().passwordController,
-                  isPassword: true,
+                  isSmall: true,
                   isObscure: true,
                 ),
                 const SizedBox(
@@ -217,16 +217,6 @@ class _CreateEmployeeProfileScreenState extends State<CreateEmployeeProfileScree
                           textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
                           color: AppColors.primaryColor,
                         ),
-                        // child: ElevatedButton(
-                        //     style: ElevatedButton.styleFrom(
-                        //       backgroundColor: AppColors.primaryColor,
-                        //     ),
-                        //     onPressed: () => signUp(context),
-                        //     child: Text(
-                        //       TempLanguage().lblSignUp,
-                        //       style: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                        //     ),
-                        // ),
                       ),
                     );
                   },

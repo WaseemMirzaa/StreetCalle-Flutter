@@ -21,7 +21,7 @@ extension StringExtension on String? {
   String capitalizeEachFirstLetter() {
     if (this == null || this!.isEmpty) return validate();
 
-    List<String> words = this!.split(' ');
+    List<String> words = this!.trim().split(' ');
     List<String> capitalizedWords = words.map((word) {
       return word.trim().substring(0, 1).toUpperCase() + word.trim().substring(1).toLowerCase();
     }).toList();

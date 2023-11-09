@@ -87,14 +87,17 @@ class AddDealButton extends StatelessWidget {
     final image = imageCubit.state.selectedImage.path;
     final title = dealCubit.titleController.text;
     final actualPrice = dealCubit.actualPriceController.text;
+    final discountedPrice = dealCubit.discountedPriceController.text;
 
 
     if (image.isEmpty) {
       showToast(context, TempLanguage().lblSelectImage);
     } else if (title.isEmpty) {
-      showToast(context, TempLanguage().lblAddItemTitle);
+      showToast(context, TempLanguage().lblAddDealTitle);
     } else if (actualPrice.isEmpty) {
-      showToast(context, TempLanguage().lblAddItemPrice);
+      showToast(context, TempLanguage().lblAddDealPrice);
+    } else if (actualPrice.isNotEmpty && discountedPrice.isNotEmpty && double.parse(discountedPrice) >= double.parse(actualPrice)) {
+      showToast(context, TempLanguage().lblDiscountedPriceCantBeGrater);
     } else {
       dealCubit.addDeal(image);
     }
@@ -109,13 +112,16 @@ class AddDealButton extends StatelessWidget {
     final isUpdated = imageCubit.state.isUpdated;
     final title = dealCubit.titleController.text;
     final actualPrice = dealCubit.actualPriceController.text;
+    final discountedPrice = dealCubit.discountedPriceController.text;
 
     if (image.isEmpty && url == null) {
       showToast(context, TempLanguage().lblSelectImage);
     } else if (title.isEmpty) {
-      showToast(context, TempLanguage().lblAddItemTitle);
-    } else if (actualPrice.isEmpty ) {
-      showToast(context, TempLanguage().lblAddItemPrice);
+      showToast(context, TempLanguage().lblAddDealTitle);
+    } else if (actualPrice.isEmpty) {
+      showToast(context, TempLanguage().lblAddDealPrice);
+    } else if (actualPrice.isNotEmpty && discountedPrice.isNotEmpty && double.parse(discountedPrice) >= double.parse(actualPrice)) {
+      showToast(context, TempLanguage().lblDiscountedPriceCantBeGrater);
     } else {
       if (isUpdated ?? false) {
         dealCubit.updateDeal(image: image, isUpdated: true);

@@ -174,7 +174,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                                 ),
                                                 itemData.foodType == null
                                                     ? const SizedBox.shrink()
-                                                    : Text('${itemData.foodType}',
+                                                    : Text(itemData.foodType.capitalizeEachFirstLetter(),
                                                   style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14),
                                                 ),
                                               ],
@@ -272,7 +272,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                                 ),
                                                 dealData.foodType == null
                                                     ? const SizedBox.shrink()
-                                                    : Text('${dealData.foodType}',
+                                                    : Text(dealData.foodType.capitalizeEachFirstLetter(),
                                                       style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14),
                                                 ),
                                               ],

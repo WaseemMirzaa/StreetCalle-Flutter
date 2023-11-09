@@ -14,6 +14,7 @@ import 'package:street_calle/models/user.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/widgets/no_data_found_widget.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee/employee_widget.dart';
+import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 
 class ManageEmployeesScreen extends StatelessWidget {
   const ManageEmployeesScreen({Key? key}) : super(key: key);
@@ -97,8 +98,9 @@ class ManageEmployeesScreen extends StatelessWidget {
                   text: TempLanguage().lblCreateNewEmployee,
                   elevation: 0.0,
                   onTap: () {
-                    context
-                        .pushNamed(AppRoutingName.createEmployeeProfileScreen);
+                    final imageCubit = context.read<ImageCubit>();
+                    imageCubit.resetImage();
+                    context.pushNamed(AppRoutingName.createEmployeeProfileScreen);
                   },
                   shapeBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),

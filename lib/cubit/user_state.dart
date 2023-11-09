@@ -19,6 +19,7 @@ class UserState {
   final bool isEmployeeBlocked;
   final bool isSubscribed;
   final String vendorType;
+  final String userType;
   final String employeeOwnerImage;
   final String employeeOwnerName;
   final String subscriptionType;
@@ -35,6 +36,7 @@ class UserState {
     required this.isVendor,
     required this.isOnline,
     required this.vendorType,
+    required this.userType,
     required this.vendorId,
     required this.isEmployee,
     required this.isEmployeeBlocked,
@@ -57,6 +59,7 @@ class UserState {
       bool? isOnline,
       String? countryCode,
       String? vendorType,
+      String? userType,
       bool? isEmployee,
       bool? isEmployeeBlocked,
       bool? isSubscribed,
@@ -77,6 +80,7 @@ class UserState {
       isOnline: isOnline ?? this.isOnline,
       countryCode: countryCode ?? this.countryCode,
       vendorType: vendorType ?? this.vendorType,
+      userType: userType ?? this.userType,
       isEmployee: isEmployee ?? this.isEmployee,
       isEmployeeBlocked: isEmployeeBlocked ?? this.isEmployeeBlocked,
       isSubscribed: isSubscribed ?? this.isSubscribed,
@@ -103,6 +107,7 @@ class UserCubit extends Cubit<UserState> {
             isOnline: true,
             countryCode: initialCountyCode,
             vendorType: '',
+            userType: '',
             isEmployee: false,
             isEmployeeBlocked: false,
             isSubscribed: false,
@@ -190,6 +195,11 @@ class UserCubit extends Cubit<UserState> {
     sharedPreferencesService.setValue(SharePreferencesKey.VENDOR_TYPE, value);
   }
 
+  void setUserType(String value) {
+    emit(state.copyWith(userType: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.USER_TYPE, value);
+  }
+
   void setEmployeeOwnerImage(String value) {
     emit(state.copyWith(employeeOwnerImage: value));
     sharedPreferencesService.setValue(SharePreferencesKey.EMPLOYEE_OWNER_IMAGE, value);
@@ -224,6 +234,7 @@ class UserCubit extends Cubit<UserState> {
     setEmployeeOwnerImage(user.employeeOwnerImage ?? '');
     setEmployeeOwnerName(user.employeeOwnerName ?? '');
     setVendorType(user.vendorType ?? '');
+    setUserType(user.userType ?? '');
     setSubscriptionType(user.subscriptionType ?? '');
   }
 }

@@ -7,6 +7,7 @@ import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
@@ -41,6 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
         final isEmployee = sharedPreferencesService.getBoolAsync(SharePreferencesKey.IS_EMPLOYEE);
         final isEmployeeBlocked = sharedPreferencesService.getBoolAsync(SharePreferencesKey.IS_EMPLOYEE_BLOCKED);
         final isSubscribed = sharedPreferencesService.getBoolAsync(SharePreferencesKey.IS_SUBSCRIBED);
+        final userType = sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_TYPE);
 
 
         userCubit.setUserId(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_ID));
@@ -68,13 +70,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
         context.read<ProfileStatusCubit>().defaultStatus(userCubit.state.isOnline);
 
-        if (isVendor || isEmployee) {
-          context.goNamed(AppRoutingName.mainScreen);
+        if (userType.isEmpty) {
+            context.goNamed(AppRoutingName.selectUserScreen);
         } else {
-          context.goNamed(AppRoutingName.clientMainScreen);
+          if (isVendor || isEmployee || userType == UserType.vendor.name) {
+            context.goNamed(AppRoutingName.mainScreen);
+          } else {
+            context.goNamed(AppRoutingName.clientMainScreen);
+          }
         }
 
-        //context.goNamed(AppRoutingName.selectUserScreen);
       } else {
         context.goNamed(AppRoutingName.authScreen);
       }

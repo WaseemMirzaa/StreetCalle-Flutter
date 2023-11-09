@@ -11,7 +11,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/delete_confirmation_dialog.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_view.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/item_view.dart';
 import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -248,7 +248,11 @@ class VendorHomeTab extends StatelessWidget {
                     child: AppButton(
                       elevation: 0.0,
                       onTap: () {
-                        _addDeal(context);
+                        if (userCubit.state.isSubscribed) {
+                          _addDeal(context);
+                        } else {
+                          showToast(context, TempLanguage().lblPleaseSubscribedFirst);
+                        }
                       },
                       shapeBorder: RoundedRectangleBorder(
                           side:

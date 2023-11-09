@@ -11,6 +11,7 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/widgets/no_data_found_widget.dart';
 import 'package:street_calle/models/user.dart';
@@ -174,15 +175,15 @@ class ItemWidget extends StatelessWidget {
                       children: [
                         const SizedBox(height: 4,),
                         Text(
-                          '${item.title}',
+                          item.title.capitalizeEachFirstLetter(),
                           style: context.currentTextTheme.labelMedium?.copyWith(color: AppColors.primaryFontColor),
                         ),
                         item.description == null ? const SizedBox.shrink() : Text(
-                          '${item.description}',
+                          item.description.capitalizeFirstLetter(),
                           style: context.currentTextTheme.displaySmall,
                         ),
                         item.foodType == null ? const SizedBox.shrink() : Text(
-                          '${item.foodType}',
+                          item.foodType.capitalizeEachFirstLetter(),
                           style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor),
                         ),
                       ],

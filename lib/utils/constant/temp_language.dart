@@ -235,8 +235,11 @@ class TempLanguage {
   String get lblOffline => 'Offline';
 
   String get lblAddItemTitle => 'Add item title';
+  String get lblAddDealTitle => 'Add deal title';
 
   String get lblAddItemPrice => 'Add item actual price';
+  String get lblAddDealPrice => 'Add deal actual price';
+  String get lblDiscountedPriceCantBeGrater => 'Discount price can\'t be grater than actual price';
 
   String get lblAddItemFoodType => 'Add item food type';
 

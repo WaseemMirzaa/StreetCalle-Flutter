@@ -15,7 +15,6 @@ class SignUpCubit extends Cubit<SignUpState> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController customPhoneController = TextEditingController();
   final TextEditingController countryCodeController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
   final AuthService authService;
@@ -31,7 +30,6 @@ class SignUpCubit extends Cubit<SignUpState> {
     nameController.dispose();
     phoneController.dispose();
     confirmPasswordController.dispose();
-    customPhoneController.dispose();
     return super.close();
   }
 
@@ -40,7 +38,6 @@ class SignUpCubit extends Cubit<SignUpState> {
     passwordController.clear();
     nameController.clear();
     phoneController.clear();
-    customPhoneController.clear();
     confirmPasswordController.clear();
   }
 

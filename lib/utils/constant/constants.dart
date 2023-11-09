@@ -49,6 +49,7 @@ class SharePreferencesKey {
   static const IS_EMPLOYEE_BLOCKED = 'IS_EMPLOYEE_BLOCKED';
   static const IS_SUBSCRIBED = 'IS_SUBSCRIBED';
   static const VENDOR_TYPE = 'VENDOR_TYPE';
+  static const USER_TYPE = 'USER_TYPE';
   static const EMPLOYEE_OWNER_NAME = 'EMPLOYEE_OWNER_NAME';
   static const EMPLOYEE_OWNER_IMAGE = 'EMPLOYEE_OWNER_IMAGE';
   static const SUBSCRIPTION_TYPE = 'SUBSCRIPTION_TYPE';
@@ -76,6 +77,7 @@ class UserKey {
   static const String longitude = 'longitude';
   static const String countryCode = 'countryCode';
   static const String vendorType = 'vendorType';
+  static const String userType = 'userType';
   static const String favouriteVendors = 'favouriteVendors';
   static const String employeeOwnerImage = 'employeeOwnerImage';
   static const String employeeOwnerName = 'employeeOwnerName';

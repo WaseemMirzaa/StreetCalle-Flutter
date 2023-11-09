@@ -50,21 +50,6 @@ class ItemWidget extends StatelessWidget {
                     const SizedBox(
                       height: 6,
                     ),
-                    // isFromItemTab
-                    //     ? Row(
-                    //       children: [
-                    //         Image.asset(AppAssets.marker, width: 12, height: 12, color: AppColors.primaryColor,),
-                    //         const SizedBox(width: 4,),
-                    //         Text(
-                    //         'No 03, 4th Lane, Newyork',
-                    //         style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.placeholderColor, fontSize: 14)
-                    //     ),
-                    //      ],
-                    // )
-                    //     : const SizedBox.shrink(),
-                    // SizedBox(
-                    //   height: isFromItemTab ? 6 : 0,
-                    // ),
                     Text(
                         item.foodType.capitalizeEachFirstLetter(),
                         style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14)

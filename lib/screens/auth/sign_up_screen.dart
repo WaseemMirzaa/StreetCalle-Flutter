@@ -76,7 +76,7 @@ class SignUpScreen extends StatelessWidget {
                     keyboardType: TextInputType.name,
                     asset: AppAssets.person,
                     controller: context.read<SignUpCubit>().nameController,
-                    isPassword: true,
+                    isSmall: true,
                   ),
                 ),
                 const SizedBox(height: 24,),
@@ -88,7 +88,7 @@ class SignUpScreen extends StatelessWidget {
                     keyboardType: TextInputType.emailAddress,
                     asset: AppAssets.emailIcon,
                     controller: context.read<SignUpCubit>().emailController,
-                    isPassword: false,
+                    isSmall: false,
                   ),
                 ),
                 const SizedBox(height: 24,),
@@ -125,8 +125,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                       initialCountryCode: initialCountyCode,
                       onChanged: (phone) {
-                        context.read<SignUpCubit>().customPhoneController.text = phone.completeNumber;
-                        print(context.read<SignUpCubit>().customPhoneController.text);
+                        //context.read<SignUpCubit>().phoneController.text = phone.completeNumber;
                       },
                       onCountryChanged: (Country? country) {
                         context.read<SignUpCubit>().countryCodeController.text = country?.code ?? initialCountyCode;
@@ -143,7 +142,7 @@ class SignUpScreen extends StatelessWidget {
                     keyboardType: TextInputType.visiblePassword,
                     asset: AppAssets.passwordIcon,
                     controller: context.read<SignUpCubit>().passwordController,
-                    isPassword: true,
+                    isSmall: true,
                     isObscure: true,
                   ),
                 ),
@@ -156,7 +155,7 @@ class SignUpScreen extends StatelessWidget {
                     keyboardType: TextInputType.visiblePassword,
                     asset: AppAssets.passwordIcon,
                     controller: context.read<SignUpCubit>().confirmPasswordController,
-                    isPassword: true,
+                    isSmall: true,
                     isObscure: true,
                   ),
                 ),
@@ -169,7 +168,7 @@ class SignUpScreen extends StatelessWidget {
                     if (state is SignUpSuccess) {
                       context.read<UserCubit>().setUserModel(state.user);
                       context.read<ProfileStatusCubit>().defaultStatus(true);
-                      context.pushNamed(AppRoutingName.emailVerificationScreen, pathParameters: {EMAIL: context.read<SignUpCubit>().emailController.text});
+                      context.pushNamed(AppRoutingName.emailVerificationScreen, pathParameters: {EMAIL: state.user.email ?? ''});
                       context.read<SignUpCubit>().clearControllers();
                     } else if (state is SignUpFailure) {
                       showToast(context, state.error);
@@ -232,9 +231,12 @@ class SignUpScreen extends StatelessWidget {
     final image = imageCubit.state.selectedImage.path;
     final name = signUpCubit.nameController.text;
     final email = signUpCubit.emailController.text;
-    final phone = signUpCubit.customPhoneController.text;
+    var phone = signUpCubit.phoneController.text;
+    final countryCode = signUpCubit.countryCodeController.text;
     final password = signUpCubit.passwordController.text;
     final confirmPassword = signUpCubit.confirmPasswordController.text;
+
+    Country country = countries.where((element) => element.code == (countryCode.isEmpty ? initialCountyCode : countryCode)).first;
 
     if (image.isEmpty) {
       showToast(context, TempLanguage().lblSelectImage);
@@ -246,7 +248,7 @@ class SignUpScreen extends StatelessWidget {
       }
     } else if (email.isEmpty || !email.validateEmailEnhanced()) {
       showToast(context, TempLanguage().lblEnterYourEmail);
-    } else if (phone.isEmpty || !phone.validatePhone()) {
+    } else if (phone.isEmpty || phone.length != country.minLength || !phone.validatePhone()) {
       showToast(context, TempLanguage().lblEnterYourPhone);
     } else if (password.isEmpty || password.length < 6) {
       showToast(context, TempLanguage().lblPasswordMustBeGreater);

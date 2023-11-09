@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/pricing_category.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
@@ -23,6 +24,7 @@ import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
 import 'package:street_calle/widgets/show_favourite_item_widget.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/item_description.dart';
 
 class ItemDetail extends StatefulWidget {
   const ItemDetail({Key? key, required this.item, this.isClient = false}) : super(key: key);
@@ -134,31 +136,7 @@ class _ItemDetailState extends State<ItemDetail> {
                       const SizedBox(
                         height: 20,
                       ),
-                      item.description.isEmptyOrNull
-                          ? const SizedBox.shrink()
-                          : Text(
-                        TempLanguage().lblDescription,
-                        style: const TextStyle(
-                            fontFamily: METROPOLIS_BOLD,
-                            fontSize: 16, color: AppColors.primaryFontColor, fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      item.description.isEmptyOrNull
-                          ? const SizedBox.shrink()
-                          : Text(
-                        item.description.capitalizeFirstLetter() ?? '',
-                        style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.secondaryFontColor, fontSize: 14),
-                      ),
-
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      item.description.isEmptyOrNull
-                          ? const SizedBox.shrink()
-                          : const Divider(color: AppColors.dividerColor,),
+                      ItemDescription(item: item),
                     ],
                   ),
                 ),
@@ -278,100 +256,5 @@ class _ItemDetailState extends State<ItemDetail> {
 
     favouriteCubit.updateFavouriteStatue(!isFavourite);
     userService.updateFavourites(vendorId, userId, !isFavourite);
-  }
-}
-
-
-class PricingCategory extends StatelessWidget {
-  const PricingCategory({Key? key, required this.item}) : super(key: key);
-  final Item item;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        item.smallItemTitle.isEmptyOrNull
-            ? const SizedBox.shrink()
-            : PriceTile(title: item.smallItemTitle, actualPrice: item.smallItemActualPrice, discountedPrice: item.smallItemDiscountedPrice),
-        // SizedBox(
-        //   width: item.smallItemTitle.isEmptyOrNull ? 0 : 12,
-        // ),
-        item.mediumItemTitle.isEmptyOrNull ? const SizedBox.shrink() : const SizedBox(
-          height: 50,
-          width: 2,
-          child: VerticalDivider(
-            width: 2,
-            color: AppColors.placeholderColor,
-          ),
-        ),
-
-        item.mediumItemTitle.isEmptyOrNull
-            ? const SizedBox.shrink()
-            : PriceTile(title: item.mediumItemTitle, actualPrice: item.mediumItemActualPrice, discountedPrice: item.mediumItemDiscountedPrice),
-        // SizedBox(
-        //   width: item.mediumItemTitle.isEmptyOrNull ? 0 : 12,
-        // ),
-        item.largeItemTitle.isEmptyOrNull ? const SizedBox.shrink() : const SizedBox(
-          height: 50,
-          width: 2,
-          child: VerticalDivider(
-            width: 2,
-            color: AppColors.placeholderColor,
-          ),
-        ),
-
-        item.largeItemTitle.isEmptyOrNull
-            ? const SizedBox.shrink()
-            : PriceTile(title: item.largeItemTitle, actualPrice: item.largeItemActualPrice, discountedPrice: item.largeItemDiscountedPrice),
-      ],
-    );
-  }
-}
-
-class PriceTile extends StatelessWidget {
-  const PriceTile({Key? key, required this.title, required this.actualPrice, required this.discountedPrice}) : super(key: key);
-  final String? title;
-  final num? actualPrice;
-  final num? discountedPrice;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      //crossAxisAlignment: CrossAxisAlignment.center,
-      //mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Text(
-          title.capitalizeEachFirstLetter(),
-          style: context.currentTextTheme.labelMedium,
-        ),
-        const SizedBox(height: 5,),
-
-        (discountedPrice != null && actualPrice != defaultPrice)
-            ? Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              '\$${calculateDiscountAmount(actualPrice, discountedPrice)}',
-              style: context.currentTextTheme.labelMedium,
-            ),
-            const SizedBox(height: 3,),
-            Text(
-              '\$$actualPrice',
-              style: context.currentTextTheme.titleMedium?.copyWith(
-                  fontSize: 16,
-                  decoration: TextDecoration.lineThrough,
-                  decorationColor: AppColors.redColor,
-                  decorationThickness: 4.0
-              ),
-            ),
-          ],
-        )
-            : Text(
-          '\$$actualPrice',
-          style: context.currentTextTheme.titleMedium,
-        ),
-      ],
-    );
   }
 }

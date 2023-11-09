@@ -51,7 +51,7 @@ class PasswordResetScreen extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       asset: AppAssets.emailIcon,
                       controller: context.read<PasswordResetCubit>().emailController,
-                      isPassword: false,
+                      isSmall: false,
                     ),
                     const SizedBox(height: 24,),
 

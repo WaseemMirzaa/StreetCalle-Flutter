@@ -9,6 +9,7 @@ import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/item_widget.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
+import 'package:street_calle/utils/constant/app_assets.dart';
 
 typedef GetItemTitle = Function(String? title);
 
@@ -27,6 +28,16 @@ class SelectMenuItem extends StatelessWidget {
           title: Text(
             TempLanguage().lblSelectMenuItem,
             style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
+          ),
+          titleSpacing: 0,
+          leading: GestureDetector(
+            onTap: () => context.pop(),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Image.asset(AppAssets.backIcon, width: 20, height: 20,)
+              ],
+            ),
           ),
         ),
       body: FutureBuilder<List<Item>>(

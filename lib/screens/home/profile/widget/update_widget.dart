@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/cubit/user_state.dart';
@@ -71,13 +72,16 @@ class UpdateWidget extends StatelessWidget {
     final url = imageCubit.state.url;
     final isUpdated = imageCubit.state.isUpdated;
     final name = editProfileCubit.nameController.text;
-    final phone = editProfileCubit.customPhoneController.text;
+    final phone = editProfileCubit.phoneController.text;
+    final countryCode = editProfileCubit.countryCodeController.text;
+
+    Country country = countries.where((element) => element.code == (countryCode.isEmpty ? initialCountyCode : countryCode)).first;
 
     if (image.isEmpty && url == null) {
       showToast(context, TempLanguage().lblSelectImage);
     } else if (name.isEmpty) {
       showToast(context, TempLanguage().lblEnterYourName);
-    } else if (!userCubit.state.isEmployee && (phone.isEmpty || !phone.validatePhone())) {
+    } else if (!userCubit.state.isEmployee && (phone.isEmpty || !phone.validatePhone() || phone.length != country.minLength)) {
       showToast(context, TempLanguage().lblEnterYourPhone);
     } else {
       if (isUpdated ?? false) {

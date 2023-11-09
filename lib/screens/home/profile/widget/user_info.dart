@@ -133,7 +133,7 @@ class UserInfo extends StatelessWidget {
         const SizedBox(
           height: 16,
         ),
-        userCubit.state.isEmployee ? const SizedBox.shrink() : Container(
+        userCubit.state.isVendor ? Container(
           width: context.width,
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
           decoration: BoxDecoration(
@@ -184,7 +184,7 @@ class UserInfo extends StatelessWidget {
                         ),
                         initialCountryCode: editCubit.countryCodeController.text.isEmpty ? initialCountyCode : editCubit.countryCodeController.text,
                         onChanged: (phone) {
-                          context.read<EditProfileCubit>().customPhoneController.text = phone.completeNumber;
+                         // context.read<EditProfileCubit>().customPhoneController.text = phone.completeNumber;
                         },
                         onCountryChanged: (Country? country) {
                           context.read<EditProfileCubit>().countryCodeController.text = country?.code ?? initialCountyCode;
@@ -195,12 +195,12 @@ class UserInfo extends StatelessWidget {
               ),
             ],
           ),
-        ),
+        ) : const SizedBox.shrink(),
 
         const SizedBox(
           height: 16,
         ),
-        userCubit.state.isEmployee ? const SizedBox.shrink() : Container(
+        userCubit.state.isVendor ? Container(
           width: context.width,
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
           decoration: BoxDecoration(
@@ -233,8 +233,8 @@ class UserInfo extends StatelessWidget {
                       controller: context.read<EditProfileCubit>().aboutController,
                       style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 18, color: AppColors.primaryFontColor),
                       enabled: state,
-                      maxLines: 5,
-                      minLines: 5,
+                      maxLines: 3,
+                      minLines: 3,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.only(left: 10),
                         isDense: true,
@@ -251,7 +251,7 @@ class UserInfo extends StatelessWidget {
               ),
             ],
           ),
-        ),
+        ) : const SizedBox.shrink(),
         const SizedBox(
           height: 16,
         ),

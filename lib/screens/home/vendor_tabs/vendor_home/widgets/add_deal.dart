@@ -10,7 +10,7 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_image.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/item_image.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/food_type_expanded_widget.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';

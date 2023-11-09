@@ -109,7 +109,6 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                         stream:itemService.getVendorItems(widget.user!.vendorId!),
                         builder: (context,snapshot){
                           if(!snapshot.hasData || snapshot.data!.isEmpty){
-
                             return Center(
                               child:  Column(
                                 mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
@@ -131,13 +130,9 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                               );
                           }           else if(snapshot.connectionState == ConnectionState.waiting){
                             return const Center(child: CircularProgressIndicator(),);
-
                           }
                           else{
                             List<Item> items = snapshot.data ?? [];
-
-
-
                             if(items.isEmpty){
                               return  Center(
                                   child: Text(TempLanguage().lblNoDataFound)
@@ -160,36 +155,28 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                         bool isUserItem = widget.user!.employeeItemsList!.contains(itemData.id) ?? false;
 
 
-                                        return  Column(
-                                          children: [
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            GestureDetector(
-                                              onTap: (){
-                                                context.read<SelectedItemsCubit>().toggleItem(itemData.id!);
-
-                                                if(selectedItemIds != null)
-                                                {
-                                                  if(selectedItemIds.contains(itemData.id)){
-                                                    selectedItemIds.remove(itemData.id);
-                                                  }
-                                                  else{
-                                                    selectedItemIds.add(itemData.id);
-                                                  }
-
-                                                }else{
-                                                  selectedItemIds = [itemData.id];
-
+                                        return  InkWell(
+                                          onTap: () {
+                                              context.read<SelectedItemsCubit>().toggleItem(itemData.id!);
+                                              if(selectedItemIds != null)
+                                              {
+                                                if(selectedItemIds.contains(itemData.id)){
+                                                  selectedItemIds.remove(itemData.id);
                                                 }
-
-
-
-
-                                                print(selectedItemIds);
-
-                                              },
-                                              child: Row(
+                                                else{
+                                                  selectedItemIds.add(itemData.id);
+                                                }
+                                              }else{
+                                                selectedItemIds = [itemData.id];
+                                              }
+                                              print(selectedItemIds);
+                                          },
+                                          child: Column(
+                                            children: [
+                                              const SizedBox(
+                                                height: 12,
+                                              ),
+                                              Row(
                                                 children: [
                                                   ImageWidget(image: itemData.image!,),
                                                   const SizedBox(
@@ -236,7 +223,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                           height: 6,
                                                         ),
                                                         itemData.foodType == null ? const SizedBox.shrink() : Text(
-                                                          itemData.foodType!,
+                                                          itemData.foodType!.capitalizeEachFirstLetter(),
                                                           style: const TextStyle(
                                                             fontSize: 12,
                                                             fontFamily: METROPOLIS_BOLD,
@@ -251,14 +238,14 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                   ),
                                                 ],
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            const Divider(
-                                              color: AppColors.dividerColor,
-                                            ),
-                                          ],
+                                              const SizedBox(
+                                                height: 12,
+                                              ),
+                                              const Divider(
+                                                color: AppColors.dividerColor,
+                                              ),
+                                            ],
+                                          ),
                                         );
                                       },
                                     );
@@ -266,10 +253,6 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
 
                               );
                             }
-
-
-
-
                           }})
 
                         : Center(child: Text(TempLanguage().lblNoDataFound),),
@@ -302,13 +285,9 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                               );
                           }           else if(snapshot.connectionState == ConnectionState.waiting){
                             return const Center(child: CircularProgressIndicator(),);
-
                           }
                           else{
                             List<Deal> deals = snapshot.data ?? [];
-
-
-
                             if(deals.isEmpty){
                               return  Center(
                                   child: Text(TempLanguage().lblNoDataFound)
@@ -318,49 +297,35 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                               return  Padding(
                                   padding:
                                   const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-                                  child:
-
-
-                                  BlocBuilder<SelectedDealsCubit,List<String>>(builder: (context,state){
+                                  child: BlocBuilder<SelectedDealsCubit,List<String>>(builder: (context,state){
                                     return ListView.builder(
                                       itemCount: deals.length,
                                       itemBuilder: (context, index) {
-
-
                                         var dealData  = deals[index];
                                         bool isUserDeal = widget.user!.employeeDealsList!.contains(dealData.id) ?? false;
 
-
-                                        return  Column(
-                                          children: [
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            GestureDetector(
-                                              onTap: (){
-                                                context.read<SelectedDealsCubit>().toggleItem(dealData.id!);
-
-                                                if(selectedDealsIds != null)
-                                                {
-                                                  if(selectedDealsIds.contains(dealData.id)){
-                                                    selectedDealsIds.remove(dealData.id);
-                                                  }
-                                                  else{
-                                                    selectedDealsIds.add(dealData.id);
-                                                  }
-
-                                                }else{
-                                                  selectedDealsIds = [dealData.id];
-
-                                                }
-
-
-
-
-                                                print(selectedDealsIds);
-
-                                              },
-                                              child: Row(
+                                        return InkWell(
+                                          onTap: (){
+                                            context.read<SelectedDealsCubit>().toggleItem(dealData.id!);
+                                            if(selectedDealsIds != null)
+                                            {
+                                              if(selectedDealsIds.contains(dealData.id)){
+                                                selectedDealsIds.remove(dealData.id);
+                                              }
+                                              else{
+                                                selectedDealsIds.add(dealData.id);
+                                              }
+                                            }else{
+                                              selectedDealsIds = [dealData.id];
+                                            }
+                                            print(selectedDealsIds);
+                                          },
+                                          child: Column(
+                                            children: [
+                                              const SizedBox(
+                                                height: 12,
+                                              ),
+                                              Row(
                                                 children: [
                                                   ImageWidget(image: dealData.image!,),
                                                   const SizedBox(
@@ -407,7 +372,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                           height: 6,
                                                         ),
                                                         dealData.foodType == null ? const SizedBox.shrink() : Text(
-                                                          dealData.title!,
+                                                          dealData.foodType!.capitalizeEachFirstLetter(),
                                                           style: const TextStyle(
                                                             fontSize: 12,
                                                             fontFamily: METROPOLIS_BOLD,
@@ -422,14 +387,14 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                   ),
                                                 ],
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            const Divider(
-                                              color: AppColors.dividerColor,
-                                            ),
-                                          ],
+                                              const SizedBox(
+                                                height: 12,
+                                              ),
+                                              const Divider(
+                                                color: AppColors.dividerColor,
+                                              ),
+                                            ],
+                                          ),
                                         );
                                       },
                                     );
@@ -437,10 +402,6 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
 
                               );
                             }
-
-
-
-
                           }})
 
                         : Center(child: Text(TempLanguage().lblNoDataFound),),

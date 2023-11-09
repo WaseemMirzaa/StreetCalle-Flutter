@@ -36,7 +36,7 @@ class DealWidget extends StatelessWidget {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            '${deal.title.capitalizeEachFirstLetter()}',
+                            deal.title.capitalizeEachFirstLetter(),
                             style: const TextStyle(
                                 fontSize: 24,
                                 fontFamily: METROPOLIS_BOLD,

@@ -261,10 +261,23 @@ class UserService extends BaseService<User> {
     }
 }
 
-  Future<void> setUserType(String userId, String vendorType) async {
+  Future<void> setUserType(String userId, String userType) async {
+    try{
+      await ref!.doc(userId).update({
+        UserKey.userType: userType,
+        UserKey.isVendor: false,
+        UserKey.isEmployee: false
+      });
+    }catch(e){
+      log(e.toString());
+    }
+  }
+
+  Future<void> setVendorType(String userId, String vendorType, String userType) async {
     try{
       await ref!.doc(userId).update({
         UserKey.vendorType: vendorType,
+        UserKey.userType: userType,
         UserKey.isVendor: true,
         UserKey.isEmployee: false
       });
