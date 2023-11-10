@@ -1,4 +1,4 @@
-enum UserType { client, vendor }
+enum UserType { client, vendor, employee }
 
 enum VendorType { none, individual, agency }
 

@@ -11,7 +11,7 @@ import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/user.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/widgets/food_search_field.dart';
+import 'package:street_calle/widgets/search_field.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
@@ -170,7 +170,11 @@ class ClientMenuItemDetail extends StatelessWidget {
               const SizedBox(
                 height: 24,
               ),
-              const FoodSearchField(),
+              SearchField(
+                padding: const EdgeInsets.symmetric(horizontal: 60),
+                hintText: TempLanguage().lblSearchFood,
+                onChanged: (String? value) => _searchQuery(context, value),
+              ),
 
               const SizedBox(
                 height: 24,
@@ -228,5 +232,9 @@ class ClientMenuItemDetail extends StatelessWidget {
 
     favouriteCubit.updateFavouriteStatue(!isFavourite);
     userService.updateFavourites(vendorId, userId, !isFavourite);
+  }
+
+  void _searchQuery(BuildContext context, String? value) {
+    context.read<FoodSearchCubit>().updateQuery(value ?? '');
   }
 }

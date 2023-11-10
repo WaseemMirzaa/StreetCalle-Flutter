@@ -193,7 +193,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                               child: Text(
                                                                 itemData.title!.capitalizeEachFirstLetter(),
                                                                 style: const TextStyle(
-                                                                  fontSize: 24,
+                                                                  fontSize: 23,
                                                                   fontFamily: METROPOLIS_BOLD,
                                                                   color: AppColors.primaryFontColor,
                                                                 ),
@@ -209,7 +209,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
 
                                                                 color: isUserItem ?  AppColors.primaryColor : Colors.transparent,
                                                                 border: Border.all(
-                                                                  color: isUserItem ?  Colors.transparent : AppColors.dividerColor,
+                                                                  color: isUserItem ?  Colors.transparent : AppColors.blackColor,
                                                                 ),
                                                               ),
                                                               child:const Icon(Icons.check,color: Colors.white,size: 15,),
@@ -224,11 +224,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                         ),
                                                         itemData.foodType == null ? const SizedBox.shrink() : Text(
                                                           itemData.foodType!.capitalizeEachFirstLetter(),
-                                                          style: const TextStyle(
-                                                            fontSize: 12,
-                                                            fontFamily: METROPOLIS_BOLD,
-                                                            color: AppColors.primaryColor,
-                                                          ),
+                                                          style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),
                                                         ),
                                                         const SizedBox(
                                                           height: 6,
@@ -342,7 +338,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                               child: Text(
                                                                 dealData.title!.capitalizeEachFirstLetter(),
                                                                 style: const TextStyle(
-                                                                  fontSize: 24,
+                                                                  fontSize: 23,
                                                                   fontFamily: METROPOLIS_BOLD,
                                                                   color: AppColors.primaryFontColor,
                                                                 ),
@@ -358,7 +354,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
 
                                                                 color: isUserDeal ?  AppColors.primaryColor : Colors.transparent,
                                                                 border: Border.all(
-                                                                  color: isUserDeal ?  Colors.transparent : AppColors.dividerColor,
+                                                                  color: isUserDeal ?  Colors.transparent : AppColors.blackColor,
                                                                 ),
                                                               ),
                                                               child:const Icon(Icons.check,color: Colors.white,size: 15,),
@@ -373,11 +369,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                         ),
                                                         dealData.foodType == null ? const SizedBox.shrink() : Text(
                                                           dealData.foodType!.capitalizeEachFirstLetter(),
-                                                          style: const TextStyle(
-                                                            fontSize: 12,
-                                                            fontFamily: METROPOLIS_BOLD,
-                                                            color: AppColors.primaryColor,
-                                                          ),
+                                                          style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),
                                                         ),
                                                         const SizedBox(
                                                           height: 6,
@@ -409,7 +401,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                 ),
               ),
             ],),
-            Positioned(
+             Positioned(
               bottom: 20,
               right: 0,
               left: 0,

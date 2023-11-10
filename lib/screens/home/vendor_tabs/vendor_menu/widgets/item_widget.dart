@@ -38,7 +38,7 @@ class ItemWidget extends StatelessWidget {
                           child: Text(
                             item.title.capitalizeEachFirstLetter(),
                             style: const TextStyle(
-                                fontSize: 24,
+                                fontSize: 23,
                                 fontFamily: METROPOLIS_BOLD,
                                 color: AppColors.primaryFontColor
                             ),
@@ -52,7 +52,7 @@ class ItemWidget extends StatelessWidget {
                     ),
                     Text(
                         item.foodType.capitalizeEachFirstLetter(),
-                        style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14)
+                        style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16)
                     ),
                   ],
                 ),

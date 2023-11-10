@@ -1,5 +1,5 @@
 import 'package:background_location/background_location.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:geocoding/geocoding.dart' hide Location;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -37,19 +37,24 @@ class LocationUtils {
 
     final sharedPref = sl.get<SharedPreferencesService>();
     final userService = sl.get<UserService>();
-
-    final currentLocation = await fetchLocation();
-    userService.updateUserLocation(currentLocation.latitude, currentLocation.longitude, sharedPref.getStringAsync(SharePreferencesKey.USER_ID));
-
+    Location? previousLocation;
     //await BackgroundLocation.setAndroidConfiguration(1000);
     await BackgroundLocation.startLocationService(distanceFilter: 20);
 
-    BackgroundLocation.getLocationUpdates((location) {
+    BackgroundLocation.getLocationUpdates((Location location) {
       if (location.longitude != null && location.latitude != null) {
-
-        userService.updateUserLocation(location.latitude!, location.longitude!, sharedPref.getStringAsync(SharePreferencesKey.USER_ID));
+          log('iii ${double.parse(calculateVendorsDistance(previousLocation!.latitude!, previousLocation!.longitude!, location.latitude!, location.longitude!))}');
+          userService.updateUserLocation(location.latitude!, location.longitude!, sharedPref.getStringAsync(SharePreferencesKey.USER_ID));
+          previousLocation = location;
       }
     });
+
+    // try {
+    //   final currentLocation = await fetchLocation();
+    //   userService.updateUserLocation(currentLocation.latitude, currentLocation.longitude, sharedPref.getStringAsync(SharePreferencesKey.USER_ID));
+    // } catch(e) {
+    //   log('Error: $e');
+    // }
   }
 
   static void stopBackgroundLocation() {

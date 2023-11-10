@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_food_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/pricing_widget.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/item.dart';
@@ -171,30 +172,29 @@ class ItemWidget extends StatelessWidget {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 4,),
+                       // const SizedBox(height: 4,),
                         Text(
                           item.title.capitalizeEachFirstLetter(),
                           style: context.currentTextTheme.labelMedium?.copyWith(color: AppColors.primaryFontColor),
                         ),
-                        item.description == null ? const SizedBox.shrink() : Text(
+                        item.description.isEmptyOrNull ? const SizedBox.shrink() : Text(
                           item.description.capitalizeFirstLetter(),
+                          maxLines: 1,
                           style: context.currentTextTheme.displaySmall,
                         ),
+                        const SizedBox(height: 4,),
                         item.foodType == null ? const SizedBox.shrink() : Text(
                           item.foodType.capitalizeEachFirstLetter(),
-                          style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor),
+                          style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),
                         ),
                       ],
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 18.0),
-                    child: Text(
-                      '\$${item.actualPrice}',
-                      style: context.currentTextTheme.labelMedium?.copyWith(color: AppColors.primaryFontColor),
-                    ),
+                    child: PricingWidget(item: item,),
                   ),
                   const SizedBox(width: 24,),
                 ],

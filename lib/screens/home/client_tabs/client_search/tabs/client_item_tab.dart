@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:street_calle/utils/extensions/context_extension.dart';
-import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
@@ -13,6 +11,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/item_w
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
+import 'package:street_calle/widgets/search_field.dart';
 
 class ClientItemTab extends StatelessWidget {
   const ClientItemTab({Key? key}) : super(key: key);
@@ -24,43 +23,10 @@ class ClientItemTab extends StatelessWidget {
     itemService.getNearestItems();
     return Column(
       children: [
-        Padding(
+        SearchField(
+          hintText: TempLanguage().lblSearchItems,
           padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(40.0),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.blackColor.withOpacity(0.25),
-                  spreadRadius: 3, // Spread radius
-                  blurRadius: 15, // Blur radius
-                  offset: const Offset(0, 0), // Offset in the Y direction
-                ),
-              ],
-            ),
-            child: TextField(
-              textAlign: TextAlign.center,
-              onChanged: (String? value) => _searchQuery(context, value),
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.all(20),
-                filled: true,
-                prefixIcon: Container(
-                    margin: const EdgeInsets.only(left: 8),
-                    decoration: const BoxDecoration(
-                        color: AppColors.primaryLightColor,
-                        shape: BoxShape.circle
-                    ),
-                    child: const Icon(Icons.search, color: AppColors.hintColor,)),
-                hintStyle: context.currentTextTheme.displaySmall,
-                hintText: TempLanguage().lblSearchItems,
-                fillColor: AppColors.whiteColor,
-                border: clientSearchBorder,
-                focusedBorder: clientSearchBorder,
-                disabledBorder: clientSearchBorder,
-                enabledBorder: clientSearchBorder,
-              ),
-            ),
-          ),
+          onChanged: (String? value) => _searchQuery(context, value),
         ),
         const SizedBox(
           height: 12,

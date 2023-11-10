@@ -16,6 +16,7 @@ import 'package:street_calle/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/marker_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
+import 'package:street_calle/widgets/search_field.dart';
 
 class ClientHomeTab extends StatefulWidget {
   const ClientHomeTab({Key? key}) : super(key: key);
@@ -105,28 +106,10 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                     onTap: (){
                       context.pushNamed(AppRoutingName.clientMenu);
                     },
-                    child: TextField(
-                      textAlign: TextAlign.center,
+                    child: SearchField(
+                      padding: EdgeInsets.zero,
+                      hintText: TempLanguage().lblSearchFoodTrucks,
                       onChanged: (String? value) {},
-                      decoration: InputDecoration(
-                        enabled: false,
-                        contentPadding: const EdgeInsets.all(20),
-                        filled: true,
-                        prefixIcon: Container(
-                            margin: const EdgeInsets.only(left: 5, right: 5),
-                            decoration: const BoxDecoration(
-                                color: AppColors.primaryLightColor,
-                                shape: BoxShape.circle
-                            ),
-                            child: const Icon(Icons.search, color: AppColors.hintColor,)),
-                        hintStyle: context.currentTextTheme.displaySmall,
-                        hintText: TempLanguage().lblSearchFoodTrucks,
-                        fillColor: AppColors.whiteColor,
-                        border: clientSearchBorder,
-                        focusedBorder: clientSearchBorder,
-                        disabledBorder: clientSearchBorder,
-                        enabledBorder: clientSearchBorder,
-                      ),
                     ),
                   ),
                 ),

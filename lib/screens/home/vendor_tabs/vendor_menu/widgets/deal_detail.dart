@@ -98,7 +98,7 @@ class _DealDetailState extends State<DealDetail> {
                       ),
                       Text(
                         deal.foodType.capitalizeEachFirstLetter() ?? '',
-                        style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor),
+                        style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),
                       ),
                       const SizedBox(
                         height: 20,

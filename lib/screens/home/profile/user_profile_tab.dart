@@ -25,14 +25,27 @@ class UserprofileTab extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        centerTitle: true,
         title: Text(
           TempLanguage().lblProfile,
           style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
         titleSpacing: (userCubit.state.isVendor || userCubit.state.isEmployee) ? 15 : 0,
-        leadingWidth: (userCubit.state.isVendor || userCubit.state.isEmployee) ? 0 : 60,
+        leadingWidth: (userCubit.state.isVendor || userCubit.state.isEmployee) ? 60 : 60,
         leading: (userCubit.state.isVendor || userCubit.state.isEmployee)
-            ? const SizedBox.shrink()
+            ? BlocBuilder<EditProfileEnableCubit, bool>(
+              builder: (context, state) {
+                 if (state) {
+              return TextButton(
+                  onPressed: (){
+                    context.read<EditProfileEnableCubit>().updateButtonClicked();
+                  },
+                  child: Text(TempLanguage().lblCancel, style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.redColor),)
+              );
+            }
+                 return const SizedBox.shrink();
+               },
+             )
             : GestureDetector(
           onTap: () => context.pop(),
           child: Stack(

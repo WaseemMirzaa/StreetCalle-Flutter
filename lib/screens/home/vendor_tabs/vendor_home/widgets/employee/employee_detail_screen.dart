@@ -160,7 +160,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                                       child: Text(
                                                         itemData.title!.capitalizeEachFirstLetter(),
                                                         style: const TextStyle(
-                                                            fontSize: 24,
+                                                            fontSize: 23,
                                                             fontFamily:
                                                             METROPOLIS_BOLD,
                                                             color: AppColors
@@ -175,7 +175,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                                 itemData.foodType == null
                                                     ? const SizedBox.shrink()
                                                     : Text(itemData.foodType.capitalizeEachFirstLetter(),
-                                                  style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14),
+                                                  style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),
                                                 ),
                                               ],
                                             ),
@@ -258,7 +258,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                                       child: Text(
                                                         dealData.title!.capitalizeEachFirstLetter(),
                                                         style: const TextStyle(
-                                                            fontSize: 24,
+                                                            fontSize: 23,
                                                             fontFamily:
                                                             METROPOLIS_BOLD,
                                                             color: AppColors
@@ -273,7 +273,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                                                 dealData.foodType == null
                                                     ? const SizedBox.shrink()
                                                     : Text(dealData.foodType.capitalizeEachFirstLetter(),
-                                                      style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 14),
+                                                      style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),
                                                 ),
                                               ],
                                             ),

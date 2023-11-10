@@ -54,6 +54,7 @@ class CreateEmployeeCubit extends Cubit<CreateEmployeeState> {
               isEmployeeBlocked: false,
               isOnline: true,
               isSubscribed: false,
+              userType: UserType.employee.name,
               subscriptionType: SubscriptionType.none.name,
               createdAt: Timestamp.now(),
               updatedAt: Timestamp.now(),
