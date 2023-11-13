@@ -37,24 +37,21 @@ class LocationUtils {
 
     final sharedPref = sl.get<SharedPreferencesService>();
     final userService = sl.get<UserService>();
-    Location? previousLocation;
     //await BackgroundLocation.setAndroidConfiguration(1000);
-    await BackgroundLocation.startLocationService(distanceFilter: 20);
+    await BackgroundLocation.startLocationService(distanceFilter: 50);
 
     BackgroundLocation.getLocationUpdates((Location location) {
       if (location.longitude != null && location.latitude != null) {
-          log('iii ${double.parse(calculateVendorsDistance(previousLocation!.latitude!, previousLocation!.longitude!, location.latitude!, location.longitude!))}');
           userService.updateUserLocation(location.latitude!, location.longitude!, sharedPref.getStringAsync(SharePreferencesKey.USER_ID));
-          previousLocation = location;
       }
     });
 
-    // try {
-    //   final currentLocation = await fetchLocation();
-    //   userService.updateUserLocation(currentLocation.latitude, currentLocation.longitude, sharedPref.getStringAsync(SharePreferencesKey.USER_ID));
-    // } catch(e) {
-    //   log('Error: $e');
-    // }
+    try {
+      final currentLocation = await fetchLocation();
+      userService.updateUserLocation(currentLocation.latitude, currentLocation.longitude, sharedPref.getStringAsync(SharePreferencesKey.USER_ID));
+    } catch(e) {
+      log('Error: $e');
+    }
   }
 
   static void stopBackgroundLocation() {

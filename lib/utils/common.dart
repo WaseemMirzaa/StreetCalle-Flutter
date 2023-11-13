@@ -118,16 +118,17 @@ Future<User?> findNearestUser(List<User> users, Position currentLocation) {
   User? nearestUser;
 
   for (User user in users) {
-    double distance = Geolocator.distanceBetween(
-      currentLocation.latitude,
-      currentLocation.longitude,
-      user.latitude!,
-      user.longitude!,
-    );
-
-    if (distance < shortestDistance) {
-      shortestDistance = distance;
-      nearestUser = user;
+    if (user.latitude != null && user.longitude != null) {
+      double distance = Geolocator.distanceBetween(
+        currentLocation.latitude,
+        currentLocation.longitude,
+        user.latitude!,
+        user.longitude!,
+      );
+      if (distance < shortestDistance) {
+        shortestDistance = distance;
+        nearestUser = user;
+      }
     }
   }
   return Future.value(nearestUser);

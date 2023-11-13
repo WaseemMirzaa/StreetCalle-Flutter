@@ -18,6 +18,7 @@ class Assets {
   static const String imagesBack = 'assets/images/back.png';
   static const String imagesBackgroundImage = 'assets/images/background_image.png';
   static const String imagesBackgroundImg = 'assets/images/background_img.png';
+  static const String imagesBell = 'assets/images/bell.svg';
   static const String imagesBlock = 'assets/images/block.svg';
   static const String imagesBottomSearch = 'assets/images/bottom_search.png';
   static const String imagesBoxTruck = 'assets/images/box_truck.png';
@@ -42,6 +43,7 @@ class Assets {
   static const String imagesListItem = 'assets/images/list_item.svg';
   static const String imagesLocationMarker = 'assets/images/location_marker.png';
   static const String imagesLogo = 'assets/images/logo.svg';
+  static const String imagesMap-pin = 'assets/images/map-pin.svg';
   static const String imagesMarker = 'assets/images/marker.png';
   static const String imagesMenu = 'assets/images/menu.png';
   static const String imagesMonkeyFace = 'assets/images/monkey_face.png';

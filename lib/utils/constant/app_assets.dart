@@ -1,21 +1,25 @@
 class AppAssets {
+
+  /// SVG
   static const emailIcon = 'assets/images/email.svg';
   static const passwordIcon = 'assets/images/password.svg';
   static const logo = 'assets/images/logo.svg';
-
-  static const monkeyFace = 'assets/images/monkey_face.png';
-  static const client = 'assets/images/client.png';
-  static const vendor = 'assets/images/vendor.png';
-  static const google = 'assets/images/google.png';
-  static const facebook = 'assets/images/facebook.png';
-  static const twitter = 'assets/images/twitter.png';
   static const person = 'assets/images/person.svg';
   static const phone = 'assets/images/phone.svg';
   static const people = 'assets/images/people.svg';
   static const block = 'assets/images/block.svg';
   static const pencil = 'assets/images/pencil.svg';
   static const itemListIcon = 'assets/images/list_item.svg';
+  static const bell = 'assets/images/bell.svg';
+  static const mapPin = 'assets/images/map-pin.svg';
 
+  /// png
+  static const monkeyFace = 'assets/images/monkey_face.png';
+  static const client = 'assets/images/client.png';
+  static const vendor = 'assets/images/vendor.png';
+  static const google = 'assets/images/google.png';
+  static const facebook = 'assets/images/facebook.png';
+  static const twitter = 'assets/images/twitter.png';
   static const home = 'assets/images/home.png';
   static const menu = 'assets/images/menu.png';
   static const user = 'assets/images/user.png';
@@ -43,7 +47,6 @@ class AppAssets {
   static const bottomSearch = 'assets/images/bottom_search.png';
   static const clientIcon = 'assets/images/client_icon.png';
   static const vendorIcon = 'assets/images/vendor_icon.png';
-
   static const burgerImage = 'assets/images/burger_image.png';
   static const backgroundImage = 'assets/images/background_image.png';
 

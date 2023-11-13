@@ -8,6 +8,7 @@ import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/widgets/permission_screen.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:street_calle/utils/custom_widgets/own_show_confirm_dialog.dart';
 
 class PermissionUtils {
   static bool isDisplayed = false;
@@ -101,12 +102,13 @@ class PermissionUtils {
   }) async {
     Completer<PermissionResponse> completer = Completer<PermissionResponse>();
 
-    showConfirmDialogCustom(
+    ownShowConfirmDialogCustom(
       scaffoldContext,
       title: TempLanguage().lblYourConsent,
       subTitle: TempLanguage().lblLocationPermissionRequired,
       positiveText: TempLanguage().lblOk,
       cancelable: false,
+      dialogType: CustomDialogType.LOCATION,
       primaryColor: AppColors.primaryColor,
       barrierDismissible: false,
       onAccept: (_) async {
@@ -233,12 +235,13 @@ class PermissionUtils {
   }) async {
     Completer<PermissionResponse> completer = Completer<PermissionResponse>();
 
-    await showConfirmDialogCustom(
+    await ownShowConfirmDialogCustom(
         scaffoldContext,
         title: TempLanguage().lblYourConsent,
         subTitle: TempLanguage().lblNotificationPermissionRequired,
         positiveText: TempLanguage().lblOk,
         cancelable: false,
+        dialogType: CustomDialogType.NOTIFICATION,
         primaryColor: AppColors.primaryColor,
         barrierDismissible: false,
         onAccept: (_) async {
