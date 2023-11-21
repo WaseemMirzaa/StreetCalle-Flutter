@@ -19,6 +19,7 @@ import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/fa
 import 'package:street_calle/screens/home/client_tabs/client_home/client_home_tab.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/apply_filter_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/direction_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_food_cubit.dart';
@@ -201,6 +202,9 @@ Future<void> main() async {
           ),
           BlocProvider(
             create: (context)=> ApplyFilterCubit(),
+          ),
+          BlocProvider(
+            create: (context)=> sl<CurrentLocationCubit>(),
           ),
         ],
         // child: DevicePreview(

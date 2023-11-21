@@ -56,7 +56,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
             ),
           ),
           title: Text(
-            TempLanguage().lblEmployeeDetails,
+            TempLanguage().lblLocationDetails,
             style: context.currentTextTheme.titleMedium
                 ?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
           ),

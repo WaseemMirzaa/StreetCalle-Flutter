@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -17,6 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/marker_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/widgets/search_field.dart';
+import 'package:street_calle/utils/constant/constants.dart';
 
 class ClientHomeTab extends StatefulWidget {
   const ClientHomeTab({Key? key}) : super(key: key);
@@ -47,8 +50,8 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
       body: Stack(
         children: [
           SizedBox(
-            width: context.width,
-            height: context.height,
+            width: ContextExtension(context).width,
+            height: ContextExtension(context).height,
             child: FutureBuilder<Position>(
               future: LocationUtils.fetchLocation(),
               builder: (context, snapshot) {
@@ -67,6 +70,7 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                           if (snapshot.data != null) {
                             final position = snapshot.data!;
                             addVendorMarkers(users, position).then((markers) {
+                              context.read<CurrentLocationCubit>().setCurrentLocation(latitude: position.latitude, longitude: position.longitude);
                               context.read<MarkersCubit>().setMarkers(markers);
                             });
                           }
@@ -132,6 +136,49 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
               ],
             ),
           ),
+
+          Positioned(
+            bottom: 30,
+            left: 30,
+            right: 30,
+            child: BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
+              builder: (context, state) {
+                final latlng = LatLng(state.updatedLatitude ?? state.latitude ?? 0.0, state.updatedLongitude ?? state.longitude ?? 0.0);
+                return FutureBuilder(
+                    future: LocationUtils.getAddressFromLatLng(latlng),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox.shrink();
+                      }
+                      if (snapshot.hasData && snapshot.data != null) {
+                        return Container(
+                          height: defaultButtonSize,
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryLightColor,
+                            borderRadius: BorderRadius.circular(defaultRadius),
+                          ),
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 8,),
+                              Expanded(
+                                child: Text('${snapshot.data}', style: const TextStyle(color: AppColors.blackColor),),
+                              ),
+                              InkWell(
+                                  onTap: (){
+                                    context.pushNamed(AppRoutingName.locationPicker);
+                                  },
+                                  child: const Icon(Icons.edit, color: AppColors.blackColor,)),
+                              const SizedBox(width: 8,),
+                            ],
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    }
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -162,10 +209,15 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
 
    for (User user in users) {
      if (user.latitude != null && user.longitude != null) {
-       final icon = await createCustomMarkerIconLocal(markerAssets[markerIndex]);
+       BitmapDescriptor? icon;
+       if (user.image == null) {
+         icon = await createCustomMarkerIconLocal(markerAssets[markerIndex]);
+       } else {
+         icon = await createCustomMarkerIconNetwork(user.isEmployee ? user.employeeOwnerImage! : user.image!);
+       }
 
-       /// Inside 5km area
-       if (double.parse(LocationUtils.calculateVendorsDistance(position.latitude, position.longitude, user.latitude!, user.longitude!)) <= 5) {
+       /// Inside 10-miles area
+       if (LocationUtils.isDistanceWithinRange(position.latitude, position.longitude, user.latitude!, user.longitude!, 10)) {
          final marker = Marker(
            icon: icon,
            markerId: MarkerId('${user.uid}'),

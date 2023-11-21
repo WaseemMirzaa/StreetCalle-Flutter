@@ -12,6 +12,7 @@ import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/direction_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_food_cubit.dart';
@@ -75,6 +76,7 @@ Future<void> init() async {
   sl.registerFactory(() => FoodTypeExpandedCubit());
   sl.registerFactory(() => PricingCategoryExpandedCubit());
   sl.registerFactory(() => FoodTypeDropDownCubit());
+  sl.registerFactory(() => CurrentLocationCubit());
 
 
   ///  [registerLazySingleton] which registers a singleton object that will be

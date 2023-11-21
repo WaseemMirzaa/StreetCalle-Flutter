@@ -139,7 +139,7 @@ class VendorHomeTab extends StatelessWidget {
                         }
                       },
                       child: Text(
-                        TempLanguage().lblManageEmployees,
+                        TempLanguage().lblManageLocations,
                         style: context.currentTextTheme.titleMedium?.copyWith(
                             color: AppColors.primaryColor,
                             fontSize: 24,

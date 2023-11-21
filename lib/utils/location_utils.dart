@@ -8,6 +8,7 @@ import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'dart:math' show atan2, cos, sin, sqrt, pi;
 
 class LocationUtils {
 
@@ -75,7 +76,7 @@ class LocationUtils {
       if (placeMarks.isNotEmpty) {
         Placemark placeMark = placeMarks[0];
         //String address = '${placeMark.street}, ${placeMark.locality}, ${placeMark.postalCode}, ${placeMark.country}';
-        String address = '${placeMark.street}, ${placeMark.locality}';
+        String address = '${placeMark.name}, ${placeMark.locality}, ${placeMark.administrativeArea}';
         return address;
       } else {
         return TempLanguage().lblAddressNotFound;
@@ -85,4 +86,28 @@ class LocationUtils {
     }
   }
 
+
+  static double degreesToRadians(double degrees) {
+    return degrees * pi / 180;
+  }
+
+  static double distanceInMiles(double startLatitude, double startLongitude, double endLatitude, double endLongitude) {
+    const double earthRadiusMiles = 3958.8; // Radius of the Earth in miles
+
+    double dLat = degreesToRadians(endLatitude - startLatitude);
+    double dLon = degreesToRadians(endLongitude - startLongitude);
+
+    double a = sin(dLat / 2) * sin(dLat / 2) +
+        cos(degreesToRadians(startLatitude)) * cos(degreesToRadians(endLatitude)) *
+            sin(dLon / 2) * sin(dLon / 2);
+
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    return earthRadiusMiles * c;
+  }
+
+  static bool isDistanceWithinRange(double startLatitude, double startLongitude, double endLatitude, double endLongitude, double rangeMiles) {
+    double distanceInMilesValue = distanceInMiles(startLatitude, startLongitude, endLatitude, endLongitude);
+    return distanceInMilesValue <= rangeMiles;
+  }
 }

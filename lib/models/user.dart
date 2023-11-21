@@ -181,4 +181,10 @@ class User extends Equatable {
 
   @override
   List<Object?> get props => [uid];
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return 'User--> User-id: $uid--- Latitude: $latitude--- Longitude: $longitude';
+  }
 }

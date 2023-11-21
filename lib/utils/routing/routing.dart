@@ -33,6 +33,7 @@ import 'package:street_calle/screens/home/settings/widgets/vendor_subscription.d
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/models/user.dart';
+import 'package:street_calle/widgets/location_picker.dart';
 
 final router = GoRouter(
   routes: [
@@ -266,6 +267,14 @@ final router = GoRouter(
       builder: (context, state) {
         final userId = state.extra as String;
         return ClientVendorProfile(userId: userId,);
+      },
+    ),
+
+    GoRoute(
+      path: AppRoutingName.locationPicker,
+      name: AppRoutingName.locationPicker,
+      builder: (context, state) {
+        return const LocationPicker();
       },
     ),
   ],

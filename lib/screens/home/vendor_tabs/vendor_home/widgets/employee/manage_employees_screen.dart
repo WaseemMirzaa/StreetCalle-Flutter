@@ -95,7 +95,7 @@ class ManageEmployeesScreen extends StatelessWidget {
                 width: context.width,
                 height: defaultButtonSize,
                 child: AppButton(
-                  text: TempLanguage().lblCreateNewEmployee,
+                  text: TempLanguage().lblCreateNewLocation,
                   elevation: 0.0,
                   onTap: () {
                     final imageCubit = context.read<ImageCubit>();

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -96,6 +97,107 @@ OutlineInputBorder vendorSelectionBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(40),
 );
 
+
+Future<BitmapDescriptor> createCustomMarkerIconNetwork(String imagePath, {bool shouldAddRedCircle = false}) async {
+
+  final Uint8List? markerIcon = await getBytesFromNetworkImage(imagePath, 100);
+
+  final ui.Codec codec = await ui.instantiateImageCodec(markerIcon ?? Uint8List(0));
+  final ui.Image image = (await codec.getNextFrame()).image;
+  const int size = 120; // Assuming square dimensions
+  final recorder = ui.PictureRecorder();
+  final canvas = Canvas(recorder);
+
+// Calculate the center of the circular area
+  const centerX = size / 2;
+  const centerY = size / 2;
+
+// Calculate the radius of the circular area
+  const radius = size / 3;
+
+// Draw a circular border
+  final paintBorder = Paint()
+    ..color = AppColors.primaryLightColor // Set the border color
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 10.0; // Set the border width
+
+  canvas.drawCircle(
+    const Offset(centerX, centerY),
+    radius,
+    paintBorder,
+  );
+
+  // Set your condition here
+
+  if (shouldAddRedCircle) {
+    // Calculate the position for the red circle in the top-right corner
+    const redCircleRadius = 20.0;
+    const redCircleX = size - redCircleRadius;
+    const redCircleY = redCircleRadius;
+
+    // Draw a red circle in the top-right corner
+    final paintRedCircle = Paint()
+      ..color = Colors.red // Set the red color
+      ..style = PaintingStyle.fill;
+
+    canvas.drawCircle(
+      const Offset(redCircleX, redCircleY),
+      redCircleRadius,
+      paintRedCircle,
+    );
+  }
+
+  final matrix = Matrix4.identity();
+
+// Calculate the scale factors to fit the image into the box
+  double scaleX = 100 / image.width;
+  double scaleY = 100 / image.height;
+
+// Apply the scale to the matrix
+  matrix.scale(scaleX, scaleY);
+
+// Clip the image to the circular area
+  final paintImage = Paint()
+    ..shader = ImageShader(
+      image,
+      TileMode.clamp,
+      TileMode.clamp,
+      Float64List.fromList(matrix.storage),
+    )
+    ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1);
+
+  canvas.drawCircle(
+    const Offset(centerX, centerY),
+    radius - 2.0, // Adjust the value to account for the border width
+    paintImage,
+  );
+
+  final picture = recorder.endRecording();
+  final img = await picture.toImage(size.toInt(), size.toInt());
+  final pngBytes = await img.toByteData(format: ui.ImageByteFormat.png);
+
+  return BitmapDescriptor.fromBytes(Uint8List.view(pngBytes!.buffer));
+}
+
+Future<Uint8List?> getBytesFromNetworkImage(String imageUrl, int width) async {
+  final Completer<Uint8List?> completer = Completer<Uint8List?>();
+  Image.network(
+    imageUrl,
+    width: width.toDouble(),
+  ).image.resolve(const ImageConfiguration()).addListener(
+    ImageStreamListener(
+          (ImageInfo info, bool synchronousCall) async {
+        final ByteData? data = await info.image.toByteData(format: ui.ImageByteFormat.png);
+        completer.complete(data?.buffer.asUint8List());
+      },
+      onError: (dynamic exception, StackTrace? stackTrace) {
+        completer.completeError(exception);
+      },
+    ),
+  );
+
+  return completer.future;
+}
 
 Future<BitmapDescriptor> createCustomMarkerIconLocal(String imagePath, {int imageWidth = 100}) async {
   final Uint8List? markerIcon = await getBytesFromAsset(imagePath, imageWidth);

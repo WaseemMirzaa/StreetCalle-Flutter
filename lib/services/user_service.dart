@@ -154,8 +154,8 @@ class UserService extends BaseService<User> {
         .get();
 
     List<User> userList = [];
-    userList.addAll(vendorQuerySnapshot.docs.map((user) => user.data()));
-    userList.addAll(employeeQuerySnapshot.docs.map((user) => user.data()));
+    userList.addAll(vendorQuerySnapshot.docs.where((element) => element.data().latitude != null && element.data().longitude != null).map((user) => user.data()));
+    userList.addAll(employeeQuerySnapshot.docs.where((element) => element.data().latitude != null && element.data().longitude != null).map((user) => user.data()));
 
     return userList;
   }

@@ -183,10 +183,13 @@ class ItemService extends BaseService<Item> {
     final users = await sl.get<UserService>().getVendorsAndEmployees();
     final vendorItems = <Item>{};
 
+    users.sort((a, b)=>
+        LocationUtils.distanceInMiles(position.latitude, position.longitude, a.latitude!, a.longitude!)
+            .compareTo(LocationUtils.distanceInMiles(position.latitude, position.longitude, b.latitude!, b.longitude!)));
+
     for (User user in users) {
       if (user.latitude != null && user.longitude != null) {
-        final distance = double.parse(LocationUtils.calculateVendorsDistance(position.latitude, position.longitude, user.latitude!, user.longitude!));
-        if (distance <= 5) {
+        if (LocationUtils.isDistanceWithinRange(position.latitude, position.longitude, user.latitude!, user.longitude!, 10)) {
           if (user.isVendor) {
             vendorItems.addAll(await getMenuItems(user.uid ?? ''));
           } else {

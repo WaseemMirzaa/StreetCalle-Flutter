@@ -188,7 +188,7 @@ class TempLanguage {
 
   String get lblBlocked => 'Blocked';
 
-  String get lblAddItemForEmployee => 'Add Item For Employee';
+  String get lblAddItemForLocation => 'Add Item For Location';
 
   String get lblSelectFoodType => 'Select Food Type';
 
@@ -348,15 +348,15 @@ class TempLanguage {
   String get lblPleaseSelectVendorType =>
       'Please select the type of vendor you are';
 
-  String get lblManageEmployees => 'Manage Your Employees';
+  String get lblManageLocations => 'Manage Your Locations';
 
-  String get lblCreateNewEmployee => 'Create A New Employee';
+  String get lblCreateNewLocation => 'Create A New Location';
 
-  String get lblAddNewEmployee => 'Add New Employee';
+  String get lblAddNewLocation => 'Add New Location';
 
-  String get lblCreateEmployeeProfile => 'Create Employee Profile';
+  String get lblCreateLocationProfile => 'Create Location Profile';
 
-  String get lblEmployeeDetails => 'Employee Details';
+  String get lblLocationDetails => 'Location Details';
 
   String get lblEditAddMenuItems => 'Edit or Add Menu Items';
 
@@ -371,7 +371,9 @@ class TempLanguage {
 
   String get lblAddressNotFound => 'Address not found';
 
-  String get lblAddItemsForEmployee => 'Add Items For Employee';
+  String get lblChangeLocation => 'Change Location';
+
+  String get lblAddItemsForLocation => 'Add Items For Location';
 
   String get lblSetEmployeeCredentials =>
       'Set a Username and password for your employee to login';

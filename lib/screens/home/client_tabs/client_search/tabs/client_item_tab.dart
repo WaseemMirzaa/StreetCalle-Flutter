@@ -32,8 +32,8 @@ class ClientItemTab extends StatelessWidget {
           height: 12,
         ),
         Expanded(
-          child: StreamBuilder<List<Item>>(
-            stream: itemService.getAllItems(),
+          child: FutureBuilder<List<Item>>(
+            future: itemService.getNearestItems(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(

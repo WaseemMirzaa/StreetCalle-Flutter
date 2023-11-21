@@ -46,7 +46,7 @@ class _CreateEmployeeProfileScreenState extends State<CreateEmployeeProfileScree
           ),
         ),
         title: Text(
-          TempLanguage().lblCreateEmployeeProfile,
+          TempLanguage().lblCreateLocationProfile,
           style: context.currentTextTheme.titleMedium
               ?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
@@ -205,7 +205,7 @@ class _CreateEmployeeProfileScreenState extends State<CreateEmployeeProfileScree
                         width: context.width,
                         height: defaultButtonSize,
                         child: AppButton(
-                          text: TempLanguage().lblAddNewEmployee,
+                          text: TempLanguage().lblAddNewLocation,
                           elevation: 0.0,
                           onTap: () {
                             signUp(context);
