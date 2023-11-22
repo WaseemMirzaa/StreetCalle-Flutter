@@ -204,4 +204,46 @@ class ItemService extends BaseService<Item> {
 
     return vendorItems.toList();
   }
+
+  Future<Map<Item, User>> getNearestItemsWithUsers() async {
+    final position = await LocationUtils.fetchLocation();
+    final users = await sl.get<UserService>().getVendorsAndEmployees();
+    final itemsWithUsers = <Item, User>{};
+    final addedItemIds = <String>{};
+
+    users.sort((a, b) =>
+        LocationUtils.distanceInMiles(position.latitude, position.longitude, a.latitude!, a.longitude!)
+            .compareTo(LocationUtils.distanceInMiles(position.latitude, position.longitude, b.latitude!, b.longitude!)));
+
+    for (User user in users) {
+      if (user.latitude != null && user.longitude != null) {
+        final distance = LocationUtils.distanceInMiles(position.latitude, position.longitude, user.latitude!, user.longitude!);
+        if (distance <= 10) {
+          user = user.copyWith(clientVendorDistance: distance.toStringAsFixed(2));
+          if (user.isVendor) {
+            final vendorItems = await getMenuItems(user.uid ?? '');
+            for (Item item in vendorItems) {
+              if (!addedItemIds.contains(item.id!)) {
+                itemsWithUsers[item] = user;
+                addedItemIds.add(item.id!);
+              }
+            }
+          } else {
+            if (user.employeeItemsList != null) {
+              final itemIds = user.employeeItemsList ?? [];
+              final employeeItems = await getEmployeeItemList(itemIds);
+              for (Item item in employeeItems) {
+                if (!addedItemIds.contains(item.id)) {
+                  itemsWithUsers[item] = user;
+                  addedItemIds.add(item.id!);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return itemsWithUsers;
+  }
+
 }

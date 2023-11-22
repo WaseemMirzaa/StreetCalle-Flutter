@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:street_calle/screens/auth/auth_screen.dart';
 import 'package:street_calle/screens/auth/email_verification_screen.dart';
 import 'package:street_calle/screens/auth/sign_up_screen.dart';
@@ -274,7 +275,8 @@ final router = GoRouter(
       path: AppRoutingName.locationPicker,
       name: AppRoutingName.locationPicker,
       builder: (context, state) {
-        return const LocationPicker();
+        final position = state.extra as LatLng;
+        return LocationPicker(position: position,);
       },
     ),
   ],

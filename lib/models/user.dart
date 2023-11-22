@@ -13,6 +13,7 @@ class User extends Equatable {
   final String? phone;
   final String? countryCode;
   final String? about;
+  final String? clientVendorDistance;
   final bool isVendor;
   final bool isOnline;
   final bool isEmployee;
@@ -43,6 +44,7 @@ class User extends Equatable {
       this.updatedAt,
       this.fcmTokens,
       this.about,
+      this.clientVendorDistance,
       this.employeeItemsList,
       this.employeeDealsList,
       this.isVendor = false,
@@ -84,6 +86,7 @@ class User extends Equatable {
       String? countryCode,
       String? vendorType,
       String? userType,
+      String? clientVendorDistance,
       String? employeeOwnerImage,
       String? employeeOwnerName,
       String? subscriptionType}) {
@@ -113,7 +116,8 @@ class User extends Equatable {
       userType: userType ?? this.userType,
       employeeOwnerImage: employeeOwnerImage ?? this.employeeOwnerImage,
       employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName,
-      subscriptionType: subscriptionType ?? this.subscriptionType
+      subscriptionType: subscriptionType ?? this.subscriptionType,
+      clientVendorDistance: clientVendorDistance ?? this.clientVendorDistance,
     );
   }
 
@@ -185,6 +189,6 @@ class User extends Equatable {
   @override
   String toString() {
     // TODO: implement toString
-    return 'User--> User-id: $uid--- Latitude: $latitude--- Longitude: $longitude';
+    return 'User--> User-id: $uid--- Latitude: $latitude--- Longitude: $longitude --- User Name: $name';
   }
 }

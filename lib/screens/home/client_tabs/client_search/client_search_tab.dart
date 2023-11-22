@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/tabs/client_deal_tab.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/tabs/client_item_tab.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/widgets/search_filter_bottom_sheet.dart';
+import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
@@ -35,7 +37,24 @@ class ClientSearchTab extends StatelessWidget {
             ClientDealTab(),
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _filterBottomSheet(context);
+          },
+          mini: true,
+          backgroundColor: AppColors.primaryLightColor,
+          child: Image.asset(AppAssets.filterIcon, width: 18, height: 18,),
+        ),
       ),
+    );
+  }
+
+  void _filterBottomSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return const SearchFilterBottomSheet();
+      },
     );
   }
 }

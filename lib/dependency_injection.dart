@@ -15,7 +15,7 @@ import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_s
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/direction_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_food_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/marker_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
@@ -69,7 +69,7 @@ Future<void> init() async {
   sl.registerFactory(() => SelectedDealsCubit());
   sl.registerFactory(() => MenuCubit());
   sl.registerFactory(() => FavouriteListCubit());
-  sl.registerFactory(() => FilterFoodCubit());
+  sl.registerFactory(() => FilterItemsCubit());
   sl.registerFactory(() => ItemList());
   sl.registerFactory(() => DirectionCubit());
   sl.registerFactory(() => FoodTypeCubit());

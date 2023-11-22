@@ -59,7 +59,8 @@ class ClientMenuItemDetail extends StatelessWidget {
                     ),
                     const Spacer(),
                     IconButton(
-                        onPressed: ()=> _filterBottomSheet(context),
+                      onPressed: (){},
+                        //onPressed: ()=> _filterBottomSheet(context),
                         icon: Image.asset(AppAssets.filterIcon, width: 24, height: 24,),
                     ),
                     IconButton(

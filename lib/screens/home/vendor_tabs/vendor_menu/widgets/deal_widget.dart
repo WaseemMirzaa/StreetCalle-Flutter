@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -7,10 +8,12 @@ import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/widgets/image_widget.dart';
+import 'package:street_calle/models/user.dart';
 
 class DealWidget extends StatelessWidget {
-  const DealWidget({Key? key, required this.deal, required this.onTap, required this.onUpdate, required this.onDelete, this.isFromClient = false}) : super(key: key);
+  const DealWidget({Key? key, required this.deal, this.user, required this.onTap, required this.onUpdate, required this.onDelete, this.isFromClient = false}) : super(key: key);
   final Deal deal;
+  final User? user;
   final bool isFromClient;
   final VoidCallback onTap;
   final VoidCallback onUpdate;
@@ -91,7 +94,20 @@ class DealWidget extends StatelessWidget {
               ),
             ],
           ),
-          isFromClient ? const SizedBox.shrink() : Row(
+          isFromClient
+              ? user == null
+              ? const SizedBox.shrink()
+              : Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                  '${user!.clientVendorDistance} ${TempLanguage().lblMiles}',
+                  style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16)
+              ),
+            ),
+          )
+              : Row(
             children: [
               const Spacer(),
               InkWell(

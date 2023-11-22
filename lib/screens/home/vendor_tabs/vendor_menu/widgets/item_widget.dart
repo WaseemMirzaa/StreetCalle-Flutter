@@ -7,10 +7,13 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/widgets/image_widget.dart';
+import 'package:street_calle/models/user.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 
 class ItemWidget extends StatelessWidget {
-  const ItemWidget({Key? key, required this.item, required this.onUpdate, required this.onDelete, required this.onTap, required this.isFromItemTab}) : super(key: key);
+  const ItemWidget({Key? key, required this.item, this.user, required this.onUpdate, required this.onDelete, required this.onTap, required this.isFromItemTab}) : super(key: key);
   final Item item;
+  final User? user;
   final bool isFromItemTab;
   final VoidCallback onUpdate;
   final VoidCallback onDelete;
@@ -59,7 +62,8 @@ class ItemWidget extends StatelessWidget {
               ),
             ],
           ),
-          isFromItemTab ? Row(
+          isFromItemTab
+              ? Row(
             children: [
               const Spacer(),
               InkWell(
@@ -77,7 +81,19 @@ class ItemWidget extends StatelessWidget {
                 ),
               ),
             ],
-          ) : const SizedBox.shrink(),
+          )
+              : user == null
+                ? const SizedBox.shrink()
+                : Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                        '${user!.clientVendorDistance} ${TempLanguage().lblMiles}',
+                        style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16)
+                    ),
+                  ),
+                ),
           const SizedBox(height: 12,),
           const Divider(
             color: AppColors.dividerColor,

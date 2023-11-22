@@ -12,6 +12,8 @@ import 'dart:math' show atan2, cos, sin, sqrt, pi;
 
 class LocationUtils {
 
+  static Position? position;
+
   static Future<Position> fetchLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -86,6 +88,22 @@ class LocationUtils {
     }
   }
 
+  static Future<String?> getAddressFromPosition() async {
+    try {
+      final position = await LocationUtils.fetchLocation();
+      List<Placemark> placeMarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+      if (placeMarks.isNotEmpty) {
+        Placemark placeMark = placeMarks[0];
+        //String address = '${placeMark.street}, ${placeMark.locality}, ${placeMark.postalCode}, ${placeMark.country}';
+        String address = '${placeMark.name}, ${placeMark.locality}, ${placeMark.administrativeArea}';
+        return address;
+      } else {
+        return TempLanguage().lblAddressNotFound;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
 
   static double degreesToRadians(double degrees) {
     return degrees * pi / 180;

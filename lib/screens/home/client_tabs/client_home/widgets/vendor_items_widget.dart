@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_food_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/pricing_widget.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/dependency_injection.dart';
@@ -105,16 +105,15 @@ class ApplyFilteredWidget extends StatelessWidget {
 
         return itemsList.isEmpty
             ? const NoDataFoundWidget()
-            : BlocBuilder<FilterFoodCubit, List<Item>>( /// [BlocBuilder] shows the filtered list of items
-          builder: (context, filteredList) {
-            List<Item> items = [];
-            (filteredList.isEmpty && !isApplied)
-                ? items = itemsList
-                : items = filteredList;
-
-            return items.isEmpty
-                ? const NoDataFoundWidget()
-                : ListView.builder(
+            : BlocBuilder<FilterItemsCubit, List<Item>>( /// [BlocBuilder] shows the filtered list of items
+               builder: (context, filteredList) {
+                  List<Item> items = [];
+                  (filteredList.isEmpty && !isApplied)
+                       ? items = itemsList
+                       : items = filteredList;
+               return items.isEmpty
+                  ? const NoDataFoundWidget()
+                  : ListView.builder(
               itemCount: items.length,
               //padding: EdgeInsets.zero,
               itemBuilder: (context, index) {

@@ -9,9 +9,9 @@ OutlineInputBorder border = OutlineInputBorder(
 );
 
 class CustomTextField extends StatefulWidget {
-  CustomTextField({Key? key, required this.hintText, required this.keyboardType, required this.asset, required this.controller, required this.isSmall, this.isObscure}) : super(key: key);
+  CustomTextField({Key? key, required this.hintText, required this.keyboardType, this.asset, required this.controller, required this.isSmall, this.isObscure}) : super(key: key);
   final String hintText;
-  final String asset;
+  final String? asset;
   final TextInputType keyboardType;
   final TextEditingController controller;
   final bool isSmall;
@@ -49,7 +49,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           filled: true,
           isDense: true,
           fillColor: AppColors.whiteColor,
-          prefixIcon: Container(
+          prefixIcon: widget.asset == null ? const SizedBox.shrink() : Container(
             margin: const EdgeInsets.all(8),
             decoration: const BoxDecoration(
                 color: AppColors.primaryLightColor,
@@ -57,7 +57,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
             child: Stack(
               alignment: Alignment.center,
-              children: [SvgPicture.asset(widget.asset, width: widget.isSmall ? 14 : 18, height: widget.isSmall ? 14 : 18,)],
+              children: [SvgPicture.asset(widget.asset!, width: widget.isSmall ? 14 : 18, height: widget.isSmall ? 14 : 18,)],
             ),
           ),
           suffixIcon: widget.isObscure ?? false

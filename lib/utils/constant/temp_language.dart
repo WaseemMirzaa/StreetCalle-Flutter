@@ -25,6 +25,8 @@ class TempLanguage {
 
   String get lblUpdate => 'Update';
 
+  String get lblMiles => 'Miles';
+
   String get lblLiveLocation => 'Live Location';
 
   String get lblNearestToYou => 'Nearest to you:';
@@ -205,6 +207,9 @@ class TempLanguage {
   String get lblSetManually => 'Set Manually';
 
   String get lblDistanceTime => 'Distance \\ Time';
+  String get lblDistance => 'Distance';
+  String get lblMinimumPrice => 'Minimum Price';
+  String get lblMaximumPrice => 'Maximum Price';
 
   String get lblChooseAPlane => 'Choose A Plan';
 

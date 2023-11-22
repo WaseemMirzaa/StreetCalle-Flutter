@@ -12,6 +12,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/deal_w
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/widgets/search_field.dart';
+import 'package:street_calle/models/user.dart';
 
 class ClientDealTab extends StatelessWidget {
   const ClientDealTab({Key? key}) : super(key: key);
@@ -32,8 +33,8 @@ class ClientDealTab extends StatelessWidget {
           height: 12,
         ),
         Expanded(
-          child: StreamBuilder<List<Deal>>(
-            stream: dealService.getAllDeals(),
+          child: FutureBuilder<Map<Deal, User>>(
+            future: dealService.getNearestDealsWithUsers(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -48,28 +49,34 @@ class ClientDealTab extends StatelessWidget {
                 return BlocBuilder<SearchDealsCubit, String>(
                   builder: (context, state) {
 
-                    List<Deal> list = [];
+                    List<Deal> deals = [];
+                    List<User> users = [];
+
                     if (state.isNotEmpty) {
-                      list = snapshot.data!.where((deal) {
+                      deals = snapshot.data!.keys.where((deal) {
                         final dealName = deal.title!.toLowerCase();
                         return dealName.contains(state.toLowerCase());
                       }).toList();
+                      users = deals.map((deal) => snapshot.data![deal]!).toList();
                     } else {
-                      list = snapshot.data!;
+                      deals = snapshot.data!.keys.toList();
+                      users = snapshot.data!.values.toList();
                     }
 
-                    return list.isEmpty
+                    return deals.isEmpty
                         ? const NoDataFoundWidget()
                         : Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                       child: ListView.builder(
                         padding: EdgeInsets.zero,
-                        itemCount: list.length,
+                        itemCount: deals.length,
                         itemBuilder: (context, index) {
-                          final deal = list[index];
+                          final deal = deals[index];
+                          final user = users[index];
 
                           return DealWidget(
                             isFromClient: true,
+                            user: user,
                             deal: deal,
                             onTap: (){
                               context.pushNamed(AppRoutingName.dealDetail, extra: deal, pathParameters: {IS_CLIENT: true.toString()});

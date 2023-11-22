@@ -68,9 +68,28 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                         } else {
                           final users = snap.data ?? [];
                           if (snapshot.data != null) {
+                            // if (locationState.updatedLatitude != null && locationState.updatedLongitude != null) {
+                            //   Position position = Position(
+                            //       longitude: locationState.updatedLatitude!,
+                            //       latitude: locationState.updatedLongitude!,
+                            //       timestamp: DateTime.now(),
+                            //       accuracy: 0.0,
+                            //       altitude: 0.0,
+                            //       heading: 0.0,
+                            //       speed: 0.0,
+                            //       speedAccuracy: 0.0, altitudeAccuracy: 100,headingAccuracy: 100);
+                            //   addVendorMarkers(users, position).then((markers) {
+                            //     context.read<MarkersCubit>().setMarkers(markers);
+                            //   });
+                            // } else {
+                            //
+                            // }
                             final position = snapshot.data!;
                             addVendorMarkers(users, position).then((markers) {
-                              context.read<CurrentLocationCubit>().setCurrentLocation(latitude: position.latitude, longitude: position.longitude);
+                              //final locationCubit = context.read<CurrentLocationCubit>();
+                              // if (locationCubit.state.latitude == null && locationCubit.state.longitude == null) {
+                              //   locationCubit.setCurrentLocation(latitude: position.latitude, longitude: position.longitude);
+                              // }
                               context.read<MarkersCubit>().setMarkers(markers);
                             });
                           }
@@ -89,6 +108,20 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                                     _controller.complete(controller);
 
                                     _getCameraPosition(snapshot.data);
+
+                                    // if (locationState.updatedLatitude != null && locationState.updatedLongitude != null) {
+                                    //   Position position = Position(
+                                    //       longitude: locationState.updatedLatitude!,
+                                    //       latitude: locationState.updatedLongitude!,
+                                    //       timestamp: DateTime.now(),
+                                    //       accuracy: 0.0,
+                                    //       altitude: 0.0,
+                                    //       heading: 0.0,
+                                    //       speed: 0.0,
+                                    //       speedAccuracy: 0.0, altitudeAccuracy: 100,headingAccuracy: 100);
+                                    //   _getCameraPosition(position);
+                                    // } else {
+                                    // }
                                   }
                                 },
                               );
@@ -99,7 +132,7 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                   );
                 }
               },
-            ),
+            )
           ),
           Padding(
             padding: const EdgeInsets.only(top: 54, left: 24, right: 24),
@@ -143,9 +176,9 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
             right: 30,
             child: BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
               builder: (context, state) {
-                final latlng = LatLng(state.updatedLatitude ?? state.latitude ?? 0.0, state.updatedLongitude ?? state.longitude ?? 0.0);
+                final latLng = LatLng(state.updatedLatitude ?? 0.0, state.updatedLongitude ?? 0.0);
                 return FutureBuilder(
-                    future: LocationUtils.getAddressFromLatLng(latlng),
+                    future: state.updatedLatitude == null ? LocationUtils.getAddressFromPosition() : LocationUtils.getAddressFromLatLng(latLng),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const SizedBox.shrink();
@@ -163,11 +196,15 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                               Expanded(
                                 child: Text('${snapshot.data}', style: const TextStyle(color: AppColors.blackColor),),
                               ),
-                              InkWell(
-                                  onTap: (){
-                                    context.pushNamed(AppRoutingName.locationPicker);
-                                  },
-                                  child: const Icon(Icons.edit, color: AppColors.blackColor,)),
+                              IconButton(
+                                onPressed: () async {
+                                  LocationUtils.fetchLocation().then((current){
+                                    final position = LatLng(current.latitude, current.longitude);
+                                    context.pushNamed(AppRoutingName.locationPicker, extra: position);
+                                  });
+                                },
+                                icon: const Icon(Icons.edit, color: AppColors.blackColor,),
+                              ),
                               const SizedBox(width: 8,),
                             ],
                           ),
@@ -184,7 +221,7 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
     );
   }
 
- Future<void> _getCameraPosition(Position? position) async {
+  Future<void> _getCameraPosition(Position? position) async {
     if (position == null) {
       return;
     }
@@ -198,7 +235,7 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
 
  }
 
- Future<Set<Marker>> addVendorMarkers(List<User> users, Position position) async {
+  Future<Set<Marker>> addVendorMarkers(List<User> users, Position position) async {
    Set<Marker> markers = <Marker>{};
    final markerAssets = [
      AppAssets.truckMarker,
