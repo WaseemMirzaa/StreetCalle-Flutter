@@ -11,5 +11,17 @@ class ApplyFilterCubit extends Cubit<bool> {
   final maxPriceController = TextEditingController();
   final distanceController = TextEditingController();
 
+  void clear() {
+    minPriceController.clear();
+    maxPriceController.clear();
+    distanceController.clear();
+  }
 
+  @override
+  Future<void> close() {
+    minPriceController.dispose();
+    maxPriceController.dispose();
+    distanceController.dispose();
+    return super.close();
+  }
 }

@@ -204,7 +204,10 @@ Future<void> main() async {
             create: (context)=> DealList(),
           ),
           BlocProvider(
-            create: (context)=> UserList(),
+            create: (context)=> ItemUserList(),
+          ),
+          BlocProvider(
+            create: (context)=> DealUserList(),
           ),
           BlocProvider(
             create: (context)=> sl<DirectionCubit>(),

@@ -4,7 +4,10 @@ import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 
-/// Use for filtering Items
+/// ***** Items Filter Section Start ******** ////
+///
+///
+
 class FilterItemsCubit extends Cubit<List<Item>> {
   FilterItemsCubit() : super([]);
 
@@ -55,8 +58,23 @@ class ItemList extends Cubit<List<Item>> {
   void addItems(List<Item> items)=> emit(items);
 }
 
+/// List of users that will be used to filter items distance wise
+class ItemUserList extends Cubit<List<User>> {
+  ItemUserList() : super([]);
 
-/// Use for filtering Deals
+  void resetUsers()=> emit([]);
+  void addUsers(List<User> users)=> emit(users);
+}
+
+///
+///
+/// **************************************** ////
+
+
+/// ***** Deals Filter Section Start ******** ////
+///
+///
+
 class FilterDealsCubit extends Cubit<List<Deal>> {
   FilterDealsCubit() : super([]);
 
@@ -104,13 +122,16 @@ class DealList extends Cubit<List<Deal>> {
   void addDeals(List<Deal> deals)=> emit(deals);
 }
 
-
-/// List of users that will be used to filter items/deals distance wise
-class UserList extends Cubit<List<User>> {
-  UserList() : super([]);
+/// List of users that will be used to filter deals distance wise
+class DealUserList extends Cubit<List<User>> {
+  DealUserList() : super([]);
 
   void resetUsers()=> emit([]);
   void addUsers(List<User> users)=> emit(users);
 }
+
+///
+///
+/// **************************************** ////
 
 

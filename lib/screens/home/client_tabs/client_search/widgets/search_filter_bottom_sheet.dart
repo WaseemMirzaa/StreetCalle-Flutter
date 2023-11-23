@@ -39,7 +39,11 @@ class SearchFilterBottomSheet extends StatelessWidget {
                   InkWell(
                     onTap: (){
                       context.read<ApplyFilterCubit>().resetApplyFilter();
+                      context.read<ApplyFilterCubit>().clear();
                       context.read<FilterItemsCubit>().resetFilterItems();
+                      context.read<ItemList>().resetItems();
+                      context.read<FilterDealsCubit>().resetFilterDeals();
+                      context.read<DealList>().resetDeals();
                       context.pop();
                     },
                     child: Text(
@@ -170,15 +174,17 @@ class SearchFilterBottomSheet extends StatelessWidget {
                          applyFilterCubit.minPriceController.text.isEmpty ? 1.0 : double.parse(applyFilterCubit.minPriceController.text),
                          applyFilterCubit.maxPriceController.text.isEmpty ? 100.0 : double.parse(applyFilterCubit.maxPriceController.text),
                          context.read<ItemList>().state,
-                         context.read<UserList>().state,
+                         context.read<ItemUserList>().state,
                          applyFilterCubit.distanceController.text.isEmpty ? 10.0 : double.parse(applyFilterCubit.distanceController.text)
-                    );
+                     );
 
-                     // context.read<FilterDealsCubit>().filterItems(
-                     //     _minPriceController.text.isEmpty ? 1.0 : double.parse(_minPriceController.text),
-                     //     _maxPriceController.text.isEmpty ? 100.0 : double.parse(_maxPriceController.text),
-                     //     context.read<DealList>().state
-                     // );
+                     context.read<FilterDealsCubit>().filterDeals(
+                         applyFilterCubit.minPriceController.text.isEmpty ? 1.0 : double.parse(applyFilterCubit.minPriceController.text),
+                         applyFilterCubit.maxPriceController.text.isEmpty ? 100.0 : double.parse(applyFilterCubit.maxPriceController.text),
+                         context.read<DealList>().state,
+                         context.read<DealUserList>().state,
+                         applyFilterCubit.distanceController.text.isEmpty ? 10.0 : double.parse(applyFilterCubit.distanceController.text)
+                     );
                     context.pop();
                   },
                   shapeBorder: RoundedRectangleBorder(

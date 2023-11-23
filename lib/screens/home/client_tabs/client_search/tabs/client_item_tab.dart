@@ -47,27 +47,37 @@ class ClientItemTab extends StatelessWidget {
                 if (snapshot.data!.isEmpty) {
                   return const NoDataFoundWidget();
                 }
-                return BlocBuilder<SearchItemsCubit, String>(
-                  builder: (context, state){
-                    List<Item> items = [];
-                    List<User> users = [];
 
-                    if (state.isNotEmpty) {
-                      items = snapshot.data!.keys.where((item) {
-                        final itemName = item.title!.toLowerCase();
-                        return itemName.contains(state.toLowerCase());
-                      }).toList();
-                      users = items.map((item) => snapshot.data![item]!).toList();
-                    } else {
-                      items = snapshot.data!.keys.toList();
-                      users = snapshot.data!.values.toList();
-                    }
-                    context.read<ItemList>().resetItems();
-                    context.read<UserList>().resetUsers();
-                    context.read<ItemList>().addItems(items);
-                    context.read<UserList>().addUsers(users);
+                List<Item> itemList = snapshot.data!.keys.toList();
+                List<User> usersList = snapshot.data!.values.toList();
 
-                    return FilteredWidget(itemsList: items, usersList: users,);
+                return BlocBuilder<ApplyFilterCubit, bool>(
+                  builder: (context, isApplied) {
+                    return BlocBuilder<FilterItemsCubit, List<Item>>(
+                        builder: (context, filteredList) {
+                          List<Item> items = [];
+                          List<User> users = [];
+
+                          (filteredList.isEmpty && !isApplied)
+                              ? items = itemList
+                              : items = filteredList;
+
+                          if (filteredList.isEmpty && !isApplied) {
+                            users = usersList;
+                          } else {
+                            users = items.map((item) => snapshot.data![item]!).toList();
+                          }
+
+                          context.read<ItemList>().resetItems();
+                          context.read<ItemUserList>().resetUsers();
+                          context.read<ItemList>().addItems(items);
+                          context.read<ItemUserList>().addUsers(users);
+
+                          return items.isEmpty
+                              ? const NoDataFoundWidget()
+                              : FilteredWidget(itemsList: items, usersList: users,);
+                        }
+                    );
                   },
                 );
               }
@@ -92,59 +102,179 @@ class FilteredWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ApplyFilterCubit, bool>(
-      builder: (context, isApplied) {
-        return itemsList.isEmpty
-            ?  const NoDataFoundWidget()
-            :  BlocBuilder<FilterItemsCubit, List<Item>>(
-            builder: (context, filteredList) {
-              List<Item> items = [];
-              List<User> users = [];
-              (filteredList.isEmpty && !isApplied)
-                  ? items = itemsList
-                  : items = filteredList;
-              if (filteredList.isEmpty && !isApplied) {
-                users = usersList;
-              } else {
-                List<int> filteredItemsIndexes = [];
-                for (int i = 0; i < filteredList.length; i++) {
-                  int index = itemsList.indexOf(filteredList[i]);
-                  filteredItemsIndexes.add(index);
-                }
-                for (int index in filteredItemsIndexes) {
-                  if (index > -1) {
-                    users.add(usersList[index]);
-                  }
-                }
-              }
+    return BlocBuilder<SearchItemsCubit, String>(
+      builder: (context, state){
+        List<Item> items = [];
+        List<User> users = [];
 
-              return items.isEmpty
-                  ? const NoDataFoundWidget()
-                  : Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    final item = items[index];
-                    final user = users[index];
+        if (state.isNotEmpty) {
+          items = itemsList.where((item) {
+            final itemName = item.title!.toLowerCase();
+            return itemName.contains(state.toLowerCase());
+          }).toList();
 
-                    return ItemWidget(
-                      isFromItemTab: false,
-                      item: item,
-                      user: user,
-                      onTap: (){
-                        context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
-                      },
-                      onUpdate: (){},
-                      onDelete: (){},
-                    );
-                  },
-                ),
-              );
+          List<int> filteredItemsIndexes = [];
+          for (int i = 0; i < items.length; i++) {
+            int index = itemsList.indexOf(items[i]);
+            filteredItemsIndexes.add(index);
+          }
+          for (int index in filteredItemsIndexes) {
+            if (index > -1) {
+              users.add(usersList[index]);
             }
+          }
+
+        } else {
+          items = itemsList;
+          users = usersList;
+        }
+
+        return items.isEmpty
+            ? const NoDataFoundWidget()
+            : Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          child: ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              final item = items[index];
+              final user = users[index];
+
+              return ItemWidget(
+                isFromItemTab: false,
+                item: item,
+                user: user,
+                onTap: (){
+                  context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
+                },
+                onUpdate: (){},
+                onDelete: (){},
+              );
+            },
+          ),
         );
       },
     );
   }
 }
+
+
+
+// class Testing extends StatelessWidget {
+//   const Testing({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final itemService = sl.get<ItemService>();
+//     context.read<SearchItemsCubit>().updateQuery('');
+//     itemService.getNearestItems();
+//     return Column(
+//       children: [
+//         SearchField(
+//           hintText: TempLanguage().lblSearchItems,
+//           padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+//           onChanged: (String? value) => _searchQuery(context, value),
+//         ),
+//         const SizedBox(
+//           height: 12,
+//         ),
+//         Expanded(
+//           child: FutureBuilder<Map<Item, User>>(
+//             future: itemService.getNearestItemsWithUsers(),
+//             builder: (context, snapshot) {
+//               if (snapshot.connectionState == ConnectionState.waiting) {
+//                 return const Center(
+//                   child: CircularProgressIndicator(color: AppColors.primaryColor,),
+//                 );
+//               }
+//               if (snapshot.hasData && snapshot.data != null) {
+//                 if (snapshot.data!.isEmpty) {
+//                   return const NoDataFoundWidget();
+//                 }
+//
+//                 return Builder(
+//                   builder: (context) {
+//
+//                     final isApplied = context.watch<ApplyFilterCubit>().state;
+//                     final filteredList = context.watch<FilterItemsCubit>().state;
+//                     final state = context.watch<SearchItemsCubit>().state;
+//
+//                     List<Item> items = snapshot.data!.keys.toList();
+//                     List<User> users = snapshot.data!.values.toList();
+//
+//                     (filteredList.isEmpty && !isApplied)
+//                         ? items = items
+//                         : items = filteredList;
+//
+//                     if (filteredList.isEmpty && !isApplied) {
+//                       users = users;
+//                     } else {
+//                       users = items.map((item) => snapshot.data![item]!).toList();
+//                     }
+//
+//                     context.read<ItemList>().resetItems();
+//                     context.read<ItemUserList>().resetUsers();
+//                     context.read<ItemList>().addItems(items);
+//                     context.read<ItemUserList>().addUsers(users);
+//
+//                     if (state.isNotEmpty) {
+//                       items = items.where((item) {
+//                         final itemName = item.title!.toLowerCase();
+//                         return itemName.contains(state.toLowerCase());
+//                       }).toList();
+//
+//                       List<int> filteredItemsIndexes = [];
+//                       for (int i = 0; i < items.length; i++) {
+//                         int index = items.indexOf(items[i]);
+//                         filteredItemsIndexes.add(index);
+//                       }
+//                       for (int index in filteredItemsIndexes) {
+//                         if (index > -1) {
+//                           users.add(users[index]);
+//                         }
+//                       }
+//
+//                     } else {
+//                       items = items;
+//                       users = users;
+//                     }
+//
+//                     return items.isEmpty
+//                         ? const NoDataFoundWidget()
+//                         : Padding(
+//                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+//                       child: ListView.builder(
+//                         padding: EdgeInsets.zero,
+//                         itemCount: items.length,
+//                         itemBuilder: (context, index) {
+//                           final item = items[index];
+//                           final user = users[index];
+//
+//                           return ItemWidget(
+//                             isFromItemTab: false,
+//                             item: item,
+//                             user: user,
+//                             onTap: (){
+//                               context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
+//                             },
+//                             onUpdate: (){},
+//                             onDelete: (){},
+//                           );
+//                         },
+//                       ),
+//                     );
+//                   },
+//                 );
+//               }
+//               return const NoDataFoundWidget();
+//             },
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+//
+//   void _searchQuery(BuildContext context, String? value) {
+//     context.read<SearchItemsCubit>().updateQuery(value ?? '');
+//   }
+// }
