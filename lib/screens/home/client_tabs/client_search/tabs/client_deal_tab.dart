@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/models/deal.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -21,6 +22,10 @@ class ClientDealTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nvPositionCubit = context.read<NavPositionCubit>();
+    nvPositionCubit.visitedDealTab();
+    final currentLocationCubit = context.read<CurrentLocationCubit>();
+    final applyFilterCubit = context.read<ApplyFilterCubit>();
     final dealService = sl.get<DealService>();
     context.read<SearchDealsCubit>().updateQuery('');
 
@@ -36,7 +41,7 @@ class ClientDealTab extends StatelessWidget {
         ),
         Expanded(
           child: FutureBuilder<Map<Deal, User>>(
-            future: dealService.getNearestDealsWithUsers(),
+            future: dealService.getNearestDealsWithUsers(currentLocationCubit),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -50,9 +55,21 @@ class ClientDealTab extends StatelessWidget {
 
                 List<Deal> dealsList = snapshot.data!.keys.toList();
                 List<User> usersList = snapshot.data!.values.toList();
+                context.read<AvailableDealList>().addDeals(dealsList);
+                context.read<AvailableDealUserList>().addUsers(usersList);
 
                 return BlocBuilder<ApplyFilterCubit, bool>(
                   builder: (context, isApplied){
+
+                    if (isApplied) {
+                      context.read<FilterDealsCubit>().filterDeals(
+                          applyFilterCubit.minPriceController.text.isEmpty ? 1.0 : double.parse(applyFilterCubit.minPriceController.text),
+                          applyFilterCubit.maxPriceController.text.isEmpty ? 1000.0 : double.parse(applyFilterCubit.maxPriceController.text),
+                          context.read<AvailableDealList>().state,
+                          context.read<AvailableDealUserList>().state,
+                          applyFilterCubit.distanceController.text.isEmpty ? 10.0 : double.parse(applyFilterCubit.distanceController.text)
+                      );
+                    }
 
                     return BlocBuilder<FilterDealsCubit, List<Deal>>(
                       builder: (context, filteredList){
@@ -60,15 +77,15 @@ class ClientDealTab extends StatelessWidget {
                         List<Deal> deals = [];
                         List<User> users = [];
 
-                        (filteredList.isEmpty && !isApplied)
-                            ? deals = dealsList
-                            : deals = filteredList;
 
-                        if (filteredList.isEmpty && !isApplied) {
-                          users = usersList;
-                        } else {
-                          users = deals.map((deal) => snapshot.data![deal]!).toList();
-                        }
+                        deals = isApplied
+                            ? (filteredList.isEmpty ? [] : filteredList)
+                            : dealsList;
+
+
+                        users = isApplied
+                            ? (filteredList.isEmpty ? [] : deals.map((deal) => snapshot.data![deal]!).toList())
+                            : usersList;
 
                         context.read<DealList>().resetDeals();
                         context.read<DealUserList>().resetUsers();
@@ -136,7 +153,7 @@ class FilteredWidget extends StatelessWidget {
         return deals.isEmpty
             ? const NoDataFoundWidget()
             : Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
           child: ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: deals.length,
@@ -146,6 +163,7 @@ class FilteredWidget extends StatelessWidget {
 
               return DealWidget(
                 isFromClient: true,
+                isLastIndex: index == (deals.length - 1),
                 user: user,
                 deal: deal,
                 onTap: (){

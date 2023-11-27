@@ -58,9 +58,23 @@ class ItemList extends Cubit<List<Item>> {
   void addItems(List<Item> items)=> emit(items);
 }
 
+class AvailableItemList extends Cubit<List<Item>> {
+  AvailableItemList() : super([]);
+
+  void resetItems()=> emit([]);
+  void addItems(List<Item> items)=> emit(items);
+}
+
 /// List of users that will be used to filter items distance wise
 class ItemUserList extends Cubit<List<User>> {
   ItemUserList() : super([]);
+
+  void resetUsers()=> emit([]);
+  void addUsers(List<User> users)=> emit(users);
+}
+
+class AvailableItemUserList extends Cubit<List<User>> {
+  AvailableItemUserList() : super([]);
 
   void resetUsers()=> emit([]);
   void addUsers(List<User> users)=> emit(users);
@@ -77,13 +91,6 @@ class ItemUserList extends Cubit<List<User>> {
 
 class FilterDealsCubit extends Cubit<List<Deal>> {
   FilterDealsCubit() : super([]);
-
-  // void filterDeals(double minPrice, double maxPrice, List<Deal> deals, List<User> users,) {
-  //   final filteredList = deals.where((deal) {
-  //     return (deal.actualPrice != null && deal.actualPrice! >= minPrice && deal.actualPrice! <= maxPrice);
-  //   }).toList();
-  //   emit(filteredList);
-  // }
 
   void filterDeals(double minPrice, double maxPrice, List<Deal> deals, List<User> users, double? distance) {
     final filteredList = deals.where((deal) {
@@ -122,9 +129,23 @@ class DealList extends Cubit<List<Deal>> {
   void addDeals(List<Deal> deals)=> emit(deals);
 }
 
+class AvailableDealList extends Cubit<List<Deal>> {
+  AvailableDealList() : super([]);
+
+  void resetDeals()=> emit([]);
+  void addDeals(List<Deal> deals)=> emit(deals);
+}
+
 /// List of users that will be used to filter deals distance wise
 class DealUserList extends Cubit<List<User>> {
   DealUserList() : super([]);
+
+  void resetUsers()=> emit([]);
+  void addUsers(List<User> users)=> emit(users);
+}
+
+class AvailableDealUserList extends Cubit<List<User>> {
+  AvailableDealUserList() : super([]);
 
   void resetUsers()=> emit([]);
   void addUsers(List<User> users)=> emit(users);
@@ -135,3 +156,13 @@ class DealUserList extends Cubit<List<User>> {
 /// **************************************** ////
 
 
+
+enum SearchTab { item, deal, none }
+
+class NavPositionCubit extends Cubit<SearchTab>{
+  NavPositionCubit() : super(SearchTab.none);
+
+  void visitedItemTab()=> emit(SearchTab.item);
+  void visitedDealTab()=> emit(SearchTab.deal);
+  void resetTab()=> emit(SearchTab.none);
+}

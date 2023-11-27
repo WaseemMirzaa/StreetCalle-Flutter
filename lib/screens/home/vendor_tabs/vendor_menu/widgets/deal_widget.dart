@@ -11,9 +11,10 @@ import 'package:street_calle/widgets/image_widget.dart';
 import 'package:street_calle/models/user.dart';
 
 class DealWidget extends StatelessWidget {
-  const DealWidget({Key? key, required this.deal, this.user, required this.onTap, required this.onUpdate, required this.onDelete, this.isFromClient = false}) : super(key: key);
+  const DealWidget({Key? key, required this.deal, this.isLastIndex, this.user, required this.onTap, required this.onUpdate, required this.onDelete, this.isFromClient = false}) : super(key: key);
   final Deal deal;
   final User? user;
+  final bool? isLastIndex;
   final bool isFromClient;
   final VoidCallback onTap;
   final VoidCallback onUpdate;
@@ -130,6 +131,7 @@ class DealWidget extends StatelessWidget {
           const Divider(
             color: AppColors.dividerColor,
           ),
+          SizedBox(height: isLastIndex ?? false ? (isFromClient ? 70 : 0) : 0,),
         ],
       ),
     );

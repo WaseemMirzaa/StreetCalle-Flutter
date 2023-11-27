@@ -11,9 +11,10 @@ import 'package:street_calle/models/user.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 
 class ItemWidget extends StatelessWidget {
-  const ItemWidget({Key? key, required this.item, this.user, required this.onUpdate, required this.onDelete, required this.onTap, required this.isFromItemTab}) : super(key: key);
+  const ItemWidget({Key? key, required this.item, this.user, this.isLastIndex, required this.onUpdate, required this.onDelete, required this.onTap, required this.isFromItemTab}) : super(key: key);
   final Item item;
   final User? user;
+  final bool? isLastIndex;
   final bool isFromItemTab;
   final VoidCallback onUpdate;
   final VoidCallback onDelete;
@@ -98,6 +99,7 @@ class ItemWidget extends StatelessWidget {
           const Divider(
             color: AppColors.dividerColor,
           ),
+          SizedBox(height: isLastIndex ?? false ? (isFromItemTab ? 0 : 70) : 0,),
         ],
       ),
     );

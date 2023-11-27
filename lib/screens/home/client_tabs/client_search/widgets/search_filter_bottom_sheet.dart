@@ -16,12 +16,11 @@ class SearchFilterBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final applyFilterCubit = context.read<ApplyFilterCubit>();
     MySizer().init(context);
-    return SizedBox(
-      height: MySizer.screenHeight,
-      width: MySizer.screenWidth,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        child: SingleChildScrollView(
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,21 +169,14 @@ class SearchFilterBottomSheet extends StatelessWidget {
                   elevation: 0.0,
                   onTap: () {
                      context.read<ApplyFilterCubit>().applyFilter();
-                     context.read<FilterItemsCubit>().filterItems(
-                         applyFilterCubit.minPriceController.text.isEmpty ? 1.0 : double.parse(applyFilterCubit.minPriceController.text),
-                         applyFilterCubit.maxPriceController.text.isEmpty ? 100.0 : double.parse(applyFilterCubit.maxPriceController.text),
-                         context.read<ItemList>().state,
-                         context.read<ItemUserList>().state,
-                         applyFilterCubit.distanceController.text.isEmpty ? 10.0 : double.parse(applyFilterCubit.distanceController.text)
-                     );
+                     final navPosition = context.read<NavPositionCubit>();
 
-                     context.read<FilterDealsCubit>().filterDeals(
-                         applyFilterCubit.minPriceController.text.isEmpty ? 1.0 : double.parse(applyFilterCubit.minPriceController.text),
-                         applyFilterCubit.maxPriceController.text.isEmpty ? 100.0 : double.parse(applyFilterCubit.maxPriceController.text),
-                         context.read<DealList>().state,
-                         context.read<DealUserList>().state,
-                         applyFilterCubit.distanceController.text.isEmpty ? 10.0 : double.parse(applyFilterCubit.distanceController.text)
-                     );
+                     if (navPosition.state.name == SearchTab.deal.name) {
+                       itemFilter(context, applyFilterCubit);
+                       dealFilter(context, applyFilterCubit);
+                     } else {
+                       itemFilter(context, applyFilterCubit);
+                     }
                     context.pop();
                   },
                   shapeBorder: RoundedRectangleBorder(
@@ -198,6 +190,26 @@ class SearchFilterBottomSheet extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void itemFilter(BuildContext context, ApplyFilterCubit applyFilterCubit) {
+    context.read<FilterItemsCubit>().filterItems(
+        applyFilterCubit.minPriceController.text.isEmpty ? 1.0 : double.parse(applyFilterCubit.minPriceController.text),
+        applyFilterCubit.maxPriceController.text.isEmpty ? 1000.0 : double.parse(applyFilterCubit.maxPriceController.text),
+        context.read<AvailableItemList>().state,
+        context.read<AvailableItemUserList>().state,
+        applyFilterCubit.distanceController.text.isEmpty ? 10.0 : double.parse(applyFilterCubit.distanceController.text)
+    );
+  }
+
+  void dealFilter(BuildContext context, ApplyFilterCubit applyFilterCubit) {
+    context.read<FilterDealsCubit>().filterDeals(
+        applyFilterCubit.minPriceController.text.isEmpty ? 1.0 : double.parse(applyFilterCubit.minPriceController.text),
+        applyFilterCubit.maxPriceController.text.isEmpty ? 1000.0 : double.parse(applyFilterCubit.maxPriceController.text),
+        context.read<AvailableDealList>().state,
+        context.read<AvailableDealUserList>().state,
+        applyFilterCubit.distanceController.text.isEmpty ? 10.0 : double.parse(applyFilterCubit.distanceController.text)
     );
   }
 }

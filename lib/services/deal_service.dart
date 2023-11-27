@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/services/base_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -135,15 +137,28 @@ class DealService extends BaseService<Deal> {
     return querySnapshot.docs.map((e) => e.data()).toList();
   }
 
-  Future<Map<Deal, User>> getNearestDealsWithUsers() async {
-    final position = await LocationUtils.fetchLocation();
+  Future<Map<Deal, User>> getNearestDealsWithUsers(CurrentLocationCubit cubit) async {
+    Position? position;
+    if (cubit.state.updatedLatitude == null) {
+      position = await LocationUtils.fetchLocation();
+    } else {
+      position = Position(
+          longitude: cubit.state.updatedLongitude!,
+          latitude: cubit.state.updatedLatitude!,
+          timestamp: DateTime.now(),
+          accuracy: 0.0,
+          altitude: 0.0,
+          heading: 0.0,
+          speed: 0.0,
+          speedAccuracy: 0.0, altitudeAccuracy: 100,headingAccuracy: 100);
+    }
     final users = await sl.get<UserService>().getVendorsAndEmployees();
     final dealsWithUsers = <Deal, User>{};
     final addedDealIds = <String>{};
 
     users.sort((a, b) =>
-        LocationUtils.distanceInMiles(position.latitude, position.longitude, a.latitude!, a.longitude!)
-            .compareTo(LocationUtils.distanceInMiles(position.latitude, position.longitude, b.latitude!, b.longitude!)));
+        LocationUtils.distanceInMiles(position?.latitude ?? 0.0, position?.longitude ?? 0.0, a.latitude!, a.longitude!)
+            .compareTo(LocationUtils.distanceInMiles(position?.latitude ?? 0.0, position?.longitude ?? 0.0, b.latitude!, b.longitude!)));
 
     for (User user in users) {
       if (user.latitude != null && user.longitude != null) {

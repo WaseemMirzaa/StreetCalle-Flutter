@@ -11,6 +11,7 @@ class MarkersCubit extends Cubit<MarkersState> {
   MarkersCubit() : super(MarkersState(<Marker>{}));
 
   void setMarkers(Set<Marker> markers) {
+    emit(MarkersState({}));
     emit(MarkersState(markers));
   }
 }
