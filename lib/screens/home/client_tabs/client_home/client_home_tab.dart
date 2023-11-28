@@ -187,22 +187,6 @@ class _DisplayMapState extends State<DisplayMap> {
             return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));
           } else {
             final users = snap.data ?? [];
-            // if (locationState.updatedLatitude != null && locationState.updatedLongitude != null) {
-            //   Position position = Position(
-            //       longitude: locationState.updatedLatitude!,
-            //       latitude: locationState.updatedLongitude!,
-            //       timestamp: DateTime.now(),
-            //       accuracy: 0.0,
-            //       altitude: 0.0,
-            //       heading: 0.0,
-            //       speed: 0.0,
-            //       speedAccuracy: 0.0, altitudeAccuracy: 100,headingAccuracy: 100);
-            //   addVendorMarkers(users, position).then((markers) {
-            //     context.read<MarkersCubit>().setMarkers(markers);
-            //   });
-            // } else {
-            //
-            // }
             if (widget.position != null) {
 
               addVendorMarkers(users, widget.position!).then((markers) {

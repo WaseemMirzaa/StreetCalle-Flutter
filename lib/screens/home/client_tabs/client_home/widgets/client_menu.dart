@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu_item.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -91,7 +92,23 @@ class ClientMenu extends StatelessWidget {
                   } else if (snap.hasError) {
                     return Center(child: Text(TempLanguage().lblSomethingWentWrong));
                   } else {
-                    return DisplayVendors(position: snap.data!);
+                    return BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
+                      builder: (context, state){
+                        if (state.updatedLatitude != null && state.updatedLongitude != null) {
+                          Position position = Position(
+                              longitude: state.updatedLongitude!,
+                              latitude: state.updatedLatitude!,
+                              timestamp: DateTime.now(),
+                              accuracy: 0.0,
+                              altitude: 0.0,
+                              heading: 0.0,
+                              speed: 0.0,
+                              speedAccuracy: 0.0, altitudeAccuracy: 100,headingAccuracy: 100);
+                          return DisplayVendors(position: position);
+                        } else {
+                          return DisplayVendors(position: snap.data!);
+                        }},
+                    );
                   }
                 },
               ),
