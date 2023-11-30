@@ -197,8 +197,8 @@ class SearchFilterBottomSheet extends StatelessWidget {
     context.read<FilterItemsCubit>().filterItems(
         applyFilterCubit.minPriceController.text.isEmpty ? 1.0 : double.parse(applyFilterCubit.minPriceController.text),
         applyFilterCubit.maxPriceController.text.isEmpty ? 1000.0 : double.parse(applyFilterCubit.maxPriceController.text),
-        context.read<AvailableItemList>().state,
-        context.read<AvailableItemUserList>().state,
+        context.read<LocalItemsStorage>().state.keys.toList(),
+        context.read<LocalItemsStorage>().state.values.toList(),
         applyFilterCubit.distanceController.text.isEmpty ? 10.0 : double.parse(applyFilterCubit.distanceController.text)
     );
   }
@@ -207,8 +207,8 @@ class SearchFilterBottomSheet extends StatelessWidget {
     context.read<FilterDealsCubit>().filterDeals(
         applyFilterCubit.minPriceController.text.isEmpty ? 1.0 : double.parse(applyFilterCubit.minPriceController.text),
         applyFilterCubit.maxPriceController.text.isEmpty ? 1000.0 : double.parse(applyFilterCubit.maxPriceController.text),
-        context.read<AvailableDealList>().state,
-        context.read<AvailableDealUserList>().state,
+        context.read<LocalDealsStorage>().state.keys.toList(),
+        context.read<LocalDealsStorage>().state.values.toList(),
         applyFilterCubit.distanceController.text.isEmpty ? 10.0 : double.parse(applyFilterCubit.distanceController.text)
     );
   }

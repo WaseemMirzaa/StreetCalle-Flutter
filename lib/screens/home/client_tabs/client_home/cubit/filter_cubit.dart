@@ -58,13 +58,6 @@ class ItemList extends Cubit<List<Item>> {
   void addItems(List<Item> items)=> emit(items);
 }
 
-class AvailableItemList extends Cubit<List<Item>> {
-  AvailableItemList() : super([]);
-
-  void resetItems()=> emit([]);
-  void addItems(List<Item> items)=> emit(items);
-}
-
 /// List of users that will be used to filter items distance wise
 class ItemUserList extends Cubit<List<User>> {
   ItemUserList() : super([]);
@@ -73,11 +66,11 @@ class ItemUserList extends Cubit<List<User>> {
   void addUsers(List<User> users)=> emit(users);
 }
 
-class AvailableItemUserList extends Cubit<List<User>> {
-  AvailableItemUserList() : super([]);
+class LocalItemsStorage extends Cubit<Map<Item, User>> {
+  LocalItemsStorage() : super({});
 
-  void resetUsers()=> emit([]);
-  void addUsers(List<User> users)=> emit(users);
+  void addLocalItems(Map<Item, User> map) => emit(map);
+  void resetLocalItem() => emit({});
 }
 
 ///
@@ -129,13 +122,6 @@ class DealList extends Cubit<List<Deal>> {
   void addDeals(List<Deal> deals)=> emit(deals);
 }
 
-class AvailableDealList extends Cubit<List<Deal>> {
-  AvailableDealList() : super([]);
-
-  void resetDeals()=> emit([]);
-  void addDeals(List<Deal> deals)=> emit(deals);
-}
-
 /// List of users that will be used to filter deals distance wise
 class DealUserList extends Cubit<List<User>> {
   DealUserList() : super([]);
@@ -144,11 +130,11 @@ class DealUserList extends Cubit<List<User>> {
   void addUsers(List<User> users)=> emit(users);
 }
 
-class AvailableDealUserList extends Cubit<List<User>> {
-  AvailableDealUserList() : super([]);
+class LocalDealsStorage extends Cubit<Map<Deal, User>> {
+  LocalDealsStorage() : super({});
 
-  void resetUsers()=> emit([]);
-  void addUsers(List<User> users)=> emit(users);
+  void addLocalDeals(Map<Deal, User> map) => emit(map);
+  void resetLocalDeal() => emit({});
 }
 
 ///

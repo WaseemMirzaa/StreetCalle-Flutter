@@ -210,21 +210,6 @@ Future<void> main() async {
             create: (context)=> DealUserList(),
           ),
           BlocProvider(
-            create: (context)=> AvailableItemList(),
-          ),
-          BlocProvider(
-            create: (context)=> AvailableDealList(),
-          ),
-          BlocProvider(
-            create: (context)=> AvailableItemUserList(),
-          ),
-          BlocProvider(
-            create: (context)=> AvailableDealUserList(),
-          ),
-          BlocProvider(
-            create: (context)=> NavPositionCubit(),
-          ),
-          BlocProvider(
             create: (context)=> sl<DirectionCubit>(),
           ),
           BlocProvider(

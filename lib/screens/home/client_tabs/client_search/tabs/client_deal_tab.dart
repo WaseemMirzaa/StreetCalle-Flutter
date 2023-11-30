@@ -25,7 +25,8 @@ class ClientDealTab extends StatelessWidget {
     final nvPositionCubit = context.read<NavPositionCubit>();
     nvPositionCubit.visitedDealTab();
     final currentLocationCubit = context.read<CurrentLocationCubit>();
-    final applyFilterCubit = context.read<ApplyFilterCubit>();
+    final localDeals = context.read<LocalDealsStorage>();
+    final localDealsStorage = context.read<LocalDealsStorage>();
     final dealService = sl.get<DealService>();
     context.read<SearchDealsCubit>().updateQuery('');
 
@@ -40,7 +41,9 @@ class ClientDealTab extends StatelessWidget {
           height: 12,
         ),
         Expanded(
-          child: FutureBuilder<Map<Deal, User>>(
+          child: localDeals.state.isNotEmpty
+              ? FilteredWidget(usersList: localDeals.state.values.toList(), dealsList: localDeals.state.keys.toList(), userDeals: localDeals.state)
+              : FutureBuilder<Map<Deal, User>>(
             future: dealService.getNearestDealsWithUsers(currentLocationCubit),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -53,52 +56,11 @@ class ClientDealTab extends StatelessWidget {
                   return const NoDataFoundWidget();
                 }
 
+                localDealsStorage.addLocalDeals(snapshot.data!);
                 List<Deal> dealsList = snapshot.data!.keys.toList();
                 List<User> usersList = snapshot.data!.values.toList();
-                context.read<AvailableDealList>().addDeals(dealsList);
-                context.read<AvailableDealUserList>().addUsers(usersList);
 
-                return BlocBuilder<ApplyFilterCubit, bool>(
-                  builder: (context, isApplied){
-
-                    if (isApplied) {
-                      context.read<FilterDealsCubit>().filterDeals(
-                          applyFilterCubit.minPriceController.text.isEmpty ? 1.0 : double.parse(applyFilterCubit.minPriceController.text),
-                          applyFilterCubit.maxPriceController.text.isEmpty ? 1000.0 : double.parse(applyFilterCubit.maxPriceController.text),
-                          context.read<AvailableDealList>().state,
-                          context.read<AvailableDealUserList>().state,
-                          applyFilterCubit.distanceController.text.isEmpty ? 10.0 : double.parse(applyFilterCubit.distanceController.text)
-                      );
-                    }
-
-                    return BlocBuilder<FilterDealsCubit, List<Deal>>(
-                      builder: (context, filteredList){
-
-                        List<Deal> deals = [];
-                        List<User> users = [];
-
-
-                        deals = isApplied
-                            ? (filteredList.isEmpty ? [] : filteredList)
-                            : dealsList;
-
-
-                        users = isApplied
-                            ? (filteredList.isEmpty ? [] : deals.map((deal) => snapshot.data![deal]!).toList())
-                            : usersList;
-
-                        context.read<DealList>().resetDeals();
-                        context.read<DealUserList>().resetUsers();
-                        context.read<DealList>().addDeals(deals);
-                        context.read<DealUserList>().addUsers(users);
-
-                        return deals.isEmpty
-                             ? const NoDataFoundWidget()
-                             : FilteredWidget(dealsList: deals, usersList: users);
-                      },
-                    );
-                  },
-                );
+                return FilteredWidget(dealsList: dealsList, userDeals: snapshot.data!, usersList: usersList);
               }
               return const NoDataFoundWidget();
             },
@@ -113,8 +75,63 @@ class ClientDealTab extends StatelessWidget {
   }
 }
 
+
 class FilteredWidget extends StatelessWidget {
-  const FilteredWidget({Key? key, required this.dealsList, required this.usersList}) : super(key: key);
+  const FilteredWidget({Key? key, required this.userDeals, required this.usersList, required this.dealsList}) : super(key: key);
+  final List<User> usersList;
+  final List<Deal> dealsList;
+  final Map<Deal, User> userDeals;
+
+  @override
+  Widget build(BuildContext context) {
+    final applyFilterCubit = context.read<ApplyFilterCubit>();
+    return BlocBuilder<ApplyFilterCubit, bool>(
+      builder: (context, isApplied){
+
+        if (isApplied) {
+          context.read<FilterDealsCubit>().filterDeals(
+              applyFilterCubit.minPriceController.text.isEmpty ? 1.0 : double.parse(applyFilterCubit.minPriceController.text),
+              applyFilterCubit.maxPriceController.text.isEmpty ? 1000.0 : double.parse(applyFilterCubit.maxPriceController.text),
+              context.read<LocalDealsStorage>().state.keys.toList(),
+              context.read<LocalDealsStorage>().state.values.toList(),
+              applyFilterCubit.distanceController.text.isEmpty ? 10.0 : double.parse(applyFilterCubit.distanceController.text)
+          );
+        }
+
+        return BlocBuilder<FilterDealsCubit, List<Deal>>(
+          builder: (context, filteredList){
+
+            List<Deal> deals = [];
+            List<User> users = [];
+
+
+            deals = isApplied
+                ? (filteredList.isEmpty ? [] : filteredList)
+                : dealsList;
+
+
+            users = isApplied
+                ? (filteredList.isEmpty ? [] : deals.map((deal) => userDeals[deal]!).toList())
+                : usersList;
+
+            context.read<DealList>().resetDeals();
+            context.read<DealUserList>().resetUsers();
+            context.read<DealList>().addDeals(deals);
+            context.read<DealUserList>().addUsers(users);
+
+            return deals.isEmpty
+                ? const NoDataFoundWidget()
+                : DealsWidget(dealsList: deals, usersList: users);
+          },
+        );
+      },
+    );
+  }
+}
+
+
+class DealsWidget extends StatelessWidget {
+  const DealsWidget({Key? key, required this.dealsList, required this.usersList}) : super(key: key);
   final List<Deal> dealsList;
   final List<User> usersList;
 

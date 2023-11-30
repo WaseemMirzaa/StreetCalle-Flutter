@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/apply_filter_cubit.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -101,8 +98,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   ),
                   InkWell(
                     onTap: (){
-                      context.read<ApplyFilterCubit>().resetApplyFilter();
-                      context.read<FilterItemsCubit>().resetFilterItems();
+                      //context.read<ApplyFilterCubit>().resetApplyFilter();
+                      //context.read<FilterItemsCubit>().resetFilterItems();
                       context.pop();
                     },
                     child: Text(

@@ -24,8 +24,10 @@ class ClientItemTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final itemService = sl.get<ItemService>();
     final currentLocationCubit = context.read<CurrentLocationCubit>();
-    context.read<SearchItemsCubit>().updateQuery('');
-    //itemService.getNearestItems();
+    final localItems = context.read<LocalItemsStorage>();
+    final searchItemCubit = context.read<SearchItemsCubit>();
+    searchItemCubit.updateQuery('');
+
     return Column(
       children: [
         SearchField(
@@ -37,7 +39,9 @@ class ClientItemTab extends StatelessWidget {
           height: 12,
         ),
         Expanded(
-          child: FutureBuilder<Map<Item, User>>(
+          child: localItems.state.isNotEmpty
+              ? FilteredWidget(usersList: localItems.state.values.toList(), itemList: localItems.state.keys.toList(), userItems: localItems.state)
+              : FutureBuilder<Map<Item, User>>(
             future: itemService.getNearestItemsWithUsers(currentLocationCubit),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -50,36 +54,11 @@ class ClientItemTab extends StatelessWidget {
                   return const NoDataFoundWidget();
                 }
 
+                localItems.addLocalItems(snapshot.data!);
                 List<Item> itemList = snapshot.data!.keys.toList();
                 List<User> usersList = snapshot.data!.values.toList();
-                context.read<AvailableItemList>().addItems(itemList);
-                context.read<AvailableItemUserList>().addUsers(usersList);
 
-                return BlocBuilder<ApplyFilterCubit, bool>(
-                  builder: (context, isApplied) {
-                    return BlocBuilder<FilterItemsCubit, List<Item>>(
-                        builder: (context, filteredList) {
-                          List<Item> items = [];
-                          List<User> users = [];
-
-                          items = isApplied ? (filteredList.isEmpty ? [] : filteredList) : itemList;
-
-                          users = isApplied
-                              ? (filteredList.isEmpty ? [] : items.map((item) => snapshot.data![item]!).toList())
-                              : usersList;
-
-                          context.read<ItemList>().resetItems();
-                          context.read<ItemUserList>().resetUsers();
-                          context.read<ItemList>().addItems(items);
-                          context.read<ItemUserList>().addUsers(users);
-
-                          return items.isEmpty
-                              ? const NoDataFoundWidget()
-                              : FilteredWidget(itemsList: items, usersList: users,);
-                        }
-                    );
-                  },
-                );
+                return FilteredWidget(usersList: usersList, itemList: itemList, userItems: snapshot.data!);
               }
               return const NoDataFoundWidget();
             },
@@ -96,7 +75,44 @@ class ClientItemTab extends StatelessWidget {
 
 
 class FilteredWidget extends StatelessWidget {
-  const FilteredWidget({Key? key, required this.itemsList, required this.usersList}) : super(key: key);
+  const FilteredWidget({Key? key, required this.usersList, required this.itemList, required this.userItems}) : super(key: key);
+  final List<User> usersList;
+  final List<Item> itemList;
+  final Map<Item, User> userItems;
+
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ApplyFilterCubit, bool>(
+      builder: (context, isApplied) {
+        return BlocBuilder<FilterItemsCubit, List<Item>>(
+            builder: (context, filteredList) {
+              List<Item> items = [];
+              List<User> users = [];
+
+              items = isApplied ? (filteredList.isEmpty ? [] : filteredList) : itemList;
+
+              users = isApplied
+                  ? (filteredList.isEmpty ? [] : items.map((item) => userItems[item]!).toList())
+                  : usersList;
+
+              context.read<ItemList>().resetItems();
+              context.read<ItemUserList>().resetUsers();
+              context.read<ItemList>().addItems(items);
+              context.read<ItemUserList>().addUsers(users);
+
+              return items.isEmpty
+                  ? const NoDataFoundWidget()
+                  : ItemsWidget(itemsList: items, usersList: users,);
+            }
+        );
+      },
+    );
+  }
+}
+
+class ItemsWidget extends StatelessWidget {
+  const ItemsWidget({Key? key, required this.itemsList, required this.usersList}) : super(key: key);
   final  List<Item> itemsList;
   final  List<User> usersList;
 
