@@ -17,12 +17,13 @@ import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/client_home_tab.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/apply_filter_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/online_vendors_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/cubit/apply_filter_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/direction_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/cubit/filter_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/marker_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
@@ -180,7 +181,21 @@ Future<void> main() async {
             create: (context)=> sl<SelectedDealsCubit>(),
             child: AddEmployeeMenuItemsScreen(),
           ),
-
+          BlocProvider(
+            create: (_) => LocalItemsStorage(),
+          ),
+          BlocProvider(
+            create: (_) => LocalDealsStorage(),
+          ),
+          BlocProvider(
+            create: (_) => RemoteUserItems(),
+          ),
+          BlocProvider(
+            create: (_) => NavPositionCubit(),
+          ),
+          BlocProvider(
+            create: (_) => OnlineVendorsCubit(),
+          ),
           BlocProvider(
             create: (context)=> sl<MarkersCubit>(),
             child: const ClientHomeTab(),
@@ -198,16 +213,7 @@ Future<void> main() async {
             create: (context)=> FilterDealsCubit(),
           ),
           BlocProvider(
-            create: (context)=> sl<ItemList>(),
-          ),
-          BlocProvider(
-            create: (context)=> DealList(),
-          ),
-          BlocProvider(
-            create: (context)=> ItemUserList(),
-          ),
-          BlocProvider(
-            create: (context)=> DealUserList(),
+            create: (context)=> RemoteUserDeals(),
           ),
           BlocProvider(
             create: (context)=> sl<DirectionCubit>(),

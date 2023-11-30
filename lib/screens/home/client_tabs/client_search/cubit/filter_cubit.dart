@@ -4,21 +4,10 @@ import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 
-/// ***** Items Filter Section Start ******** ////
-///
-///
 
 class FilterItemsCubit extends Cubit<List<Item>> {
   FilterItemsCubit() : super([]);
 
-  // void filterItems(double minPrice, double maxPrice, List<Item> items, List<User> users, double distance) {
-  //   final filteredList = items.where((item) {
-  //     int index = items.indexOf(item);
-  //     final user = users[index];
-  //     return (item.actualPrice != null && item.actualPrice! >= minPrice && item.actualPrice! <= maxPrice && (double.parse(user.clientVendorDistance ?? '0.0') == 0.0  ? (0.0 <= distance) : (double.parse(user.clientVendorDistance!) <= distance)));
-  //   }).toList();
-  //   emit(filteredList);
-  // }
   void filterItems(double minPrice, double maxPrice, List<Item> items, List<User> users, double? distance) {
     final filteredList = items.where((item) {
       int index = items.indexOf(item);
@@ -46,24 +35,15 @@ class FilterItemsCubit extends Cubit<List<Item>> {
 
     emit(filteredList);
   }
-
   void resetFilterItems()=> emit([]);
   void addFilterItems(List<Item> items)=> emit(items);
 }
 
-class ItemList extends Cubit<List<Item>> {
-  ItemList() : super([]);
+class RemoteUserItems extends Cubit<Map<Item, User>> {
+  RemoteUserItems() : super({});
 
-  void resetItems()=> emit([]);
-  void addItems(List<Item> items)=> emit(items);
-}
-
-/// List of users that will be used to filter items distance wise
-class ItemUserList extends Cubit<List<User>> {
-  ItemUserList() : super([]);
-
-  void resetUsers()=> emit([]);
-  void addUsers(List<User> users)=> emit(users);
+  void addRemoteUserItems(Map<Item, User> map) => emit(map);
+  void resetRemoteUserItems() => emit({});
 }
 
 class LocalItemsStorage extends Cubit<Map<Item, User>> {
@@ -73,14 +53,7 @@ class LocalItemsStorage extends Cubit<Map<Item, User>> {
   void resetLocalItem() => emit({});
 }
 
-///
-///
-/// **************************************** ////
 
-
-/// ***** Deals Filter Section Start ******** ////
-///
-///
 
 class FilterDealsCubit extends Cubit<List<Deal>> {
   FilterDealsCubit() : super([]);
@@ -115,19 +88,11 @@ class FilterDealsCubit extends Cubit<List<Deal>> {
   void addFilterDeals(List<Deal> deals)=> emit(deals);
 }
 
-class DealList extends Cubit<List<Deal>> {
-  DealList() : super([]);
+class RemoteUserDeals extends Cubit<Map<Deal, User>> {
+  RemoteUserDeals() : super({});
 
-  void resetDeals()=> emit([]);
-  void addDeals(List<Deal> deals)=> emit(deals);
-}
-
-/// List of users that will be used to filter deals distance wise
-class DealUserList extends Cubit<List<User>> {
-  DealUserList() : super([]);
-
-  void resetUsers()=> emit([]);
-  void addUsers(List<User> users)=> emit(users);
+  void addRemoteUserDeals(Map<Deal, User> map) => emit(map);
+  void resetRemoteUserDeals() => emit({});
 }
 
 class LocalDealsStorage extends Cubit<Map<Deal, User>> {
@@ -136,11 +101,6 @@ class LocalDealsStorage extends Cubit<Map<Deal, User>> {
   void addLocalDeals(Map<Deal, User> map) => emit(map);
   void resetLocalDeal() => emit({});
 }
-
-///
-///
-/// **************************************** ////
-
 
 
 enum SearchTab { item, deal, none }

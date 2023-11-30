@@ -15,7 +15,7 @@ import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_s
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/direction_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/cubit/filter_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/marker_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
@@ -70,7 +70,6 @@ Future<void> init() async {
   sl.registerFactory(() => MenuCubit());
   sl.registerFactory(() => FavouriteListCubit());
   sl.registerFactory(() => FilterItemsCubit());
-  sl.registerFactory(() => ItemList());
   sl.registerFactory(() => DirectionCubit());
   sl.registerFactory(() => FoodTypeCubit());
   sl.registerFactory(() => FoodTypeExpandedCubit());
@@ -83,16 +82,6 @@ Future<void> init() async {
   ///  lazily initialized the first time it is requested,
   ///  and will return the same instance on subsequent requests.
 
-
-  /// UseCases
-  // sl.registerLazySingleton(() => CreateTeacherUseCase(repository: sl.call()));
-  // sl.registerLazySingleton(() => UploadImageToStorageUseCase(repository: sl.call()));
-
-  /// Repository
-  //sl.registerLazySingleton<TeacherFirebaseRepository>(() => TeacherFirebaseRepositoryImpl(remoteDataSource: sl.call()));
-
-  /// Remote Data Source
-  //sl.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl(firebaseFirestore: sl.call(), firebaseStorage: sl.call()));
   sl.registerLazySingleton(() => UserService());
   sl.registerLazySingleton(() => ItemService());
   sl.registerLazySingleton(() => AuthService());

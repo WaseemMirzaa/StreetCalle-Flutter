@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/cubit/filter_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
@@ -15,7 +15,7 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/widgets/search_field.dart';
 import 'package:street_calle/models/user.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/apply_filter_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/cubit/apply_filter_cubit.dart';
 
 class ClientDealTab extends StatelessWidget {
   const ClientDealTab({Key? key}) : super(key: key);
@@ -114,10 +114,10 @@ class FilteredWidget extends StatelessWidget {
                 ? (filteredList.isEmpty ? [] : deals.map((deal) => userDeals[deal]!).toList())
                 : usersList;
 
-            context.read<DealList>().resetDeals();
-            context.read<DealUserList>().resetUsers();
-            context.read<DealList>().addDeals(deals);
-            context.read<DealUserList>().addUsers(users);
+
+            Map<Deal, User> dealUserMap = Map.fromIterables(deals, users);
+            context.read<RemoteUserDeals>().resetRemoteUserDeals();
+            context.read<RemoteUserDeals>().addRemoteUserDeals(dealUserMap);
 
             return deals.isEmpty
                 ? const NoDataFoundWidget()

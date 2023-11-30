@@ -43,6 +43,7 @@ dependencies:
   cloud_firestore: ^4.9.2
   firebase_auth: ^4.10.0
   firebase_storage: ^11.2.7
+  firebase_ui_firestore: ^1.5.14
 
   image_picker: ^1.0.4
   flutter_bloc: ^8.1.3

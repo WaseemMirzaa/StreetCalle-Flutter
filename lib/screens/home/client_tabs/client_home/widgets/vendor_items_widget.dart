@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/cubit/filter_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/pricing_widget.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/dependency_injection.dart';
@@ -16,7 +18,13 @@ import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/widgets/no_data_found_widget.dart';
 import 'package:street_calle/models/user.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/apply_filter_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/cubit/apply_filter_cubit.dart';
+
+
+final query = sl.get<FirebaseFirestore>().collection(Collections.items).withConverter<Item>(
+  fromFirestore: (snapshot, options) => Item.fromJson(snapshot.data()!, snapshot.id),
+  toFirestore: (value, options) => value.toJson(),
+);
 
 class VendorItemsWidget extends StatelessWidget {
   VendorItemsWidget({Key? key, required this.user}) : super(key: key);
@@ -27,6 +35,59 @@ class VendorItemsWidget extends StatelessWidget {
     final itemService = sl.get<ItemService>();
     //String? clientVendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
     context.read<ApplyFilterCubit>().resetApplyFilter();
+
+    return BlocBuilder<FoodSearchCubit, String>(
+      builder: (context, state) {
+
+        return Expanded(
+          child: FirestoreListView<Item>(
+            query: user.isVendor
+                ? query.where(ItemKey.uid, isEqualTo: user.uid ?? '').orderBy(ItemKey.updatedAt, descending: true)
+                : query.where(FieldPath.documentId, whereIn: user.employeeItemsList),
+            pageSize: 20,
+            emptyBuilder: (context) => const Text('No data'),
+            errorBuilder: (context, error, stackTrace) => Text(error.toString()),
+            loadingBuilder: (context) => const CircularProgressIndicator(),
+            itemBuilder: (context, item) {
+              return InkWell(
+                onTap: () {
+                  context.pushNamed(AppRoutingName.itemDetail, extra: item.data(), pathParameters: {IS_CLIENT: true.toString()});
+                },
+                child: ItemWidget(item: item.data()),
+              );
+            },
+          ),
+        );
+
+        // List<Item> list = [];
+        // if (state.isNotEmpty) {
+        //   list = items.where((item) {
+        //     final itemName = item.title!.toLowerCase();
+        //     return itemName.contains(state.toLowerCase());
+        //   }).toList();
+        // } else {
+        //   list = items;
+        // }
+        //
+        // return list.isEmpty
+        //     ? const NoDataFoundWidget()
+        //     : ListView.builder(
+        //   itemCount: list.length,
+        //   //padding: EdgeInsets.zero,
+        //   itemBuilder: (context, index) {
+        //     final item = items[index];
+        //
+        //     return InkWell(
+        //       onTap: () {
+        //         context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
+        //       },
+        //       child: ItemWidget(item: item),
+        //     );
+        //   },
+        // );
+
+      },
+    );
 
     return Expanded(
       child: Stack(
@@ -84,9 +145,23 @@ class SearchingItemWidget extends StatelessWidget {
         } else {
           list = items;
         }
-        context.read<ItemList>().addItems(list);
 
-        return ApplyFilteredWidget(itemsList: list);
+        return list.isEmpty
+            ? const NoDataFoundWidget()
+            : ListView.builder(
+          itemCount: list.length,
+          //padding: EdgeInsets.zero,
+          itemBuilder: (context, index) {
+            final item = items[index];
+
+            return InkWell(
+              onTap: () {
+                context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
+              },
+              child: ItemWidget(item: item),
+            );
+          },
+        );
 
       },
     );

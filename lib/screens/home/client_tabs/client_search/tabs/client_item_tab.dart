@@ -9,13 +9,13 @@ import 'package:street_calle/models/item.dart';
 import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/widgets/no_data_found_widget.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/item_widget.dart';
-import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/widgets/search_field.dart';
 import 'package:street_calle/models/user.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/apply_filter_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/cubit/filter_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/cubit/apply_filter_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 
 class ClientItemTab extends StatelessWidget {
   const ClientItemTab({Key? key}) : super(key: key);
@@ -96,10 +96,9 @@ class FilteredWidget extends StatelessWidget {
                   ? (filteredList.isEmpty ? [] : items.map((item) => userItems[item]!).toList())
                   : usersList;
 
-              context.read<ItemList>().resetItems();
-              context.read<ItemUserList>().resetUsers();
-              context.read<ItemList>().addItems(items);
-              context.read<ItemUserList>().addUsers(users);
+              Map<Item, User> itemUserMap = Map.fromIterables(items, users);
+              context.read<RemoteUserItems>().resetRemoteUserItems();
+              context.read<RemoteUserItems>().addRemoteUserItems(itemUserMap);
 
               return items.isEmpty
                   ? const NoDataFoundWidget()
@@ -162,7 +161,9 @@ class ItemsWidget extends StatelessWidget {
                 item: item,
                 user: user,
                 onTap: (){
-                  context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
+                  //context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
+                  context.read<ClientSelectedVendorCubit>().selectedVendorId(user.uid);
+                  context.pushNamed(AppRoutingName.clientMenuItemDetail, extra: user);
                 },
                 onUpdate: (){},
                 onDelete: (){},

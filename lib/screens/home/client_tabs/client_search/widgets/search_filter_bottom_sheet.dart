@@ -6,8 +6,8 @@ import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/my_sizer.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/apply_filter_cubit.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/cubit/apply_filter_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/cubit/filter_cubit.dart';
 
 class SearchFilterBottomSheet extends StatelessWidget {
   const SearchFilterBottomSheet({Key? key}) : super(key: key);
@@ -40,9 +40,9 @@ class SearchFilterBottomSheet extends StatelessWidget {
                       context.read<ApplyFilterCubit>().resetApplyFilter();
                       context.read<ApplyFilterCubit>().clear();
                       context.read<FilterItemsCubit>().resetFilterItems();
-                      context.read<ItemList>().resetItems();
+                      context.read<RemoteUserItems>().resetRemoteUserItems();
                       context.read<FilterDealsCubit>().resetFilterDeals();
-                      context.read<DealList>().resetDeals();
+                      context.read<RemoteUserDeals>().resetRemoteUserDeals();
                       context.pop();
                     },
                     child: Text(
