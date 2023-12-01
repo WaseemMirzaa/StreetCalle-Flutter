@@ -4,27 +4,20 @@ import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:street_calle/screens/home/client_tabs/client_search/cubit/filter_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/pricing_widget.dart';
+import 'package:street_calle/utils/common.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
-import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/item.dart';
-import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
-import 'package:street_calle/widgets/no_data_found_widget.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/cubit/apply_filter_cubit.dart';
 
-
-final query = sl.get<FirebaseFirestore>().collection(Collections.items).withConverter<Item>(
-  fromFirestore: (snapshot, options) => Item.fromJson(snapshot.data()!, snapshot.id),
-  toFirestore: (value, options) => value.toJson(),
-);
 
 class VendorItemsWidget extends StatelessWidget {
   VendorItemsWidget({Key? key, required this.user}) : super(key: key);
@@ -32,183 +25,53 @@ class VendorItemsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final itemService = sl.get<ItemService>();
-    //String? clientVendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
     context.read<ApplyFilterCubit>().resetApplyFilter();
 
     return BlocBuilder<FoodSearchCubit, String>(
       builder: (context, state) {
-
         return Expanded(
-          child: FirestoreListView<Item>(
-            query: user.isVendor
-                ? query.where(ItemKey.uid, isEqualTo: user.uid ?? '').orderBy(ItemKey.updatedAt, descending: true)
-                : query.where(FieldPath.documentId, whereIn: user.employeeItemsList),
-            pageSize: 20,
-            emptyBuilder: (context) => const Text('No data'),
-            errorBuilder: (context, error, stackTrace) => Text(error.toString()),
-            loadingBuilder: (context) => const CircularProgressIndicator(),
-            itemBuilder: (context, item) {
-              return InkWell(
-                onTap: () {
-                  context.pushNamed(AppRoutingName.itemDetail, extra: item.data(), pathParameters: {IS_CLIENT: true.toString()});
-                },
-                child: ItemWidget(item: item.data()),
-              );
-            },
-          ),
-        );
-
-        // List<Item> list = [];
-        // if (state.isNotEmpty) {
-        //   list = items.where((item) {
-        //     final itemName = item.title!.toLowerCase();
-        //     return itemName.contains(state.toLowerCase());
-        //   }).toList();
-        // } else {
-        //   list = items;
-        // }
-        //
-        // return list.isEmpty
-        //     ? const NoDataFoundWidget()
-        //     : ListView.builder(
-        //   itemCount: list.length,
-        //   //padding: EdgeInsets.zero,
-        //   itemBuilder: (context, index) {
-        //     final item = items[index];
-        //
-        //     return InkWell(
-        //       onTap: () {
-        //         context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
-        //       },
-        //       child: ItemWidget(item: item),
-        //     );
-        //   },
-        // );
-
-      },
-    );
-
-    return Expanded(
-      child: Stack(
-        children: [
-          Container(
-            width: 100,
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(topRight: Radius.circular(60), bottomRight: Radius.circular(60)),
-                color: AppColors.primaryColor
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: StreamBuilder<List<Item>>(  /// get vendor items
-              stream: user.isVendor ? itemService.getItems(user.uid ?? '') : itemService.getEmployeeItems(user.employeeItemsList),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(color: AppColors.primaryColor,),
-                  );
-                }
-                if (snapshot.hasData && snapshot.data != null) {
-                  if (snapshot.data!.isEmpty) {
-                    return const NoDataFoundWidget();
-                  }
-
-                  return SearchingItemWidget(items: snapshot.data!);
-                }
-                return const NoDataFoundWidget();
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class SearchingItemWidget extends StatelessWidget {
-  SearchingItemWidget({Key? key, required this.items}) : super(key: key);
-  final List<Item> items;
-
-  @override
-  Widget build(BuildContext context) {
-    /// [BlocBuilder] is for searching items
-    return BlocBuilder<FoodSearchCubit, String>(
-      builder: (context, state) {
-
-        List<Item> list = [];
-        if (state.isNotEmpty) {
-          list = items.where((item) {
-            final itemName = item.title!.toLowerCase();
-            return itemName.contains(state.toLowerCase());
-          }).toList();
-        } else {
-          list = items;
-        }
-
-        return list.isEmpty
-            ? const NoDataFoundWidget()
-            : ListView.builder(
-          itemCount: list.length,
-          //padding: EdgeInsets.zero,
-          itemBuilder: (context, index) {
-            final item = items[index];
-
-            return InkWell(
-              onTap: () {
-                context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
-              },
-              child: ItemWidget(item: item),
-            );
-          },
-        );
-
-      },
-    );
-  }
-}
-
-class ApplyFilteredWidget extends StatelessWidget {
-  ApplyFilteredWidget({Key? key, required this.itemsList}) : super(key: key);
-  final  List<Item> itemsList;
-
-  @override
-  Widget build(BuildContext context) {
-    /// [BlocBuilder] checks filter is applied or not
-    return BlocBuilder<ApplyFilterCubit, bool>(
-      builder: (context, isApplied){
-
-        return itemsList.isEmpty
-            ? const NoDataFoundWidget()
-            : BlocBuilder<FilterItemsCubit, List<Item>>( /// [BlocBuilder] shows the filtered list of items
-               builder: (context, filteredList) {
-                  List<Item> items = [];
-                  (filteredList.isEmpty && !isApplied)
-                       ? items = itemsList
-                       : items = filteredList;
-               return items.isEmpty
-                  ? const NoDataFoundWidget()
-                  : ListView.builder(
-              itemCount: items.length,
-              //padding: EdgeInsets.zero,
-              itemBuilder: (context, index) {
-                final item = items[index];
-
-                return InkWell(
-                  onTap: () {
-                    context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
+          child: Stack(
+            children: [
+              Container(
+                width: 100,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(60), bottomRight: Radius.circular(60)),
+                    color: AppColors.primaryColor
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: FirestoreListView<Item>(
+                  query: state.isEmpty
+                      ? user.isVendor
+                          ? itemQuery.where(ItemKey.uid, isEqualTo: user.uid ?? '').orderBy(ItemKey.updatedAt, descending: true)
+                          : itemQuery.where(FieldPath.documentId, whereIn: user.employeeItemsList)
+                      : user.isVendor
+                          ? itemQuery.where(ItemKey.uid, isEqualTo: user.uid ?? '')
+                            .where(ItemKey.searchParam, arrayContains: state)
+                          : itemQuery.where(FieldPath.documentId, whereIn: user.employeeItemsList)
+                            .where(ItemKey.searchParam, arrayContains: state),
+                  pageSize: ITEM_PER_PAGE,
+                  emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
+                  errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),
+                  loadingBuilder: (context) => const Center(child: CircularProgressIndicator()),
+                  itemBuilder: (context, item) {
+                    return InkWell(
+                      onTap: () {
+                        context.pushNamed(AppRoutingName.itemDetail, extra: item.data(), pathParameters: {IS_CLIENT: true.toString()});
+                      },
+                      child: ItemWidget(item: item.data()),
+                    );
                   },
-                  child: ItemWidget(item: item),
-                );
-              },
-            );
-          },
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
   }
 }
-
 
 /// These widgets are for showing custom item
 

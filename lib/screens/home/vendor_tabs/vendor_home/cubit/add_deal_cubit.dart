@@ -7,6 +7,7 @@ import 'package:street_calle/services/deal_service.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/utils/common.dart';
 
 part 'add_deal_state.dart';
 
@@ -53,6 +54,7 @@ class AddDealCubit extends Cubit<AddDealState> {
       title: titleController.text,
       description: descriptionController.text,
       foodType: foodTypeController.text,
+      searchParam: setSearchParam(titleController.text),
       actualPrice: parseNumeric(actualPriceController.text),
       discountedPrice: parseNumeric(discountedPriceController.text),
       createdAt: Timestamp.now(),
@@ -75,6 +77,7 @@ class AddDealCubit extends Cubit<AddDealState> {
       title: titleController.text,
       description: descriptionController.text,
       foodType: foodTypeController.text,
+      searchParam: setSearchParam(titleController.text),
       actualPrice: parseNumeric(actualPriceController.text),
       discountedPrice: parseNumeric(discountedPriceController.text),
       createdAt: Timestamp.now(),

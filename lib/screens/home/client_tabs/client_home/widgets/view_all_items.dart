@@ -1,14 +1,14 @@
+import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/item_widget.dart';
-import 'package:street_calle/services/item_service.dart';
+import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
-import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/models/item.dart';
@@ -20,7 +20,6 @@ class ViewAllItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final itemService = sl.get<ItemService>();
     String? clientVendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
     context.read<AllItemsSearchCubit>().updateQuery('');
 
@@ -54,79 +53,30 @@ class ViewAllItems extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              child: FutureBuilder<List<Item>>(
-                future: itemService.getMenuItems(clientVendorId ?? ''),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(color: AppColors.primaryColor,),
-                    );
-                  }
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        TempLanguage().lblSomethingWentWrong,
-                        style: context.currentTextTheme.displaySmall,
-                      ),
-                    );
-                  }
-                  if (snapshot.hasData && snapshot.data != null) {
-                    if (snapshot.data!.isEmpty) {
-                      return Center(
-                        child: Text(
-                          TempLanguage().lblNoDataFound,
-                          style: context.currentTextTheme.displaySmall,
-                        ),
-                      );
-                    }
-                    return BlocBuilder<AllItemsSearchCubit, String>(
-                      builder: (context, state) {
-
-                        List<Item> list = [];
-                        if (state.isNotEmpty) {
-                          list = snapshot.data!.where((item) {
-                            final itemName = item.title!.toLowerCase();
-                            return itemName.contains(state.toLowerCase());
-                          }).toList();
-                        } else {
-                          list = snapshot.data!;
-                        }
-
-                        return list.isEmpty
-                            ? Center(
-                          child: Text(
-                            TempLanguage().lblNoDataFound,
-                            style: context.currentTextTheme.displaySmall,
-                          ),
-                        )
-                            : ListView.builder(
-                          itemCount: list.length,
-                          //padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            final item = list[index];
-
-                            return ItemWidget(
-                              item: item,
-                              onTap: (){
-                                context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
-                              },
-                              onUpdate: (){},
-                              onDelete: (){},
-                              isFromItemTab: false,
-                            );
-                          },
-                        );
+              child: BlocBuilder<AllItemsSearchCubit, String>(
+               builder: (context, state) {
+                return FirestoreListView<Item>(
+                  query: state.isEmpty
+                      ? itemQuery.where(ItemKey.uid, isEqualTo: clientVendorId ?? '').orderBy(ItemKey.updatedAt, descending: true)
+                      : itemQuery.where(ItemKey.uid, isEqualTo: clientVendorId ?? '')
+                         .where(ItemKey.searchParam, arrayContains: state),
+                  pageSize: ITEM_PER_PAGE,
+                  emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
+                  errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),
+                  loadingBuilder: (context) => const Center(child: CircularProgressIndicator()),
+                  itemBuilder: (context, item) {
+                    return ItemWidget(
+                      item: item.data(),
+                      onTap: (){
+                        context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
                       },
+                      onUpdate: (){},
+                      onDelete: (){},
+                      isFromItemTab: false,
                     );
-                  }
-                  return Center(
-                    child: Text(
-                      TempLanguage().lblSomethingWentWrong,
-                      style: context.currentTextTheme.displaySmall,
-                    ),
-                  );
-                },
-              ),
+                  },
+                );
+              }),
             ),
           ),
         ],

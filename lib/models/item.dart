@@ -16,6 +16,8 @@ class Item extends Equatable {
   final Timestamp? createdAt;
   final Timestamp? updatedAt;
 
+  final List<dynamic>? searchParam;
+
   final String? smallItemTitle;
   final String? mediumItemTitle;
   final String? largeItemTitle;
@@ -41,6 +43,7 @@ class Item extends Equatable {
    this.discountedPrice,
    this.updatedAt,
    this.createdAt,
+    this.searchParam,
     this.smallItemTitle,
     this.mediumItemTitle,
     this.largeItemTitle,
@@ -61,6 +64,7 @@ class Item extends Equatable {
    String? foodType,
    num? actualPrice,
    num? discountedPrice,
+   List<dynamic>? searchParam,
    Timestamp? createdAt,
    Timestamp? updatedAt,
    String? smallItemTitle,
@@ -84,6 +88,7 @@ class Item extends Equatable {
       discountedPrice: discountedPrice ?? this.discountedPrice,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      searchParam: searchParam ?? this.searchParam,
       smallItemTitle: smallItemTitle ?? this.smallItemTitle,
       mediumItemTitle: mediumItemTitle ?? this.mediumItemTitle,
       largeItemTitle: largeItemTitle ?? this.largeItemTitle,
@@ -104,6 +109,7 @@ class Item extends Equatable {
       title: json[ItemKey.title],
       description: json[ItemKey.description],
       foodType: json[ItemKey.foodType],
+      searchParam: json[ItemKey.searchParam],
       createdAt: json[ItemKey.createdAt],
       updatedAt: json[ItemKey.updatedAt],
       actualPrice: json[ItemKey.actualPrice],
@@ -131,6 +137,7 @@ class Item extends Equatable {
     data[ItemKey.createdAt] = createdAt;
     data[ItemKey.updatedAt] = updatedAt;
     data[ItemKey.actualPrice] = actualPrice;
+    data[ItemKey.searchParam] = searchParam;
     data[ItemKey.discountedPrice] = discountedPrice;
     data[ItemKey.smallItemTitle] = smallItemTitle;
     data[ItemKey.mediumItemTitle] = mediumItemTitle;

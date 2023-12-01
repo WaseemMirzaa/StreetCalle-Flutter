@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -9,6 +10,9 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/models/user.dart';
+import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/models/item.dart';
+import 'package:street_calle/models/deal.dart';
 
 void showToast(BuildContext context, String title) {
   final scaffold = ScaffoldMessenger.of(context);
@@ -235,3 +239,34 @@ Future<User?> findNearestUser(List<User> users, Position currentLocation) {
   }
   return Future.value(nearestUser);
 }
+
+// List<String> setSearchParam(String caseNumber) {
+//   List<String> caseSearchList = [];
+//   String temp = '';
+//   for (int i = 0; i < caseNumber.length; i++) {
+//     temp = temp + caseNumber[i];
+//     caseSearchList.add(temp);
+//   }
+//   return caseSearchList;
+// }
+
+List<String> setSearchParam(String caseNumber) {
+  List<String> caseSearchList = [];
+  for (int i = 0; i < caseNumber.length; i++) {
+    for (int j = i + 1; j <= caseNumber.length; j++) {
+      caseSearchList.add(caseNumber.substring(i, j));
+    }
+  }
+  return caseSearchList;
+}
+
+
+final itemQuery = sl.get<FirebaseFirestore>().collection(Collections.items).withConverter<Item>(
+  fromFirestore: (snapshot, options) => Item.fromJson(snapshot.data()!, snapshot.id),
+  toFirestore: (value, options) => value.toJson(),
+);
+
+final dealQuery = sl.get<FirebaseFirestore>().collection(Collections.deals).withConverter<Deal>(
+  fromFirestore: (snapshot, options) => Deal.fromJson(snapshot.data()!, snapshot.id),
+  toFirestore: (value, options) => value.toJson(),
+);

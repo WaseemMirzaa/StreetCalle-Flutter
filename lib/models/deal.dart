@@ -16,6 +16,7 @@ class Deal extends Equatable {
   final Timestamp? createdAt;
   final Timestamp? updatedAt;
   final List<dynamic>? itemNames;
+  final List<dynamic>? searchParam;
 
 
 
@@ -31,6 +32,7 @@ class Deal extends Equatable {
     this.updatedAt,
     this.createdAt,
     this.itemNames,
+    this.searchParam
   });
 
   Deal copyWith({
@@ -45,6 +47,7 @@ class Deal extends Equatable {
     Timestamp? createdAt,
     Timestamp? updatedAt,
     List<dynamic>? itemNames,
+    List<dynamic>? searchParam,
   }){
     return Deal(
         uid: uid ?? this.uid,
@@ -58,6 +61,7 @@ class Deal extends Equatable {
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         itemNames: itemNames ?? this.itemNames,
+      searchParam: searchParam ?? this.searchParam,
     );
   }
 
@@ -69,6 +73,7 @@ class Deal extends Equatable {
       title: json[DealKey.title],
       description: json[DealKey.description],
       foodType: json[DealKey.foodType],
+      searchParam: json[DealKey.searchParam],
       createdAt: json[DealKey.createdAt],
       updatedAt: json[DealKey.updatedAt],
       actualPrice: json[DealKey.actualPrice],
@@ -84,6 +89,7 @@ class Deal extends Equatable {
     data[DealKey.image] = image;
     data[DealKey.title] = title;
     data[DealKey.description] = description;
+    data[DealKey.searchParam] = searchParam;
     data[DealKey.foodType] = foodType;
     data[DealKey.createdAt] = createdAt;
     data[DealKey.updatedAt] = updatedAt;

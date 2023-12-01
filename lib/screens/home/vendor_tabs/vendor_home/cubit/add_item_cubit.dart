@@ -8,6 +8,7 @@ import 'package:street_calle/models/item.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
+import 'package:street_calle/utils/common.dart';
 part 'add_item_state.dart';
 
 class AddItemCubit extends Cubit<AddItemState> {
@@ -96,6 +97,7 @@ class AddItemCubit extends Cubit<AddItemState> {
       smallItemTitle: smallItemTitleController.text,
       mediumItemTitle: mediumItemTitleController.text,
       largeItemTitle: largeItemTitleController.text,
+      searchParam: setSearchParam(titleController.text),
       smallItemActualPrice: parseNumeric(smallItemActualPriceController.text),
       mediumItemActualPrice: parseNumeric(mediumItemActualPriceController.text),
       largeItemActualPrice: parseNumeric(largeItemActualPriceController.text),

@@ -16,6 +16,10 @@ const defaultHorizontalPadding = 28.0;
 const defaultVerticalPadding = 16.0;
 const initialCountyCode = 'US';
 
+/// Pagination page size
+const int ITEM_PER_PAGE = 10;
+const int DEAL_PER_PAGE = 10;
+
 /// PathParameters (for items and deals) --> change these wisely
 const IS_UPDATE = 'isUpdate';
 const IS_FROM_DETAIL = 'isFromDetail';
@@ -91,6 +95,7 @@ class ItemKey {
   static const String title = 'title';
   static const String description = 'description';
   static const String foodType = 'foodType';
+  static const String searchParam = 'searchParam';
   static const String createdAt = 'createdAt';
   static const String updatedAt = 'updatedAt';
   static const String actualPrice = 'actualPrice';
@@ -116,6 +121,7 @@ class DealKey {
   static const String image = 'image';
   static const String title = 'title';
   static const String description = 'description';
+  static const String searchParam = 'searchParam';
   static const String foodType = 'foodType';
   static const String createdAt = 'createdAt';
   static const String updatedAt = 'updatedAt';

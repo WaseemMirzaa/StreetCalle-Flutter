@@ -22,20 +22,28 @@ import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
 
-class ClientMenuItemDetail extends StatelessWidget {
+class ClientMenuItemDetail extends StatefulWidget {
   const ClientMenuItemDetail({Key? key, required this.user}) : super(key: key);
   final User user;
 
   @override
+  State<ClientMenuItemDetail> createState() => _ClientMenuItemDetailState();
+}
+
+class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
-    //String? vendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
+    super.build(context);
     String? userId = context.read<UserCubit>().state.userId;
-    context.read<FavoriteCubit>().checkFavoriteStatus(userId, user.uid ?? '');
-    //context.read<FavoriteCubit>().checkFavoriteStatus(userId, user.isVendor ? user.uid ?? '' : user.vendorId ?? '');
+    context.read<FavoriteCubit>().checkFavoriteStatus(userId, widget.user.uid ?? '');
     context.read<FoodSearchCubit>().updateQuery('');
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Positioned.fill(
@@ -58,11 +66,11 @@ class ClientMenuItemDetail extends StatelessWidget {
                       icon: const Icon(Icons.arrow_back_ios, color: AppColors.blackColor,),
                     ),
                     const Spacer(),
-                    IconButton(
-                      onPressed: (){},
-                        //onPressed: ()=> _filterBottomSheet(context),
-                        icon: Image.asset(AppAssets.filterIcon, width: 24, height: 24,),
-                    ),
+                    // IconButton(
+                    //   onPressed: (){},
+                    //     //onPressed: ()=> _filterBottomSheet(context),
+                    //     icon: Image.asset(AppAssets.filterIcon, width: 24, height: 24,),
+                    // ),
                     IconButton(
                         onPressed: (){
                           context.pushNamed(AppRoutingName.clientVendorDirection);
@@ -80,7 +88,7 @@ class ClientMenuItemDetail extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 54.0),
                 child: InkWell(
                   onTap: (){
-                    context.pushNamed(AppRoutingName.clientVendorProfile, extra: user.uid ?? '');
+                    context.pushNamed(AppRoutingName.clientVendorProfile, extra: widget.user.uid ?? '');
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +110,7 @@ class ClientMenuItemDetail extends StatelessWidget {
                           ),
                           child: ClipOval(
                             child: CachedNetworkImage(
-                              imageUrl: user.isVendor ? user.image! : user.employeeOwnerImage!,
+                              imageUrl: widget.user.isVendor ? widget.user.image! : widget.user.employeeOwnerImage!,
                               fit: BoxFit.cover,
                               placeholder: (context, url) => const CircularProgressIndicator(),
                               errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -116,7 +124,7 @@ class ClientMenuItemDetail extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              user.isVendor ? user.name.capitalizeEachFirstLetter() : user.employeeOwnerName.capitalizeEachFirstLetter(),
+                              widget.user.isVendor ? widget.user.name.capitalizeEachFirstLetter() : widget.user.employeeOwnerName.capitalizeEachFirstLetter(),
                               style: const TextStyle(
                                   fontSize: 24,
                                   fontFamily: METROPOLIS_BOLD,
@@ -126,7 +134,7 @@ class ClientMenuItemDetail extends StatelessWidget {
                             const SizedBox(height: 6,),
                             ShowFavouriteItemWidget(
                               onTap: (){
-                                _favouriteItem(userId, user.uid ?? '', context);
+                                _favouriteItem(userId, widget.user.uid ?? '', context);
                               },
                             ),
                           ],
@@ -166,7 +174,7 @@ class ClientMenuItemDetail extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
-              VendorDealsWidget(user: user),
+              VendorDealsWidget(user: widget.user),
 
               const SizedBox(
                 height: 24,
@@ -206,7 +214,7 @@ class ClientMenuItemDetail extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              VendorItemsWidget(user: user),
+              VendorItemsWidget(user: widget.user),
             ],
           ),
         ],
@@ -236,6 +244,8 @@ class ClientMenuItemDetail extends StatelessWidget {
   }
 
   void _searchQuery(BuildContext context, String? value) {
-    context.read<FoodSearchCubit>().updateQuery(value ?? '');
+    Future.delayed(const Duration(seconds: 1), () {
+      context.read<FoodSearchCubit>().updateQuery(value ?? '');
+    });
   }
 }
