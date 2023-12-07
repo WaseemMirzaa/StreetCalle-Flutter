@@ -6,7 +6,6 @@ import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_s
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu_item.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
@@ -31,6 +30,22 @@ class ClientMenu extends StatelessWidget {
             padding: const EdgeInsets.only(top: 54, left: 24, right: 24),
             child: Row(
               children: [
+                SizedBox(
+                  height: 50,
+                  width: 50,
+                  child: FloatingActionButton(
+                    onPressed: (){
+                      context.pop();
+                    },
+                    backgroundColor: AppColors.primaryLightColor,
+                    shape: const CircleBorder(),
+                    child: const Padding(
+                      padding: EdgeInsets.only(left: 5),
+                      child: Icon(Icons.arrow_back_ios, color: AppColors.blackColor),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16,),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -49,30 +64,6 @@ class ClientMenu extends StatelessWidget {
                       hintText: TempLanguage().lblSearchFoodTrucks,
                       onChanged: (String? value) => _searchQuery(context, value),
                     ),
-                  ),
-                ),
-                const SizedBox(width: 16,),
-                InkWell(
-                  onTap: (){
-                    context.pop();
-                  },
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                        color: AppColors.primaryLightColor,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                          color: AppColors.blackColor.withOpacity(0.25),
-                          spreadRadius: 3, // Spread radius
-                          blurRadius: 3, // Blur radius
-                          offset: const Offset(0, 0), // Offset in the Y direction
-                        ),
-                        ],
-                    ),
-                    child: Image.asset(AppAssets.locationMarker),
                   ),
                 ),
               ],

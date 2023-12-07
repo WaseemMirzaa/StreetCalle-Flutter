@@ -14,14 +14,14 @@ import 'package:street_calle/utils/permission_utils.dart';
 import 'package:street_calle/widgets/employee_status_checker_widget.dart';
 import 'package:street_calle/widgets/location_service.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class VendorMainScreen extends StatefulWidget {
+  const VendorMainScreen({Key? key}) : super(key: key);
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<VendorMainScreen> createState() => _VendorMainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _VendorMainScreenState extends State<VendorMainScreen> {
   int _selectedIndex = 0;
 
   @override

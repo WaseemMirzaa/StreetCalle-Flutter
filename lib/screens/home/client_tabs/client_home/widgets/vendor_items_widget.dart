@@ -47,10 +47,8 @@ class VendorItemsWidget extends StatelessWidget {
                           ? itemQuery.where(ItemKey.uid, isEqualTo: user.uid ?? '').orderBy(ItemKey.updatedAt, descending: true)
                           : itemQuery.where(FieldPath.documentId, whereIn: user.employeeItemsList)
                       : user.isVendor
-                          ? itemQuery.where(ItemKey.uid, isEqualTo: user.uid ?? '')
-                            .where(ItemKey.searchParam, arrayContains: state)
-                          : itemQuery.where(FieldPath.documentId, whereIn: user.employeeItemsList)
-                            .where(ItemKey.searchParam, arrayContains: state),
+                          ? itemQuery.where(ItemKey.uid, isEqualTo: user.uid ?? '').where(ItemKey.searchParam, arrayContains: state)
+                          : itemQuery.where(FieldPath.documentId, whereIn: user.employeeItemsList).where(ItemKey.searchParam, arrayContains: state),
                   pageSize: ITEM_PER_PAGE,
                   emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
                   errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),
@@ -60,7 +58,7 @@ class VendorItemsWidget extends StatelessWidget {
                       onTap: () {
                         context.pushNamed(AppRoutingName.itemDetail, extra: item.data(), pathParameters: {IS_CLIENT: true.toString()});
                       },
-                      child: ItemWidget(item: item.data()),
+                      child: _ItemWidget(item: item.data()),
                     );
                   },
                 ),
@@ -75,8 +73,8 @@ class VendorItemsWidget extends StatelessWidget {
 
 /// These widgets are for showing custom item
 
-class ItemWidget extends StatelessWidget {
-  const ItemWidget({Key? key, required this.item}) : super(key: key);
+class _ItemWidget extends StatelessWidget {
+  const _ItemWidget({Key? key, required this.item}) : super(key: key);
   final Item item;
 
   @override

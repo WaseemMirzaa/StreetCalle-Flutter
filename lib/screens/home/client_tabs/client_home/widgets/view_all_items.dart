@@ -85,6 +85,8 @@ class ViewAllItems extends StatelessWidget {
   }
 
   void _searchQuery(BuildContext context, String? value) {
-    context.read<AllItemsSearchCubit>().updateQuery(value ?? '');
+    Future.delayed(const Duration(seconds: 1), () {
+      context.read<AllItemsSearchCubit>().updateQuery(value ?? '');
+    });
   }
 }

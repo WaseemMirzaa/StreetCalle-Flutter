@@ -13,6 +13,7 @@ import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/screens/home/client_tabs/client_search/cubit/filter_cubit.dart';
 
 class LocationPicker extends StatefulWidget {
   const LocationPicker({Key? key, required this.position}) : super(key: key);
@@ -210,7 +211,8 @@ class _LocationPickerState extends State<LocationPicker> {
                                   style: const TextStyle(fontSize: 18),
                                 ),
                                 dense: true,
-                              )),
+                              ),
+                          ),
                           15.height,
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 44.0),
@@ -221,6 +223,11 @@ class _LocationPickerState extends State<LocationPicker> {
                                 text: TempLanguage().lblSelect,
                                 elevation: 0.0,
                                 onTap: () {
+                                  final localItems = context.read<LocalItemsStorage>();
+                                  final dealItems = context.read<LocalDealsStorage>();
+                                  localItems.resetLocalItem();
+                                  dealItems.resetLocalDeal();
+
                                   context.read<CurrentLocationCubit>().setUpdatedLocation(
                                       updatedLatitude: cameraPosition?.target.latitude,
                                       updatedLongitude: cameraPosition?.target.longitude

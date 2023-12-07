@@ -11,7 +11,7 @@ import 'package:street_calle/widgets/image_widget.dart';
 import 'package:street_calle/models/user.dart';
 
 class DealWidget extends StatelessWidget {
-  const DealWidget({Key? key, required this.deal, this.isLastIndex, this.user, required this.onTap, required this.onUpdate, required this.onDelete, this.isFromClient = false}) : super(key: key);
+  const DealWidget({Key? key, required this.deal, this.isLastIndex, this.user, required this.onTap, required this.onUpdate, required this.onDelete, this.isFromClient = false, this.isFromVendorLocation = false}) : super(key: key);
   final Deal deal;
   final User? user;
   final bool? isLastIndex;
@@ -19,6 +19,7 @@ class DealWidget extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onUpdate;
   final VoidCallback onDelete;
+  final bool isFromVendorLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,9 @@ class DealWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Expanded(
+                        isFromVendorLocation
+                            ? const SizedBox.shrink()
+                            : Expanded(
                           child: (deal.discountedPrice != null && deal.discountedPrice != defaultPrice)
                               ? Column(
                             crossAxisAlignment: CrossAxisAlignment.end,

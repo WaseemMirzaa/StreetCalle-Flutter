@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/user.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/widgets/address_widget.dart';
 import 'package:street_calle/widgets/image_widget.dart';
 
@@ -26,7 +27,9 @@ class ClientMenuItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${user.isVendor ? user.name : user.employeeOwnerName}',
+                      user.isVendor
+                          ? user.name.capitalizeEachFirstLetter()
+                          : user.employeeOwnerName.capitalizeEachFirstLetter(),
                       style: const TextStyle(
                           fontSize: 24,
                           fontFamily: METROPOLIS_BOLD,

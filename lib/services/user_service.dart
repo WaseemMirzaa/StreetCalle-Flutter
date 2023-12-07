@@ -220,7 +220,7 @@ class UserService extends BaseService<User> {
       if (userDoc.exists) {
         final user = userDoc.data();
         final favouriteVendorIds = user?.favouriteVendors ?? [];
-        final favoriteUsers = await getVendorsForIds(favouriteVendorIds);
+        final favoriteUsers = await getVendorsForIds(favouriteVendorIds.reversed.toList());
         return favoriteUsers;
       }
       return [];
@@ -310,6 +310,15 @@ class UserService extends BaseService<User> {
       });
     }catch(e){
       print('Error: ${e.toString()}');
+    }
+  }
+
+  Future<bool> updateEmployeeBlockStatus(String id, bool isBlocked) async {
+    try {
+      await ref!.doc(id).update({UserKey.isEmployeeBlocked: isBlocked});
+      return true;
+    } catch(e) {
+      return false;
     }
   }
 }

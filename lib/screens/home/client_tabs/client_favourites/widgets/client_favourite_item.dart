@@ -4,6 +4,7 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/user.dart';
+import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/widgets/address_widget.dart';
 
 class ClientFavouriteItem extends StatelessWidget {
@@ -29,7 +30,9 @@ class ClientFavouriteItem extends StatelessWidget {
                 ),
                 clipBehavior: Clip.hardEdge,
                 child: CachedNetworkImage(
-                  imageUrl: '${user.image}',
+                  imageUrl: user.employeeOwnerImage.isEmptyOrNull
+                          ? user.image ?? ''
+                          : user.employeeOwnerImage ?? '',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -40,23 +43,36 @@ class ClientFavouriteItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          '${user.name}',
-                          style: const TextStyle(
-                              fontSize: 24,
-                              fontFamily: METROPOLIS_BOLD,
-                              color: AppColors.primaryFontColor
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            user.employeeOwnerName.isEmptyOrNull
+                                ? user.name.capitalizeEachFirstLetter()
+                                : user.employeeOwnerName.capitalizeEachFirstLetter(),
+                            maxLines: 1,
+                            style: const TextStyle(
+                                fontSize: 24,
+                                fontFamily: METROPOLIS_BOLD,
+                                color: AppColors.primaryFontColor
+                            ),
                           ),
                         ),
-                        const SizedBox(width: 6,),
-                        Image.asset(user.isOnline ?? false ? AppAssets.online : AppAssets.offline, width: 10, height: 10,),
-                        const Spacer(),
-                        const Icon(Icons.favorite, size: 20, color: AppColors.redColor),
-                        const SizedBox(width: 12,),
-                        InkWell(
-                          onTap: onDelete,
-                          child: Image.asset(AppAssets.delete, width: 16, height: 16,),
+                        //const SizedBox(width: 6,),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Image.asset(user.isOnline ?? false ? AppAssets.online : AppAssets.offline, width: 10, height: 10,),
+                              const SizedBox(width: 12,),
+                              const Icon(Icons.favorite, size: 20, color: AppColors.redColor),
+                              const SizedBox(width: 12,),
+                              InkWell(
+                                onTap: onDelete,
+                                child: Image.asset(AppAssets.delete, width: 16, height: 16,),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

@@ -12,7 +12,7 @@ import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_vendor_profile.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_all_deals.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_all_items.dart';
-import 'package:street_calle/screens/home/main_screen.dart';
+import 'package:street_calle/screens/home/vendor_main_screen.dart';
 import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
 import 'package:street_calle/screens/home/settings/widgets/vendor_profile.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_deal.dart';
@@ -86,7 +86,7 @@ final router = GoRouter(
       //        ),
       // ],
       builder: (context, state) {
-        return const MainScreen();
+        return const VendorMainScreen();
       },
     ),
     GoRoute(

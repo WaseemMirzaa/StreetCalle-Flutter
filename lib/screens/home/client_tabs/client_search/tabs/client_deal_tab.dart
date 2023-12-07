@@ -41,9 +41,10 @@ class ClientDealTab extends StatelessWidget {
           height: 12,
         ),
         Expanded(
-          child: localDeals.state.isNotEmpty
-              ? FilteredWidget(usersList: localDeals.state.values.toList(), dealsList: localDeals.state.keys.toList(), userDeals: localDeals.state)
-              : FutureBuilder<Map<Deal, User>>(
+          // child: localDeals.state.isNotEmpty
+          //     ? FilteredWidget(usersList: localDeals.state.values.toList(), dealsList: localDeals.state.keys.toList(), userDeals: localDeals.state)
+          //     :
+          child: FutureBuilder<Map<Deal, User>>(
             future: dealService.getNearestDealsWithUsers(currentLocationCubit),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

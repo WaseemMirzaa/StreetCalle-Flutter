@@ -11,7 +11,7 @@ import 'package:street_calle/models/user.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 
 class ItemWidget extends StatelessWidget {
-  const ItemWidget({Key? key, required this.item, this.user, this.isLastIndex, required this.onUpdate, required this.onDelete, required this.onTap, required this.isFromItemTab}) : super(key: key);
+  const ItemWidget({Key? key, required this.item, this.user, this.isLastIndex, required this.onUpdate, required this.onDelete, required this.onTap, required this.isFromItemTab, this.isFromVendorLocation = false}) : super(key: key);
   final Item item;
   final User? user;
   final bool? isLastIndex;
@@ -19,6 +19,7 @@ class ItemWidget extends StatelessWidget {
   final VoidCallback onUpdate;
   final VoidCallback onDelete;
   final VoidCallback onTap;
+  final bool isFromVendorLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,9 @@ class ItemWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                        PricingWidget(item: item)
+                        isFromVendorLocation
+                            ? const SizedBox.shrink()
+                            : PricingWidget(item: item)
                       ],
                     ),
                     const SizedBox(

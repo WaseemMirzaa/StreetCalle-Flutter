@@ -131,6 +131,7 @@ class AddItemCubit extends Cubit<AddItemState> {
         smallItemTitle: smallItemTitleController.text,
         mediumItemTitle: mediumItemTitleController.text,
         largeItemTitle: largeItemTitleController.text,
+        searchParam: setSearchParam(titleController.text),
         smallItemActualPrice: parseNumeric(smallItemActualPriceController.text),
         mediumItemActualPrice: parseNumeric(mediumItemActualPriceController.text),
         largeItemActualPrice: parseNumeric(largeItemActualPriceController.text),

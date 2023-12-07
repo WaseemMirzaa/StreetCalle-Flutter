@@ -70,167 +70,7 @@ Future<void> main() async {
     print(e);
   } finally {
     runApp(
-      MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context)=> sl<SignUpCubit>(),
-            child: const SignUpScreen(),
-          ),
-          BlocProvider(
-            create: (context)=> ImageCubit(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<LoginCubit>(),
-            child: const LoginScreen(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<PasswordResetCubit>(),
-            child: const PasswordResetScreen(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<EmailVerificationCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<GuestCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> TimerCubit(60),
-          ),
-          BlocProvider(
-            create: (context)=> sl<GoogleLoginCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<UserCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<AddItemCubit>(),
-            child: const VendorHomeTab(),
-          ),
-          // BlocProvider(
-          //   create: (context)=> ItemBloc(itemService, sharedPreferencesService),
-          // ),
-          BlocProvider(
-            create: (context)=> sl<FoodTypeCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<FoodTypeExpandedCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<PricingCategoryExpandedCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<FoodTypeDropDownCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<PricingCategoryCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<AddDealCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> AddCustomItemCubit(),
-          ),
-          BlocProvider(
-            create: (context)=> SearchCubit(),
-          ),
-          BlocProvider(
-            create: (context)=> ClientMenuSearchCubit(),
-          ),
-          BlocProvider(
-            create: (context)=> FoodSearchCubit(),
-          ),
-          BlocProvider(
-            create: (context)=> AllDealsSearchCubit(),
-          ),
-          BlocProvider(
-            create: (context)=> AllItemsSearchCubit(),
-          ),
-          BlocProvider(
-            create: (context)=> SearchItemsCubit(),
-          ),
-          BlocProvider(
-            create: (context)=> SearchDealsCubit(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<ProfileStatusCubit>(),
-            child: const UserprofileTab(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<EditProfileCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<ClientSelectedVendorCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<EditProfileEnableCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<CreateEmployeeCubit>(),
-            child: CreateEmployeeProfileScreen(),
-          ),
-
-          BlocProvider(
-            create: (context)=> sl<SelectedItemsCubit>(),
-            child: AddEmployeeMenuItemsScreen(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<MenuCubit>(),
-            child: AddEmployeeMenuItemsScreen(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<SelectedDealsCubit>(),
-            child: AddEmployeeMenuItemsScreen(),
-          ),
-          BlocProvider(
-            create: (_) => LocalItemsStorage(),
-          ),
-          BlocProvider(
-            create: (_) => LocalDealsStorage(),
-          ),
-          BlocProvider(
-            create: (_) => RemoteUserItems(),
-          ),
-          BlocProvider(
-            create: (_) => NavPositionCubit(),
-          ),
-          BlocProvider(
-            create: (_) => OnlineVendorsCubit(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<MarkersCubit>(),
-            child: const ClientHomeTab(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<FavoriteCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<FavouriteListCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<FilterItemsCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> FilterDealsCubit(),
-          ),
-          BlocProvider(
-            create: (context)=> RemoteUserDeals(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<DirectionCubit>(),
-          ),
-          BlocProvider(
-            create: (context)=> ApplyFilterCubit(),
-          ),
-          BlocProvider(
-            create: (context)=> sl<CurrentLocationCubit>(),
-          ),
-        ],
-        // child: DevicePreview(
-        //   enabled: !kReleaseMode,
-        //   builder: (context) => const MyApp(), // Wrap your app
-        // ),
-        child: const MyApp(),
-      ),
+      const MyApp(),
     );
   }
 }
@@ -240,15 +80,171 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      //locale: DevicePreview.locale(context),
-      //builder: DevicePreview.appBuilder,
-      title: 'Street Calle',
-      theme: AppThemes.lightTheme,
-      darkTheme: AppThemes.darkTheme,
-      themeMode: ThemeMode.light,
-      routerConfig: router,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context)=> sl<SignUpCubit>(),
+          child: const SignUpScreen(),
+        ),
+        BlocProvider(
+          create: (context)=> ImageCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<LoginCubit>(),
+          child: const LoginScreen(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<PasswordResetCubit>(),
+          child: const PasswordResetScreen(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<EmailVerificationCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<GuestCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> TimerCubit(60),
+        ),
+        BlocProvider(
+          create: (context)=> sl<GoogleLoginCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<UserCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<AddItemCubit>(),
+          child: const VendorHomeTab(),
+        ),
+        // BlocProvider(
+        //   create: (context)=> ItemBloc(itemService, sharedPreferencesService),
+        // ),
+        BlocProvider(
+          create: (context)=> sl<FoodTypeCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<FoodTypeExpandedCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<PricingCategoryExpandedCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<FoodTypeDropDownCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<PricingCategoryCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<AddDealCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> AddCustomItemCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> SearchCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> ClientMenuSearchCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> FoodSearchCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> AllDealsSearchCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> AllItemsSearchCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> SearchItemsCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> SearchDealsCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<ProfileStatusCubit>(),
+          child: const UserprofileTab(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<EditProfileCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<ClientSelectedVendorCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<EditProfileEnableCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<CreateEmployeeCubit>(),
+          child: CreateEmployeeProfileScreen(),
+        ),
+
+        BlocProvider(
+          create: (context)=> sl<SelectedItemsCubit>(),
+          child: AddEmployeeMenuItemsScreen(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<MenuCubit>(),
+          child: AddEmployeeMenuItemsScreen(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<SelectedDealsCubit>(),
+          child: AddEmployeeMenuItemsScreen(),
+        ),
+        BlocProvider(
+          create: (_) => LocalItemsStorage(),
+        ),
+        BlocProvider(
+          create: (_) => LocalDealsStorage(),
+        ),
+        BlocProvider(
+          create: (_) => RemoteUserItems(),
+        ),
+        BlocProvider(
+          create: (_) => NavPositionCubit(),
+        ),
+        BlocProvider(
+          create: (_) => OnlineVendorsCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<MarkersCubit>(),
+          child: const ClientHomeTab(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<FavoriteCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<FavouriteListCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<FilterItemsCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> FilterDealsCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> RemoteUserDeals(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<DirectionCubit>(),
+        ),
+        BlocProvider(
+          create: (context)=> ApplyFilterCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> sl<CurrentLocationCubit>(),
+        ),
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        //locale: DevicePreview.locale(context),
+        //builder: DevicePreview.appBuilder,
+        title: 'Street Calle',
+        theme: AppThemes.lightTheme,
+        darkTheme: AppThemes.darkTheme,
+        themeMode: ThemeMode.light,
+        routerConfig: router,
+      ),
     );
   }
 }

@@ -39,9 +39,10 @@ class ClientItemTab extends StatelessWidget {
           height: 12,
         ),
         Expanded(
-          child: localItems.state.isNotEmpty
-              ? FilteredWidget(usersList: localItems.state.values.toList(), itemList: localItems.state.keys.toList(), userItems: localItems.state)
-              : FutureBuilder<Map<Item, User>>(
+          // child: localItems.state.isNotEmpty
+          //     ? FilteredWidget(usersList: localItems.state.values.toList(), itemList: localItems.state.keys.toList(), userItems: localItems.state)
+          //     :
+          child: FutureBuilder<Map<Item, User>>(
             future: itemService.getNearestItemsWithUsers(currentLocationCubit),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

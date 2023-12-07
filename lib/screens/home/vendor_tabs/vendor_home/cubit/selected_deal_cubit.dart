@@ -1,6 +1,4 @@
-import 'package:bloc/bloc.dart';
-
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SelectedDealsCubit extends Cubit<List<String>> {
   SelectedDealsCubit() : super([]);
@@ -13,6 +11,3 @@ class SelectedDealsCubit extends Cubit<List<String>> {
     }
   }
 }
-
-
-

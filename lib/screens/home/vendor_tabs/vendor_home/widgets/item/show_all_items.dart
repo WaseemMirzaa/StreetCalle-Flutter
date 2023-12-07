@@ -30,7 +30,36 @@ class ShowAllItems extends StatelessWidget {
     final itemService = sl.get<ItemService>();
     final userCubit = context.read<UserCubit>();
     context.read<SearchCubit>().updateQuery('');
-
+    // int index = -1;
+    //
+    // return Expanded(
+    //   child: BlocBuilder<AllItemsSearchCubit, String>(
+    //       builder: (context, state) {
+    //         return FirestoreListView<Item>(
+    //           query: state.isEmpty
+    //               ? itemQuery.where(ItemKey.uid, isEqualTo: userCubit.state.userId ?? '').orderBy(ItemKey.updatedAt, descending: true)
+    //               : itemQuery.where(ItemKey.uid, isEqualTo: userCubit.state.userId ?? '')
+    //               .where(ItemKey.searchParam, arrayContains: state),
+    //           pageSize: ITEM_PER_PAGE,
+    //           emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
+    //           errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),
+    //           loadingBuilder: (context) => const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,)),
+    //           itemBuilder: (context, item) {
+    //             index ++;
+    //             log('iii index: $index');
+    //             return ItemView(
+    //               index: index,
+    //               item: item.data(),
+    //               isEmployee: userCubit.state.isEmployee,
+    //               onUpdate: () => _onUpdate(context, item.data()),
+    //               onDelete: () => _showDeleteConfirmationDialog(
+    //                   context, item.data(), itemService),
+    //               onTap: () => _goToItemDetail(context, item.data()),
+    //             );
+    //           },
+    //         );
+    //       }),
+    // );
     return Expanded(
       child: StreamBuilder<List<Item>>(
         stream: userCubit.state.isEmployee
