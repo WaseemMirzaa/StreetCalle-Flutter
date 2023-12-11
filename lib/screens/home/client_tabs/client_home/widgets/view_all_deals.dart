@@ -57,9 +57,9 @@ class ViewAllDeals extends StatelessWidget {
                 builder: (context, state) {
                   return FirestoreListView<Deal>(
                     query: state.isEmpty
-                        ? dealQuery.where(DealKey.uid, isEqualTo: clientVendorId ?? '').orderBy(DealKey.updatedAt, descending: true)
-                        : dealQuery.where(DealKey.uid, isEqualTo: clientVendorId ?? '')
-                          .where(DealKey.searchParam, arrayContains: state),
+                        ? dealQuery.where(DealKey.UID, isEqualTo: clientVendorId ?? '').orderBy(DealKey.UPDATED_AT, descending: true)
+                        : dealQuery.where(DealKey.UID, isEqualTo: clientVendorId ?? '')
+                          .where(DealKey.SEARCH_PARAM, arrayContains: state),
                     pageSize: DEAL_PER_PAGE,
                     emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
                     errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),

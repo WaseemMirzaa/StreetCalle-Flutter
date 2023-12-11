@@ -185,73 +185,104 @@ class AuthService {
   }
 
   Future<Either<String, User?>> signInWithGoogle() async {
-
-    //FirebaseAuth auth = FirebaseAuth.instance;
-    final auth = sl.get<FirebaseAuth>();
-    final userService = sl.get<UserService>();
-
-    User? user;
-    // Trigger the authentication flow
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
+      final auth = sl.get<FirebaseAuth>();
+      final userService = sl.get<UserService>();
 
-      final UserCredential userCredential = await auth.signInWithCredential(credential);
+      final GoogleSignInAccount? googleUser = await _signInWithGoogle();
+      final GoogleSignInAuthentication? googleAuth = await _getGoogleAuthentication(googleUser);
+      final AuthCredential credential = _getGoogleAuthCredential(googleAuth);
 
-      user = userCredential.user!;
+      final UserCredential userCredential = await _signInWithCredential(auth, credential);
+      final User? user = userCredential.user;
 
-      userModel.User? doc;
+      final userModel.User? existingUser = await _getUserByUid(userService, user?.uid);
 
-      try {
-        doc  = await userService.userByUid(user.uid);
-      } catch (e) {
-        log(e.toString());
-      }
+      final userModel.User uModel = _buildUserModel(user, existingUser);
 
-      var uModel = userModel.User(
-        uid: user.uid,
-        email: user.email,
-        phone: user.phoneNumber,
-        name: user.displayName,
-        image: user.photoURL,
-        isVendor: false,
-      );
-
-      if (doc == null) {
-
-        uModel = uModel.copyWith(
-          updatedAt: Timestamp.now(),
-          createdAt: Timestamp.now(),
-        );
-
-        await userService.addDocumentWithCustomId(user.uid, uModel);
-
-      } else {
-
-        //uModel = uModel.copyWith();
-        await userService.updateDocument({
-          UserKey.updatedAt: Timestamp.now(),
-        }, user.uid);
-      }
+      await _updateOrCreateUser(userService, user?.uid, uModel);
 
       return Right(user);
     } on FirebaseAuthException catch (e) {
-      log(e.toString());
-      if (e.code == 'account-exists-with-different-credential') {
-        return Left(TempLanguage().lblAccountExistWithDifferentCredentials);
-      } else if (e.code == 'invalid-credential') {
-        return Left(TempLanguage().lblErrorAccessingCredentials);
-      }
+      return _handleAuthException(e);
     } catch (e) {
       log(e.toString());
       return Left(TempLanguage().lblGoogleSignInError);
     }
+  }
+
+  Future<GoogleSignInAccount?> _signInWithGoogle() async {
+    return await GoogleSignIn().signIn();
+  }
+
+  Future<GoogleSignInAuthentication?> _getGoogleAuthentication(GoogleSignInAccount? googleUser) async {
+    return await googleUser?.authentication;
+  }
+
+  AuthCredential _getGoogleAuthCredential(GoogleSignInAuthentication? googleAuth) {
+    return GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+  }
+
+  Future<UserCredential> _signInWithCredential(FirebaseAuth auth, AuthCredential credential) async {
+    return await auth.signInWithCredential(credential);
+  }
+
+  Future<userModel.User?> _getUserByUid(UserService userService, String? uid) async {
+    try {
+      return await userService.userByUid(uid);
+    } catch (e) {
+      log(e.toString());
+      throw Left(TempLanguage().lblErrorAccessingCredentials);
+    }
+  }
+
+  userModel.User _buildUserModel(User? user, userModel.User? existingUser) {
+    var uModel = userModel.User(
+      uid: user?.uid,
+      email: user?.email,
+      phone: user?.phoneNumber,
+      name: user?.displayName,
+      image: user?.photoURL,
+      isVendor: false,
+    );
+
+    if (existingUser == null) {
+      uModel = uModel.copyWith(
+        updatedAt: Timestamp.now(),
+        createdAt: Timestamp.now(),
+      );
+    }
+
+    return uModel;
+  }
+
+  Future<void> _updateOrCreateUser(UserService userService, String? uid, userModel.User uModel) async {
+    if (uid == null) {
+      throw Left(TempLanguage().lblGoogleSignInError);
+    }
+
+    if (uModel.createdAt == null) {
+      await userService.addDocumentWithCustomId(uid, uModel);
+    } else {
+      await userService.updateDocument({
+        UserKey.UPDATED_AT: Timestamp.now(),
+      }, uid);
+    }
+  }
+
+  Either<String, User?> _handleAuthException(FirebaseAuthException e) {
+    log(e.toString());
+
+    if (e.code == 'account-exists-with-different-credential') {
+      return Left(TempLanguage().lblAccountExistWithDifferentCredentials);
+    } else if (e.code == 'invalid-credential') {
+      return Left(TempLanguage().lblErrorAccessingCredentials);
+    }
+
     return Left(TempLanguage().lblGoogleSignInError);
   }
+
 }

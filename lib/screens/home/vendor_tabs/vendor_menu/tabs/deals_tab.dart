@@ -44,7 +44,7 @@ class DealsTab extends StatelessWidget {
             return const NoDataFoundWidget();
           }
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: ListView.builder(
               padding: EdgeInsets.zero,
               itemCount: snapshot.data?.length,

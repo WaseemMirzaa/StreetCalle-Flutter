@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/models/deal.dart';
@@ -15,6 +14,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employ
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/item_widget.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/deal_widget.dart';
+import 'package:street_calle/utils/custom_widgets/custom_query_builder.dart';
 
 
 class EmployeeDetailScreen extends StatefulWidget {
@@ -96,13 +96,13 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                       children: [
                         /// Items tab bar
                         widget.user?.employeeItemsList?.isNotEmpty ?? false
-                            ? FirestoreListView<Item>(
+                            ? CustomFirestoreListView<Item>(
                           query: itemQuery.where(FieldPath.documentId, whereIn: widget.user?.employeeItemsList),
                           pageSize: ITEM_PER_PAGE,
                           emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
                           errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),
                           loadingBuilder: (context) => const Center(child: CircularProgressIndicator()),
-                          itemBuilder: (context, item) {
+                          itemBuilder: (context, item, isLastItem, hasMore) {
                             return ItemWidget(
                               item: item.data(),
                               onTap: (){},
@@ -110,6 +110,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                               onDelete: (){},
                               isFromItemTab: false,
                               isFromVendorLocation: true,
+                              isLastIndex: isLastItem,
                             );
                           },
                         )
@@ -117,13 +118,13 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
 
                         /// Deals tab bar
                         widget.user?.employeeDealsList?.isNotEmpty ?? false
-                            ? FirestoreListView<Deal>(
+                            ? CustomFirestoreListView<Deal>(
                           query: dealQuery.where(FieldPath.documentId, whereIn: widget.user?.employeeDealsList),
                           pageSize: DEAL_PER_PAGE,
                           emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
                           errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),
                           loadingBuilder: (context) => const Center(child: CircularProgressIndicator()),
-                          itemBuilder: (context, deal) {
+                          itemBuilder: (context, deal, isLastDeal, hasMore) {
                             return DealWidget(
                               deal: deal.data(),
                               onTap: (){},
@@ -131,6 +132,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                               onDelete: (){},
                               isFromClient: true,
                               isFromVendorLocation: true,
+                              isLastIndex: isLastDeal,
                             );
                           },
                         )

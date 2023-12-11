@@ -31,6 +31,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_item_cubit.dart';
 import 'package:street_calle/services/auth_service.dart';
+import 'package:street_calle/services/category_service.dart';
 import 'package:street_calle/services/deal_service.dart';
 import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
@@ -86,6 +87,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ItemService());
   sl.registerLazySingleton(() => AuthService());
   sl.registerLazySingleton(() => DealService());
+  sl.registerLazySingleton(() => CategoryService());
   sl.registerLazySingleton(() => PricingCategoryCubit());
 
   /// Firebase

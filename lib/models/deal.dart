@@ -68,34 +68,34 @@ class Deal extends Equatable {
   factory Deal.fromJson(Map<String, dynamic> json, String id) {
     return Deal(
       id: id,
-      uid: json[DealKey.uid],
-      image: json[DealKey.image],
-      title: json[DealKey.title],
-      description: json[DealKey.description],
-      foodType: json[DealKey.foodType],
-      searchParam: json[DealKey.searchParam],
-      createdAt: json[DealKey.createdAt],
-      updatedAt: json[DealKey.updatedAt],
-      actualPrice: json[DealKey.actualPrice],
-      discountedPrice: json[DealKey.discountedPrice],
-      itemNames: json[DealKey.itemNames],
+      uid: json[DealKey.UID],
+      image: json[DealKey.IMAGE],
+      title: json[DealKey.TITLE],
+      description: json[DealKey.DESCRIPTION],
+      foodType: json[DealKey.FOOD_TYPE],
+      searchParam: json[DealKey.SEARCH_PARAM],
+      createdAt: json[DealKey.CREATED_AT],
+      updatedAt: json[DealKey.UPDATED_AT],
+      actualPrice: json[DealKey.ACTUAL_PRICE],
+      discountedPrice: json[DealKey.DISCOUNTED_PRICE],
+      itemNames: json[DealKey.ITEM_NAME],
     );
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data[DealKey.id] = id;
-    data[DealKey.uid] = uid;
-    data[DealKey.image] = image;
-    data[DealKey.title] = title;
-    data[DealKey.description] = description;
-    data[DealKey.searchParam] = searchParam;
-    data[DealKey.foodType] = foodType;
-    data[DealKey.createdAt] = createdAt;
-    data[DealKey.updatedAt] = updatedAt;
-    data[DealKey.actualPrice] = actualPrice;
-    data[DealKey.discountedPrice] = discountedPrice;
-    data[DealKey.itemNames] = itemNames;
+    data[DealKey.ID] = id;
+    data[DealKey.UID] = uid;
+    data[DealKey.IMAGE] = image;
+    data[DealKey.TITLE] = title;
+    data[DealKey.DESCRIPTION] = description;
+    data[DealKey.SEARCH_PARAM] = searchParam;
+    data[DealKey.FOOD_TYPE] = foodType;
+    data[DealKey.CREATED_AT] = createdAt;
+    data[DealKey.UPDATED_AT] = updatedAt;
+    data[DealKey.ACTUAL_PRICE] = actualPrice;
+    data[DealKey.DISCOUNTED_PRICE] = discountedPrice;
+    data[DealKey.ITEM_NAME] = itemNames;
     return data;
   }
 

@@ -38,7 +38,7 @@ class VendorSubscription extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,12 +65,14 @@ class VendorSubscription extends StatelessWidget {
                       children: [
                         Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,),
                         const SizedBox(width: 16,),
-                        Text(
-                          TempLanguage().lblAddUnlimitedMenuItems,
-                          style: const TextStyle(
-                            fontFamily: METROPOLIS_BOLD,
-                            fontSize: 16,
-                            color: AppColors.whiteColor
+                        Flexible(
+                          child: Text(
+                            TempLanguage().lblAddUnlimitedMenuItems,
+                            style: const TextStyle(
+                              fontFamily: METROPOLIS_BOLD,
+                              fontSize: 16,
+                              color: AppColors.whiteColor
+                            ),
                           ),
                         )
                       ],
@@ -80,12 +82,14 @@ class VendorSubscription extends StatelessWidget {
                       children: [
                         Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,),
                         const SizedBox(width: 16,),
-                        Text(
-                          TempLanguage().lblMakeYourTruckVisible,
-                          style: const TextStyle(
-                              fontFamily: METROPOLIS_BOLD,
-                              fontSize: 16,
-                              color: AppColors.whiteColor
+                        Flexible(
+                          child: Text(
+                            TempLanguage().lblMakeYourTruckVisible,
+                            style: const TextStyle(
+                                fontFamily: METROPOLIS_BOLD,
+                                fontSize: 16,
+                                color: AppColors.whiteColor
+                            ),
                           ),
                         )
                       ],

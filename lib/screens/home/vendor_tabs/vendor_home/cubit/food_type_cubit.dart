@@ -11,7 +11,7 @@ class FoodTypeCubit extends Cubit<List<String>> {
 
   Future<void> loadFromFirebase() async {
     try {
-      final documentSnapshot = await sl.get<FirebaseFirestore>().collection(Collections.foodType).doc(Collections.foodType).get();
+      final documentSnapshot = await sl.get<FirebaseFirestore>().collection(Collections.FOOD_TYPE).doc(Collections.FOOD_TYPE).get();
       if (documentSnapshot.exists && documentSnapshot.data() != null) {
         List<String> foodTypesFromFirebase = List<String>.from(documentSnapshot.data()?['types']);
         //final List<String> mergedList = state.toSet().union(foodTypesFromFirebase.toSet()).toList();
@@ -47,9 +47,9 @@ class FoodTypeCubit extends Cubit<List<String>> {
 
   Future<void> addToFirebase(String newFoodType) async {
     try {
-      final CollectionReference foodTypeCollection = FirebaseFirestore.instance.collection(Collections.foodType);
+      final CollectionReference foodTypeCollection = FirebaseFirestore.instance.collection(Collections.FOOD_TYPE);
 
-      await foodTypeCollection.doc(Collections.foodType).update({
+      await foodTypeCollection.doc(Collections.FOOD_TYPE).update({
         'types': FieldValue.arrayUnion([newFoodType]),
       });
 

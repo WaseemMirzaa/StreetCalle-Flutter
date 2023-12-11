@@ -34,9 +34,11 @@ class SubscriptionPlanItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 12,),
-            Text(
-                title,
-                style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 26, color: AppColors.primaryFontColor)
+            Flexible(
+              child: Text(
+                  title,
+                  style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 26, color: AppColors.primaryFontColor)
+              ),
             ),
 
             Text(

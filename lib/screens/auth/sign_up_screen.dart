@@ -28,197 +28,194 @@ class SignUpScreen extends StatelessWidget {
       body: SizedBox(
         width: context.width,
         height: context.height,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: defaultVerticalPadding),
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                const SizedBox(height: 20,),
-                Text(
-                  TempLanguage().lblSignUp,
-                  style: context.currentTextTheme.titleMedium,
-                ),
-                const SizedBox(height: 10,),
-                Text(
-                  TempLanguage().lblAddYourSignDetails,
-                  style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 15, color: AppColors.secondaryFontColor),
-                ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              const SizedBox(height: 36,),
+              Text(
+                TempLanguage().lblSignUp,
+                style: context.currentTextTheme.titleMedium,
+              ),
+              const SizedBox(height: 10,),
+              Text(
+                TempLanguage().lblAddYourSignDetails,
+                style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 15, color: AppColors.secondaryFontColor),
+              ),
 
-                const SizedBox(height: 24,),
+              const SizedBox(height: 24,),
 
-                BlocBuilder<ImageCubit, ImageState>(
-                  builder: (context, state) {
-                    return GestureDetector(
-                      onTap: () async {
-                        context.read<ImageCubit>().selectImage();
-                      },
-                      child: Container(
-                        width: 80,
-                        height: 80,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColors.primaryColor,
-                        ),
-                        child: state.selectedImage.path.isNotEmpty
-                        ? ClipOval(
-                          child: Image.file(File(state.selectedImage.path), fit: BoxFit.cover),
-                        )
-                        : const Icon(Icons.image_outlined, color: AppColors.whiteColor,),
+              BlocBuilder<ImageCubit, ImageState>(
+                builder: (context, state) {
+                  return GestureDetector(
+                    onTap: () async {
+                      context.read<ImageCubit>().selectImage();
+                    },
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.primaryColor,
                       ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 24,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-                  child: CustomTextField(
-                    hintText: TempLanguage().lblName,
-                    keyboardType: TextInputType.name,
-                    asset: AppAssets.person,
-                    controller: context.read<SignUpCubit>().nameController,
-                    isSmall: true,
-                  ),
-                ),
-                const SizedBox(height: 24,),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-                  child: CustomTextField(
-                    hintText: TempLanguage().lblEmail,
-                    keyboardType: TextInputType.emailAddress,
-                    asset: AppAssets.emailIcon,
-                    controller: context.read<SignUpCubit>().emailController,
-                    isSmall: false,
-                  ),
-                ),
-                const SizedBox(height: 24,),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.blackColor.withOpacity(0.15),
-                          spreadRadius: 1, // Spread radius
-                          blurRadius: 15, // Blur radius
-                          offset: const Offset(1, 3), // Offset in the Y direction
-                        ),
-                      ],
+                      child: state.selectedImage.path.isNotEmpty
+                      ? ClipOval(
+                        child: Image.file(File(state.selectedImage.path), fit: BoxFit.cover),
+                      )
+                      : const Icon(Icons.image_outlined, color: AppColors.whiteColor,),
                     ),
-                    child: CustomIntlPhoneField(
-                      dropdownTextStyle: const TextStyle(
-                        fontSize: 16
-                      ),
-                      flagsButtonPadding: const EdgeInsets.all(5.0),
-                      controller: context.read<SignUpCubit>().phoneController,
-                      disableLengthCheck: true,
-                      decoration: InputDecoration(
-                        fillColor: AppColors.whiteColor,
-                        filled: true,
-                        hintText: TempLanguage().lblPhoneNumber,
-                        hintStyle: context.currentTextTheme.displaySmall?.copyWith(fontSize: 16, color: AppColors.secondaryFontColor),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(40)
-                        ),
-                      ),
-                      initialCountryCode: initialCountyCode,
-                      onChanged: (phone) {
-                        //context.read<SignUpCubit>().phoneController.text = phone.completeNumber;
-                      },
-                      onCountryChanged: (Country? country) {
-                        context.read<SignUpCubit>().countryCodeController.text = country?.code ?? initialCountyCode;
-                      },
-                    ),
-                  ),
+                  );
+                },
+              ),
+              const SizedBox(height: 24,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                child: CustomTextField(
+                  hintText: TempLanguage().lblName,
+                  keyboardType: TextInputType.name,
+                  asset: AppAssets.person,
+                  controller: context.read<SignUpCubit>().nameController,
+                  isSmall: true,
                 ),
-                const SizedBox(height: 24,),
+              ),
+              const SizedBox(height: 24,),
 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-                  child: CustomTextField(
-                    hintText: TempLanguage().lblPassword,
-                    keyboardType: TextInputType.visiblePassword,
-                    asset: AppAssets.passwordIcon,
-                    controller: context.read<SignUpCubit>().passwordController,
-                    isSmall: true,
-                    isObscure: true,
-                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                child: CustomTextField(
+                  hintText: TempLanguage().lblEmail,
+                  keyboardType: TextInputType.emailAddress,
+                  asset: AppAssets.emailIcon,
+                  controller: context.read<SignUpCubit>().emailController,
+                  isSmall: false,
                 ),
-                const SizedBox(height: 24,),
+              ),
+              const SizedBox(height: 24,),
 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-                  child: CustomTextField(
-                    hintText: TempLanguage().lblConfirmPassword,
-                    keyboardType: TextInputType.visiblePassword,
-                    asset: AppAssets.passwordIcon,
-                    controller: context.read<SignUpCubit>().confirmPasswordController,
-                    isSmall: true,
-                    isObscure: true,
-                  ),
-                ),
-                const SizedBox(height: 24,),
-
-
-
-                BlocConsumer<SignUpCubit, SignUpState>(
-                  listener: (context, state) {
-                    if (state is SignUpSuccess) {
-                      context.read<UserCubit>().setUserModel(state.user);
-                      context.read<ProfileStatusCubit>().defaultStatus(true);
-                      context.pushNamed(AppRoutingName.emailVerificationScreen, pathParameters: {EMAIL: state.user.email ?? ''});
-                      context.read<SignUpCubit>().clearControllers();
-                    } else if (state is SignUpFailure) {
-                      showToast(context, state.error);
-                    }
-                  },
-                  builder: (context, state) {
-                    return state is SignUpLoading
-                        ? const CircularProgressIndicator(color: AppColors.primaryColor,)
-                        : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
-                          child: SizedBox(
-                      width: context.width,
-                      height: defaultButtonSize,
-                      child: AppButton(
-                        text: TempLanguage().lblSignUp,
-                        elevation: 0.0,
-                        onTap: () {
-                          signUp(context);
-                        },
-                        shapeBorder: RoundedRectangleBorder(
-                            side: const BorderSide(color: AppColors.primaryColor),
-                            borderRadius: BorderRadius.circular(30)
-                        ),
-                        textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-                        );
-                  },
-                ),
-
-                const SizedBox(height: 24,),
-
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                          text: TempLanguage().lblAlreadyhaveAccount,
-                          style: context.currentTextTheme.labelSmall
-                      ),
-                      TextSpan(
-                          text: TempLanguage().lblLogin,
-                          style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.bold),
-                        recognizer: TapGestureRecognizer()..onTap = () => context.pushNamed(AppRoutingName.loginScreen),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.blackColor.withOpacity(0.15),
+                        spreadRadius: 1, // Spread radius
+                        blurRadius: 15, // Blur radius
+                        offset: const Offset(1, 3), // Offset in the Y direction
                       ),
                     ],
                   ),
+                  child: CustomIntlPhoneField(
+                    dropdownTextStyle: const TextStyle(
+                      fontSize: 16
+                    ),
+                    flagsButtonPadding: const EdgeInsets.all(5.0),
+                    controller: context.read<SignUpCubit>().phoneController,
+                    disableLengthCheck: true,
+                    decoration: InputDecoration(
+                      fillColor: AppColors.whiteColor,
+                      filled: true,
+                      hintText: TempLanguage().lblPhoneNumber,
+                      hintStyle: context.currentTextTheme.displaySmall?.copyWith(fontSize: 16, color: AppColors.secondaryFontColor),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(40)
+                      ),
+                    ),
+                    initialCountryCode: initialCountyCode,
+                    onChanged: (phone) {
+                      //context.read<SignUpCubit>().phoneController.text = phone.completeNumber;
+                    },
+                    onCountryChanged: (Country? country) {
+                      context.read<SignUpCubit>().countryCodeController.text = country?.code ?? initialCountyCode;
+                    },
+                  ),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 24,),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                child: CustomTextField(
+                  hintText: TempLanguage().lblPassword,
+                  keyboardType: TextInputType.visiblePassword,
+                  asset: AppAssets.passwordIcon,
+                  controller: context.read<SignUpCubit>().passwordController,
+                  isSmall: true,
+                  isObscure: true,
+                ),
+              ),
+              const SizedBox(height: 24,),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                child: CustomTextField(
+                  hintText: TempLanguage().lblConfirmPassword,
+                  keyboardType: TextInputType.visiblePassword,
+                  asset: AppAssets.passwordIcon,
+                  controller: context.read<SignUpCubit>().confirmPasswordController,
+                  isSmall: true,
+                  isObscure: true,
+                ),
+              ),
+              const SizedBox(height: 24,),
+
+
+
+              BlocConsumer<SignUpCubit, SignUpState>(
+                listener: (context, state) {
+                  if (state is SignUpSuccess) {
+                    context.read<UserCubit>().setUserModel(state.user);
+                    context.read<ProfileStatusCubit>().defaultStatus(true);
+                    context.pushNamed(AppRoutingName.emailVerificationScreen, pathParameters: {EMAIL: state.user.email ?? ''});
+                    context.read<SignUpCubit>().clearControllers();
+                  } else if (state is SignUpFailure) {
+                    showToast(context, state.error);
+                  }
+                },
+                builder: (context, state) {
+                  return state is SignUpLoading
+                      ? const CircularProgressIndicator(color: AppColors.primaryColor,)
+                      : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                        child: SizedBox(
+                    width: context.width,
+                    height: defaultButtonSize,
+                    child: AppButton(
+                      text: TempLanguage().lblSignUp,
+                      elevation: 0.0,
+                      onTap: () {
+                        signUp(context);
+                      },
+                      shapeBorder: RoundedRectangleBorder(
+                          side: const BorderSide(color: AppColors.primaryColor),
+                          borderRadius: BorderRadius.circular(30)
+                      ),
+                      textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                      );
+                },
+              ),
+
+              const SizedBox(height: 24,),
+
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                        text: TempLanguage().lblAlreadyhaveAccount,
+                        style: context.currentTextTheme.labelSmall
+                    ),
+                    TextSpan(
+                        text: TempLanguage().lblLogin,
+                        style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.bold),
+                      recognizer: TapGestureRecognizer()..onTap = () => context.pushNamed(AppRoutingName.loginScreen),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

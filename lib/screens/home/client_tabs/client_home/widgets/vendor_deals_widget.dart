@@ -29,7 +29,7 @@ class VendorDealsWidget extends StatelessWidget {
         ),
         child: FirestoreListView<Deal>(
           query: user.isVendor
-              ? dealQuery.where(DealKey.uid, isEqualTo: user.uid ?? '').orderBy(DealKey.updatedAt, descending: true)
+              ? dealQuery.where(DealKey.UID, isEqualTo: user.uid ?? '').orderBy(DealKey.UPDATED_AT, descending: true)
               : dealQuery.where(FieldPath.documentId, whereIn: user.employeeItemsList),
           pageSize: DEAL_PER_PAGE,
           scrollDirection: Axis.horizontal,

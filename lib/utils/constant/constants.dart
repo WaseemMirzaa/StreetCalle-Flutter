@@ -31,10 +31,11 @@ const IS_FAVOURITE = 'isFavourite';
 /// PathParameters (for items and deals) --> change these wisely
 
 class Collections {
-  static const String users = 'users';
-  static const String items = 'items';
-  static const String deals = 'deals';
-  static const String foodType = 'foodType';
+  static const String USERS = 'users';
+  static const String ITEMS = 'items';
+  static const String DEALS = 'deals';
+  static const String FOOD_TYPE = 'foodType';
+  static const String CATEGORY = 'category';
 }
 
 class SharePreferencesKey {
@@ -54,78 +55,86 @@ class SharePreferencesKey {
   static const IS_SUBSCRIBED = 'IS_SUBSCRIBED';
   static const VENDOR_TYPE = 'VENDOR_TYPE';
   static const USER_TYPE = 'USER_TYPE';
+  static const TRUCK_CATEGORY = 'TRUCK_CATEGORY';
   static const EMPLOYEE_OWNER_NAME = 'EMPLOYEE_OWNER_NAME';
   static const EMPLOYEE_OWNER_IMAGE = 'EMPLOYEE_OWNER_IMAGE';
   static const SUBSCRIPTION_TYPE = 'SUBSCRIPTION_TYPE';
 }
 
 class UserKey {
-  static const String uid = 'uid';
-  static const String vendorId = 'vendorId';
-  static const String image = 'image';
-  static const String name = 'name';
-  static const String email = 'email';
-  static const String phone = 'phone';
-  static const String about = 'about';
-  static const String createdAt = 'createdAt';
-  static const String updatedAt = 'updatedAt';
-  static const String fcmTokens = 'fcmTokens';
-  static const String employeeItemList = 'employeeItemList';
-  static const String employeeDealList = 'employeeDealList';
-  static const String isVendor = 'isVendor';
-  static const String isOnline = 'isOnline';
-  static const String isEmployee = 'isEmployee';
-  static const String isEmployeeBlocked = 'isEmployeeBlocked';
-  static const String isSubscribed = 'isSubscribed';
-  static const String latitude = 'latitude';
-  static const String longitude = 'longitude';
-  static const String countryCode = 'countryCode';
-  static const String vendorType = 'vendorType';
-  static const String userType = 'userType';
-  static const String favouriteVendors = 'favouriteVendors';
-  static const String employeeOwnerImage = 'employeeOwnerImage';
-  static const String employeeOwnerName = 'employeeOwnerName';
-  static const String subscriptionType = 'subscriptionType';
+  static const String UID = 'uid';
+  static const String VENDOR_ID = 'vendorId';
+  static const String IMAGE = 'image';
+  static const String NAME = 'name';
+  static const String EMAIL = 'email';
+  static const String PHONE = 'phone';
+  static const String ABOUT = 'about';
+  static const String CREATED_AT = 'createdAt';
+  static const String UPDATED_AT = 'updatedAt';
+  static const String FCM_TOKENS = 'fcmTokens';
+  static const String EMPLOYEE_ITEM_LIST = 'employeeItemList';
+  static const String EMPLOYEE_DEAL_LIST = 'employeeDealList';
+  static const String IS_VENDOR = 'isVendor';
+  static const String IS_ONLINE = 'isOnline';
+  static const String IS_EMPLOYEE = 'isEmployee';
+  static const String IS_EMPLOYEE_BLOCKED = 'isEmployeeBlocked';
+  static const String IS_SUBSCRIBED = 'isSubscribed';
+  static const String LATITUDE = 'latitude';
+  static const String LONGITUDE = 'longitude';
+  static const String COUNTRY_CODE = 'countryCode';
+  static const String VENDOR_TYPE = 'vendorType';
+  static const String USER_TYPE = 'userType';
+  static const String TRUCK_CATEGORY = 'truckCategory';
+  static const String FAVOURITE_VENDORS = 'favouriteVendors';
+  static const String EMPLOYEE_OWNER_IMAGE = 'employeeOwnerImage';
+  static const String EMPLOYEE_OWNER_NAME = 'employeeOwnerName';
+  static const String SUBSCRIPTION_TYPE = 'subscriptionType';
 }
 
 class ItemKey {
-  static const String uid = 'uid';
-  static const String id = 'id';
-  static const String image = 'image';
-  static const String title = 'title';
-  static const String description = 'description';
-  static const String foodType = 'foodType';
-  static const String searchParam = 'searchParam';
-  static const String createdAt = 'createdAt';
-  static const String updatedAt = 'updatedAt';
-  static const String actualPrice = 'actualPrice';
-  static const String discountedPrice = 'discountedPrice';
+  static const String UID = 'uid';
+  static const String ID = 'id';
+  static const String IMAGE = 'image';
+  static const String TITLE = 'title';
+  static const String DESCRIPTION = 'description';
+  static const String FOOD_TYPE = 'foodType';
+  static const String SEARCH_PARAM = 'searchParam';
+  static const String CREATED_AT = 'createdAt';
+  static const String UPDATED_AT = 'updatedAt';
+  static const String ACTUAL_PRICE = 'actualPrice';
+  static const String DISCOUNTED_PRICE = 'discountedPrice';
 
-  static const String smallItemTitle = 'smallItemTitle';
-  static const String mediumItemTitle = 'mediumItemTitle';
-  static const String largeItemTitle = 'largeItemTitle';
+  static const String SMALL_ITEM_TITLE = 'smallItemTitle';
+  static const String MEDIUM_ITEM_TITLE = 'mediumItemTitle';
+  static const String LARGE_ITEM_TITLE = 'largeItemTitle';
 
-  static const String smallItemActualPrice = 'smallItemActualPrice';
-  static const String smallItemDiscountedPrice = 'smallItemDiscountedPrice';
+  static const String SMALL_ITEM_ACTUAL_PRICE = 'smallItemActualPrice';
+  static const String SMALL_ITEM_DISCOUNTED_PRICE = 'smallItemDiscountedPrice';
 
-  static const String mediumItemActualPrice = 'mediumItemActualPrice';
-  static const String mediumItemDiscountedPrice = 'mediumItemDiscountedPrice';
+  static const String MEDIUM_ITEM_ACTUAL_PRICE = 'mediumItemActualPrice';
+  static const String MEDIUM_ITEM_DISCOUNTED_PRICE = 'mediumItemDiscountedPrice';
 
-  static const String largeItemActualPrice = 'largeItemActualPrice';
-  static const String largeItemDiscountedPrice = 'largeItemDiscountedPrice';
+  static const String LARGE_ITEM_ACTUAL_PRICE = 'largeItemActualPrice';
+  static const String LARGE_ITEM_DISCOUNTED_PRICE = 'largeItemDiscountedPrice';
 }
 
 class DealKey {
-  static const String uid = 'uid';
-  static const String id = 'id';
-  static const String image = 'image';
-  static const String title = 'title';
-  static const String description = 'description';
-  static const String searchParam = 'searchParam';
-  static const String foodType = 'foodType';
-  static const String createdAt = 'createdAt';
-  static const String updatedAt = 'updatedAt';
-  static const String actualPrice = 'actualPrice';
-  static const String discountedPrice = 'discountedPrice';
-  static const String itemNames = 'itemName';
+  static const String UID = 'uid';
+  static const String ID = 'id';
+  static const String IMAGE = 'image';
+  static const String TITLE = 'title';
+  static const String DESCRIPTION = 'description';
+  static const String SEARCH_PARAM = 'searchParam';
+  static const String FOOD_TYPE = 'foodType';
+  static const String CREATED_AT = 'createdAt';
+  static const String UPDATED_AT = 'updatedAt';
+  static const String ACTUAL_PRICE = 'actualPrice';
+  static const String DISCOUNTED_PRICE = 'discountedPrice';
+  static const String ITEM_NAME = 'itemName';
+}
+
+class CategoryKey {
+  static const String TITLE = 'title';
+  static const String ICON = 'icon';
+  static const String CATEGORIES = 'categories';
 }

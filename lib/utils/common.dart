@@ -261,12 +261,12 @@ List<String> setSearchParam(String caseNumber) {
 }
 
 
-final itemQuery = sl.get<FirebaseFirestore>().collection(Collections.items).withConverter<Item>(
+final itemQuery = sl.get<FirebaseFirestore>().collection(Collections.ITEMS).withConverter<Item>(
   fromFirestore: (snapshot, options) => Item.fromJson(snapshot.data()!, snapshot.id),
   toFirestore: (value, options) => value.toJson(),
 );
 
-final dealQuery = sl.get<FirebaseFirestore>().collection(Collections.deals).withConverter<Deal>(
+final dealQuery = sl.get<FirebaseFirestore>().collection(Collections.DEALS).withConverter<Deal>(
   fromFirestore: (snapshot, options) => Deal.fromJson(snapshot.data()!, snapshot.id),
   toFirestore: (value, options) => value.toJson(),
 );

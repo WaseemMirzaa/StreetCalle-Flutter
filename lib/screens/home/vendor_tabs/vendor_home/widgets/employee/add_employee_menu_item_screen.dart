@@ -240,6 +240,8 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                               const Divider(
                                                 color: AppColors.dividerColor,
                                               ),
+                                              SizedBox(height: index == items.length - 1 ? 80 : 0,),
+
                                             ],
                                           ),
                                         );
@@ -385,6 +387,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                               const Divider(
                                                 color: AppColors.dividerColor,
                                               ),
+                                              SizedBox(height: index == deals.length - 1 ? 80 : 0,),
                                             ],
                                           ),
                                         );

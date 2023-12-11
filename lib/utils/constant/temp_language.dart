@@ -373,6 +373,15 @@ class TempLanguage {
   String get lblAddMenuItems => 'Add Menu Items';
 
   String get lblSearch => 'Search';
+  String get lblDone => 'Done';
+
+  String get lblFoodTruck => 'Food Truck';
+
+  String get lblFlowerTruck => 'Flower Truck';
+
+  String get lblSelectCategory => 'Select Category';
+
+  String get lblSelectCategoryList => 'Please select your business category from the list';
 
   String get lblAddressNotFound => 'Address not found';
 

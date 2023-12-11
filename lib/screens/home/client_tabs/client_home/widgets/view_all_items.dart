@@ -57,9 +57,9 @@ class ViewAllItems extends StatelessWidget {
                builder: (context, state) {
                 return FirestoreListView<Item>(
                   query: state.isEmpty
-                      ? itemQuery.where(ItemKey.uid, isEqualTo: clientVendorId ?? '').orderBy(ItemKey.updatedAt, descending: true)
-                      : itemQuery.where(ItemKey.uid, isEqualTo: clientVendorId ?? '')
-                         .where(ItemKey.searchParam, arrayContains: state),
+                      ? itemQuery.where(ItemKey.UID, isEqualTo: clientVendorId ?? '').orderBy(ItemKey.UPDATED_AT, descending: true)
+                      : itemQuery.where(ItemKey.UID, isEqualTo: clientVendorId ?? '')
+                         .where(ItemKey.SEARCH_PARAM, arrayContains: state),
                   pageSize: ITEM_PER_PAGE,
                   emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
                   errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),

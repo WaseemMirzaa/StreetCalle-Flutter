@@ -29,6 +29,7 @@ class User extends Equatable {
   final double? longitude;
   final String? vendorType;
   final String? userType;
+  final String? truckCategory;
   final String? employeeOwnerImage;
   final String? employeeOwnerName;
   final String? subscriptionType;
@@ -60,7 +61,8 @@ class User extends Equatable {
       this.favouriteVendors,
       this.employeeOwnerImage,
       this.employeeOwnerName,
-      this.subscriptionType});
+      this.subscriptionType,
+      this.truckCategory});
 
   User copyWith(
       {String? uid,
@@ -86,6 +88,7 @@ class User extends Equatable {
       String? countryCode,
       String? vendorType,
       String? userType,
+      String? truckCategory,
       String? clientVendorDistance,
       String? employeeOwnerImage,
       String? employeeOwnerName,
@@ -114,6 +117,7 @@ class User extends Equatable {
       countryCode: countryCode ?? this.countryCode,
       vendorType: vendorType ?? this.vendorType,
       userType: userType ?? this.userType,
+      truckCategory: truckCategory ?? '',
       employeeOwnerImage: employeeOwnerImage ?? this.employeeOwnerImage,
       employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName,
       subscriptionType: subscriptionType ?? this.subscriptionType,
@@ -124,62 +128,64 @@ class User extends Equatable {
   factory User.fromJson(Map<String, dynamic> json, String userId) {
     return User(
       uid: userId,
-      vendorId: json[UserKey.vendorId],
-      image: json[UserKey.image],
-      name: json[UserKey.name],
-      email: json[UserKey.email],
-      phone: json[UserKey.phone],
-      about: json[UserKey.about],
-      createdAt: json[UserKey.createdAt],
-      updatedAt: json[UserKey.updatedAt],
-      fcmTokens: json[UserKey.fcmTokens],
-      employeeItemsList: json[UserKey.employeeItemList],
-      employeeDealsList: json[UserKey.employeeDealList],
-      isVendor: json[UserKey.isVendor],
-      isOnline: json[UserKey.isOnline],
-      isEmployeeBlocked: json[UserKey.isEmployeeBlocked],
-      isEmployee: json[UserKey.isEmployee],
-      isSubscribed: json[UserKey.isSubscribed],
-      latitude: json[UserKey.latitude],
-      longitude: json[UserKey.longitude],
-      countryCode: json[UserKey.countryCode],
-      vendorType: json[UserKey.vendorType],
-      userType: json[UserKey.userType],
-      favouriteVendors: json[UserKey.favouriteVendors],
-      employeeOwnerName: json[UserKey.employeeOwnerName],
-      employeeOwnerImage: json[UserKey.employeeOwnerImage],
-      subscriptionType: json[UserKey.subscriptionType]
+      vendorId: json[UserKey.VENDOR_ID],
+      image: json[UserKey.IMAGE],
+      name: json[UserKey.NAME],
+      email: json[UserKey.EMAIL],
+      phone: json[UserKey.PHONE],
+      about: json[UserKey.ABOUT],
+      createdAt: json[UserKey.CREATED_AT],
+      updatedAt: json[UserKey.UPDATED_AT],
+      fcmTokens: json[UserKey.FCM_TOKENS],
+      employeeItemsList: json[UserKey.EMPLOYEE_ITEM_LIST],
+      employeeDealsList: json[UserKey.EMPLOYEE_DEAL_LIST],
+      isVendor: json[UserKey.IS_VENDOR],
+      isOnline: json[UserKey.IS_ONLINE],
+      isEmployeeBlocked: json[UserKey.IS_EMPLOYEE_BLOCKED],
+      isEmployee: json[UserKey.IS_EMPLOYEE],
+      isSubscribed: json[UserKey.IS_SUBSCRIBED],
+      latitude: json[UserKey.LATITUDE],
+      longitude: json[UserKey.LONGITUDE],
+      countryCode: json[UserKey.COUNTRY_CODE],
+      vendorType: json[UserKey.VENDOR_TYPE],
+      userType: json[UserKey.USER_TYPE],
+      truckCategory: json[UserKey.TRUCK_CATEGORY],
+      favouriteVendors: json[UserKey.FAVOURITE_VENDORS],
+      employeeOwnerName: json[UserKey.EMPLOYEE_OWNER_NAME],
+      employeeOwnerImage: json[UserKey.EMPLOYEE_OWNER_IMAGE],
+      subscriptionType: json[UserKey.SUBSCRIPTION_TYPE]
     );
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data[UserKey.uid] = uid;
-    data[UserKey.vendorId] = vendorId;
-    data[UserKey.image] = image;
-    data[UserKey.name] = name;
-    data[UserKey.email] = email;
-    data[UserKey.phone] = phone;
-    data[UserKey.about] = about;
-    data[UserKey.createdAt] = createdAt;
-    data[UserKey.updatedAt] = updatedAt;
-    data[UserKey.fcmTokens] = fcmTokens;
-    data[UserKey.employeeItemList] = employeeItemsList;
-    data[UserKey.employeeDealList] =employeeDealsList;
-    data[UserKey.isVendor] = isVendor;
-    data[UserKey.isOnline] = isOnline;
-    data[UserKey.isEmployee] = isEmployee;
-    data[UserKey.isSubscribed] = isSubscribed;
-    data[UserKey.isEmployeeBlocked] = isEmployeeBlocked;
-    data[UserKey.latitude] = latitude;
-    data[UserKey.longitude] = longitude;
-    data[UserKey.countryCode] = countryCode;
-    data[UserKey.vendorType] = vendorType;
-    data[UserKey.userType] = userType;
-    data[UserKey.favouriteVendors] = favouriteVendors;
-    data[UserKey.employeeOwnerImage] = employeeOwnerImage;
-    data[UserKey.employeeOwnerName] = employeeOwnerName;
-    data[UserKey.subscriptionType] = subscriptionType;
+    data[UserKey.UID] = uid;
+    data[UserKey.VENDOR_ID] = vendorId;
+    data[UserKey.IMAGE] = image;
+    data[UserKey.NAME] = name;
+    data[UserKey.EMAIL] = email;
+    data[UserKey.PHONE] = phone;
+    data[UserKey.ABOUT] = about;
+    data[UserKey.CREATED_AT] = createdAt;
+    data[UserKey.UPDATED_AT] = updatedAt;
+    data[UserKey.FCM_TOKENS] = fcmTokens;
+    data[UserKey.EMPLOYEE_ITEM_LIST] = employeeItemsList;
+    data[UserKey.EMPLOYEE_DEAL_LIST] =employeeDealsList;
+    data[UserKey.IS_VENDOR] = isVendor;
+    data[UserKey.IS_ONLINE] = isOnline;
+    data[UserKey.IS_EMPLOYEE] = isEmployee;
+    data[UserKey.IS_SUBSCRIBED] = isSubscribed;
+    data[UserKey.IS_EMPLOYEE_BLOCKED] = isEmployeeBlocked;
+    data[UserKey.LATITUDE] = latitude;
+    data[UserKey.LONGITUDE] = longitude;
+    data[UserKey.COUNTRY_CODE] = countryCode;
+    data[UserKey.VENDOR_TYPE] = vendorType;
+    data[UserKey.USER_TYPE] = userType;
+    data[UserKey.TRUCK_CATEGORY] = truckCategory;
+    data[UserKey.FAVOURITE_VENDORS] = favouriteVendors;
+    data[UserKey.EMPLOYEE_OWNER_IMAGE] = employeeOwnerImage;
+    data[UserKey.EMPLOYEE_OWNER_NAME] = employeeOwnerName;
+    data[UserKey.SUBSCRIPTION_TYPE] = subscriptionType;
     return data;
   }
 

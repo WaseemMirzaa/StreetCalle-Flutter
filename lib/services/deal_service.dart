@@ -18,7 +18,7 @@ import 'package:street_calle/utils/location_utils.dart';
 class DealService extends BaseService<Deal> {
 
   DealService() {
-    ref = sl.get<FirebaseFirestore>().collection(Collections.deals).withConverter<Deal>(
+    ref = sl.get<FirebaseFirestore>().collection(Collections.DEALS).withConverter<Deal>(
       fromFirestore: (snapshot, options) =>
           Deal.fromJson(snapshot.data()!, snapshot.id),
       toFirestore: (value, options) => value.toJson(),
@@ -34,7 +34,7 @@ class DealService extends BaseService<Deal> {
 
       deal = deal.copyWith(image: url);
       final result = await ref!.add(deal);
-      await ref!.doc(result.id).update({DealKey.id: result.id});
+      await ref!.doc(result.id).update({DealKey.ID: result.id});
       deal = deal.copyWith(id: result.id);
 
       return Right(deal);
@@ -82,8 +82,8 @@ class DealService extends BaseService<Deal> {
   }
 
   Stream<List<Deal>> getDeals(String userId) {
-    return ref!.where(DealKey.uid, isEqualTo: userId)
-        .orderBy(DealKey.updatedAt, descending: true)
+    return ref!.where(DealKey.UID, isEqualTo: userId)
+        .orderBy(DealKey.UPDATED_AT, descending: true)
         .snapshots()
         .map((value) => value.docs.map((e) => e.data()).toList());
   }
@@ -103,7 +103,7 @@ class DealService extends BaseService<Deal> {
 
   Stream<List<Deal>> getAllDeals() {
     return ref!
-        .orderBy(DealKey.updatedAt, descending: true)
+        .orderBy(DealKey.UPDATED_AT, descending: true)
         .snapshots()
         .map((value) => value.docs.map((e) => e.data()).toList());
   }
@@ -130,8 +130,8 @@ class DealService extends BaseService<Deal> {
 
   Future<List<Deal>> getDealsUsingId(String userId) async {
     final querySnapshot = await ref!
-        .where(DealKey.uid, isEqualTo: userId)
-        .orderBy(DealKey.updatedAt, descending: true)
+        .where(DealKey.UID, isEqualTo: userId)
+        .orderBy(DealKey.UPDATED_AT, descending: true)
         .get();
 
     return querySnapshot.docs.map((e) => e.data()).toList();

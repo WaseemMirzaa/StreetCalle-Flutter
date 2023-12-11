@@ -18,7 +18,7 @@ import 'package:street_calle/models/user.dart';
 class ItemService extends BaseService<Item> {
 
   ItemService() {
-    ref = sl.get<FirebaseFirestore>().collection(Collections.items).withConverter<Item>(
+    ref = sl.get<FirebaseFirestore>().collection(Collections.ITEMS).withConverter<Item>(
       fromFirestore: (snapshot, options) =>
           Item.fromJson(snapshot.data()!, snapshot.id),
       toFirestore: (value, options) => value.toJson(),
@@ -34,7 +34,7 @@ class ItemService extends BaseService<Item> {
 
       item = item.copyWith(image: url);
       final result = await ref!.add(item);
-      await ref!.doc(result.id).update({ItemKey.id: result.id});
+      await ref!.doc(result.id).update({ItemKey.ID: result.id});
       item = item.copyWith(id: result.id);
 
       return Right(item);
@@ -82,8 +82,8 @@ class ItemService extends BaseService<Item> {
   }
 
   Stream<List<Item>> getItems(String userId) {
-    return ref!.where(ItemKey.uid, isEqualTo: userId)
-        .orderBy(ItemKey.updatedAt, descending: true)
+    return ref!.where(ItemKey.UID, isEqualTo: userId)
+        .orderBy(ItemKey.UPDATED_AT, descending: true)
         .snapshots()
         .map((value) => value.docs.map((e) => e.data()).toList());
   }
@@ -103,8 +103,8 @@ class ItemService extends BaseService<Item> {
 
   Future<List<Item>> getMenuItems(String userId) async {
     final querySnapshot = await ref!
-        .where(ItemKey.uid, isEqualTo: userId)
-        .orderBy(ItemKey.updatedAt, descending: true)
+        .where(ItemKey.UID, isEqualTo: userId)
+        .orderBy(ItemKey.UPDATED_AT, descending: true)
         .get();
 
     return querySnapshot.docs.map((e) => e.data()).toList();
@@ -117,14 +117,14 @@ class ItemService extends BaseService<Item> {
   }
 
   Stream<List<Item>> getVendorItems(String vendorId) {
-    return ref!.where(ItemKey.uid, isEqualTo: vendorId)
+    return ref!.where(ItemKey.UID, isEqualTo: vendorId)
         .snapshots()
         .map((value) => value.docs.map((e) => e.data()).toList());
   }
 
   Stream<List<Item>> getAllItems() {
     return ref!
-        .orderBy(ItemKey.updatedAt, descending: true)
+        .orderBy(ItemKey.UPDATED_AT, descending: true)
         .snapshots()
         .map((value) => value.docs.map((e) => e.data()).toList());
   }

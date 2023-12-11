@@ -104,50 +104,50 @@ class Item extends Equatable {
   factory Item.fromJson(Map<String, dynamic> json, String id) {
     return Item(
       id: id,
-      uid: json[ItemKey.uid],
-      image: json[ItemKey.image],
-      title: json[ItemKey.title],
-      description: json[ItemKey.description],
-      foodType: json[ItemKey.foodType],
-      searchParam: json[ItemKey.searchParam],
-      createdAt: json[ItemKey.createdAt],
-      updatedAt: json[ItemKey.updatedAt],
-      actualPrice: json[ItemKey.actualPrice],
-      discountedPrice: json[ItemKey.discountedPrice],
-      smallItemTitle: json[ItemKey.smallItemTitle],
-      mediumItemTitle: json[ItemKey.mediumItemTitle],
-      largeItemTitle: json[ItemKey.largeItemTitle],
-      smallItemActualPrice: json[ItemKey.smallItemActualPrice],
-      mediumItemActualPrice: json[ItemKey.mediumItemActualPrice],
-      largeItemActualPrice: json[ItemKey.largeItemActualPrice],
-      smallItemDiscountedPrice: json[ItemKey.smallItemDiscountedPrice],
-      mediumItemDiscountedPrice: json[ItemKey.mediumItemDiscountedPrice],
-      largeItemDiscountedPrice: json[ItemKey.largeItemDiscountedPrice],
+      uid: json[ItemKey.UID],
+      image: json[ItemKey.IMAGE],
+      title: json[ItemKey.TITLE],
+      description: json[ItemKey.DESCRIPTION],
+      foodType: json[ItemKey.FOOD_TYPE],
+      searchParam: json[ItemKey.SEARCH_PARAM],
+      createdAt: json[ItemKey.CREATED_AT],
+      updatedAt: json[ItemKey.UPDATED_AT],
+      actualPrice: json[ItemKey.ACTUAL_PRICE],
+      discountedPrice: json[ItemKey.DISCOUNTED_PRICE],
+      smallItemTitle: json[ItemKey.SMALL_ITEM_TITLE],
+      mediumItemTitle: json[ItemKey.MEDIUM_ITEM_TITLE],
+      largeItemTitle: json[ItemKey.LARGE_ITEM_TITLE],
+      smallItemActualPrice: json[ItemKey.SMALL_ITEM_ACTUAL_PRICE],
+      mediumItemActualPrice: json[ItemKey.MEDIUM_ITEM_ACTUAL_PRICE],
+      largeItemActualPrice: json[ItemKey.LARGE_ITEM_ACTUAL_PRICE],
+      smallItemDiscountedPrice: json[ItemKey.SMALL_ITEM_DISCOUNTED_PRICE],
+      mediumItemDiscountedPrice: json[ItemKey.MEDIUM_ITEM_DISCOUNTED_PRICE],
+      largeItemDiscountedPrice: json[ItemKey.LARGE_ITEM_DISCOUNTED_PRICE],
     );
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data[ItemKey.id] = id;
-    data[ItemKey.uid] = uid;
-    data[ItemKey.image] = image;
-    data[ItemKey.title] = title;
-    data[ItemKey.description] = description;
-    data[ItemKey.foodType] = foodType;
-    data[ItemKey.createdAt] = createdAt;
-    data[ItemKey.updatedAt] = updatedAt;
-    data[ItemKey.actualPrice] = actualPrice;
-    data[ItemKey.searchParam] = searchParam;
-    data[ItemKey.discountedPrice] = discountedPrice;
-    data[ItemKey.smallItemTitle] = smallItemTitle;
-    data[ItemKey.mediumItemTitle] = mediumItemTitle;
-    data[ItemKey.largeItemTitle] = largeItemTitle;
-    data[ItemKey.smallItemActualPrice] = smallItemActualPrice;
-    data[ItemKey.mediumItemActualPrice] = mediumItemActualPrice;
-    data[ItemKey.largeItemActualPrice] = largeItemActualPrice;
-    data[ItemKey.smallItemDiscountedPrice] = smallItemDiscountedPrice;
-    data[ItemKey.mediumItemDiscountedPrice] = mediumItemDiscountedPrice;
-    data[ItemKey.largeItemDiscountedPrice] = largeItemDiscountedPrice;
+    data[ItemKey.ID] = id;
+    data[ItemKey.UID] = uid;
+    data[ItemKey.IMAGE] = image;
+    data[ItemKey.TITLE] = title;
+    data[ItemKey.DESCRIPTION] = description;
+    data[ItemKey.FOOD_TYPE] = foodType;
+    data[ItemKey.CREATED_AT] = createdAt;
+    data[ItemKey.UPDATED_AT] = updatedAt;
+    data[ItemKey.ACTUAL_PRICE] = actualPrice;
+    data[ItemKey.SEARCH_PARAM] = searchParam;
+    data[ItemKey.DISCOUNTED_PRICE] = discountedPrice;
+    data[ItemKey.SMALL_ITEM_TITLE] = smallItemTitle;
+    data[ItemKey.MEDIUM_ITEM_TITLE] = mediumItemTitle;
+    data[ItemKey.LARGE_ITEM_TITLE] = largeItemTitle;
+    data[ItemKey.SMALL_ITEM_ACTUAL_PRICE] = smallItemActualPrice;
+    data[ItemKey.MEDIUM_ITEM_ACTUAL_PRICE] = mediumItemActualPrice;
+    data[ItemKey.LARGE_ITEM_ACTUAL_PRICE] = largeItemActualPrice;
+    data[ItemKey.SMALL_ITEM_DISCOUNTED_PRICE] = smallItemDiscountedPrice;
+    data[ItemKey.MEDIUM_ITEM_DISCOUNTED_PRICE] = mediumItemDiscountedPrice;
+    data[ItemKey.LARGE_ITEM_DISCOUNTED_PRICE] = largeItemDiscountedPrice;
     return data;
   }
 

@@ -225,7 +225,7 @@ class PermissionUtils {
     if (isAndroid && (await DeviceInformation.apiLevel >= 31)) {
       return await Permission.notification.isGranted;
     }
-    return false;
+    return true;
   }
 
   static Future<PermissionResponse> showCustomNotificationPermissionDialog({

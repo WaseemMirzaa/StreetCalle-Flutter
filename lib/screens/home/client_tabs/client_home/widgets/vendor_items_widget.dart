@@ -44,11 +44,11 @@ class VendorItemsWidget extends StatelessWidget {
                 child: FirestoreListView<Item>(
                   query: state.isEmpty
                       ? user.isVendor
-                          ? itemQuery.where(ItemKey.uid, isEqualTo: user.uid ?? '').orderBy(ItemKey.updatedAt, descending: true)
+                          ? itemQuery.where(ItemKey.UID, isEqualTo: user.uid ?? '').orderBy(ItemKey.UPDATED_AT, descending: true)
                           : itemQuery.where(FieldPath.documentId, whereIn: user.employeeItemsList)
                       : user.isVendor
-                          ? itemQuery.where(ItemKey.uid, isEqualTo: user.uid ?? '').where(ItemKey.searchParam, arrayContains: state)
-                          : itemQuery.where(FieldPath.documentId, whereIn: user.employeeItemsList).where(ItemKey.searchParam, arrayContains: state),
+                          ? itemQuery.where(ItemKey.UID, isEqualTo: user.uid ?? '').where(ItemKey.SEARCH_PARAM, arrayContains: state)
+                          : itemQuery.where(FieldPath.documentId, whereIn: user.employeeItemsList).where(ItemKey.SEARCH_PARAM, arrayContains: state),
                   pageSize: ITEM_PER_PAGE,
                   emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
                   errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),
