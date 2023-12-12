@@ -14,6 +14,7 @@ import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
+import 'package:street_calle/widgets/category_widget.dart';
 
 class UserprofileTab extends StatelessWidget {
   const UserprofileTab({Key? key}) : super(key: key);
@@ -86,10 +87,13 @@ class UserprofileTab extends StatelessWidget {
                     );
                   }
               ),
+              userCubit.state.isVendor || userCubit.state.isEmployee
+                  ? const CategoryWidget()
+                  : const SizedBox.shrink(),
               SizedBox(
-                height: userCubit.state.isVendor ? 16 : 0,
+                height: userCubit.state.isVendor || userCubit.state.isEmployee ? 6 : 0,
               ),
-              userCubit.state.isVendor ? const UserOnlineOfflineWidget() : const SizedBox.shrink(),
+              userCubit.state.isVendor || userCubit.state.isEmployee ? const UserOnlineOfflineWidget() : const SizedBox.shrink(),
               const UserInfo(),
             ],
           ),

@@ -48,6 +48,9 @@ class _SplashScreenState extends State<SplashScreen> {
         userCubit.setUserId(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_ID));
         userCubit.setVendorId(sharedPreferencesService.getStringAsync(SharePreferencesKey.VENDOR_ID));
 
+        userCubit.setCategory(sharedPreferencesService.getStringAsync(SharePreferencesKey.CATEGORY));
+        userCubit.setCategoryImage(sharedPreferencesService.getStringAsync(SharePreferencesKey.CATEGORY_IMAGE));
+
         userCubit.setUsername(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_NAME));
         userCubit.setUserImage(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_IMAGE));
         userCubit.setUserPhone(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_NUMBER));

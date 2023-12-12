@@ -55,7 +55,8 @@ class SharePreferencesKey {
   static const IS_SUBSCRIBED = 'IS_SUBSCRIBED';
   static const VENDOR_TYPE = 'VENDOR_TYPE';
   static const USER_TYPE = 'USER_TYPE';
-  static const TRUCK_CATEGORY = 'TRUCK_CATEGORY';
+  static const CATEGORY = 'CATEGORY';
+  static const CATEGORY_IMAGE = 'CATEGORY_IMAGE';
   static const EMPLOYEE_OWNER_NAME = 'EMPLOYEE_OWNER_NAME';
   static const EMPLOYEE_OWNER_IMAGE = 'EMPLOYEE_OWNER_IMAGE';
   static const SUBSCRIPTION_TYPE = 'SUBSCRIPTION_TYPE';
@@ -84,7 +85,8 @@ class UserKey {
   static const String COUNTRY_CODE = 'countryCode';
   static const String VENDOR_TYPE = 'vendorType';
   static const String USER_TYPE = 'userType';
-  static const String TRUCK_CATEGORY = 'truckCategory';
+  static const String CATEGORY = 'category';
+  static const String CATEGORY_IMAGE = 'categoryImage';
   static const String FAVOURITE_VENDORS = 'favouriteVendors';
   static const String EMPLOYEE_OWNER_IMAGE = 'employeeOwnerImage';
   static const String EMPLOYEE_OWNER_NAME = 'employeeOwnerName';

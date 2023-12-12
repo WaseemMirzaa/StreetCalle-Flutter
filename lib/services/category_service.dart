@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:street_calle/services/base_service.dart';
 import 'package:street_calle/dependency_injection.dart';

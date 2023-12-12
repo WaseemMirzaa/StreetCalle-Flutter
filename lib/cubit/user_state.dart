@@ -20,7 +20,8 @@ class UserState {
   final bool isSubscribed;
   final String vendorType;
   final String userType;
-  final String truckCategory;
+  final String category;
+  final String categoryImage;
   final String employeeOwnerImage;
   final String employeeOwnerName;
   final String subscriptionType;
@@ -38,7 +39,8 @@ class UserState {
     required this.isOnline,
     required this.vendorType,
     required this.userType,
-    required this.truckCategory,
+    required this.category,
+    required this.categoryImage,
     required this.vendorId,
     required this.isEmployee,
     required this.isEmployeeBlocked,
@@ -62,7 +64,8 @@ class UserState {
       String? countryCode,
       String? vendorType,
       String? userType,
-      String? truckCategory,
+      String? category,
+      String? categoryImage,
       bool? isEmployee,
       bool? isEmployeeBlocked,
       bool? isSubscribed,
@@ -84,7 +87,8 @@ class UserState {
       countryCode: countryCode ?? this.countryCode,
       vendorType: vendorType ?? this.vendorType,
       userType: userType ?? this.userType,
-      truckCategory: truckCategory ?? this.truckCategory,
+      category: category ?? this.category,
+      categoryImage: categoryImage ?? this.categoryImage,
       isEmployee: isEmployee ?? this.isEmployee,
       isEmployeeBlocked: isEmployeeBlocked ?? this.isEmployeeBlocked,
       isSubscribed: isSubscribed ?? this.isSubscribed,
@@ -112,7 +116,8 @@ class UserCubit extends Cubit<UserState> {
             countryCode: initialCountyCode,
             vendorType: '',
             userType: '',
-            truckCategory: '',
+            category: '',
+            categoryImage: '',
             isEmployee: false,
             isEmployeeBlocked: false,
             isSubscribed: false,
@@ -205,9 +210,14 @@ class UserCubit extends Cubit<UserState> {
     sharedPreferencesService.setValue(SharePreferencesKey.USER_TYPE, value);
   }
 
-  void setTruckCategory(String value) {
-    emit(state.copyWith(userType: value));
-    sharedPreferencesService.setValue(SharePreferencesKey.TRUCK_CATEGORY, value);
+  void setCategory(String value) {
+    emit(state.copyWith(category: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.CATEGORY, value);
+  }
+
+  void setCategoryImage(String value) {
+    emit(state.copyWith(categoryImage: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.CATEGORY_IMAGE, value);
   }
 
   void setEmployeeOwnerImage(String value) {
@@ -245,7 +255,8 @@ class UserCubit extends Cubit<UserState> {
     setEmployeeOwnerName(user.employeeOwnerName ?? '');
     setVendorType(user.vendorType ?? '');
     setUserType(user.userType ?? '');
-    setTruckCategory(user.truckCategory ?? '');
+    setCategory(user.category ?? '');
+    setCategoryImage(user.categoryImage ?? '');
     setSubscriptionType(user.subscriptionType ?? '');
   }
 }

@@ -29,7 +29,8 @@ class User extends Equatable {
   final double? longitude;
   final String? vendorType;
   final String? userType;
-  final String? truckCategory;
+  final String? category;
+  final String? categoryImage;
   final String? employeeOwnerImage;
   final String? employeeOwnerName;
   final String? subscriptionType;
@@ -62,7 +63,9 @@ class User extends Equatable {
       this.employeeOwnerImage,
       this.employeeOwnerName,
       this.subscriptionType,
-      this.truckCategory});
+      this.category,
+      this.categoryImage,
+      });
 
   User copyWith(
       {String? uid,
@@ -88,7 +91,8 @@ class User extends Equatable {
       String? countryCode,
       String? vendorType,
       String? userType,
-      String? truckCategory,
+      String? category,
+      String? categoryImage,
       String? clientVendorDistance,
       String? employeeOwnerImage,
       String? employeeOwnerName,
@@ -117,7 +121,8 @@ class User extends Equatable {
       countryCode: countryCode ?? this.countryCode,
       vendorType: vendorType ?? this.vendorType,
       userType: userType ?? this.userType,
-      truckCategory: truckCategory ?? '',
+      category: category ?? '',
+      categoryImage: categoryImage ?? '',
       employeeOwnerImage: employeeOwnerImage ?? this.employeeOwnerImage,
       employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName,
       subscriptionType: subscriptionType ?? this.subscriptionType,
@@ -149,7 +154,8 @@ class User extends Equatable {
       countryCode: json[UserKey.COUNTRY_CODE],
       vendorType: json[UserKey.VENDOR_TYPE],
       userType: json[UserKey.USER_TYPE],
-      truckCategory: json[UserKey.TRUCK_CATEGORY],
+      category: json[UserKey.CATEGORY],
+      categoryImage: json[UserKey.CATEGORY_IMAGE],
       favouriteVendors: json[UserKey.FAVOURITE_VENDORS],
       employeeOwnerName: json[UserKey.EMPLOYEE_OWNER_NAME],
       employeeOwnerImage: json[UserKey.EMPLOYEE_OWNER_IMAGE],
@@ -181,7 +187,8 @@ class User extends Equatable {
     data[UserKey.COUNTRY_CODE] = countryCode;
     data[UserKey.VENDOR_TYPE] = vendorType;
     data[UserKey.USER_TYPE] = userType;
-    data[UserKey.TRUCK_CATEGORY] = truckCategory;
+    data[UserKey.CATEGORY] = category;
+    data[UserKey.CATEGORY_IMAGE] = categoryImage;
     data[UserKey.FAVOURITE_VENDORS] = favouriteVendors;
     data[UserKey.EMPLOYEE_OWNER_IMAGE] = employeeOwnerImage;
     data[UserKey.EMPLOYEE_OWNER_NAME] = employeeOwnerName;

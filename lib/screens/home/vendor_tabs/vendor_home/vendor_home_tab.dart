@@ -12,6 +12,7 @@ import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/widgets/search_field.dart';
+import 'package:street_calle/widgets/category_widget.dart';
 
 class VendorHomeTab extends StatelessWidget {
   const VendorHomeTab({Key? key}) : super(key: key);
@@ -101,7 +102,11 @@ class VendorHomeTab extends StatelessWidget {
                 ?.copyWith(fontSize: 20, color: AppColors.primaryFontColor),
           ),
           const SizedBox(
-            height: 16,
+            height: 2,
+          ),
+          const CategoryWidget(),
+          const SizedBox(
+            height: 8,
           ),
           const ManageVendorLocations(),
           const SizedBox(

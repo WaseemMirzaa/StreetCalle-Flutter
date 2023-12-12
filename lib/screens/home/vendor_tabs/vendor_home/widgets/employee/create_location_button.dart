@@ -83,6 +83,8 @@ class CreateLocationButton extends StatelessWidget {
     final email = createEmployeeCubit.emailController.text;
     final password = createEmployeeCubit.passwordController.text;
     final vendorId = context.read<UserCubit>().state.userId;
+    final category = userCubit.state.category;
+    final categoryImage = userCubit.state.categoryImage;
 
     if (image.isEmpty) {
       showToast(context, TempLanguage().lblSelectImage);
@@ -97,7 +99,7 @@ class CreateLocationButton extends StatelessWidget {
     }  else if (password.isEmpty || password.length < 6) {
       showToast(context, TempLanguage().lblPasswordMustBeGreater);
     } else {
-      createEmployeeCubit.signUp(image, vendorId, employeeOwnerName, employeeOwnerImage).then((value) {
+      createEmployeeCubit.signUp(image, vendorId, employeeOwnerName, employeeOwnerImage, category, categoryImage).then((value) {
         //context.pushNamed(AppRoutingName.manageEmployee);
         context.pop();
       });

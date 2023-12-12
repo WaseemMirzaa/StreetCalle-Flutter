@@ -17,6 +17,7 @@ import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/marker_cubit.dart';
 import 'package:street_calle/utils/common.dart';
+import 'package:street_calle/widgets/category_widget.dart';
 
 class VendorProfile extends StatefulWidget {
   const VendorProfile({Key? key}) : super(key: key);
@@ -72,169 +73,176 @@ class _VendorProfileState extends State<VendorProfile> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 34.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  userCubit.state.isOnline ? TempLanguage().lblOnline : TempLanguage().lblOffline,
-                  style: const TextStyle(
-                    fontSize: 18,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    userCubit.state.isOnline ? TempLanguage().lblOnline : TempLanguage().lblOffline,
+                    style: const TextStyle(
+                      fontSize: 18,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 10,),
-                Image.asset(userCubit.state.isOnline ? AppAssets.online : AppAssets.offline, width: 18, height: 18,),
-              ],
-            ),
-            const SizedBox(height: 10,),
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                width: 120,
-                height: 120,
-                padding: const EdgeInsets.all(6), // Border width
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      AppColors.primaryColor,
-                      AppColors.primaryLightColor,
-                    ],
+                  const SizedBox(width: 10,),
+                  Image.asset(userCubit.state.isOnline ? AppAssets.online : AppAssets.offline, width: 18, height: 18,),
+                ],
+              ),
+              const SizedBox(height: 10,),
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  width: 120,
+                  height: 120,
+                  padding: const EdgeInsets.all(6), // Border width
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        AppColors.primaryColor,
+                        AppColors.primaryLightColor,
+                      ],
+                    ),
                   ),
-                ),
-                child: ClipOval(
-                  child: SizedBox.fromSize(
-                    size: const Size.fromRadius(58), // Image radius
-                    child: CachedNetworkImage(
-                      imageUrl: context.read<UserCubit>().state.userImage,
-                      fit: BoxFit.cover,
+                  child: ClipOval(
+                    child: SizedBox.fromSize(
+                      size: const Size.fromRadius(58), // Image radius
+                      child: CachedNetworkImage(
+                        imageUrl: context.read<UserCubit>().state.userImage,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
 
-            SizedBox(height: isAboutAvailable ? 30 : 0,),
-            isAboutAvailable ? Text(
-              TempLanguage().lblAbout,
-              style: context.textTheme.displaySmall?.copyWith(color: AppColors.secondaryFontColor),
-            ) : const SizedBox.shrink(),
-
-            SizedBox(height: isAboutAvailable ? 10 : 0,),
-            isAboutAvailable ? Text(
-              userAbout.trim().capitalizeFirstLetter(),
-              style: context.textTheme.labelSmall?.copyWith(fontSize: 14),
-            ) : const SizedBox.shrink(),
-            SizedBox(height: isAboutAvailable ? 10 : 0,),
-            isAboutAvailable ? const Divider(
-              color: AppColors.dividerColor,
-            ) : const SizedBox.shrink(),
-
-            const SizedBox(height: 15,),
-            Text(
-              TempLanguage().lblLiveLocation,
-              style: context.textTheme.displaySmall?.copyWith(color: AppColors.secondaryFontColor),
-            ),
-            const SizedBox(height: 20,),
-
-            Container(
-              width: ContextExtensions(context).width(),
-              height: 250,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20)
+              const Align(
+                alignment: Alignment.center,
+                child: CategoryWidget(),
               ),
-              child: FutureBuilder<Position>(
-                future: LocationUtils.fetchLocation(),
-                builder: (context, snap) {
-                  if (snap.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));
-                  } else if (snap.hasError) {
-                    return Center(child: Text(TempLanguage().lblSomethingWentWrong));
-                  } else {
-                    return FutureBuilder<List<User>>(
-                      future: userService.getOnlineEmployees(userCubit.state.userId),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: AppColors.primaryColor,
-                            ),
-                          );
-                        } else {
+
+              SizedBox(height: isAboutAvailable ? 30 : 0,),
+              isAboutAvailable ? Text(
+                TempLanguage().lblAbout,
+                style: context.textTheme.displaySmall?.copyWith(color: AppColors.secondaryFontColor),
+              ) : const SizedBox.shrink(),
+
+              SizedBox(height: isAboutAvailable ? 10 : 0,),
+              isAboutAvailable ? Text(
+                userAbout.trim().capitalizeFirstLetter(),
+                style: context.textTheme.labelSmall?.copyWith(fontSize: 14),
+              ) : const SizedBox.shrink(),
+              SizedBox(height: isAboutAvailable ? 10 : 0,),
+              isAboutAvailable ? const Divider(
+                color: AppColors.dividerColor,
+              ) : const SizedBox.shrink(),
+
+              const SizedBox(height: 15,),
+              Text(
+                TempLanguage().lblLiveLocation,
+                style: context.textTheme.displaySmall?.copyWith(color: AppColors.secondaryFontColor),
+              ),
+              const SizedBox(height: 20,),
+
+              Container(
+                width: ContextExtensions(context).width(),
+                height: 250,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20)
+                ),
+                child: FutureBuilder<Position>(
+                  future: LocationUtils.fetchLocation(),
+                  builder: (context, snap) {
+                    if (snap.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));
+                    } else if (snap.hasError) {
+                      return Center(child: Text(TempLanguage().lblSomethingWentWrong));
+                    } else {
+                      return FutureBuilder<List<User>>(
+                        future: userService.getOnlineEmployees(userCubit.state.userId),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primaryColor,
+                              ),
+                            );
+                          } else {
 
 
-                          final users = snapshot.data ?? [];
-                          if (snap.data != null) {
-                            final position = snap.data!;
-                            addEmployeeMarkers(users, position).then((markers) {
-                              context.read<MarkersCubit>().setMarkers(markers);
-                            });
-                          }
+                            final users = snapshot.data ?? [];
+                            if (snap.data != null) {
+                              final position = snap.data!;
+                              addEmployeeMarkers(users, position).then((markers) {
+                                context.read<MarkersCubit>().setMarkers(markers);
+                              });
+                            }
 
-                          return BlocBuilder<MarkersCubit, MarkersState>(
-                            builder: (context, state) {
-                              return Column(
-                                children: [
-                                 SizedBox(
-                                   height: 200,
-                                   child:  GoogleMap(
-                                     mapType: MapType.normal,
-                                     zoomControlsEnabled: false,
-                                     myLocationButtonEnabled: false,
-                                     myLocationEnabled: true,
-                                     markers: state.markers,
-                                     initialCameraPosition: _kGooglePlex,
-                                     onMapCreated: (GoogleMapController controller) async {
-                                       if(!_controller.isCompleted){
-                                         _controller.complete(controller);
+                            return BlocBuilder<MarkersCubit, MarkersState>(
+                              builder: (context, state) {
+                                return Column(
+                                  children: [
+                                   SizedBox(
+                                     height: 200,
+                                     child:  GoogleMap(
+                                       mapType: MapType.normal,
+                                       zoomControlsEnabled: false,
+                                       myLocationButtonEnabled: false,
+                                       myLocationEnabled: true,
+                                       markers: state.markers,
+                                       initialCameraPosition: _kGooglePlex,
+                                       onMapCreated: (GoogleMapController controller) async {
+                                         if(!_controller.isCompleted){
+                                           _controller.complete(controller);
 
-                                         _getCameraPosition(snap.data);
-                                       }
-                                     },
+                                           _getCameraPosition(snap.data);
+                                         }
+                                       },
+                                     ),
                                    ),
-                                 ),
 
-                                  const SizedBox(height: 20,),
-                                  state.markers.isEmpty
-                                      ? const SizedBox.shrink()
-                                      : FutureBuilder<User?>(
-                                      future: findNearestUser(users, snap.data!),
-                                      builder: (context, userSnapshot) {
-                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                          return const SizedBox.shrink();
-                                        } else {
-                                          return Row(
-                                            children: [
-                                              Text(
-                                                TempLanguage().lblNearestToYou,
-                                                style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor),
-                                              ),
-                                              Text(
-                                                ' ${userSnapshot.data?.name?.trim().capitalizeEachFirstLetter()}',
-                                                style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.secondaryFontColor),
-                                              ),
-                                            ],
-                                          );
+                                    const SizedBox(height: 20,),
+                                    state.markers.isEmpty
+                                        ? const SizedBox.shrink()
+                                        : FutureBuilder<User?>(
+                                        future: findNearestUser(users, snap.data!),
+                                        builder: (context, userSnapshot) {
+                                          if (snapshot.connectionState == ConnectionState.waiting) {
+                                            return const SizedBox.shrink();
+                                          } else {
+                                            return Row(
+                                              children: [
+                                                Text(
+                                                  TempLanguage().lblNearestToYou,
+                                                  style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor),
+                                                ),
+                                                Text(
+                                                  ' ${userSnapshot.data?.name?.trim().capitalizeEachFirstLetter()}',
+                                                  style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.secondaryFontColor),
+                                                ),
+                                              ],
+                                            );
+                                          }
                                         }
-                                      }
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                      },
-                    );
-                  }
-                },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        },
+                      );
+                    }
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -321,4 +321,17 @@ class UserService extends BaseService<User> {
       return false;
     }
   }
+
+  Future<bool> updateCategory(String category, String image, String userId) async {
+    try {
+      await ref!.doc(userId).update({
+        UserKey.CATEGORY: category,
+        UserKey.CATEGORY_IMAGE: image
+      });
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
+  }
 }
