@@ -347,8 +347,10 @@ class TempLanguage {
 
   String get lblYouHaveBennBlockedByAdmin => 'You have been blocked by Owner';
 
+  String get lblInternetDisabled => 'No internet connection. Please enable it to run the app smoothly and work properly.';
+
   String get lblLocationServiceDisabled =>
-      'Location service is disabled. Please enable it to run the app smoothly and work properly. ';
+      'Location service is disabled. Please enable it to run the app smoothly and work properly.';
 
   String get lblPleaseSelectVendorType =>
       'Please select the type of vendor you are';

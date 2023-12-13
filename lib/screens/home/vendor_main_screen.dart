@@ -11,6 +11,7 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/utils/permission_utils.dart';
+import 'package:street_calle/widgets/connectivity_checker.dart';
 import 'package:street_calle/widgets/employee_status_checker_widget.dart';
 import 'package:street_calle/widgets/location_service.dart';
 
@@ -65,10 +66,12 @@ class _VendorMainScreenState extends State<VendorMainScreen> {
       //       ? _clientWidgets.elementAt(_selectedIndex)
       //       : _vendorWidgets.elementAt(_selectedIndex),
       // ),
-      body: LocationService(
-        child: userCubit.state.isEmployee
-            ? EmployeeStatusCheckerWidget(child: _vendorWidgets.elementAt(_selectedIndex))
-            : _vendorWidgets.elementAt(_selectedIndex),
+      body: ConnectivityChecker(
+        child: LocationService(
+          child: userCubit.state.isEmployee
+              ? EmployeeStatusCheckerWidget(child: _vendorWidgets.elementAt(_selectedIndex))
+              : _vendorWidgets.elementAt(_selectedIndex),
+        ),
       ),
       bottomNavigationBar: Theme(
         data: ThemeData(

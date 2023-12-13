@@ -17,37 +17,6 @@ class LocationService extends StatefulWidget {
 }
 
 class _LocationServiceState extends State<LocationService> {
-  // final Stream<ServiceStatus> locationStream = Geolocator.getServiceStatusStream();
-  // final StreamController<ServiceStatus> customStreamController = StreamController<ServiceStatus>.broadcast();
-  //
-  // Stream<ServiceStatus>? mergedStream;
-  // final StreamController<ServiceStatus> mergedStreamController = StreamController<ServiceStatus>.broadcast();
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  //   PermissionUtils.checkStatus().then((value) {
-  //     if (value) {
-  //       customStreamController.sink.add(ServiceStatus.enabled);
-  //     } else {
-  //       customStreamController.sink.add(ServiceStatus.disabled);
-  //     }
-  //   });
-  //
-  //   locationStream.listen(mergedStreamController.sink.add);
-  //   customStreamController.stream.listen(mergedStreamController.sink.add);
-  //
-  //   mergedStream = mergedStreamController.stream;
-  // }
-  //
-  //
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   customStreamController.close();
-  //   mergedStreamController.close();
-  // }
 
   Stream<ServiceStatus>? mergedStream;
   final StreamController<ServiceStatus> mergedStreamController =

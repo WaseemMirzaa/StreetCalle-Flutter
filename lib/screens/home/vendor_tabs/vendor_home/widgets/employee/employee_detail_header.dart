@@ -5,6 +5,7 @@ import 'package:street_calle/models/user.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/widgets/address_widget.dart';
+import 'package:street_calle/widgets/category_widget.dart';
 
 class EmployeeDetailHeader extends StatelessWidget {
   const EmployeeDetailHeader({Key? key, required this.user}) : super(key: key);
@@ -51,6 +52,10 @@ class EmployeeDetailHeader extends StatelessWidget {
                 height: 6,
               ),
               AddressWidget(latitude: user?.latitude, longitude: user?.longitude,),
+              const SizedBox(
+                height: 6,
+              ),
+              const CategoryWidget(),
             ],
           ),
         ),

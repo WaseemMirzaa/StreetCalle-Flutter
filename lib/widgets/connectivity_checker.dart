@@ -1,0 +1,97 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:street_calle/utils/constant/app_assets.dart';
+import 'package:street_calle/utils/extensions/context_extension.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
+
+class ConnectivityChecker extends StatefulWidget {
+  const ConnectivityChecker({Key? key, required this.child}) : super(key: key);
+  final Widget child;
+
+  @override
+  State<ConnectivityChecker> createState() => _ConnectivityCheckerState();
+}
+
+class _ConnectivityCheckerState extends State<ConnectivityChecker> {
+
+  late Stream<bool> mergedStream;
+  final StreamController<bool> mergedStreamController = StreamController<bool>.broadcast();
+
+  @override
+  void initState() {
+    super.initState();
+
+    Connectivity().onConnectivityChanged.listen((connectivityResult) {
+      if (connectivityResult == ConnectivityResult.none) {
+        mergedStreamController.sink.add(false);
+      } else {
+        mergedStreamController.sink.add(true);
+      }
+    });
+
+    InternetConnection().onStatusChange.listen((locationStatus) {
+      if(!mergedStreamController.isClosed) {
+        mergedStreamController.sink.add(locationStatus == InternetStatus.connected);
+      }
+    });
+    mergedStream = mergedStreamController.stream;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    mergedStreamController.close();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<bool>(
+        stream: mergedStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data!) {
+              return widget.child;
+            } else {
+              return const InternetConnectionErrorWidget();
+            }
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        }
+    );
+  }
+}
+
+class InternetConnectionErrorWidget extends StatelessWidget {
+  const InternetConnectionErrorWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SvgPicture.asset(
+                AppAssets.logo,
+                // scale: 4,
+                height: 300,
+                fit: BoxFit.fitHeight,
+              ),
+              Text(
+                TempLanguage().lblInternetDisabled,
+                textAlign: TextAlign.center,
+                style: context.currentTextTheme.labelLarge,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
