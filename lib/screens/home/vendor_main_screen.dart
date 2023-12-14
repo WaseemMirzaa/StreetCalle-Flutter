@@ -8,6 +8,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/vendor_menu_ta
 import 'package:street_calle/screens/home/widgets/custom_bottom_nav_item.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/utils/permission_utils.dart';
@@ -23,7 +24,7 @@ class VendorMainScreen extends StatefulWidget {
 }
 
 class _VendorMainScreenState extends State<VendorMainScreen> {
-  int _selectedIndex = 0;
+  BottomNavPosition _navPosition = BottomNavPosition.home;
 
   @override
   void initState() {
@@ -50,9 +51,34 @@ class _VendorMainScreenState extends State<VendorMainScreen> {
     SettingsTab()
   ];
 
+  final Map<BottomNavPosition, int> _navMap = {
+    BottomNavPosition.home: 0,
+    BottomNavPosition.menu: 1,
+    BottomNavPosition.profile: 2,
+    BottomNavPosition.settings: 3,
+  };
+
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      switch(index) {
+        case 0:
+          _navPosition = BottomNavPosition.home;
+          return;
+        case 1:
+          _navPosition = BottomNavPosition.menu;
+          return;
+        case 2:
+          _navPosition = BottomNavPosition.profile;
+          return;
+        case 3:
+          _navPosition = BottomNavPosition.settings;
+          return;
+
+        default:
+          _navPosition = BottomNavPosition.home;
+          return;
+      }
+      //_selectedIndex = index;
     });
   }
 
@@ -66,12 +92,12 @@ class _VendorMainScreenState extends State<VendorMainScreen> {
       //       ? _clientWidgets.elementAt(_selectedIndex)
       //       : _vendorWidgets.elementAt(_selectedIndex),
       // ),
-      body: ConnectivityChecker(
-        child: LocationService(
-          child: userCubit.state.isEmployee
-              ? EmployeeStatusCheckerWidget(child: _vendorWidgets.elementAt(_selectedIndex))
-              : _vendorWidgets.elementAt(_selectedIndex),
-        ),
+      body: LocationService(
+        child: userCubit.state.isEmployee
+            ? EmployeeStatusCheckerWidget(
+               child: ConnectivityChecker(child: _vendorWidgets.elementAt(_navMap[_navPosition]!),)
+              )
+            : _vendorWidgets.elementAt(_navMap[_navPosition]!),
       ),
       bottomNavigationBar: Theme(
         data: ThemeData(
@@ -84,7 +110,7 @@ class _VendorMainScreenState extends State<VendorMainScreen> {
               icon: CustomBottomNavItem(
                 iconAsset: AppAssets.home,
                 text: TempLanguage().lblHome,
-                isSelected: _selectedIndex == 0,
+                isSelected: _navPosition == BottomNavPosition.home,
               ),
               label: '',
             ),
@@ -92,7 +118,7 @@ class _VendorMainScreenState extends State<VendorMainScreen> {
               icon: CustomBottomNavItem(
                 iconAsset: AppAssets.menu,
                 text: TempLanguage().lblMenu,
-                isSelected: _selectedIndex == 1,
+                isSelected: _navPosition == BottomNavPosition.menu,
               ),
               label: '',
             ),
@@ -100,7 +126,7 @@ class _VendorMainScreenState extends State<VendorMainScreen> {
               icon: CustomBottomNavItem(
                 iconAsset: AppAssets.user,
                 text: TempLanguage().lblProfile,
-                isSelected: _selectedIndex == 2,
+                isSelected: _navPosition == BottomNavPosition.profile,
               ),
               label: '',
             ),
@@ -108,12 +134,12 @@ class _VendorMainScreenState extends State<VendorMainScreen> {
               icon: CustomBottomNavItem(
                 iconAsset: AppAssets.more,
                 text: TempLanguage().lblMore,
-                isSelected: _selectedIndex == 3,
+                isSelected: _navPosition == BottomNavPosition.settings,
               ),
               label: '',
             ),
           ],
-          currentIndex: _selectedIndex,
+          currentIndex: _navMap[_navPosition]!,
           showUnselectedLabels: false,
           showSelectedLabels: false,
           selectedFontSize: 0,
