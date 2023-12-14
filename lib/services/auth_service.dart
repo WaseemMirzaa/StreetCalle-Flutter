@@ -23,29 +23,7 @@ class AuthService {
       await userCredential.user?.sendEmailVerification();
       return Right(userCredential.user);
     } on FirebaseAuthException catch (e) {
-      log(e.toString());
-      switch (e.code) {
-        case 'email-already-in-use':
-          return Left(TempLanguage().lblEmailAddressInUse);
-        // case 'weak-password':
-        //   return const Left('Password is too weak. Please choose a stronger password.');
-        case 'invalid-email':
-          return Left(TempLanguage().lblInvalidEmailAddress);
-        case 'user-not-found':
-          return Left(TempLanguage().lblNoUserFound);
-        case 'wrong-password':
-          return  Left(TempLanguage().lblInvalidCredentials);
-        case 'too-many-requests':
-          return  Left(TempLanguage().lblTooManyRequest);
-        case 'user-disabled':
-          return  Left(TempLanguage().lblAccountDisable);
-        case 'operation-not-allowed':
-          return  Left(TempLanguage().lblOperationNotAllowed);
-        case 'network-request-failed':
-          return  Left(TempLanguage().lblNetworkRequestFailed);
-        default:
-          return Left(TempLanguage().lblErrorDuringSignUp);
-      }
+      return _handleException(e);
     } catch (e) {
       log(e.toString());
       return Left(TempLanguage().lblErrorDuringSignUp);
@@ -75,31 +53,7 @@ class AuthService {
 
       return Right(userCredential.user);
     } on FirebaseAuthException catch (e) {
-      log(e.toString());
-      switch (e.code) {
-        // case 'email-already-in-use':
-        //   return const Left('Email address is already in use.');
-        // case 'weak-password':
-        //   return const Left('Password is too weak. Please choose a stronger password.');
-        case 'INVALID_LOGIN_CREDENTIALS':
-          return Left(TempLanguage().lblInvalidCredentials);
-        case 'invalid-email':
-          return Left(TempLanguage().lblInvalidEmailAddress);
-        case 'user-not-found':
-          return Left(TempLanguage().lblNoUserFound);
-        case 'wrong-password':
-          return  Left(TempLanguage().lblInvalidCredentials);
-        case 'too-many-requests':
-          return  Left(TempLanguage().lblTooManyRequest);
-        case 'user-disabled':
-          return  Left(TempLanguage().lblAccountDisable);
-        case 'operation-not-allowed':
-          return  Left(TempLanguage().lblOperationNotAllowed);
-        case 'network-request-failed':
-          return  Left(TempLanguage().lblNetworkRequestFailed);
-        default:
-          return Left(TempLanguage().lblErrorDuringLogIn);
-      }
+      return _handleException(e);
     } catch (e) {
       log(e.toString());
       return Left(TempLanguage().lblErrorDuringLogIn);
@@ -205,7 +159,7 @@ class AuthService {
 
       return Right(user);
     } on FirebaseAuthException catch (e) {
-      return _handleAuthException(e);
+      return _handleException(e);
     } catch (e) {
       log(e.toString());
       return Left(TempLanguage().lblGoogleSignInError);
@@ -274,18 +228,6 @@ class AuthService {
     }
   }
 
-  Either<String, User?> _handleAuthException(FirebaseAuthException e) {
-    log(e.toString());
-
-    if (e.code == 'account-exists-with-different-credential') {
-      return Left(TempLanguage().lblAccountExistWithDifferentCredentials);
-    } else if (e.code == 'invalid-credential') {
-      return Left(TempLanguage().lblErrorAccessingCredentials);
-    }
-
-    return Left(TempLanguage().lblGoogleSignInError);
-  }
-
   Future<UserCredential> signInWithFacebook() async {
     final LoginResult loginResult = await FacebookAuth.instance.login();
     final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken?.token ?? '');
@@ -295,6 +237,38 @@ class AuthService {
   Future<void> signInWithTwitter() async {
     TwitterAuthProvider twitterProvider = TwitterAuthProvider();
     await FirebaseAuth.instance.signInWithProvider(twitterProvider);
+  }
+
+  Either<String, User?> _handleException(FirebaseAuthException e) {
+    log(e.toString());
+    switch (e.code) {
+      case 'email-already-in-use':
+        return Left(TempLanguage().lblEmailAddressInUse);
+      case 'invalid-email':
+        return Left(TempLanguage().lblInvalidEmailAddress);
+      case 'user-not-found':
+        return Left(TempLanguage().lblNoUserFound);
+      case 'wrong-password':
+        return  Left(TempLanguage().lblInvalidCredentials);
+      case 'too-many-requests':
+        return  Left(TempLanguage().lblTooManyRequest);
+      case 'user-disabled':
+        return  Left(TempLanguage().lblAccountDisable);
+      case 'operation-not-allowed':
+        return  Left(TempLanguage().lblOperationNotAllowed);
+      case 'network-request-failed':
+        return  Left(TempLanguage().lblNetworkRequestFailed);
+      case 'weak-password':
+        return const Left('Password is too weak. Please choose a stronger password.');
+      case 'INVALID_LOGIN_CREDENTIALS':
+        return Left(TempLanguage().lblInvalidCredentials);
+      case 'account-exists-with-different-credential':
+        return Left(TempLanguage().lblAccountExistWithDifferentCredentials);
+      case 'invalid-credential':
+        return Left(TempLanguage().lblErrorAccessingCredentials);
+      default:
+        return Left(TempLanguage().lblErrorDuringLogIn);
+    }
   }
 
 }

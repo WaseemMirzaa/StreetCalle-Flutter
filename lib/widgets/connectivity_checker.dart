@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -16,6 +16,20 @@ class ConnectivityChecker extends StatefulWidget {
 }
 
 class _ConnectivityCheckerState extends State<ConnectivityChecker> {
+
+  // final NetworkHelper _connectivity = NetworkHelper.instance;
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _connectivity.initialise();
+  // }
+  //
+  // @override
+  // void dispose() {
+  //   _connectivity.disposeStream();
+  //   super.dispose();
+  // }
 
   late Stream<bool> mergedStream;
   final StreamController<bool> mergedStreamController = StreamController<bool>.broadcast();
