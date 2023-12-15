@@ -126,7 +126,7 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
                               child: SizedBox.fromSize(
                                 size: const Size.fromRadius(58), // Image radius
                                 child: CachedNetworkImage(
-                                  imageUrl: user.image ?? '',
+                                  imageUrl: user.employeeOwnerImage.isEmptyOrNull ? user.image ?? '' : user.employeeOwnerImage!,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -138,7 +138,7 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
                         Align(
                           alignment: Alignment.center,
                           child: Text(
-                            '${TempLanguage().lblHiIts} ${user.name?.capitalizeEachFirstLetter()}!',
+                            '${TempLanguage().lblHiIts} ${user.employeeOwnerName.isEmptyOrNull ? user.name?.capitalizeEachFirstLetter() : user.employeeOwnerName!.capitalizeEachFirstLetter()}!',
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontFamily: METROPOLIS_BOLD,

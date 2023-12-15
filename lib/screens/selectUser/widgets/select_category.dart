@@ -124,9 +124,9 @@ class _SelectCategoryState extends State<SelectCategory> {
           userCubit.setUserType(widget.userName);
           userCubit.setVendorType(widget.vendorName);
           userCubit.setIsVendor(true);
-          userService.setVendorType(userId, widget.vendorName, widget.userName);
           userCubit.setCategory(_selectedItem!.title);
           userCubit.setCategoryImage(_selectedItem!.url ?? '');
+          userService.setVendorType(userId, widget.vendorName, widget.userName);
           context.goNamed(AppRoutingName.mainScreen);
         } else {
           toast(TempLanguage().lblSomethingWentWrong);

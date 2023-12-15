@@ -156,7 +156,8 @@ class DisplayVendors extends StatelessWidget {
               if (state.isNotEmpty) {
                 list = snapshot.data!.where((user) {
                   final userName = user.name?.toLowerCase() ?? '';
-                  return userName.contains(state.toLowerCase());
+                  final ownerName = user.employeeOwnerName?.toLowerCase() ?? '';
+                  return ownerName.isEmpty ? userName.contains(state.toLowerCase()) : ownerName.contains(state.toLowerCase());
                 }).toList();
               } else {
                 list = snapshot.data!;

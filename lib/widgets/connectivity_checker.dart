@@ -64,6 +64,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
   Widget build(BuildContext context) {
     return StreamBuilder<bool>(
         stream: mergedStream,
+        initialData: true,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!) {
