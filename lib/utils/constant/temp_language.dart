@@ -29,6 +29,8 @@ class TempLanguage {
 
   String get lblLiveLocation => 'Live Location';
 
+  String get lblCheckLiveLocations => 'Check Live Locations';
+
   String get lblNearestToYou => 'Nearest to you:';
 
   String get lblEditProfileSuccessfully => 'Edit profile successfully';
@@ -419,6 +421,7 @@ class TempLanguage {
   String get lblEmailAddressInUse => 'Email address is already in use.';
 
   String get lblErrorDuringSignUp => 'Error during sign-up:';
+  String get lblViewProfile => 'View Profile';
 
   String get lblErrorDuringResetPassword => 'Error during password reset:';
 

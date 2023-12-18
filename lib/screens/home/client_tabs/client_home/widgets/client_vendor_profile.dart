@@ -1,19 +1,23 @@
 import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nb_utils/nb_utils.dart' hide StringExtension;
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 
 class ClientVendorProfile extends StatefulWidget {
   ClientVendorProfile({Key? key, required this.userId}) : super(key: key);
@@ -25,7 +29,7 @@ class ClientVendorProfile extends StatefulWidget {
 
 class _ClientVendorProfileState extends State<ClientVendorProfile> {
 
-  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  GoogleMapController? _controller;
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -34,13 +38,9 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
 
   @override
   void dispose() {
-    _disposeController();
+    //_disposeController();
+    _controller?.dispose();
     super.dispose();
-  }
-
-  Future<void> _disposeController() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.dispose();
   }
 
   @override
@@ -55,7 +55,7 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
         ),
         titleSpacing: 0,
         leading: GestureDetector(
-          onTap: () => context.pop(),
+          onTap: () => ContextExtensions(context).pop(),
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -171,35 +171,59 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
                         ),
                         const SizedBox(height: 20,),
 
-                        FutureBuilder(
-                            future: addEmployeeMarkers(user),
-                            builder: (context, markerSnap) {
-                              if (markerSnap.connectionState == ConnectionState.waiting) {
-                                return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
-                              }
-                              if (markerSnap.hasData && markerSnap.data != null) {
-                                return SizedBox(
-                                  height: 200,
-                                  child:  GoogleMap(
-                                    mapType: MapType.normal,
-                                    zoomControlsEnabled: false,
-                                    myLocationButtonEnabled: false,
-                                    myLocationEnabled: true,
-                                    markers: markerSnap.data!,
-                                    initialCameraPosition: _kGooglePlex,
-                                    onMapCreated: (GoogleMapController controller) async {
-                                      if(!_controller.isCompleted){
-                                        _controller.complete(controller);
-
-                                        _getCameraPosition(snap.data);
-                                      }
-                                    },
-                                  ),
-                                );
-                              }
-                              return Center(child: Text(TempLanguage().lblSomethingWentWrong),);
+                        FutureBuilder<List<User>>(
+                          future: userService.getOnlineEmployees(user.uid ?? ''),
+                          builder: (context, snapshot) {
+                            if(snap.connectionState == ConnectionState.waiting) {
+                              return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
+                            } else if (snapshot.data == null) {
+                              return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
+                            } else {
+                              List<User> users = [...snapshot.data ?? [], user];
+                              return FutureBuilder(
+                                  future: addEmployeeMarkers(users),
+                                  builder: (context, markerSnap) {
+                                    if (markerSnap.connectionState == ConnectionState.waiting) {
+                                      return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
+                                    }
+                                    if (markerSnap.hasData && markerSnap.data != null) {
+                                      return SizedBox(
+                                        height: 200,
+                                        child:  GoogleMap(
+                                          mapType: MapType.normal,
+                                          zoomControlsEnabled: false,
+                                          myLocationButtonEnabled: false,
+                                          myLocationEnabled: true,
+                                          markers: markerSnap.data!,
+                                          initialCameraPosition: _kGooglePlex,
+                                          onMapCreated: (GoogleMapController controller) async {
+                                            _controller = controller;
+                                            _getCameraPosition(snap.data);
+                                          },
+                                        ),
+                                      );
+                                    }
+                                    return Center(child: Text(TempLanguage().lblSomethingWentWrong),);
+                                  }
+                              );
                             }
+                          }
                         ),
+
+                        const SizedBox(height: 15,),
+                        if (user.isVendor && !user.vendorType.isEmptyOrNull)
+                          if (user.vendorType == VendorType.agency.name)
+                             InkWell(
+                      onTap: () {},
+                      child: Text(
+                        TempLanguage().lblCheckLiveLocations,
+                        style: context.textTheme.displaySmall?.copyWith(
+                          color: AppColors.primaryColor,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                        const SizedBox(height: 20,),
                       ],
                     ),
                   );
@@ -221,21 +245,26 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
       zoom: 11,
     );
 
-    final GoogleMapController mapController = await _controller.future;
-    mapController.moveCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    _controller?.moveCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
   }
 
-  Future<Set<Marker>> addEmployeeMarkers(User user) async {
+  Future<Set<Marker>> addEmployeeMarkers(List<User> users) async {
     Set<Marker> markers = <Marker>{};
 
-    if (user.latitude != null && user.longitude != null) {
-      final marker = Marker(
-        icon: BitmapDescriptor.defaultMarker,
-        markerId: MarkerId('${user.uid}'),
-        position: LatLng(user.latitude!, user.longitude!),
-      );
-      markers.add(marker);
+    for (User user in users) {
+      if (user.latitude != null && user.longitude != null) {
+        final marker = Marker(
+            icon: BitmapDescriptor.defaultMarker,
+            markerId: MarkerId('${user.uid}'),
+            position: LatLng(user.latitude!, user.longitude!),
+            onTap: () {
+              context.read<ClientSelectedVendorCubit>().selectedVendorId(user.uid);
+              context.pushNamed(AppRoutingName.clientMenuItemDetail, extra: user);
+            }
+        );
+        markers.add(marker);
+      }
     }
     return markers;
   }

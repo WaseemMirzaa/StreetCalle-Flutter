@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/vendor_deals_widget.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/vendor_items_widget.dart';
@@ -61,7 +62,7 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                   children: [
                     IconButton(
                       onPressed: (){
-                        context.pop();
+                        ContextExtensions(context).pop();
                       },
                       icon: const Icon(Icons.arrow_back_ios, color: AppColors.blackColor,),
                     ),
@@ -86,62 +87,71 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 54.0),
-                child: InkWell(
-                  onTap: (){
-                    context.pushNamed(AppRoutingName.clientVendorProfile, extra: widget.user.uid ?? '');
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          width: 80,
-                          height: 80,
-                          padding: const EdgeInsets.all(4), // Border width
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle, // Uncomment this line
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                AppColors.primaryColor,
-                                AppColors.primaryLightColor,
-                              ],
-                            ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        width: 80,
+                        height: 80,
+                        padding: const EdgeInsets.all(4), // Border width
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle, // Uncomment this line
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              AppColors.primaryColor,
+                              AppColors.primaryLightColor,
+                            ],
                           ),
-                          child: ClipOval(
-                            child: CachedNetworkImage(
-                              imageUrl: widget.user.isVendor ? widget.user.image! : widget.user.employeeOwnerImage!,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => const Icon(Icons.error),
-                            ),
-                          ),
-                      ),
-                      const SizedBox(width: 12,),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.user.isVendor ? widget.user.name.capitalizeEachFirstLetter() : widget.user.employeeOwnerName.capitalizeEachFirstLetter(),
-                              style: const TextStyle(
-                                  fontSize: 24,
-                                  fontFamily: METROPOLIS_BOLD,
-                                  color: AppColors.primaryFontColor
-                              ),
-                            ),
-                            const SizedBox(height: 6,),
-                            ShowFavouriteItemWidget(
-                              onTap: (){
-                                _favouriteItem(userId, widget.user.uid ?? '', context);
-                              },
-                            ),
-                          ],
                         ),
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            imageUrl: widget.user.isVendor ? widget.user.image! : widget.user.employeeOwnerImage!,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                          ),
+                        ),
+                    ),
+                    const SizedBox(width: 12,),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.user.isVendor ? widget.user.name.capitalizeEachFirstLetter() : widget.user.employeeOwnerName.capitalizeEachFirstLetter(),
+                            style: const TextStyle(
+                                fontSize: 24,
+                                fontFamily: METROPOLIS_BOLD,
+                                color: AppColors.primaryFontColor
+                            ),
+                          ),
+                          const SizedBox(height: 6,),
+                          Row(
+                            children: [
+                              ShowFavouriteItemWidget(
+                                onTap: (){
+                                  _favouriteItem(userId, widget.user.uid ?? '', context);
+                                },
+                              ),
+                              const SizedBox(width: 6,),
+                              InkWell(
+                                onTap: (){
+                                  context.pushNamed(AppRoutingName.clientVendorProfile, extra: widget.user.uid ?? '');
+                                },
+                                child: Text(
+                                  TempLanguage().lblViewProfile,
+                                  style: context.textTheme.displaySmall?.copyWith(color: AppColors.primaryColor, decoration: TextDecoration.underline),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
 
