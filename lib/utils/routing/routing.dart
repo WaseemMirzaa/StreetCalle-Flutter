@@ -10,6 +10,7 @@ import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu_item_detail.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_vendor_direction.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_vendor_profile.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/widgets/vendor_employee_map.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_all_deals.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_all_items.dart';
 import 'package:street_calle/screens/home/vendor_main_screen.dart';
@@ -277,6 +278,15 @@ final router = GoRouter(
       builder: (context, state) {
         final position = state.extra as LatLng;
         return LocationPicker(position: position,);
+      },
+    ),
+
+    GoRoute(
+      path: AppRoutingName.vendorEmployeeMap,
+      name: AppRoutingName.vendorEmployeeMap,
+      builder: (context, state) {
+        final userId = state.extra as String;
+        return VendorEmployeeMap(userId: userId,);
       },
     ),
   ],

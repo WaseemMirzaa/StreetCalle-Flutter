@@ -77,10 +77,9 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
             return FutureBuilder<User>(
               future: userService.userByUid(widget.userId),
               builder: (context, snapshot) {
-                if(snap.connectionState == ConnectionState.waiting) {
+                if(snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
-                }
-                else if (snapshot.data == null) {
+                } else if (snapshot.data == null) {
                   return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
                 } else {
                   final user = snapshot.data!;
@@ -174,7 +173,7 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
                         FutureBuilder<List<User>>(
                           future: userService.getOnlineEmployees(user.uid ?? ''),
                           builder: (context, snapshot) {
-                            if(snap.connectionState == ConnectionState.waiting) {
+                            if(snapshot.connectionState == ConnectionState.waiting) {
                               return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
                             } else if (snapshot.data == null) {
                               return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
@@ -214,15 +213,17 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
                         if (user.isVendor && !user.vendorType.isEmptyOrNull)
                           if (user.vendorType == VendorType.agency.name)
                              InkWell(
-                      onTap: () {},
-                      child: Text(
-                        TempLanguage().lblCheckLiveLocations,
-                        style: context.textTheme.displaySmall?.copyWith(
-                          color: AppColors.primaryColor,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
+                               onTap: () {
+                                 context.pushNamed(AppRoutingName.vendorEmployeeMap, extra: user.uid);
+                               },
+                               child: Text(
+                                 TempLanguage().lblCheckLiveLocations,
+                                 style: context.textTheme.displaySmall?.copyWith(
+                                  color: AppColors.primaryColor,
+                                  decoration: TextDecoration.underline,
+                                 ),
+                               ),
+                             ),
                         const SizedBox(height: 20,),
                       ],
                     ),
