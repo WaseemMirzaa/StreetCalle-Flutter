@@ -105,7 +105,7 @@ class _SelectCategoryState extends State<SelectCategory> {
               child: Text(TempLanguage().lblSomethingWentWrong),
             );
           }
-          return Center(
+            return Center(
             child: Text(TempLanguage().lblSomethingWentWrong),
           );
         },

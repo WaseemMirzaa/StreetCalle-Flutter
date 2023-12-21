@@ -20,12 +20,17 @@ import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_s
 import 'package:street_calle/widgets/search_field.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/models/drop_down_item.dart';
+import 'package:street_calle/services/category_service.dart';
+import 'package:street_calle/screens/selectUser/widgets/drop_down_widget.dart';
 
 class ClientHomeTab extends StatelessWidget {
   const ClientHomeTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    DropDownItem? selectedItem;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -64,35 +69,90 @@ class ClientHomeTab extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 54, left: 24, right: 24),
-            child: Row(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: (){
-                      context.pushNamed(AppRoutingName.clientMenu);
-                    },
-                    child: SearchField(
-                      padding: EdgeInsets.zero,
-                      hintText: TempLanguage().lblSearchFoodTrucks,
-                      onChanged: (String? value) {},
+                Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: (){
+                          context.pushNamed(AppRoutingName.clientMenu);
+                        },
+                        child: SearchField(
+                          padding: EdgeInsets.zero,
+                          hintText: TempLanguage().lblSearchFoodTrucks,
+                          onChanged: (String? value) {},
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(width: 16,),
+                    InkWell(
+                      onTap: (){
+                        context.pushNamed(AppRoutingName.clientMenu);
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        padding: const EdgeInsets.all(16),
+                        decoration: const BoxDecoration(
+                            color: AppColors.primaryLightColor,
+                            shape: BoxShape.circle
+                        ),
+                        child: Image.asset(AppAssets.topMenuIcon),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 16,),
-                InkWell(
-                  onTap: (){
-                    context.pushNamed(AppRoutingName.clientMenu);
+                const SizedBox(height: 12,),
+                FutureBuilder<List<dynamic>?>(
+                  future: sl.get<CategoryService>().fetchCategories(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
+                    } else if (snapshot.hasData && snapshot.data != null) {
+                      List<DropDownItem> category = [];
+                      snapshot.data?.forEach((element) {
+                        final dropDown = DropDownItem(
+                            title: element[CategoryKey.TITLE],
+                            icon: Image.network(element[CategoryKey.ICON], width: 18, height: 18,),
+                            url: element[CategoryKey.ICON]
+                        );
+                        category.add(dropDown);
+                      });
+
+                      selectedItem = category[0];
+
+                      return Container(
+                        margin: const EdgeInsets.only(right: 130),
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.blackColor.withOpacity(0.15),
+                              spreadRadius: 3, // Spread radius
+                              blurRadius: 18, // Blur radius
+                              offset: const Offset(0, 2), // Offset in the Y direction
+                            ),
+                          ],
+                        ),
+                        child: DropDownWidget(
+                          initialValue: selectedItem,
+                          items: category,
+                          onChanged: (value) {
+                            selectedItem = value;
+                          },
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text(TempLanguage().lblSomethingWentWrong),
+                      );
+                    }
+                    return Center(
+                      child: Text(TempLanguage().lblSomethingWentWrong),
+                    );
                   },
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    padding: const EdgeInsets.all(16),
-                    decoration: const BoxDecoration(
-                        color: AppColors.primaryLightColor,
-                        shape: BoxShape.circle
-                    ),
-                    child: Image.asset(AppAssets.topMenuIcon),
-                  ),
                 ),
               ],
             ),

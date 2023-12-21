@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'package:nb_utils/nb_utils.dart' hide StringExtension;
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/vendor_deals_widget.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/vendor_items_widget.dart';
@@ -137,16 +137,28 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                                 },
                               ),
                               const SizedBox(width: 6,),
-                              InkWell(
-                                onTap: (){
-                                  context.pushNamed(AppRoutingName.clientVendorProfile, extra: widget.user.uid ?? '');
-                                },
-                                child: Text(
-                                  TempLanguage().lblViewProfile,
-                                  style: context.textTheme.displaySmall?.copyWith(color: AppColors.primaryColor, decoration: TextDecoration.underline),
+                              Chip(
+                                avatar: widget.user.categoryImage.isEmptyOrNull
+                                    ? const SizedBox.shrink()
+                                    : Image.network(
+                                  widget.user.categoryImage!,
+                                  fit: BoxFit.cover,
                                 ),
-                              ),
+                                label: Text(widget.user.category ?? '', style: context.currentTextTheme.displaySmall,),
+                                backgroundColor: AppColors.greyColor,
+                                side: BorderSide.none,
+                                shape: const StadiumBorder(),
+                              )
                             ],
+                          ),
+                          InkWell(
+                            onTap: (){
+                              context.pushNamed(AppRoutingName.clientVendorProfile, extra: widget.user.uid ?? '');
+                            },
+                            child: Text(
+                              TempLanguage().lblViewProfile,
+                              style: context.textTheme.displaySmall?.copyWith(color: AppColors.primaryColor, decoration: TextDecoration.underline),
+                            ),
                           ),
                         ],
                       ),
