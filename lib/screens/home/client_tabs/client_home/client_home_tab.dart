@@ -124,10 +124,10 @@ class ClientHomeTab extends StatelessWidget {
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.blackColor.withOpacity(0.15),
-                              spreadRadius: 3, // Spread radius
-                              blurRadius: 18, // Blur radius
-                              offset: const Offset(0, 2), // Offset in the Y direction
+                              color: AppColors.blackColor.withOpacity(0.1),
+                              spreadRadius: 2, // Spread radius
+                              blurRadius: 15, // Blur radius
+                              offset: const Offset(0, 0), // Offset in the Y direction
                             ),
                           ],
                         ),

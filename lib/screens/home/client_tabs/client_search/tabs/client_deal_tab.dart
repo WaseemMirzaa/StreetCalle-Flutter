@@ -16,6 +16,9 @@ import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/widgets/search_field.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/cubit/apply_filter_cubit.dart';
+import 'package:street_calle/models/drop_down_item.dart';
+import 'package:street_calle/services/category_service.dart';
+import 'package:street_calle/screens/selectUser/widgets/drop_down_widget.dart';
 
 class ClientDealTab extends StatelessWidget {
   const ClientDealTab({Key? key}) : super(key: key);
@@ -29,6 +32,7 @@ class ClientDealTab extends StatelessWidget {
     final localDealsStorage = context.read<LocalDealsStorage>();
     final dealService = sl.get<DealService>();
     context.read<SearchDealsCubit>().updateQuery('');
+    DropDownItem? selectedItem;
 
     return Column(
       children: [
@@ -39,6 +43,57 @@ class ClientDealTab extends StatelessWidget {
         ),
         const SizedBox(
           height: 12,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: FutureBuilder<List<dynamic>?>(
+            future: sl.get<CategoryService>().fetchCategories(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
+              } else if (snapshot.hasData && snapshot.data != null) {
+                List<DropDownItem> category = [];
+                snapshot.data?.forEach((element) {
+                  final dropDown = DropDownItem(
+                      title: element[CategoryKey.TITLE],
+                      icon: Image.network(element[CategoryKey.ICON], width: 18, height: 18,),
+                      url: element[CategoryKey.ICON]
+                  );
+                  category.add(dropDown);
+                });
+
+                selectedItem = category[0];
+
+                return Container(
+                  margin: const EdgeInsets.only(right: 130),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.blackColor.withOpacity(0.1),
+                        spreadRadius: 2, // Spread radius
+                        blurRadius: 15, // Blur radius
+                        offset: const Offset(0, 0), // Offset in the Y direction
+                      ),
+                    ],
+                  ),
+                  child: DropDownWidget(
+                    initialValue: selectedItem,
+                    items: category,
+                    onChanged: (value) {
+                      selectedItem = value;
+                    },
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text(TempLanguage().lblSomethingWentWrong),
+                );
+              }
+              return Center(
+                child: Text(TempLanguage().lblSomethingWentWrong),
+              );
+            },
+          ),
         ),
         Expanded(
           // child: localDeals.state.isNotEmpty
@@ -76,7 +131,6 @@ class ClientDealTab extends StatelessWidget {
   }
 }
 
-
 class FilteredWidget extends StatelessWidget {
   const FilteredWidget({Key? key, required this.userDeals, required this.usersList, required this.dealsList}) : super(key: key);
   final List<User> usersList;
@@ -105,16 +159,13 @@ class FilteredWidget extends StatelessWidget {
             List<Deal> deals = [];
             List<User> users = [];
 
-
             deals = isApplied
                 ? (filteredList.isEmpty ? [] : filteredList)
                 : dealsList;
 
-
             users = isApplied
                 ? (filteredList.isEmpty ? [] : deals.map((deal) => userDeals[deal]!).toList())
                 : usersList;
-
 
             Map<Deal, User> dealUserMap = Map.fromIterables(deals, users);
             context.read<RemoteUserDeals>().resetRemoteUserDeals();
@@ -129,7 +180,6 @@ class FilteredWidget extends StatelessWidget {
     );
   }
 }
-
 
 class DealsWidget extends StatelessWidget {
   const DealsWidget({Key? key, required this.dealsList, required this.usersList}) : super(key: key);

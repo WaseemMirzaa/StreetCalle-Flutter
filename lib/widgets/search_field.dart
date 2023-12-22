@@ -18,10 +18,10 @@ class SearchField extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: AppColors.blackColor.withOpacity(0.25),
+              color: AppColors.blackColor.withOpacity(0.1),
               spreadRadius: 2, // Spread radius
               blurRadius: 15, // Blur radius
-              offset: const Offset(0, 8), // Offset in the Y direction
+              offset: const Offset(0, 0), // Offset in the Y direction
             ),
           ],
         ),
