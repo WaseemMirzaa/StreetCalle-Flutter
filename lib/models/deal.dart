@@ -11,6 +11,7 @@ class Deal extends Equatable {
   final String? title;
   final String? description;
   final String? foodType;
+  final String? category;
   final num? actualPrice;
   final num? discountedPrice;
   final Timestamp? createdAt;
@@ -27,6 +28,7 @@ class Deal extends Equatable {
     this.title,
     this.description,
     this.foodType,
+    this.category,
     this.actualPrice,
     this.discountedPrice,
     this.updatedAt,
@@ -42,6 +44,7 @@ class Deal extends Equatable {
     String? title,
     String? description,
     String? foodType,
+    String? category,
     num? actualPrice,
     num? discountedPrice,
     Timestamp? createdAt,
@@ -56,6 +59,7 @@ class Deal extends Equatable {
         title: title ?? this.title,
         description: description ?? this.description,
         foodType: foodType ?? this.foodType,
+        category: category ?? this.category,
         actualPrice: actualPrice ?? this.actualPrice,
         discountedPrice: discountedPrice ?? this.discountedPrice,
         createdAt: createdAt ?? this.createdAt,
@@ -73,6 +77,7 @@ class Deal extends Equatable {
       title: json[DealKey.TITLE],
       description: json[DealKey.DESCRIPTION],
       foodType: json[DealKey.FOOD_TYPE],
+      category: json[DealKey.CATEGORY],
       searchParam: json[DealKey.SEARCH_PARAM],
       createdAt: json[DealKey.CREATED_AT],
       updatedAt: json[DealKey.UPDATED_AT],
@@ -91,6 +96,7 @@ class Deal extends Equatable {
     data[DealKey.DESCRIPTION] = description;
     data[DealKey.SEARCH_PARAM] = searchParam;
     data[DealKey.FOOD_TYPE] = foodType;
+    data[DealKey.CATEGORY] = category;
     data[DealKey.CREATED_AT] = createdAt;
     data[DealKey.UPDATED_AT] = updatedAt;
     data[DealKey.ACTUAL_PRICE] = actualPrice;
@@ -104,6 +110,7 @@ class Deal extends Equatable {
     id, uid, image,
     title, description,
     foodType, createdAt,
+    category,
     updatedAt, actualPrice,
     discountedPrice,
     itemNames

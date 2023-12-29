@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
+import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
@@ -83,11 +84,13 @@ class AddDealButton extends StatelessWidget {
   Future<void> addDeal(BuildContext context) async {
     final imageCubit = context.read<ImageCubit>();
     final dealCubit = context.read<AddDealCubit>();
+    final userCubit = context.read<UserCubit>();
 
     final image = imageCubit.state.selectedImage.path;
     final title = dealCubit.titleController.text;
     final actualPrice = dealCubit.actualPriceController.text;
     final discountedPrice = dealCubit.discountedPriceController.text;
+    final category = userCubit.state.category;
 
 
     if (image.isEmpty) {
@@ -99,13 +102,14 @@ class AddDealButton extends StatelessWidget {
     } else if (actualPrice.isNotEmpty && discountedPrice.isNotEmpty && double.parse(discountedPrice) >= double.parse(actualPrice)) {
       showToast(context, TempLanguage().lblDiscountedPriceCantBeGrater);
     } else {
-      dealCubit.addDeal(image);
+      dealCubit.addDeal(image, category);
     }
   }
 
   Future<void> updateDeal(BuildContext context) async {
     final imageCubit = context.read<ImageCubit>();
     final dealCubit = context.read<AddDealCubit>();
+    final userCubit = context.read<UserCubit>();
 
     final image = imageCubit.state.selectedImage.path;
     final url = imageCubit.state.url;
@@ -113,6 +117,7 @@ class AddDealButton extends StatelessWidget {
     final title = dealCubit.titleController.text;
     final actualPrice = dealCubit.actualPriceController.text;
     final discountedPrice = dealCubit.discountedPriceController.text;
+    final category = userCubit.state.category;
 
     if (image.isEmpty && url == null) {
       showToast(context, TempLanguage().lblSelectImage);
@@ -124,9 +129,9 @@ class AddDealButton extends StatelessWidget {
       showToast(context, TempLanguage().lblDiscountedPriceCantBeGrater);
     } else {
       if (isUpdated ?? false) {
-        dealCubit.updateDeal(image: image, isUpdated: true);
+        dealCubit.updateDeal(image: image, isUpdated: true, category: category);
       } else {
-        dealCubit.updateDeal(image: url ?? '', isUpdated: false);
+        dealCubit.updateDeal(image: url ?? '', isUpdated: false, category: category);
       }
     }
   }

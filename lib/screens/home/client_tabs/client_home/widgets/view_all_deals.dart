@@ -68,7 +68,7 @@ class ViewAllDeals extends StatelessWidget {
                       return DealWidget(
                         deal: deal.data(),
                         onTap: (){
-                          context.pushNamed(AppRoutingName.dealDetail, extra: deal, pathParameters: {IS_CLIENT: true.toString()});
+                          context.pushNamed(AppRoutingName.dealDetail, extra: deal.data(), pathParameters: {IS_CLIENT: true.toString()});
                         },
                         onUpdate: (){},
                         onDelete: (){},

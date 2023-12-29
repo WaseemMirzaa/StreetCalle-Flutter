@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
@@ -80,6 +81,7 @@ class ClientItemTab extends StatelessWidget {
                     items: category,
                     onChanged: (value) {
                       selectedItem = value;
+                      context.read<MenuItemFilterCubit>().updateFilter(value?.title ?? '');
                     },
                   ),
                 );
@@ -173,59 +175,80 @@ class ItemsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchItemsCubit, String>(
-      builder: (context, state){
-        List<Item> items = [];
-        List<User> users = [];
+    return BlocBuilder<MenuItemFilterCubit, String>(
+      builder: (_, filterString) {
+        return BlocBuilder<SearchItemsCubit, String>(
+          builder: (context, state){
+            List<Item> items = [];
+            List<User> users = [];
 
-        if (state.isNotEmpty) {
-          items = itemsList.where((item) {
-            final itemName = item.title!.toLowerCase();
-            return itemName.contains(state.toLowerCase());
-          }).toList();
+            if (filterString != defaultVendorFilter) {
+              items = itemsList.where((item) {
+                final category = item.category?.toLowerCase().trim() ?? '';
+                return category.contains(filterString.toLowerCase().trim());
+              }).toList();
 
-          List<int> filteredItemsIndexes = [];
-          for (int i = 0; i < items.length; i++) {
-            int index = itemsList.indexOf(items[i]);
-            filteredItemsIndexes.add(index);
-          }
-          for (int index in filteredItemsIndexes) {
-            if (index > -1) {
-              users.add(usersList[index]);
+              List<int> filteredItemsIndexes = [];
+              for (int i = 0; i < items.length; i++) {
+                int index = itemsList.indexOf(items[i]);
+                filteredItemsIndexes.add(index);
+              }
+              for (int index in filteredItemsIndexes) {
+                if (index > -1) {
+                  users.add(usersList[index]);
+                }
+              }
+            } else {
+              items = itemsList;
+              users = usersList;
             }
-          }
 
-        } else {
-          items = itemsList;
-          users = usersList;
-        }
+            if (state.isNotEmpty) {
+              items = itemsList.where((item) {
+                final itemName = item.title!.toLowerCase();
+                return itemName.contains(state.toLowerCase());
+              }).toList();
 
-        return items.isEmpty
-            ? const NoDataFoundWidget()
-            : Padding(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-          child: ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              final user = users[index];
+              List<int> filteredItemsIndexes = [];
+              for (int i = 0; i < items.length; i++) {
+                int index = itemsList.indexOf(items[i]);
+                filteredItemsIndexes.add(index);
+              }
+              for (int index in filteredItemsIndexes) {
+                if (index > -1) {
+                  users.add(usersList[index]);
+                }
+              }
+            }
 
-              return ItemWidget(
-                isFromItemTab: false,
-                isLastIndex: (index == (items.length - 1)),
-                item: item,
-                user: user,
-                onTap: (){
-                  //context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
-                  context.read<ClientSelectedVendorCubit>().selectedVendorId(user.uid);
-                  context.pushNamed(AppRoutingName.clientMenuItemDetail, extra: user);
+            return items.isEmpty
+                ? const NoDataFoundWidget()
+                : Padding(
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  final item = items[index];
+                  final user = users[index];
+
+                  return ItemWidget(
+                    isFromItemTab: false,
+                    isLastIndex: (index == (items.length - 1)),
+                    item: item,
+                    user: user,
+                    onTap: (){
+                      //context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
+                      context.read<ClientSelectedVendorCubit>().selectedVendorId(user.uid);
+                      context.pushNamed(AppRoutingName.clientMenuItemDetail, extra: user);
+                    },
+                    onUpdate: (){},
+                    onDelete: (){},
+                  );
                 },
-                onUpdate: (){},
-                onDelete: (){},
-              );
-            },
-          ),
+              ),
+            );
+          },
         );
       },
     );

@@ -19,6 +19,7 @@ import 'package:street_calle/screens/home/client_tabs/client_search/cubit/apply_
 import 'package:street_calle/models/drop_down_item.dart';
 import 'package:street_calle/services/category_service.dart';
 import 'package:street_calle/screens/selectUser/widgets/drop_down_widget.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
 
 class ClientDealTab extends StatelessWidget {
   const ClientDealTab({Key? key}) : super(key: key);
@@ -81,6 +82,7 @@ class ClientDealTab extends StatelessWidget {
                     items: category,
                     onChanged: (value) {
                       selectedItem = value;
+                      context.read<MenuDealFilterCubit>().updateFilter(value?.title ?? '');
                     },
                   ),
                 );
@@ -188,60 +190,81 @@ class DealsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchDealsCubit, String>(
-      builder: (context, state) {
+    return BlocBuilder<MenuDealFilterCubit, String>(
+      builder: (context, filterString) {
+        return BlocBuilder<SearchDealsCubit, String>(
+          builder: (context, state) {
+            List<Deal> deals = [];
+            List<User> users = [];
 
-        List<Deal> deals = [];
-        List<User> users = [];
+            if (filterString != defaultVendorFilter) {
+              deals = dealsList.where((deal) {
+                final category = deal.category?.toLowerCase().trim() ?? '';
+                return category.contains(filterString.toLowerCase().trim());
+              }).toList();
 
-        if (state.isNotEmpty) {
-          deals = dealsList.where((deal) {
-            final dealName = deal.title!.toLowerCase();
-            final dealDescription = deal.description?.toLowerCase() ?? '';
-            return dealName.contains(state.toLowerCase()) || dealDescription.contains(state.toLowerCase());
-          }).toList();
-          //users = deals.map((deal) => snapshot.data![deal]!).toList();
-
-          List<int> filteredItemsIndexes = [];
-          for (int i = 0; i < deals.length; i++) {
-            int index = dealsList.indexOf(deals[i]);
-            filteredItemsIndexes.add(index);
-          }
-          for (int index in filteredItemsIndexes) {
-            if (index > -1) {
-              users.add(usersList[index]);
+              List<int> filteredItemsIndexes = [];
+              for (int i = 0; i < deals.length; i++) {
+                int index = dealsList.indexOf(deals[i]);
+                filteredItemsIndexes.add(index);
+              }
+              for (int index in filteredItemsIndexes) {
+                if (index > -1) {
+                  users.add(usersList[index]);
+                }
+              }
+            } else {
+              deals = dealsList;
+              users = usersList;
             }
-          }
 
-        } else {
-          deals = dealsList;
-          users = usersList;
-        }
+            if (state.isNotEmpty) {
+              deals = dealsList.where((deal) {
+                final dealName = deal.title!.toLowerCase();
+                final dealDescription = deal.description?.toLowerCase() ?? '';
+                return dealName.contains(state.toLowerCase()) || dealDescription.contains(state.toLowerCase());
+              }).toList();
+              //users = deals.map((deal) => snapshot.data![deal]!).toList();
 
-        return deals.isEmpty
-            ? const NoDataFoundWidget()
-            : Padding(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-          child: ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: deals.length,
-            itemBuilder: (context, index) {
-              final deal = deals[index];
-              final user = users[index];
+              List<int> filteredItemsIndexes = [];
+              for (int i = 0; i < deals.length; i++) {
+                int index = dealsList.indexOf(deals[i]);
+                filteredItemsIndexes.add(index);
+              }
+              for (int index in filteredItemsIndexes) {
+                if (index > -1) {
+                  users.add(usersList[index]);
+                }
+              }
 
-              return DealWidget(
-                isFromClient: true,
-                isLastIndex: index == (deals.length - 1),
-                user: user,
-                deal: deal,
-                onTap: (){
-                  context.pushNamed(AppRoutingName.dealDetail, extra: deal, pathParameters: {IS_CLIENT: true.toString()});
+            }
+
+            return deals.isEmpty
+                ? const NoDataFoundWidget()
+                : Padding(
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: deals.length,
+                itemBuilder: (context, index) {
+                  final deal = deals[index];
+                  final user = users[index];
+
+                  return DealWidget(
+                    isFromClient: true,
+                    isLastIndex: index == (deals.length - 1),
+                    user: user,
+                    deal: deal,
+                    onTap: (){
+                      context.pushNamed(AppRoutingName.dealDetail, extra: deal, pathParameters: {IS_CLIENT: true.toString()});
+                    },
+                    onDelete: (){},
+                    onUpdate: (){},
+                  );
                 },
-                onDelete: (){},
-                onUpdate: (){},
-              );
-            },
-          ),
+              ),
+            );
+          },
         );
       },
     );

@@ -5,10 +5,13 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/user.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
@@ -42,6 +45,7 @@ class _DisplayMapState extends State<DisplayMap> {
   @override
   Widget build(BuildContext context) {
     final userService = sl.get<UserService>();
+    context.read<MapFilterCubit>().updateFilter(TempLanguage().lblAll);
 
     return FutureBuilder<List<User>>(
         future: userService.getVendorsAndEmployees(),
@@ -49,36 +53,51 @@ class _DisplayMapState extends State<DisplayMap> {
           if (snap.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));
           } else {
-            final users = snap.data ?? [];
-            if (widget.position != null) {
 
-              addVendorMarkers(users, widget.position!).then((markers) {
-                //final locationCubit = context.read<CurrentLocationCubit>();
-                // if (locationCubit.state.latitude == null && locationCubit.state.longitude == null) {
-                //   locationCubit.setCurrentLocation(latitude: position.latitude, longitude: position.longitude);
-                // }
-                if (mounted) {
-                  context.read<MarkersCubit>().setMarkers(markers);
+            return BlocBuilder<MapFilterCubit, String>(
+              builder: (context, filterString) {
+
+                List<User> users = [];
+
+                if (filterString != defaultVendorFilter) {
+                  users = snap.data!.where((user) {
+                    final category = user.category?.toLowerCase().trim() ?? '';
+                    return category.contains(filterString.toLowerCase().trim());
+                  }).toList();
+                } else {
+                  users = snap.data ?? [];
                 }
-              });
+                if (widget.position != null) {
 
-            }
-
-            return BlocBuilder<MarkersCubit, MarkersState>(
-              builder: (context, state) {
-                return GoogleMap(
-                  mapType: MapType.normal,
-                  zoomControlsEnabled: false,
-                  myLocationButtonEnabled: false,
-                  myLocationEnabled: true,
-                  markers: state.markers,
-                  initialCameraPosition: _kGooglePlex,
-                  onMapCreated: (GoogleMapController controller) async {
-                    _controller = controller;
-
-                    if (widget.position != null) {
-                      _getCameraPosition(widget.position!);
+                  addVendorMarkers(users, widget.position!).then((markers) {
+                    //final locationCubit = context.read<CurrentLocationCubit>();
+                    // if (locationCubit.state.latitude == null && locationCubit.state.longitude == null) {
+                    //   locationCubit.setCurrentLocation(latitude: position.latitude, longitude: position.longitude);
+                    // }
+                    if (mounted) {
+                      context.read<MarkersCubit>().setMarkers(markers);
                     }
+                  });
+
+                }
+
+                return BlocBuilder<MarkersCubit, MarkersState>(
+                  builder: (context, state) {
+                    return GoogleMap(
+                      mapType: MapType.normal,
+                      zoomControlsEnabled: false,
+                      myLocationButtonEnabled: false,
+                      myLocationEnabled: true,
+                      markers: state.markers,
+                      initialCameraPosition: _kGooglePlex,
+                      onMapCreated: (GoogleMapController controller) async {
+                        _controller = controller;
+
+                        if (widget.position != null) {
+                          _getCameraPosition(widget.position!);
+                        }
+                      },
+                    );
                   },
                 );
               },

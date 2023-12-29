@@ -46,7 +46,7 @@ class AddDealCubit extends Cubit<AddDealState> {
     discountedPriceController.clear();
   }
 
-  Future<void> addDeal(String image) async {
+  Future<void> addDeal(String image, String category) async {
     emit(AddDealLoading());
 
     final deal = Deal(
@@ -54,6 +54,7 @@ class AddDealCubit extends Cubit<AddDealState> {
       title: titleController.text,
       description: descriptionController.text,
       foodType: foodTypeController.text,
+      category: category,
       searchParam: setSearchParam(titleController.text),
       actualPrice: parseNumeric(actualPriceController.text),
       discountedPrice: parseNumeric(discountedPriceController.text),
@@ -68,7 +69,7 @@ class AddDealCubit extends Cubit<AddDealState> {
     );
   }
 
-  Future<void> updateDeal({required bool isUpdated,required String image}) async {
+  Future<void> updateDeal({required bool isUpdated,required String image, required String category}) async {
     emit(AddDealLoading());
 
     final deal = Deal(
@@ -77,6 +78,7 @@ class AddDealCubit extends Cubit<AddDealState> {
       title: titleController.text,
       description: descriptionController.text,
       foodType: foodTypeController.text,
+      category: category,
       searchParam: setSearchParam(titleController.text),
       actualPrice: parseNumeric(actualPriceController.text),
       discountedPrice: parseNumeric(discountedPriceController.text),

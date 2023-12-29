@@ -68,7 +68,7 @@ class ViewAllItems extends StatelessWidget {
                     return ItemWidget(
                       item: item.data(),
                       onTap: (){
-                        context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
+                        context.pushNamed(AppRoutingName.itemDetail, extra: item.data(), pathParameters: {IS_CLIENT: true.toString()});
                       },
                       onUpdate: (){},
                       onDelete: (){},

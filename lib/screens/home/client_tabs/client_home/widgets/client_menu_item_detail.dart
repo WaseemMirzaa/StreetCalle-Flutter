@@ -84,7 +84,6 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
               const SizedBox(
                 height: 20,
               ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 54.0),
                 child: Row(
@@ -166,7 +165,6 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                   ],
                 ),
               ),
-
               const SizedBox(
                 height: 20,
               ),
@@ -192,12 +190,10 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                   ],
                 ),
               ),
-
               const SizedBox(
                 height: 12,
               ),
               VendorDealsWidget(user: widget.user),
-
               const SizedBox(
                 height: 24,
               ),
@@ -206,7 +202,6 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                 hintText: TempLanguage().lblSearchFood,
                 onChanged: (String? value) => _searchQuery(context, value),
               ),
-
               const SizedBox(
                 height: 24,
               ),
@@ -232,7 +227,6 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                   ],
                 ),
               ),
-
               const SizedBox(
                 height: 20,
               ),

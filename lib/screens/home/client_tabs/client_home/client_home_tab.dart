@@ -18,6 +18,7 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/drop_down_item.dart';
 import 'package:street_calle/services/category_service.dart';
 import 'package:street_calle/screens/selectUser/widgets/drop_down_widget.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
 
 class ClientHomeTab extends StatelessWidget {
   const ClientHomeTab({Key? key}) : super(key: key);
@@ -136,6 +137,7 @@ class ClientHomeTab extends StatelessWidget {
                           items: category,
                           onChanged: (value) {
                             selectedItem = value;
+                            context.read<MapFilterCubit>().updateFilter(value?.title ?? '');
                           },
                         ),
                       );

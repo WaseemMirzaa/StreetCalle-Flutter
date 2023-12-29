@@ -11,6 +11,7 @@ class Item extends Equatable {
   final String? title;
   final String? description;
   final String? foodType;
+  final String? category;
   final num? actualPrice;
   final num? discountedPrice;
   final Timestamp? createdAt;
@@ -39,6 +40,7 @@ class Item extends Equatable {
    this.title,
    this.description,
    this.foodType,
+   this.category,
    this.actualPrice,
    this.discountedPrice,
    this.updatedAt,
@@ -62,6 +64,7 @@ class Item extends Equatable {
    String? title,
    String? description,
    String? foodType,
+   String? category,
    num? actualPrice,
    num? discountedPrice,
    List<dynamic>? searchParam,
@@ -84,6 +87,7 @@ class Item extends Equatable {
       title: title ?? this.title,
       description: description ?? this.description,
       foodType: foodType ?? this.foodType,
+      category: category ?? this.category,
       actualPrice: actualPrice ?? this.actualPrice,
       discountedPrice: discountedPrice ?? this.discountedPrice,
       createdAt: createdAt ?? this.createdAt,
@@ -109,6 +113,7 @@ class Item extends Equatable {
       title: json[ItemKey.TITLE],
       description: json[ItemKey.DESCRIPTION],
       foodType: json[ItemKey.FOOD_TYPE],
+      category: json[ItemKey.CATEGORY],
       searchParam: json[ItemKey.SEARCH_PARAM],
       createdAt: json[ItemKey.CREATED_AT],
       updatedAt: json[ItemKey.UPDATED_AT],
@@ -134,6 +139,7 @@ class Item extends Equatable {
     data[ItemKey.TITLE] = title;
     data[ItemKey.DESCRIPTION] = description;
     data[ItemKey.FOOD_TYPE] = foodType;
+    data[ItemKey.CATEGORY] = category;
     data[ItemKey.CREATED_AT] = createdAt;
     data[ItemKey.UPDATED_AT] = updatedAt;
     data[ItemKey.ACTUAL_PRICE] = actualPrice;
@@ -155,7 +161,7 @@ class Item extends Equatable {
   List<Object?> get props => [
     id, uid, image,
     title, description,
-    foodType, createdAt,
+    foodType, createdAt, category,
     updatedAt, actualPrice,
     discountedPrice, smallItemTitle,
     mediumItemTitle, largeItemTitle,

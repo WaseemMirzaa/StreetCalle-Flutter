@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
+import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/common.dart';
@@ -84,6 +85,7 @@ class AddItemButton extends StatelessWidget {
   Future<void> addItem(BuildContext context) async {
     final imageCubit = context.read<ImageCubit>();
     final itemCubit = context.read<AddItemCubit>();
+    final userCubit = context.read<UserCubit>();
     final pricingCategoryType = context.read<PricingCategoryCubit>().state.categoryType;
 
     final image = imageCubit.state.selectedImage.path;
@@ -91,6 +93,7 @@ class AddItemButton extends StatelessWidget {
     final actualPrice = itemCubit.actualPriceController.text;
     final smallActualPrice = itemCubit.smallItemActualPriceController.text;
     final smallTitle = itemCubit.smallItemTitleController.text;
+    final category = userCubit.state.category;
 
     if (image.isEmpty) {
       showToast(context, TempLanguage().lblSelectImage);
@@ -101,13 +104,14 @@ class AddItemButton extends StatelessWidget {
     } else if ((pricingCategoryType == PricingCategoryType.none && actualPrice.isEmpty) || (pricingCategoryType == PricingCategoryType.smallMedium && smallActualPrice.isEmpty)) {
       showToast(context, TempLanguage().lblAddItemPrice);
     } else {
-      itemCubit.addItem(image);
+      itemCubit.addItem(image, category);
     }
   }
 
   Future<void> updateItem(BuildContext context) async {
     final imageCubit = context.read<ImageCubit>();
     final itemCubit = context.read<AddItemCubit>();
+    final userCubit = context.read<UserCubit>();
     final pricingCategoryType = context.read<PricingCategoryCubit>().state.categoryType;
 
     final image = imageCubit.state.selectedImage.path;
@@ -119,6 +123,7 @@ class AddItemButton extends StatelessWidget {
     final smallTitle = itemCubit.smallItemTitleController.text;
     final mediumActualPrice = itemCubit.mediumItemActualPriceController.text;
     final mediumTitle = itemCubit.mediumItemTitleController.text;
+    final category = userCubit.state.category;
 
     if (image.isEmpty && url == null) {
       showToast(context, TempLanguage().lblSelectImage);
@@ -130,9 +135,9 @@ class AddItemButton extends StatelessWidget {
       showToast(context, TempLanguage().lblAddItemPrice);
     } else {
       if (isUpdated ?? false) {
-        itemCubit.updateItem(image: image, isUpdated: true);
+        itemCubit.updateItem(image: image, isUpdated: true, category: category);
       } else {
-        itemCubit.updateItem(image: url ?? '', isUpdated: false);
+        itemCubit.updateItem(image: url ?? '', isUpdated: false, category: category);
       }
     }
   }

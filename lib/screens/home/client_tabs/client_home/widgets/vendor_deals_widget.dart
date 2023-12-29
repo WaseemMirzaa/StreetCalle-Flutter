@@ -39,7 +39,7 @@ class VendorDealsWidget extends StatelessWidget {
           itemBuilder: (context, deal) {
             return InkWell(
               onTap: () {
-                context.pushNamed(AppRoutingName.dealDetail, extra: deal, pathParameters: {IS_CLIENT: true.toString()});
+                context.pushNamed(AppRoutingName.dealDetail, extra: deal.data(), pathParameters: {IS_CLIENT: true.toString()});
               },
               child: Container(
                   margin: const EdgeInsets.only(left: 4),

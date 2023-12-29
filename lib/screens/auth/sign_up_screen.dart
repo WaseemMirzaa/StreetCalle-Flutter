@@ -41,9 +41,7 @@ class SignUpScreen extends StatelessWidget {
                 TempLanguage().lblAddYourSignDetails,
                 style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 15, color: AppColors.secondaryFontColor),
               ),
-
               const SizedBox(height: 24,),
-
               BlocBuilder<ImageCubit, ImageState>(
                 builder: (context, state) {
                   return GestureDetector(
@@ -78,7 +76,6 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24,),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                 child: CustomTextField(
@@ -90,7 +87,6 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24,),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                 child: Container(
@@ -132,7 +128,6 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24,),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                 child: CustomTextField(
@@ -145,7 +140,6 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24,),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                 child: CustomTextField(
@@ -158,14 +152,12 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24,),
-
-
-
               BlocConsumer<SignUpCubit, SignUpState>(
                 listener: (context, state) {
                   if (state is SignUpSuccess) {
                     context.read<UserCubit>().setUserModel(state.user);
                     context.read<ProfileStatusCubit>().defaultStatus(true);
+                    context.read<ImageCubit>().resetImage();
                     context.pushNamed(AppRoutingName.emailVerificationScreen, pathParameters: {EMAIL: state.user.email ?? ''});
                     context.read<SignUpCubit>().clearControllers();
                   } else if (state is SignUpFailure) {
@@ -197,9 +189,7 @@ class SignUpScreen extends StatelessWidget {
                       );
                 },
               ),
-
               const SizedBox(height: 24,),
-
               RichText(
                 text: TextSpan(
                   children: [

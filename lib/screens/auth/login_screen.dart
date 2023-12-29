@@ -127,7 +127,6 @@ class LoginScreen extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 24,),
-
               BlocConsumer<GuestCubit, GuestState>(
                 builder: (context, state) {
                   return state is GuestLoginLoading

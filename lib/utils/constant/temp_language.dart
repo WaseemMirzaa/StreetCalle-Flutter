@@ -23,6 +23,8 @@ class TempLanguage {
 
   String get lblApply => 'Apply';
 
+  String get lblAll => 'All';
+
   String get lblUpdate => 'Update';
 
   String get lblMiles => 'Miles';

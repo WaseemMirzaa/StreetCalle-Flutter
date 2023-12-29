@@ -69,6 +69,7 @@ class CreateEmployeeCubit extends Cubit<CreateEmployeeState> {
             if (result) {
               try {
                 final user = await userService.userByUid(r.uid);
+                clearControllers();
                 emit(SignUpSuccess(user));
               } catch(e) {
                 emit(SignUpFailure(TempLanguage().lblSignUpFailed));

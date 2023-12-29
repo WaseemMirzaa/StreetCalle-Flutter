@@ -1,3 +1,5 @@
+import 'package:street_calle/utils/constant/temp_language.dart';
+
 const METROPOLIS_MEDIUM = 'MetropolisMD';
 const METROPOLIS_SEMI_BOLD = 'MetropolisSM';
 const METROPOLIS_BOLD =
@@ -15,6 +17,7 @@ const defaultPrice = 0;
 const defaultHorizontalPadding = 28.0;
 const defaultVerticalPadding = 16.0;
 const initialCountyCode = 'US';
+final defaultVendorFilter = TempLanguage().lblAll;
 
 /// Pagination page size
 const int ITEM_PER_PAGE = 10;
@@ -100,6 +103,7 @@ class ItemKey {
   static const String TITLE = 'title';
   static const String DESCRIPTION = 'description';
   static const String FOOD_TYPE = 'foodType';
+  static const String CATEGORY = 'category';
   static const String SEARCH_PARAM = 'searchParam';
   static const String CREATED_AT = 'createdAt';
   static const String UPDATED_AT = 'updatedAt';
@@ -128,6 +132,7 @@ class DealKey {
   static const String DESCRIPTION = 'description';
   static const String SEARCH_PARAM = 'searchParam';
   static const String FOOD_TYPE = 'foodType';
+  static const String CATEGORY = 'category';
   static const String CREATED_AT = 'createdAt';
   static const String UPDATED_AT = 'updatedAt';
   static const String ACTUAL_PRICE = 'actualPrice';

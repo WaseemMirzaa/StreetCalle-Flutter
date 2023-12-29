@@ -39,6 +39,9 @@ class _SelectCategoryState extends State<SelectCategory> {
           } else if (snapshot.hasData && snapshot.data != null) {
             List<DropDownItem> category = [];
             snapshot.data?.forEach((element) {
+              if (element[CategoryKey.TITLE] == TempLanguage().lblAll) {
+                return;
+              }
               final dropDown = DropDownItem(
                   title: element[CategoryKey.TITLE],
                   icon: Image.network(element[CategoryKey.ICON], width: 18, height: 18,),
