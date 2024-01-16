@@ -44,6 +44,7 @@ class Collections {
 class SharePreferencesKey {
   static const IS_LOGGED_IN = 'IS_LOGGED_IN';
   static const USER_ID = 'USER_ID';
+  static const STRIPE_ID = 'STRIPE_ID';
   static const VENDOR_ID = 'VENDOR_ID';
   static const USER_NAME = 'USER_NAME';
   static const USER_ABOUT = 'USER_ABOUT';
@@ -68,6 +69,7 @@ class SharePreferencesKey {
 class UserKey {
   static const String UID = 'uid';
   static const String VENDOR_ID = 'vendorId';
+  static const String STRIPE_ID = 'stripeId';
   static const String IMAGE = 'image';
   static const String NAME = 'name';
   static const String EMAIL = 'email';

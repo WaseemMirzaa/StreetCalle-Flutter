@@ -35,6 +35,7 @@ import 'package:street_calle/services/category_service.dart';
 import 'package:street_calle/services/deal_service.dart';
 import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
+import 'package:street_calle/services/stripe_service.dart';
 import 'package:street_calle/services/user_service.dart';
 
 /// [Dependency Injection] a way of making a class
@@ -89,6 +90,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DealService());
   sl.registerLazySingleton(() => CategoryService());
   sl.registerLazySingleton(() => PricingCategoryCubit());
+  sl.registerLazySingleton(() => StripeService());
 
   /// Firebase
   final firebaseFirestore = FirebaseFirestore.instance;

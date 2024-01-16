@@ -334,4 +334,14 @@ class UserService extends BaseService<User> {
       return false;
     }
   }
+
+  Future<void> updateStripeId(String stripeId, String userId) async {
+    try {
+      await ref!.doc(userId).update({
+        UserKey.STRIPE_ID: stripeId,
+      });
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }

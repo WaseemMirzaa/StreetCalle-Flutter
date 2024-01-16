@@ -1,3 +1,4 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:street_calle/screens/auth/auth_screen.dart';
@@ -13,6 +14,7 @@ import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/vendor_employee_map.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_all_deals.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/view_all_items.dart';
+import 'package:street_calle/screens/home/settings/cubit/subscription_cubit.dart';
 import 'package:street_calle/screens/home/vendor_main_screen.dart';
 import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
 import 'package:street_calle/screens/home/settings/widgets/vendor_profile.dart';
@@ -27,6 +29,8 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/s
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/deal_detail.dart';
 import 'package:street_calle/screens/selectUser/select_user_screen.dart';
 import 'package:street_calle/screens/splash/splash_screen.dart';
+import 'package:street_calle/services/stripe_service.dart';
+import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/settings/widgets/privacy_policy.dart';
@@ -36,6 +40,7 @@ import 'package:street_calle/models/item.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/widgets/location_picker.dart';
+import 'package:street_calle/dependency_injection.dart';
 
 final router = GoRouter(
   routes: [
@@ -134,7 +139,10 @@ final router = GoRouter(
       path: AppRoutingName.vendorSubscriptions,
       name: AppRoutingName.vendorSubscriptions,
       builder: (context, state) {
-        return const VendorSubscription();
+        return BlocProvider(
+          create: (_) => SubscriptionCubit(sl<UserService>(), sl<StripeService>()),
+          child: const VendorSubscription(),
+        );
       },
     ),
     GoRoute(
