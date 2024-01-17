@@ -23,6 +23,9 @@ final defaultVendorFilter = TempLanguage().lblAll;
 const int ITEM_PER_PAGE = 10;
 const int DEAL_PER_PAGE = 10;
 
+/// Stripe Plans Pricing
+
+
 /// PathParameters (for items and deals) --> change these wisely
 const IS_UPDATE = 'isUpdate';
 const IS_FROM_DETAIL = 'isFromDetail';
@@ -64,6 +67,7 @@ class SharePreferencesKey {
   static const EMPLOYEE_OWNER_NAME = 'EMPLOYEE_OWNER_NAME';
   static const EMPLOYEE_OWNER_IMAGE = 'EMPLOYEE_OWNER_IMAGE';
   static const SUBSCRIPTION_TYPE = 'SUBSCRIPTION_TYPE';
+  static const PLAN_LOOK_UP_KEY = 'PLAN_LOOK_UP_KEY';
 }
 
 class UserKey {
@@ -91,6 +95,7 @@ class UserKey {
   static const String VENDOR_TYPE = 'vendorType';
   static const String USER_TYPE = 'userType';
   static const String CATEGORY = 'category';
+  static const String PLAN_LOOK_UP_KEY = 'planLookUpKey';
   static const String CATEGORY_IMAGE = 'categoryImage';
   static const String FAVOURITE_VENDORS = 'favouriteVendors';
   static const String EMPLOYEE_OWNER_IMAGE = 'employeeOwnerImage';

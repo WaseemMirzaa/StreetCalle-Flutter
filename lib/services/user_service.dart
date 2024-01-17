@@ -290,11 +290,12 @@ class UserService extends BaseService<User> {
     return ref!.doc(userId).snapshots();
   }
 
-  Future<bool> updateUserSubscription(bool isSubscribed, String subscriptionType, String userId) async {
+  Future<bool> updateUserSubscription(bool isSubscribed, String subscriptionType, String userId, String planLookUpKey) async {
      try {
        await ref!.doc(userId).update({
          UserKey.IS_SUBSCRIBED: isSubscribed,
          UserKey.SUBSCRIPTION_TYPE: subscriptionType,
+         UserKey.PLAN_LOOK_UP_KEY: planLookUpKey
        });
        return true;
      } catch (e) {

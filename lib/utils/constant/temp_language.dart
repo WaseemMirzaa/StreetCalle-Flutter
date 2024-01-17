@@ -221,13 +221,35 @@ class TempLanguage {
 
   String get lblMakeYourTruckVisible => 'Make your truck visible to clients';
 
+  String get lblSubscribe => 'Subscribe';
+
   String get lblOneMonth => '1 month';
 
   String get lblSixMonths => '6 months';
 
   String get lblTwelveMonths => '12 months';
 
+  String get lblOneYear => '1 year';
+
   String get lblForStarter => 'Perfect for starter';
+
+  String get lblIndividualStarter => 'Individual Starter Plan';
+  String get lblIndividualGrowthPlan => 'Individual Growth Plan';
+
+  String get lblNewAgencyStarter => 'New Agency Starter Plan';
+  String get lblNewAgencyGrowthPlan => 'New Agency Growth Plan';
+
+  String get lblEstablishAgencyStarter => 'Establish Agency Starter Plan';
+  String get lblEstablishAgencyGrowthPlan => 'Establish Agency Growth Plan';
+
+  String get lblIndividualStarterDes => 'As an individual, you can sell unlimited items.';
+  String get lblIndividualGrowthDes => 'As a individual, you can sell your products for up to a year and save 4%.';
+
+  String get lblNewAgencyStarterDes => 'New agencies can unlock the potential of 2-7 locations with this fantastic plan!';
+  String get lblNewAgencyGrowthDes => 'With this plan, you can have 2-7 locations and enjoy a 20% discount for a whole year.';
+
+  String get lblEstablishAgencyStarterDes => 'Unlock the potential for your agency\'s expansion with 8 or more locations through this exclusive plan!';
+  String get lblEstablishAgencyGrowthDes => 'Establish your agency\'s success: Enjoy 8 or more locations and a 20% discount for a full year!';
 
   String get lblProfile => 'Profile';
 
@@ -441,6 +463,15 @@ class TempLanguage {
   String get lblUserNotFound => 'User Not Found';
 
   String get lblSignUpFailed => 'Sign-up failed. Please try again.';
+
+
+
+
+
+
+
+
+
 
   String get lblLorem => '''
   One brave soul did take a stab at translating the almost-not-quite-Latin. According to The Guardian, Jaspreet Singh Boparai undertook the challenge with the goal of making the text “precisely as incoherent in English as it is in Latin - and to make it incoherent in the same way”. As a result, “the Greek 'eu' in Latin became the French 'bien' [...] and the '-ing' ending in 'lorem ipsum' seemed best rendered by an '-iendum' in English.”

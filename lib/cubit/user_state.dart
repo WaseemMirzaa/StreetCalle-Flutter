@@ -26,6 +26,7 @@ class UserState {
   final String employeeOwnerName;
   final String subscriptionType;
   final String stripeId;
+  final String planLookUpKey;
 
   UserState({
     required this.userId,
@@ -49,7 +50,8 @@ class UserState {
     required this.employeeOwnerName,
     required this.employeeOwnerImage,
     required this.subscriptionType,
-    required this.stripeId
+    required this.stripeId,
+    required this.planLookUpKey
   });
 
   UserState copyWith(
@@ -74,7 +76,8 @@ class UserState {
       String? employeeOwnerImage,
       String? employeeOwnerName,
       String? subscriptionType,
-      String? stripeId
+      String? stripeId,
+      String? planLookUpKey
       }) {
     return UserState(
       userId: userId ?? this.userId,
@@ -98,7 +101,8 @@ class UserState {
       employeeOwnerImage: employeeOwnerImage ?? this.employeeOwnerImage,
       employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName,
       subscriptionType: subscriptionType ?? this.subscriptionType,
-      stripeId: stripeId ?? this.stripeId
+      stripeId: stripeId ?? this.stripeId,
+      planLookUpKey: planLookUpKey ?? this.planLookUpKey,
     );
   }
 }
@@ -128,7 +132,8 @@ class UserCubit extends Cubit<UserState> {
             employeeOwnerName: '',
             employeeOwnerImage: '',
             subscriptionType: '',
-            stripeId: ''
+            stripeId: '',
+            planLookUpKey: ''
           ),
         );
 
@@ -158,6 +163,11 @@ class UserCubit extends Cubit<UserState> {
   void setStripeId(String value) {
     emit(state.copyWith(stripeId: value));
     sharedPreferencesService.setValue(SharePreferencesKey.STRIPE_ID, value);
+  }
+
+  void setPlanLookUpKey(String value) {
+    emit(state.copyWith(planLookUpKey: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.PLAN_LOOK_UP_KEY, value);
   }
 
   void setUserImage(String value) {
@@ -269,5 +279,6 @@ class UserCubit extends Cubit<UserState> {
     setCategoryImage(user.categoryImage ?? '');
     setSubscriptionType(user.subscriptionType ?? '');
     setStripeId(user.stripeId ?? '');
+    setPlanLookUpKey(user.planLookUpKey ?? '');
   }
 }

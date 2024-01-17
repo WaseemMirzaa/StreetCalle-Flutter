@@ -35,7 +35,7 @@ class User extends Equatable {
   final String? employeeOwnerName;
   final String? subscriptionType;
   final String? stripeId;
-  //final String?
+  final String? planLookUpKey;
 
   User(
       {this.uid,
@@ -67,7 +67,8 @@ class User extends Equatable {
       this.subscriptionType,
       this.category,
       this.categoryImage,
-      this.stripeId
+      this.stripeId,
+      this.planLookUpKey
       });
 
   User copyWith(
@@ -100,7 +101,8 @@ class User extends Equatable {
       String? employeeOwnerImage,
       String? employeeOwnerName,
       String? subscriptionType,
-      String? stripeId
+      String? stripeId,
+      String? planLookUpKey
       }) {
     return User(
       uid: uid ?? this.uid,
@@ -132,7 +134,8 @@ class User extends Equatable {
       employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName,
       subscriptionType: subscriptionType ?? this.subscriptionType,
       clientVendorDistance: clientVendorDistance ?? this.clientVendorDistance,
-      stripeId: stripeId ?? this.stripeId
+      stripeId: stripeId ?? this.stripeId,
+      planLookUpKey: planLookUpKey ?? this.planLookUpKey,
     );
   }
 
@@ -166,7 +169,8 @@ class User extends Equatable {
       employeeOwnerName: json[UserKey.EMPLOYEE_OWNER_NAME],
       employeeOwnerImage: json[UserKey.EMPLOYEE_OWNER_IMAGE],
       subscriptionType: json[UserKey.SUBSCRIPTION_TYPE],
-      stripeId: json[UserKey.STRIPE_ID]
+      stripeId: json[UserKey.STRIPE_ID],
+      planLookUpKey: json[UserKey.PLAN_LOOK_UP_KEY],
     );
   }
 
@@ -201,6 +205,7 @@ class User extends Equatable {
     data[UserKey.EMPLOYEE_OWNER_NAME] = employeeOwnerName;
     data[UserKey.SUBSCRIPTION_TYPE] = subscriptionType;
     data[UserKey.STRIPE_ID] = stripeId;
+    data[UserKey.PLAN_LOOK_UP_KEY] = planLookUpKey;
     return data;
   }
 
