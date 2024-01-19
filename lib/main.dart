@@ -54,6 +54,7 @@ import 'package:street_calle/dependency_injection.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 String SECRET_KEY = '';
+String PUBLISH_KEY = '';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,6 +67,7 @@ Future<void> main() async {
 
   await dotenv.load(fileName: 'assets/.env');
   Stripe.publishableKey = dotenv.env['PUBLISHABLE_KEY_TEST'] ?? '';
+  PUBLISH_KEY = dotenv.env['PUBLISHABLE_KEY_TEST'] ?? '';
   SECRET_KEY = dotenv.env['SECRET_KEY_TEST'] ?? '';
   Stripe.merchantIdentifier = 'merchant.flutter.street-calle.stripe';
   Stripe.urlScheme = 'street-calle-stripe';

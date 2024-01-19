@@ -5,10 +5,10 @@ import 'package:street_calle/services/stripe_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/settings/widgets/subscription_plan_item.dart';
-import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/screens/home/settings/widgets/check_out_page.dart';
 
 class IndividualPlans extends StatelessWidget {
   const IndividualPlans({Key? key}) : super(key: key);
@@ -31,43 +31,16 @@ class IndividualPlans extends StatelessWidget {
               buttonText: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name) ? TempLanguage().lblCancel : TempLanguage().lblSubscribe,
               onTap: () async {
                 try {
-                  showLoadingDialog(context, null);
-                  final stripeId = await getStripeId(userCubit, userService, context, userCubit.state.userId);
-                  if (stripeId.isEmpty) {
-                    toast('Something went wrong.');
-                  }
-
-                  if (userCubit.state.isSubscribed) {
-                    cancelSubscription(userCubit, userService, stripeId, IndivisualPlan.ind_one_month.name);
+                  if (state.isSubscribed) {
+                    if (state.planLookUpKey == IndivisualPlan.ind_one_month.name) {
+                      cancelSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_month.name);
+                    } else {
+                      updateSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_month.name);
+                    }
                   } else {
-                    if (!context.mounted) return;
-                    String amount = (20 * 100) as String;
-                    subscribe(stripeId, userService, userCubit, amount, context, IndivisualPlan.ind_one_month.name);
+                    subscribe(userService, userCubit, context, IndivisualPlan.ind_one_month.name);
                   }
-
-
-                  // final result = await userService.updateUserSubscription(true, SubscriptionType.individual.name, userCubit.state.userId);
-                  // if (result) {
-                  //   if (state.isSubscribed) {
-                  //     if (state.planLookUpKey == IndivisualPlan.ind_one_month.name) {
-                  //       userCubit.setIsSubscribed(false);
-                  //       userCubit.setSubscriptionType(SubscriptionType.none.name);
-                  //       userCubit.setPlanLookUpKey('');
-                  //     } else {
-                  //       userCubit.setIsSubscribed(true);
-                  //       userCubit.setSubscriptionType(SubscriptionType.individual.name);
-                  //       userCubit.setPlanLookUpKey(IndivisualPlan.ind_one_month.name);
-                  //     }
-                  //   } else {
-                  //     userCubit.setIsSubscribed(true);
-                  //     userCubit.setSubscriptionType(SubscriptionType.individual.name);
-                  //     userCubit.setPlanLookUpKey(IndivisualPlan.ind_one_month.name);
-                  //   }
-                  // }
-
                 } catch (e) {
-                  if (!context.mounted) return;
-                  Navigator.pop(context);
                   toast('$e');
                 }
               },
@@ -94,20 +67,30 @@ class IndividualPlans extends StatelessWidget {
                   //   subscribe(stripeId, userService, userCubit);
                   // }
 
+                  // if (state.isSubscribed) {
+                  //   if (state.planLookUpKey == IndivisualPlan.ind_one_year.name) {
+                  //     userCubit.setIsSubscribed(false);
+                  //     userCubit.setSubscriptionType(SubscriptionType.none.name);
+                  //     userCubit.setPlanLookUpKey('');
+                  //   } else {
+                  //     userCubit.setIsSubscribed(true);
+                  //     userCubit.setSubscriptionType(SubscriptionType.individual.name);
+                  //     userCubit.setPlanLookUpKey(IndivisualPlan.ind_one_year.name);
+                  //   }
+                  // } else {
+                  //   userCubit.setIsSubscribed(true);
+                  //   userCubit.setSubscriptionType(SubscriptionType.individual.name);
+                  //   userCubit.setPlanLookUpKey(IndivisualPlan.ind_one_year.name);
+                  // }
+
                   if (state.isSubscribed) {
                     if (state.planLookUpKey == IndivisualPlan.ind_one_year.name) {
-                      userCubit.setIsSubscribed(false);
-                      userCubit.setSubscriptionType(SubscriptionType.none.name);
-                      userCubit.setPlanLookUpKey('');
+                      cancelSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_year.name);
                     } else {
-                      userCubit.setIsSubscribed(true);
-                      userCubit.setSubscriptionType(SubscriptionType.individual.name);
-                      userCubit.setPlanLookUpKey(IndivisualPlan.ind_one_year.name);
+                      updateSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_year.name);
                     }
                   } else {
-                    userCubit.setIsSubscribed(true);
-                    userCubit.setSubscriptionType(SubscriptionType.individual.name);
-                    userCubit.setPlanLookUpKey(IndivisualPlan.ind_one_year.name);
+                    subscribe(userService, userCubit, context, IndivisualPlan.ind_one_year.name);
                   }
 
                 } catch (e) {
@@ -121,52 +104,39 @@ class IndividualPlans extends StatelessWidget {
     );
   }
 
-  Future<String> getStripeId(UserCubit userCubit, UserService userService, BuildContext context, String userId) async {
+  Future<void> subscribe(UserService userService, UserCubit userCubit, BuildContext context, String planLookUpKey) async {
     try {
-      String? stripeId;
-      if (userCubit.state.stripeId.isEmptyOrNull) {
-            final result = await StripeService.createCustomer(userCubit.state.userEmail);
-            stripeId = result['customer'];
-            await userService.updateStripeId(stripeId ?? '', userCubit.state.userId);
-            if (!context.mounted) return '';
-            context.read<UserCubit>().setStripeId(stripeId ?? '');
-          } else {
-            stripeId = userCubit.state.stripeId;
-          }
-      return stripeId ?? '';
-    } catch (e) {
-      print(e);
-      return '';
-    }
-  }
-
-  Future<void> subscribe(String stripeId, UserService userService, UserCubit userCubit, String amount, BuildContext context, String planLookUpKey) async {
-    try {
-      final ephemeralKey = await StripeService.createEphemeralKey(stripeId);
-      final paymentIntent = await StripeService.createPaymentIntent(amount, stripeId);
-
+      final sessionId = await StripeService.createCheckoutSession(planLookUpKey);
+      String id = sessionId['session']['id'] ?? '';
+      String url = sessionId['session']['url'] ?? '';
       if (!context.mounted) return;
-      Navigator.pop(context);
-
-      await StripeService.createCreditCard(stripeId ?? '', paymentIntent['paymentIntent'], ephemeralKey['ephemeralKey']);
-      final customerPaymentMethod = await StripeService.getCustomerPaymentMethods(stripeId ?? '');
-      final subscription = await StripeService.createSubscription(stripeId ?? '', customerPaymentMethod['paymentMethod']['data'][0]['id'], planLookUpKey);
-      subscriptionStatus(subscription['subscription']['status'], userService, userCubit, stripeId, planLookUpKey);
-
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => CheckOutPage(
+            sessionId: id,
+            planLookUpKey: planLookUpKey,
+            url: url,
+            userCubit: userCubit,
+            userService: userService,
+            subscriptionType: SubscriptionType.individual.name,
+          )
+       )
+      );
     } catch (e) {
       toast('$e');
-      print(e);
     }
-
   }
 
-  Future<void> cancelSubscription(UserCubit userCubit, UserService userService, String stripeId, String planLookUpKey) async {
-    final subscriptionId = await StripeService.getSubscriptionId(stripeId);
-    final cancelSubscription = await StripeService.cancelSubscription(subscriptionId['subscriptionId']);
-    subscriptionStatus(cancelSubscription['subscription']['status'], userService, userCubit, stripeId, planLookUpKey);
+  Future<void> cancelSubscription(UserCubit userCubit, UserService userService, String subscriptionId, String planLookUpKey) async {
+    final cancelSubscription = await StripeService.cancelSubscription(subscriptionId);
+    subscriptionStatus(cancelSubscription['subscription']['status'], userService, userCubit, planLookUpKey);
   }
 
-  Future<void> subscriptionStatus(String status, UserService userService, UserCubit userCubit, String stripeId, String planLookUpKey) async {
+  Future<void> updateSubscription(UserCubit userCubit, UserService userService, String subscriptionId, String planLookUpKey) async {
+    final updateSubscription = await StripeService.updateSubscription(subscriptionId, planLookUpKey);
+    subscriptionStatus(updateSubscription['subscription']['status'], userService, userCubit, planLookUpKey);
+  }
+
+  Future<void> subscriptionStatus(String status, UserService userService, UserCubit userCubit, String planLookUpKey) async {
     switch(status) {
       case 'incomplete':
         break;
@@ -197,6 +167,5 @@ class IndividualPlans extends StatelessWidget {
       userCubit.setSubscriptionType(subscriptionType);
       userCubit.setPlanLookUpKey(planLookUpKey);
     }
-
   }
 }

@@ -58,7 +58,13 @@ class _SplashScreenState extends State<SplashScreen> {
         userCubit.setUserAbout(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_ABOUT));
         userCubit.setUserCountryCode(sharedPreferencesService.getStringAsync(SharePreferencesKey.COUNTRY_CODE));
         userCubit.setVendorType(sharedPreferencesService.getStringAsync(SharePreferencesKey.VENDOR_TYPE));
+
+        /// Subscription
         userCubit.setSubscriptionType(sharedPreferencesService.getStringAsync(SharePreferencesKey.SUBSCRIPTION_TYPE));
+        userCubit.setSubscriptionId(sharedPreferencesService.getStringAsync(SharePreferencesKey.SUBSCRIPTION_ID));
+        userCubit.setSessionId(sharedPreferencesService.getStringAsync(SharePreferencesKey.SESSION_ID));
+        userCubit.setStripeId(sharedPreferencesService.getStringAsync(SharePreferencesKey.STRIPE_ID));
+        userCubit.setPlanLookUpKey(sharedPreferencesService.getStringAsync(SharePreferencesKey.PLAN_LOOK_UP_KEY));
 
 
         userCubit.setIsOnline(isOnline);
@@ -67,6 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
         userCubit.setIsEmployee(isEmployee);
         userCubit.setIsEmployeeBlocked(isEmployeeBlocked);
         userCubit.setIsSubscribed(isSubscribed);
+        userCubit.setUserType(userType);
 
         userCubit.setEmployeeOwnerName(sharedPreferencesService.getStringAsync(SharePreferencesKey.EMPLOYEE_OWNER_NAME));
         userCubit.setEmployeeOwnerImage(sharedPreferencesService.getStringAsync(SharePreferencesKey.EMPLOYEE_OWNER_IMAGE));

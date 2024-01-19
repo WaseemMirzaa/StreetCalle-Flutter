@@ -27,6 +27,8 @@ class UserState {
   final String subscriptionType;
   final String stripeId;
   final String planLookUpKey;
+  final String subscriptionId;
+  final String sessionId;
 
   UserState({
     required this.userId,
@@ -51,7 +53,9 @@ class UserState {
     required this.employeeOwnerImage,
     required this.subscriptionType,
     required this.stripeId,
-    required this.planLookUpKey
+    required this.planLookUpKey,
+    required this.subscriptionId,
+    required this.sessionId
   });
 
   UserState copyWith(
@@ -77,7 +81,9 @@ class UserState {
       String? employeeOwnerName,
       String? subscriptionType,
       String? stripeId,
-      String? planLookUpKey
+      String? planLookUpKey,
+      String? subscriptionId,
+      String? sessionId
       }) {
     return UserState(
       userId: userId ?? this.userId,
@@ -103,6 +109,8 @@ class UserState {
       subscriptionType: subscriptionType ?? this.subscriptionType,
       stripeId: stripeId ?? this.stripeId,
       planLookUpKey: planLookUpKey ?? this.planLookUpKey,
+      subscriptionId: subscriptionId ?? this.subscriptionId,
+      sessionId: sessionId ?? this.sessionId
     );
   }
 }
@@ -133,7 +141,9 @@ class UserCubit extends Cubit<UserState> {
             employeeOwnerImage: '',
             subscriptionType: '',
             stripeId: '',
-            planLookUpKey: ''
+            planLookUpKey: '',
+            subscriptionId: '',
+            sessionId: ''
           ),
         );
 
@@ -168,6 +178,16 @@ class UserCubit extends Cubit<UserState> {
   void setPlanLookUpKey(String value) {
     emit(state.copyWith(planLookUpKey: value));
     sharedPreferencesService.setValue(SharePreferencesKey.PLAN_LOOK_UP_KEY, value);
+  }
+
+  void setSubscriptionId(String value) {
+    emit(state.copyWith(subscriptionId: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.SUBSCRIPTION_ID, value);
+  }
+
+  void setSessionId(String value) {
+    emit(state.copyWith(sessionId: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.SESSION_ID, value);
   }
 
   void setUserImage(String value) {
@@ -280,5 +300,7 @@ class UserCubit extends Cubit<UserState> {
     setSubscriptionType(user.subscriptionType ?? '');
     setStripeId(user.stripeId ?? '');
     setPlanLookUpKey(user.planLookUpKey ?? '');
+    setSubscriptionId(user.subscriptionId ?? '');
+    setSessionId(user.sessionId ?? '');
   }
 }

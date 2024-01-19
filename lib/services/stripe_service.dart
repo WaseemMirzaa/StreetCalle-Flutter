@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:street_calle/main.dart';
 
 
@@ -17,7 +16,7 @@ class StripeService {
 
   /// Common Methods
   void _init() {
-    Stripe.publishableKey = 'pk_test_51OWngYJv1vWNPW79uHaAaIAB0xePSGpygIqwnFZ6JPqIn3qArtK5gD092eWNvKPoSPbRyv0AaNkqOv6b6vmjgk5g00QfjuzUTZ';
+    Stripe.publishableKey = '';
   }
   // Future<Map<String, dynamic>> _createCustomer() async {
   //   const String url = 'https://api.stripe.com/v1/customers';
@@ -165,14 +164,14 @@ class StripeService {
   //   //_init();
   //   //final customer = await _createCustomer();
   //   final paymentMethod = await _createPaymentMethod(number: '4242424242424242', expMonth: '12', expYear: '34', cvc: '567');
-  //   await _attachPaymentMethod(paymentMethod['id'], 'cus_PMPlXsO9aGAQOW');
-  //   await _updateCustomer(paymentMethod['id'], 'cus_PMPlXsO9aGAQOW');
-  //   await _createSubscriptions('cus_PMPlXsO9aGAQOW');
+  //   await _attachPaymentMethod(paymentMethod['id'], 'cus_POyp0gu0o0ta8d');
+  //   await _updateCustomer(paymentMethod['id'], 'cus_POyp0gu0o0ta8d');
+  //   await _createSubscriptions('cus_POyp0gu0o0ta8d');
   //   //await _createSubscriptions(customer['id']);
   // }
 
 
-  ///Different
+  ///Using PaymentIntent Method
   // Future<void> init() async {
   //   _init();
   //  // Map<String, dynamic> customer = await createCustomer();
@@ -239,27 +238,27 @@ class StripeService {
   //   return paymentIntentCreationResponse!;
   // }
   //
-  static Future<void> createCreditCard(
-      String customerId,
-      String paymentIntentClientSecret,
-      String ephemeralKey ) async {
-    await Stripe.instance.initPaymentSheet(
-      paymentSheetParameters: SetupPaymentSheetParameters(
-        //primaryButtonLabel: 'Subscribe \$10.00',
-        testEnv: true,
-        currencyCode: 'usd',
-        merchantCountryCode: 'US',
-        style: ThemeMode.light,
-        merchantDisplayName: 'Street-Calle',
-        customerId: customerId,
-        //setupIntentClientSecret: paymentIntentClientSecret,
-        paymentIntentClientSecret: paymentIntentClientSecret,
-        customerEphemeralKeySecret: ephemeralKey
-      ),
-    );
-
-    await Stripe.instance.presentPaymentSheet();
-  }
+  // static Future<void> createCreditCard(
+  //     String customerId,
+  //     String paymentIntentClientSecret,
+  //     String ephemeralKey ) async {
+  //   await Stripe.instance.initPaymentSheet(
+  //     paymentSheetParameters: SetupPaymentSheetParameters(
+  //       //primaryButtonLabel: 'Subscribe \$10.00',
+  //       testEnv: true,
+  //       currencyCode: 'usd',
+  //       merchantCountryCode: 'US',
+  //       style: ThemeMode.light,
+  //       merchantDisplayName: 'Street-Calle',
+  //       customerId: customerId,
+  //       //setupIntentClientSecret: paymentIntentClientSecret,
+  //       paymentIntentClientSecret: paymentIntentClientSecret,
+  //       customerEphemeralKeySecret: ephemeralKey
+  //     ),
+  //   );
+  //
+  //   await Stripe.instance.presentPaymentSheet();
+  // }
   //
   // Future<Map<String, dynamic>> getCustomerPaymentMethods(
   //     String customerId,
@@ -331,119 +330,145 @@ class StripeService {
   // }
 
   /// Cloud Functions
+  // static Future<Map<String, dynamic>> createCustomer(String email) async {
+  //   final response = await http.post(
+  //     Uri.parse('$baseUrl/createCustomer'),
+  //     headers: headers,
+  //     body: {'email': email},
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     return jsonDecode(response.body);
+  //   } else {
+  //     throw Exception('Failed to create customer: ${response.reasonPhrase}');
+  //   }
+  // }
+  //
+  // static Future<Map<String, dynamic>> createEphemeralKey(String customerId) async {
+  //   try {
+  //     final response = await http.post(
+  //       Uri.parse('$baseUrl/ephemeralKey'),
+  //       headers: headers,
+  //       body: {'customerId': customerId},
+  //     );
+  //
+  //     if (response.statusCode == 200) {
+  //       return jsonDecode(response.body);
+  //     } else {
+  //       throw Exception('Failed to create ephemeral key: ${response.reasonPhrase}');
+  //     }
+  //   } catch (error) {
+  //     print('Error: $error');
+  //     // Handle other errors here
+  //     throw Exception('Failed to create ephemeral key: $error');
+  //   }
+  // }
+  //
+  // static Future<Map<String, dynamic>> createPaymentIntent(String amount, String customerId) async {
+  //   final response = await http.post(
+  //     Uri.parse('https://us-central1-street-calle-72cff.cloudfunctions.net/app/createPaymentIntent'),
+  //     headers: headers,
+  //     body: {'amount': amount, 'customerId': customerId},
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     return jsonDecode(response.body);
+  //   } else {
+  //     throw Exception('Failed to create payment intent: ${response.reasonPhrase}');
+  //   }
+  // }
+  //
+  // static Future<Map<String, dynamic>> getCustomerPaymentMethods(String customerId) async {
+  //   final response = await http.get(
+  //     Uri.parse('$baseUrl/getCustomerPaymentMethods?customerId=$customerId'),
+  //     headers: headers,
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     return jsonDecode(response.body);
+  //   } else {
+  //     throw Exception('Failed to get customer payment methods: ${response.reasonPhrase}');
+  //   }
+  // }
+  //
+  // static Future<Map<String, dynamic>> createSubscription(String customerId, String paymentId, String priceId) async {
+  //   final response = await http.post(
+  //     Uri.parse('$baseUrl/subscription'),
+  //     headers: headers,
+  //     body: {'customerId': customerId, 'paymentId': paymentId, 'priceId': priceId},
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     return jsonDecode(response.body);
+  //   } else {
+  //     throw Exception('Failed to create subscription: ${response.reasonPhrase}');
+  //   }
+  // }
 
-  static Future<Map<String, dynamic>> createCustomer(String email) async {
+  // static Future<Map<String, dynamic>> getSubscriptionId(String customerId) async {
+  //   final response = await http.get(
+  //     Uri.parse('$baseUrl/getUserSubscriptionId?customerId=$customerId'),
+  //     headers: headers,
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     return jsonDecode(response.body);
+  //   } else {
+  //     throw Exception('Failed to get subscription id: ${response.reasonPhrase}');
+  //   }
+  // }
+
+  static Future<Map<String, dynamic>> updateSubscription(String subscriptionId, String priceId) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/createCustomer'),
+      Uri.parse('$baseUrl/update-subscription'),
       headers: headers,
-      body: {'email': email},
+      body: {'subscriptionId': subscriptionId, 'priceId': priceId},
     );
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to create customer: ${response.reasonPhrase}');
-    }
-  }
-
-  static Future<Map<String, dynamic>> createEphemeralKey(String customerId) async {
-    try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/ephemeralKey'),
-        headers: headers,
-        body: {'customerId': customerId},
-      );
-
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body);
-      } else {
-        throw Exception('Failed to create ephemeral key: ${response.reasonPhrase}');
-      }
-    } catch (error) {
-      print('Error: $error');
-      // Handle other errors here
-      throw Exception('Failed to create ephemeral key: $error');
-    }
-  }
-
-  static Future<Map<String, dynamic>> createPaymentIntent(String amount, String customerId) async {
-    final response = await http.post(
-      Uri.parse('https://us-central1-street-calle-72cff.cloudfunctions.net/app/createPaymentIntent'),
-      headers: headers,
-      body: {'amount': amount, 'customerId': customerId},
-    );
-
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception('Failed to create payment intent: ${response.reasonPhrase}');
-    }
-  }
-
-  static Future<Map<String, dynamic>> getCustomerPaymentMethods(String customerId) async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/getCustomerPaymentMethods?customerId=$customerId'),
-      headers: headers,
-    );
-
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception('Failed to get customer payment methods: ${response.reasonPhrase}');
-    }
-  }
-
-  static Future<Map<String, dynamic>> createSubscription(String customerId, String paymentId, String priceId) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/subscription'),
-      headers: headers,
-      body: {'customerId': customerId, 'paymentId': paymentId, 'priceId': priceId},
-    );
-
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception('Failed to create subscription: ${response.reasonPhrase}');
-    }
-  }
-
-  static Future<Map<String, dynamic>> updateSubscription(String customerId, String paymentId, String priceId) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/updateSubscription'),
-      headers: headers,
-      body: {'customerId': customerId, 'paymentId': paymentId, 'priceId': priceId},
-    );
-
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception('Failed to update subscription: ${response.reasonPhrase}');
+      throw Exception('Failed to update subscription');
     }
   }
 
   static Future<Map<String, dynamic>> cancelSubscription(String subscriptionId) async {
     final response = await http.delete(
-      Uri.parse('$baseUrl/cancelSubscription?subscriptionId=$subscriptionId'),
+      Uri.parse('$baseUrl/cancel-subscription?subscriptionId=$subscriptionId'),
       headers: headers,
     );
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to cancel subscription: ${response.reasonPhrase}');
+      throw Exception('Failed to cancel subscription');
     }
   }
 
-  static Future<Map<String, dynamic>> getSubscriptionId(String customerId) async {
+  static Future<Map<String, dynamic>> createCheckoutSession(String priceId) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/create-checkout-session'),
+      headers: headers,
+      body: {'priceId': priceId},
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to Subscribe');
+    }
+  }
+
+  static Future<Map<String, dynamic>> getSessionData(String sessionId) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/getUserSubscriptionId?customerId=$customerId'),
+      Uri.parse('$baseUrl/checkout-session?sessionId=$sessionId'),
       headers: headers,
     );
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to get subscription id: ${response.reasonPhrase}');
+      throw Exception('Failed to get session data');
     }
   }
 }

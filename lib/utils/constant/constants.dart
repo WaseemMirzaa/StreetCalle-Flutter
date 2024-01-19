@@ -48,6 +48,8 @@ class SharePreferencesKey {
   static const IS_LOGGED_IN = 'IS_LOGGED_IN';
   static const USER_ID = 'USER_ID';
   static const STRIPE_ID = 'STRIPE_ID';
+  static const SESSION_ID = 'SESSION_ID';
+  static const SUBSCRIPTION_ID = 'SUBSCRIPTION_ID';
   static const VENDOR_ID = 'VENDOR_ID';
   static const USER_NAME = 'USER_NAME';
   static const USER_ABOUT = 'USER_ABOUT';
@@ -74,6 +76,8 @@ class UserKey {
   static const String UID = 'uid';
   static const String VENDOR_ID = 'vendorId';
   static const String STRIPE_ID = 'stripeId';
+  static const String SESSION_ID = 'sessionId';
+  static const String SUBSCRIPTION_ID = 'subscriptionId';
   static const String IMAGE = 'image';
   static const String NAME = 'name';
   static const String EMAIL = 'email';

@@ -336,10 +336,12 @@ class UserService extends BaseService<User> {
     }
   }
 
-  Future<void> updateStripeId(String stripeId, String userId) async {
+  Future<void> updateUserStripeDetails(String stripeId, String subscriptionId, String sessionId, String userId) async {
     try {
       await ref!.doc(userId).update({
         UserKey.STRIPE_ID: stripeId,
+        UserKey.SUBSCRIPTION_ID: subscriptionId,
+        UserKey.SESSION_ID: sessionId
       });
     } catch (e) {
       log(e.toString());
