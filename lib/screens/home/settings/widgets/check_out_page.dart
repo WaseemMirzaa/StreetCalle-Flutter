@@ -7,6 +7,7 @@ import 'package:street_calle/main.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/services/user_service.dart';
 
+
 class CheckOutPage extends StatefulWidget {
   const CheckOutPage({
     Key? key,
@@ -15,7 +16,8 @@ class CheckOutPage extends StatefulWidget {
     required this.url,
     required this.userCubit,
     required this.userService,
-    required this.subscriptionType
+    required this.subscriptionType,
+    //this.aPiCallback
   }) : super(key: key);
 
   final String sessionId;
@@ -24,6 +26,7 @@ class CheckOutPage extends StatefulWidget {
   final UserService userService;
   final UserCubit userCubit;
   final String subscriptionType;
+ // final APiCallback aPiCallback;
 
   @override
   State<CheckOutPage> createState() => _CheckOutPageState();
@@ -56,9 +59,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 syncUserSubscriptionStatus(widget.userService, widget.userCubit, true, widget.subscriptionType, widget.planLookUpKey, data['subscription'], widget.sessionId, data['customer']);
               }
               if (!context.mounted) return NavigationDecision.navigate;
+              //widget.aPiCallback.call(true);
               Navigator.pop(context);
             } else if (request.url.contains('cancel')) {
               if (!context.mounted) return NavigationDecision.navigate;
+              //widget.aPiCallback.call(false);
               Navigator.pop(context);
             }
             return NavigationDecision.navigate;

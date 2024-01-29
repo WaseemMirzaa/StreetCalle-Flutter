@@ -5,10 +5,13 @@ import 'package:street_calle/services/stripe_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/settings/widgets/subscription_plan_item.dart';
+import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/screens/home/settings/widgets/check_out_page.dart';
+import 'package:street_calle/utils/custom_widgets/own_show_confirm_dialog.dart';
+import 'package:street_calle/utils/constant/app_colors.dart';
 
 class IndividualPlans extends StatelessWidget {
   const IndividualPlans({Key? key}) : super(key: key);
@@ -31,17 +34,42 @@ class IndividualPlans extends StatelessWidget {
               buttonText: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name) ? TempLanguage().lblCancel : TempLanguage().lblSubscribe,
               onTap: () async {
                 try {
-                  if (state.isSubscribed) {
-                    if (state.planLookUpKey == IndivisualPlan.ind_one_month.name) {
-                      cancelSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_month.name);
-                    } else {
-                      updateSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_month.name);
+                  ownShowConfirmDialogCustom(
+                    context,
+                    title: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name)
+                        ? TempLanguage().lblCancelSubscription
+                        : TempLanguage().lblSubscribe,
+                    subTitle: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name)
+                        ? TempLanguage().lblCancelSubscriptionInfo
+                        : TempLanguage().lblSubscribeInfo,
+                    positiveText: TempLanguage().lblOk,
+                    cancelable: false,
+                    dialogType: CustomDialogType.CONFIRMATION,
+                    primaryColor: AppColors.primaryColor,
+                    barrierDismissible: false,
+                    onAccept: (ctx) {
+                      Navigator.pop(ctx);
+                      if (state.isSubscribed) {
+                        if (state.planLookUpKey == IndivisualPlan.ind_one_month.name) {
+                          showLoadingDialog(context, null);
+                          cancelSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_month.name, context);
+                        } else {
+                          showLoadingDialog(context, null);
+                          updateSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_month.name, context);
+                        }
+                      } else {
+                        showLoadingDialog(context, null);
+                        subscribe(userService, userCubit, context, IndivisualPlan.ind_one_month.name);
+                      }
+                    },
+                    onCancel: (context) {
+                      Navigator.pop(context);
                     }
-                  } else {
-                    subscribe(userService, userCubit, context, IndivisualPlan.ind_one_month.name);
-                  }
+                  );
+
                 } catch (e) {
-                  toast('$e');
+                  Navigator.pop(context);
+                  showToast(context, '$e');
                 }
               },
             );
@@ -83,18 +111,43 @@ class IndividualPlans extends StatelessWidget {
                   //   userCubit.setPlanLookUpKey(IndivisualPlan.ind_one_year.name);
                   // }
 
-                  if (state.isSubscribed) {
-                    if (state.planLookUpKey == IndivisualPlan.ind_one_year.name) {
-                      cancelSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_year.name);
-                    } else {
-                      updateSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_year.name);
-                    }
-                  } else {
-                    subscribe(userService, userCubit, context, IndivisualPlan.ind_one_year.name);
-                  }
+                  ownShowConfirmDialogCustom(
+                      context,
+                      title: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_year.name)
+                          ? TempLanguage().lblCancelSubscription
+                          : TempLanguage().lblSubscribe,
+                      subTitle: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_year.name)
+                          ? TempLanguage().lblCancelSubscriptionInfo
+                          : TempLanguage().lblSubscribeInfo,
+                      positiveText: TempLanguage().lblOk,
+                      cancelable: false,
+                      dialogType: CustomDialogType.CONFIRMATION,
+                      primaryColor: AppColors.primaryColor,
+                      barrierDismissible: false,
+                      onAccept: (ctx) {
+                        Navigator.pop(ctx);
+                        if (state.isSubscribed) {
+                          if (state.planLookUpKey == IndivisualPlan.ind_one_year.name) {
+                            showLoadingDialog(context, null);
+                            cancelSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_year.name, context);
+                          } else {
+                            showLoadingDialog(context, null);
+                            updateSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_year.name, context);
+                          }
+                        } else {
+                          showLoadingDialog(context, null);
+                          subscribe(userService, userCubit, context, IndivisualPlan.ind_one_year.name);
+                        }
+
+                      },
+                      onCancel: (context) {
+                        Navigator.pop(context);
+                      }
+                  );
 
                 } catch (e) {
-                  toast('$e');
+                  Navigator.pop(context);
+                  showToast(context, '$e');
                 }
               },
             );
@@ -110,6 +163,7 @@ class IndividualPlans extends StatelessWidget {
       String id = sessionId['session']['id'] ?? '';
       String url = sessionId['session']['url'] ?? '';
       if (!context.mounted) return;
+      Navigator.pop(context);
       Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => CheckOutPage(
             sessionId: id,
@@ -122,17 +176,21 @@ class IndividualPlans extends StatelessWidget {
        )
       );
     } catch (e) {
-      toast('$e');
+      showToast(context, '$e');
     }
   }
 
-  Future<void> cancelSubscription(UserCubit userCubit, UserService userService, String subscriptionId, String planLookUpKey) async {
+  Future<void> cancelSubscription(UserCubit userCubit, UserService userService, String subscriptionId, String planLookUpKey, BuildContext context) async {
     final cancelSubscription = await StripeService.cancelSubscription(subscriptionId);
+    if (!context.mounted) return;
+    Navigator.pop(context);
     subscriptionStatus(cancelSubscription['subscription']['status'], userService, userCubit, planLookUpKey);
   }
 
-  Future<void> updateSubscription(UserCubit userCubit, UserService userService, String subscriptionId, String planLookUpKey) async {
+  Future<void> updateSubscription(UserCubit userCubit, UserService userService, String subscriptionId, String planLookUpKey, BuildContext context) async {
     final updateSubscription = await StripeService.updateSubscription(subscriptionId, planLookUpKey);
+    if (!context.mounted) return;
+    Navigator.pop(context);
     subscriptionStatus(updateSubscription['subscription']['status'], userService, userCubit, planLookUpKey);
   }
 
@@ -144,7 +202,7 @@ class IndividualPlans extends StatelessWidget {
         break;
       case 'trialing':
         syncUserSubscriptionStatus(userService, userCubit, true, SubscriptionType.individual.name, planLookUpKey);
-        toast('Subscribed successfully');
+        toast(TempLanguage().lblSubscribedSuccessfully);
         break;
       case 'active':
         syncUserSubscriptionStatus(userService, userCubit, true, SubscriptionType.individual.name, planLookUpKey);
@@ -153,7 +211,7 @@ class IndividualPlans extends StatelessWidget {
         break;
       case 'canceled':
         syncUserSubscriptionStatus(userService, userCubit, false, SubscriptionType.none.name, '');
-        toast('Canceled successfully');
+        toast(TempLanguage().lblSubscriptionCancelledSuccessfully);
         break;
       case 'unpaid':
         break;
@@ -166,6 +224,12 @@ class IndividualPlans extends StatelessWidget {
       userCubit.setIsSubscribed(isSubscribed);
       userCubit.setSubscriptionType(subscriptionType);
       userCubit.setPlanLookUpKey(planLookUpKey);
+    }
+    if (!isSubscribed) {
+      await userService.updateUserStripeDetails('', '', '', userCubit.state.userId);
+      userCubit.setSubscriptionId('');
+      userCubit.setStripeId('');
+      userCubit.setSessionId('');
     }
   }
 }

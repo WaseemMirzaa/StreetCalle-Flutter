@@ -10,12 +10,8 @@ import 'package:street_calle/screens/auth/cubit/forget_password/forget_password_
 import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/guest/guest_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
-import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/timer/timer_cubit.dart';
 import 'package:street_calle/screens/auth/password_reset_screen.dart';
-import 'package:street_calle/screens/auth/login_screen.dart';
-import 'package:street_calle/screens/auth/sign_up_screen.dart';
-import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/client_home_tab.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/online_vendors_cubit.dart';
@@ -93,17 +89,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context)=> sl<SignUpCubit>(),
-          child: const SignUpScreen(),
-        ),
+        // BlocProvider(
+        //   create: (context)=> sl<SignUpCubit>(),
+        //   child: const SignUpScreen(),
+        // ),
         BlocProvider(
           create: (context)=> ImageCubit(),
         ),
-        BlocProvider(
-          create: (context)=> sl<LoginCubit>(),
-          child: const LoginScreen(),
-        ),
+        // BlocProvider(
+        //   create: (context)=> sl<LoginCubit>(),
+        //   child: const LoginScreen(),
+        // ),
         BlocProvider(
           create: (context)=> sl<PasswordResetCubit>(),
           child: const PasswordResetScreen(),

@@ -239,7 +239,8 @@ class ItemsWidget extends StatelessWidget {
                     user: user,
                     onTap: (){
                       //context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
-                      context.read<ClientSelectedVendorCubit>().selectedVendorId(user.uid);
+                      String id = user.isVendor ? user.uid ?? '' : user.vendorId ?? '';
+                      context.read<ClientSelectedVendorCubit>().selectedVendorId(id);
                       context.pushNamed(AppRoutingName.clientMenuItemDetail, extra: user);
                     },
                     onUpdate: (){},

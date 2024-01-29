@@ -223,6 +223,18 @@ class TempLanguage {
 
   String get lblSubscribe => 'Subscribe';
 
+  String get lblSubscribedSuccessfully => 'Subscribed successfully';
+
+  String get lblSubscriptionCancelledSuccessfully => 'Subscription Cancelled successfully';
+
+  String get lblSubscribeInfo => 'Are you sure to Subscribe this plan?';
+
+  String get lblCancelSubscription => 'Cancel Subscription';
+
+  String get lblCancelSubscriptionInfo => 'Are you sure to cancel this subscription?';
+
+  String get lblForMoreEmployeesUpdatePlan => 'Upgrade your plan to enable more locations';
+
   String get lblOneMonth => '1 month';
 
   String get lblSixMonths => '6 months';
@@ -234,21 +246,27 @@ class TempLanguage {
   String get lblForStarter => 'Perfect for starter';
 
   String get lblIndividualStarter => 'Individual Starter Plan';
+
   String get lblIndividualGrowthPlan => 'Individual Growth Plan';
 
   String get lblNewAgencyStarter => 'New Agency Starter Plan';
+
   String get lblNewAgencyGrowthPlan => 'New Agency Growth Plan';
 
   String get lblEstablishAgencyStarter => 'Establish Agency Starter Plan';
+
   String get lblEstablishAgencyGrowthPlan => 'Establish Agency Growth Plan';
 
   String get lblIndividualStarterDes => 'As an individual, you can sell unlimited items.';
+
   String get lblIndividualGrowthDes => 'As a individual, you can sell your products for up to a year and save 4%.';
 
   String get lblNewAgencyStarterDes => 'New agencies can unlock the potential of 2-7 locations with this fantastic plan!';
+
   String get lblNewAgencyGrowthDes => 'With this plan, you can have 2-7 locations and enjoy a 20% discount for a whole year.';
 
   String get lblEstablishAgencyStarterDes => 'Unlock the potential for your agency\'s expansion with 8 or more locations through this exclusive plan!';
+
   String get lblEstablishAgencyGrowthDes => 'Establish your agency\'s success: Enjoy 8 or more locations and a 20% discount for a full year!';
 
   String get lblProfile => 'Profile';
@@ -463,11 +481,6 @@ class TempLanguage {
   String get lblUserNotFound => 'User Not Found';
 
   String get lblSignUpFailed => 'Sign-up failed. Please try again.';
-
-
-
-
-
 
 
 

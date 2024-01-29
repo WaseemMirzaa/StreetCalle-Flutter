@@ -2,6 +2,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:street_calle/screens/auth/auth_screen.dart';
+import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
+import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
+import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
 import 'package:street_calle/screens/auth/email_verification_screen.dart';
 import 'package:street_calle/screens/auth/sign_up_screen.dart';
 import 'package:street_calle/screens/auth/password_reset_screen.dart';
@@ -61,12 +64,29 @@ final router = GoRouter(
     GoRoute(
       path: AppRoutingName.loginScreen,
       name: AppRoutingName.loginScreen,
-      builder: (context, state) => const LoginScreen(),
+      builder: (context, state) {
+        return BlocProvider(
+            create: (context)=> sl<LoginCubit>(),
+            child: const LoginScreen()
+        );
+      },
     ),
     GoRoute(
       path: AppRoutingName.signUpScreen,
       name: AppRoutingName.signUpScreen,
-      builder: (context, state) => const SignUpScreen(),
+      builder: (context, state) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context)=> sl<SignUpCubit>(),
+            ),
+            BlocProvider(
+              create: (context)=> ImageCubit(),
+            ),
+          ],
+          child: const SignUpScreen()
+        );
+      },
     ),
     GoRoute(
       path: AppRoutingName.passwordResetScreen,

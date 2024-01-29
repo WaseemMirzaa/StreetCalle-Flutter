@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/services/user_service.dart';
+import 'package:street_calle/utils/common.dart';
+import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -22,6 +24,7 @@ class ManageEmployeesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userService = sl.get<UserService>();
+    final userCubit = context.read<UserCubit>();
 
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +51,7 @@ class ManageEmployeesScreen extends StatelessWidget {
       body: Stack(
         children: [
           StreamBuilder<List<User>>(
-              stream: userService.getEmployees(context.read<UserCubit>().state.userId),
+              stream: userService.getEmployees(userCubit.state.userId),
               builder: (context, snapshot) {
                 if (!snapshot.hasData || snapshot.data == null || snapshot.data!.isEmpty) {
                   return const NoDataFoundWidget();
@@ -97,10 +100,22 @@ class ManageEmployeesScreen extends StatelessWidget {
                 child: AppButton(
                   text: TempLanguage().lblCreateNewLocation,
                   elevation: 0.0,
-                  onTap: () {
+                  onTap: () async {
                     final imageCubit = context.read<ImageCubit>();
                     imageCubit.resetImage();
-                    context.pushNamed(AppRoutingName.createEmployeeProfileScreen);
+
+                    if (userCubit.state.planLookUpKey == AgencyPlan.new_agency_starter.name || userCubit.state.planLookUpKey == AgencyPlan.new_agency_growth.name) {
+                      int employeeCount = await userService.getEmployeeCount(userCubit.state.userId);
+                      if (employeeCount < 7) {
+                        if (!context.mounted) return;
+                        context.pushNamed(AppRoutingName.createEmployeeProfileScreen);
+                      } else {
+                        if (!context.mounted) return;
+                        showToast(context, TempLanguage().lblForMoreEmployeesUpdatePlan);
+                      }
+                    } else {
+                      context.pushNamed(AppRoutingName.createEmployeeProfileScreen);
+                    }
                   },
                   shapeBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),

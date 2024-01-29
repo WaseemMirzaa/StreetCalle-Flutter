@@ -167,6 +167,18 @@ class UserService extends BaseService<User> {
         .map((value) => value.docs.map((e) => e.data()).toList());
   }
 
+  Future<int> getEmployeeCount(String userId) async {
+    try {
+      QuerySnapshot<User> querySnapshot = await ref!
+          .where(UserKey.VENDOR_ID, isEqualTo: userId)
+          .get();
+
+      return querySnapshot.size;
+    } catch (e) {
+      return 0;
+    }
+  }
+
   Future<List<User>> getOnlineEmployees(String userId) async {
     try {
       final result = await ref!
