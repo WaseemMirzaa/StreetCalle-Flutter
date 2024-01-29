@@ -80,6 +80,7 @@ class ClientHomeTab extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           hintText: TempLanguage().lblSearchFoodTrucks,
                           onChanged: (String? value) {},
+                          enabled: false,
                         ),
                       ),
                     ),

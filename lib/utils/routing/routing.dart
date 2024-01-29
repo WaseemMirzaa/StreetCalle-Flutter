@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:street_calle/screens/auth/auth_screen.dart';
-import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
 import 'package:street_calle/screens/auth/email_verification_screen.dart';
@@ -44,6 +44,10 @@ import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/widgets/location_picker.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.dart';
+import 'package:street_calle/screens/auth/cubit/guest/guest_cubit.dart';
+import 'package:street_calle/screens/auth/cubit/forget_password/forget_password_cubit.dart';
+import 'package:street_calle/screens/auth/cubit/email_verification/email_verification_cubit.dart';
 
 final router = GoRouter(
   routes: [
@@ -65,9 +69,19 @@ final router = GoRouter(
       path: AppRoutingName.loginScreen,
       name: AppRoutingName.loginScreen,
       builder: (context, state) {
-        return BlocProvider(
-            create: (context)=> sl<LoginCubit>(),
-            child: const LoginScreen()
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context)=> sl<LoginCubit>(),
+            ),
+            BlocProvider(
+              create: (context)=> sl<GoogleLoginCubit>(),
+            ),
+            BlocProvider(
+              create: (context)=> sl<GuestCubit>(),
+            ),
+          ],
+           child: const LoginScreen()
         );
       },
     ),
@@ -80,9 +94,6 @@ final router = GoRouter(
             BlocProvider(
               create: (context)=> sl<SignUpCubit>(),
             ),
-            BlocProvider(
-              create: (context)=> ImageCubit(),
-            ),
           ],
           child: const SignUpScreen()
         );
@@ -91,14 +102,23 @@ final router = GoRouter(
     GoRoute(
       path: AppRoutingName.passwordResetScreen,
       name: AppRoutingName.passwordResetScreen,
-      builder: (context, state) => const PasswordResetScreen(),
+      builder: (context, state) {
+        return BlocProvider(
+          create: (context)=> sl<PasswordResetCubit>(),
+          child: const PasswordResetScreen(),
+        );
+      }
     ),
     GoRoute(
       path: AppRoutingName.emailVerificationScreen,
       name: AppRoutingName.emailVerificationScreen,
       builder: (context, state) {
         final email = state.pathParameters[EMAIL]!;
-        return EmailVerificationScreen(email: email);
+
+        return BlocProvider(
+          create: (context)=> sl<EmailVerificationCubit>(),
+          child: EmailVerificationScreen(email: email),
+        );
       },
     ),
     GoRoute(

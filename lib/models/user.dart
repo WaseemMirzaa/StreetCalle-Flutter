@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 
 @immutable
-class User extends Equatable {
+class User {
   final String? uid;
   final String? vendorId;
   final String? image;
@@ -220,9 +219,6 @@ class User extends Equatable {
     data[UserKey.SESSION_ID] = sessionId;
     return data;
   }
-
-  @override
-  List<Object?> get props => [uid];
 
   @override
   String toString() {

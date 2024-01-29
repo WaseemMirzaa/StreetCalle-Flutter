@@ -7,6 +7,7 @@ import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
+import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
@@ -16,12 +17,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/screens/auth/cubit/guest/guest_cubit.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/services/auth_service.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final authService = sl.get<AuthService>();
     return Scaffold(
       body: SizedBox(
         width: context.width,
@@ -143,7 +147,7 @@ class LoginScreen extends StatelessWidget {
                         context.read<GuestCubit>().signInAsGuest();
                       },
                       shapeBorder: RoundedRectangleBorder(
-                          side: const BorderSide(color: AppColors.primaryColor),
+                          side: const BorderSide(color: AppColors.guestColor),
                           borderRadius: BorderRadius.circular(30)
                       ),
                       textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
@@ -156,7 +160,8 @@ class LoginScreen extends StatelessWidget {
                   if (state is GuestLoginFailure) {
                     showToast(context, state.error);
                   } else if (state is GuestLoginSuccess) {
-                    context.goNamed(AppRoutingName.selectUserScreen);
+                    context.read<UserCubit>().setIsGuest(true);
+                    context.goNamed(AppRoutingName.clientMainScreen);
                   }
                 },
               ),
@@ -190,8 +195,22 @@ class LoginScreen extends StatelessWidget {
                           Navigator.pop(context);
                           showToast(context, state.error);
                         } else if (state is GoogleLoginSuccess) {
-                          Navigator.pop(context);
-                          context.goNamed(AppRoutingName.selectUserScreen);
+                           Navigator.pop(context);
+                          if (state.isEmailVerified) {
+                            context.read<UserCubit>().setUserModel(state.user, isLoggedIn: true);
+                            if (state.user.userType != null) {
+                              if (state.user.isVendor || state.user.isEmployee || state.user.userType == UserType.vendor.name) {
+                                context.goNamed(AppRoutingName.mainScreen);
+                              } else {
+                                context.goNamed(AppRoutingName.clientMainScreen);
+                              }
+                            } else {
+                              context.goNamed(AppRoutingName.selectUserScreen);
+                            }
+                          } else {
+                            context.read<UserCubit>().setUserModel(state.user);
+                            context.pushNamed(AppRoutingName.emailVerificationScreen, pathParameters: {EMAIL: state.user.email ?? ''});
+                          }
                         }
                       },
                     ),

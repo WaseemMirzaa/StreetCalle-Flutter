@@ -5,13 +5,8 @@ import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/auth/cubit/create_employee/create_employee_cubit.dart';
-import 'package:street_calle/screens/auth/cubit/email_verification/email_verification_cubit.dart';
-import 'package:street_calle/screens/auth/cubit/forget_password/forget_password_cubit.dart';
-import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.dart';
-import 'package:street_calle/screens/auth/cubit/guest/guest_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/timer/timer_cubit.dart';
-import 'package:street_calle/screens/auth/password_reset_screen.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/client_home_tab.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/online_vendors_cubit.dart';
@@ -89,32 +84,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        // BlocProvider(
-        //   create: (context)=> sl<SignUpCubit>(),
-        //   child: const SignUpScreen(),
-        // ),
         BlocProvider(
           create: (context)=> ImageCubit(),
         ),
-        // BlocProvider(
-        //   create: (context)=> sl<LoginCubit>(),
-        //   child: const LoginScreen(),
-        // ),
-        BlocProvider(
-          create: (context)=> sl<PasswordResetCubit>(),
-          child: const PasswordResetScreen(),
-        ),
-        BlocProvider(
-          create: (context)=> sl<EmailVerificationCubit>(),
-        ),
-        BlocProvider(
-          create: (context)=> sl<GuestCubit>(),
-        ),
         BlocProvider(
           create: (context)=> TimerCubit(60),
-        ),
-        BlocProvider(
-          create: (context)=> sl<GoogleLoginCubit>(),
         ),
         BlocProvider(
           create: (context)=> sl<UserCubit>(),

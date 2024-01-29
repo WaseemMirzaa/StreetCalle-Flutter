@@ -5,10 +5,11 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 
 class SearchField extends StatelessWidget {
-  SearchField({Key? key, required this.onChanged, required this.hintText, required this.padding}) : super(key: key);
+  SearchField({Key? key, this.enabled, required this.onChanged, required this.hintText, required this.padding}) : super(key: key);
   final ValueChanged<String?> onChanged;
   final String hintText;
   final EdgeInsetsGeometry padding;
+  final bool? enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class SearchField extends StatelessWidget {
         ),
         child: TextField(
           onChanged: (String? value) => onChanged.call(value),
+          enabled: enabled ?? true,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(20),
             filled: true,

@@ -13,11 +13,12 @@ class EditProfileTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userCubit = context.read<UserCubit>();
     return BlocBuilder<EditProfileEnableCubit, bool>(
       builder: (_, state) {
         if (!state) {
           return GestureDetector(
-            onTap: (){
+            onTap: userCubit.state.isGuest ? null : (){
               final imageCubit = context.read<ImageCubit>();
               final userCubit = context.read<UserCubit>();
               imageCubit.resetForUpdateImage(userCubit.state.userImage ?? '',);

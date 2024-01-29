@@ -46,6 +46,7 @@ class Collections {
 
 class SharePreferencesKey {
   static const IS_LOGGED_IN = 'IS_LOGGED_IN';
+  static const IS_GUEST = 'IS_GUEST';
   static const USER_ID = 'USER_ID';
   static const STRIPE_ID = 'STRIPE_ID';
   static const SESSION_ID = 'SESSION_ID';

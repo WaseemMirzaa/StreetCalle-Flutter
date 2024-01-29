@@ -18,6 +18,7 @@ class UserState {
   final bool isEmployee;
   final bool isEmployeeBlocked;
   final bool isSubscribed;
+  final bool isGuest;
   final String vendorType;
   final String userType;
   final String category;
@@ -49,6 +50,7 @@ class UserState {
     required this.isEmployee,
     required this.isEmployeeBlocked,
     required this.isSubscribed,
+    required this.isGuest,
     required this.employeeOwnerName,
     required this.employeeOwnerImage,
     required this.subscriptionType,
@@ -77,6 +79,7 @@ class UserState {
       bool? isEmployee,
       bool? isEmployeeBlocked,
       bool? isSubscribed,
+      bool? isGuest,
       String? employeeOwnerImage,
       String? employeeOwnerName,
       String? subscriptionType,
@@ -104,6 +107,7 @@ class UserState {
       isEmployee: isEmployee ?? this.isEmployee,
       isEmployeeBlocked: isEmployeeBlocked ?? this.isEmployeeBlocked,
       isSubscribed: isSubscribed ?? this.isSubscribed,
+      isGuest: isGuest ?? this.isGuest,
       employeeOwnerImage: employeeOwnerImage ?? this.employeeOwnerImage,
       employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName,
       subscriptionType: subscriptionType ?? this.subscriptionType,
@@ -137,6 +141,7 @@ class UserCubit extends Cubit<UserState> {
             isEmployee: false,
             isEmployeeBlocked: false,
             isSubscribed: false,
+            isGuest: false,
             employeeOwnerName: '',
             employeeOwnerImage: '',
             subscriptionType: '',
@@ -213,6 +218,11 @@ class UserCubit extends Cubit<UserState> {
   void setIsLoggedIn(bool value) {
     emit(state.copyWith(isLoggedIn: value));
     sharedPreferencesService.setValue(SharePreferencesKey.IS_LOGGED_IN, value);
+  }
+
+  void setIsGuest(bool value) {
+    emit(state.copyWith(isGuest: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.IS_GUEST, value);
   }
 
   void setIsVendor(bool value) {

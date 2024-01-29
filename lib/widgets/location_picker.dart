@@ -6,6 +6,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
@@ -52,6 +53,7 @@ class _LocationPickerState extends State<LocationPicker> {
   @override
   Widget build(BuildContext context) {
     //final locationCubit = context.read<CurrentLocationCubit>().state;
+    final userCubit = context.read<UserCubit>();
 
     return Scaffold(
       body: FutureBuilder<String?>(
@@ -222,6 +224,7 @@ class _LocationPickerState extends State<LocationPicker> {
                               child: AppButton(
                                 text: TempLanguage().lblSelect,
                                 elevation: 0.0,
+                                enabled: !userCubit.state.isGuest,
                                 onTap: () {
                                   final localItems = context.read<LocalItemsStorage>();
                                   final dealItems = context.read<LocalDealsStorage>();
@@ -240,6 +243,7 @@ class _LocationPickerState extends State<LocationPicker> {
                                 ),
                                 textStyle: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.blackColor),
                                 color: AppColors.primaryLightColor,
+                                disabledColor: AppColors.greyColor,
                               ),
                             ),
                           ),

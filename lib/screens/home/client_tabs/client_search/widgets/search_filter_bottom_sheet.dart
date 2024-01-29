@@ -8,12 +8,14 @@ import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/my_sizer.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/cubit/apply_filter_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/cubit/filter_cubit.dart';
+import 'package:street_calle/cubit/user_state.dart';
 
 class SearchFilterBottomSheet extends StatelessWidget {
   const SearchFilterBottomSheet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final userCubit = context.read<UserCubit>();
     final applyFilterCubit = context.read<ApplyFilterCubit>();
     MySizer().init(context);
     return Padding(
@@ -36,7 +38,7 @@ class SearchFilterBottomSheet extends StatelessWidget {
                     style: context.currentTextTheme.labelLarge,
                   ),
                   InkWell(
-                    onTap: (){
+                    onTap: userCubit.state.isGuest ? null : (){
                       context.read<ApplyFilterCubit>().resetApplyFilter();
                       context.read<ApplyFilterCubit>().clear();
                       context.read<FilterItemsCubit>().resetFilterItems();
@@ -167,6 +169,8 @@ class SearchFilterBottomSheet extends StatelessWidget {
                 child: AppButton(
                   text: TempLanguage().lblApply,
                   elevation: 0.0,
+                  enabled: !userCubit.state.isGuest,
+                  disabledColor: AppColors.greyColor,
                   onTap: () {
                      context.read<ApplyFilterCubit>().applyFilter();
                      final navPosition = context.read<NavPositionCubit>();

@@ -17,8 +17,9 @@ class GoogleLoginLoading extends GoogleLoginState {
 
 class GoogleLoginSuccess extends GoogleLoginState {
   final User user;
+  final bool isEmailVerified;
 
-  GoogleLoginSuccess(this.user);
+  GoogleLoginSuccess(this.user, this.isEmailVerified);
 
   @override
   List<Object?> get props => [user];

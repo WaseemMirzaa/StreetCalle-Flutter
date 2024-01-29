@@ -21,7 +21,8 @@ class GoogleLoginCubit extends Cubit<GoogleLoginState> {
           if (r != null) {
             try {
               final result = await userService.userByUid(r.uid);
-              emit(GoogleLoginSuccess(result));
+              final isEmailVerified = await authService.isUserEmailVerified();
+              emit(GoogleLoginSuccess(result, isEmailVerified));
             } catch (e) {
               emit(GoogleLoginFailure(TempLanguage().lblSignUpFailed));
             }
