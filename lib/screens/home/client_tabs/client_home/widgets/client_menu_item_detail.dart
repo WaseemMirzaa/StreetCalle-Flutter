@@ -6,6 +6,7 @@ import 'package:nb_utils/nb_utils.dart' hide StringExtension;
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/vendor_deals_widget.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/vendor_items_widget.dart';
+import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
@@ -39,7 +40,8 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    String? userId = context.read<UserCubit>().state.userId;
+    final userCubit = context.read<UserCubit>();
+    String? userId = userCubit.state.userId;
     context.read<FavoriteCubit>().checkFavoriteStatus(userId, widget.user.uid ?? '');
     context.read<FoodSearchCubit>().updateQuery('');
 
@@ -74,7 +76,11 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                     // ),
                     IconButton(
                         onPressed: (){
-                          context.pushNamed(AppRoutingName.clientVendorDirection);
+                          if (userCubit.state.isGuest) {
+                            showGuestLoginDialog(context);
+                          } else {
+                            context.pushNamed(AppRoutingName.clientVendorDirection);
+                          }
                         },
                         icon: Image.asset(AppAssets.marker, width: 24, height: 24,),
                     ),
@@ -132,7 +138,11 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                             children: [
                               ShowFavouriteItemWidget(
                                 onTap: (){
-                                  _favouriteItem(userId, widget.user.uid ?? '', context);
+                                  if (userCubit.state.isGuest) {
+                                    showGuestLoginDialog(context);
+                                  } else {
+                                    _favouriteItem(userId, widget.user.uid ?? '', context);
+                                  }
                                 },
                               ),
                               const SizedBox(width: 6,),
@@ -152,7 +162,11 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                           ),
                           InkWell(
                             onTap: (){
-                              context.pushNamed(AppRoutingName.clientVendorProfile, extra: widget.user.uid ?? '');
+                              if (userCubit.state.isGuest) {
+                                showGuestLoginDialog(context);
+                              } else {
+                                context.pushNamed(AppRoutingName.clientVendorProfile, extra: widget.user.uid ?? '');
+                              }
                             },
                             child: Text(
                               TempLanguage().lblViewProfile,
@@ -180,7 +194,7 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
 
                     InkWell(
                       onTap: (){
-                        context.pushNamed(AppRoutingName.viewAllDeals);
+                        context.pushNamed(AppRoutingName.viewAllDeals, extra: widget.user);
                       },
                       child: Text(
                         TempLanguage().lblViewAll,
@@ -217,7 +231,7 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
 
                     InkWell(
                       onTap: (){
-                        context.pushNamed(AppRoutingName.viewAllItems);
+                        context.pushNamed(AppRoutingName.viewAllItems, extra: widget.user );
                       },
                       child: Text(
                         TempLanguage().lblViewAll,

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -13,6 +14,8 @@ import 'package:street_calle/models/user.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/models/deal.dart';
+import 'package:street_calle/utils/custom_widgets/own_show_confirm_dialog.dart';
+import 'package:street_calle/utils/routing/app_routing_name.dart';
 
 void showToast(BuildContext context, String title) {
   final scaffold = ScaffoldMessenger.of(context);
@@ -238,6 +241,26 @@ Future<User?> findNearestUser(List<User> users, Position currentLocation) {
     }
   }
   return Future.value(nearestUser);
+}
+
+void showGuestLoginDialog(BuildContext scaffoldContext) async {
+
+  await ownShowConfirmDialogCustom(
+  scaffoldContext,
+  title: TempLanguage().lblPayAttention,
+  subTitle: TempLanguage().lblCreateAccountToPerformFunctionality,
+  positiveText: TempLanguage().lblOk,
+  cancelable: false,
+  dialogType: CustomDialogType.CONFIRMATION,
+  primaryColor: AppColors.primaryColor,
+  barrierDismissible: false,
+  onAccept: (_) async {
+    Navigator.pop(scaffoldContext);
+    scaffoldContext.goNamed(AppRoutingName.loginScreen);
+  },
+  onCancel: (_) {
+    Navigator.pop(scaffoldContext);
+  });
 }
 
 // List<String> setSearchParam(String caseNumber) {

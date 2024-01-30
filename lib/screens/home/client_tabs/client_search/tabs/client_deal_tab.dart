@@ -256,7 +256,7 @@ class DealsWidget extends StatelessWidget {
                     user: user,
                     deal: deal,
                     onTap: (){
-                      context.pushNamed(AppRoutingName.dealDetail, extra: deal, pathParameters: {IS_CLIENT: true.toString()});
+                      context.pushNamed(AppRoutingName.clientMenuItemDetail, extra: user);
                     },
                     onDelete: (){},
                     onUpdate: (){},

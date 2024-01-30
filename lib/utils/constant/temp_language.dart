@@ -354,6 +354,8 @@ class TempLanguage {
   String get lblStartingFrom => 'Starting from:';
 
   String get lblYourConsent => 'Your consent is required';
+  String get lblPayAttention => 'Pay Attention';
+  String get lblCreateAccountToPerformFunctionality => 'Create your account to perform this functionality';
 
   String get lblLocationPermissionRequired =>
       'Location permission is required to run the app smoothly and work properly.';

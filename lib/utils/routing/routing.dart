@@ -48,6 +48,13 @@ import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.
 import 'package:street_calle/screens/auth/cubit/guest/guest_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/forget_password/forget_password_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/email_verification/email_verification_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_custom_item_cubit.dart';
+import 'package:street_calle/screens/auth/cubit/timer/timer_cubit.dart';
+import 'package:street_calle/screens/auth/cubit/create_employee/create_employee_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/menu_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_deal_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_item_cubit.dart';
 
 final router = GoRouter(
   routes: [
@@ -115,8 +122,15 @@ final router = GoRouter(
       builder: (context, state) {
         final email = state.pathParameters[EMAIL]!;
 
-        return BlocProvider(
-          create: (context)=> sl<EmailVerificationCubit>(),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context)=> sl<EmailVerificationCubit>(),
+            ),
+            BlocProvider(
+              create: (context)=> TimerCubit(60),
+            ),
+          ],
           child: EmailVerificationScreen(email: email),
         );
       },
@@ -200,9 +214,13 @@ final router = GoRouter(
       builder: (context, state) {
         final isUpdate = state.pathParameters[IS_UPDATE]!;
         final isFromDetail = state.pathParameters[IS_FROM_DETAIL]!;
-        return AddDeal(
-            isUpdate: bool.parse(isUpdate),
-            isFromDetail: bool.parse(isFromDetail));
+
+        return BlocProvider(
+          create: (context)=> AddCustomItemCubit(),
+          child: AddDeal(
+              isUpdate: bool.parse(isUpdate),
+              isFromDetail: bool.parse(isFromDetail)),
+        );
       },
     ),
     GoRoute(
@@ -225,7 +243,10 @@ final router = GoRouter(
       path: AppRoutingName.clientMenu,
       name: AppRoutingName.clientMenu,
       builder: (context, state) {
-        return const ClientMenu();
+        return BlocProvider(
+           create: (context)=> ClientMenuSearchCubit(),
+           child: const ClientMenu(),
+         );
       },
     ),
     GoRoute(
@@ -233,7 +254,10 @@ final router = GoRouter(
       name: AppRoutingName.clientMenuItemDetail,
       builder: (context, state) {
         final user = state.extra as User;
-        return ClientMenuItemDetail(user: user);
+        return  BlocProvider(
+          create: (context)=> FoodSearchCubit(),
+          child: ClientMenuItemDetail(user: user),
+        );
       },
     ),
     GoRoute(
@@ -248,7 +272,10 @@ final router = GoRouter(
       name: AppRoutingName.createEmployeeProfileScreen,
       builder: (context, state) {
         // return const CreateEmployeeProfileScreen();
-        return CreateEmployeeProfileScreen();
+        return BlocProvider(
+          create: (context)=> sl<CreateEmployeeCubit>(),
+          child: CreateEmployeeProfileScreen(),
+        );
       },
     ),
     GoRoute(
@@ -271,7 +298,11 @@ final router = GoRouter(
       name: AppRoutingName.viewAllDeals,
       builder: (context, state) {
         // return const CreateEmployeeProfileScreen();
-        return const ViewAllDeals();
+        final user = state.extra as User;
+        return BlocProvider(
+          create: (context)=> AllDealsSearchCubit(),
+          child: ViewAllDeals(user: user),
+        );
       },
     ),
     GoRoute(
@@ -279,7 +310,11 @@ final router = GoRouter(
       name: AppRoutingName.viewAllItems,
       builder: (context, state) {
         // return const CreateEmployeeProfileScreen();
-        return const ViewAllItems();
+       final user = state.extra as User;
+       return BlocProvider(
+          create: (context)=> AllItemsSearchCubit(),
+          child: ViewAllItems(user: user),
+        );
       },
     ),
     GoRoute(
@@ -287,7 +322,20 @@ final router = GoRouter(
       name: AppRoutingName.addEmployeeMenuItems,
       builder: (context, state) {
         final user = state.extra as User;
-        return  AddEmployeeMenuItemsScreen(user: user,);
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context)=> sl<SelectedItemsCubit>(),
+            ),
+            BlocProvider(
+              create: (context)=> sl<MenuCubit>(),
+            ),
+            BlocProvider(
+              create: (context)=> sl<SelectedDealsCubit>(),
+            ),
+          ],
+          child: AddEmployeeMenuItemsScreen(user: user),
+        );
       },
     ),
     GoRoute(

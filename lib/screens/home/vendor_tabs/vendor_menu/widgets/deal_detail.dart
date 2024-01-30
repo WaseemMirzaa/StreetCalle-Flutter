@@ -168,7 +168,13 @@ class _DealDetailState extends State<DealDetail> {
               top: 240,
               right: 15,
               child: InkWell(
-                onTap: () => widget.isClient ? _favouriteDeal(userService, userId, deal.uid ?? '') : _onUpdate(context, deal),
+                onTap: () {
+                  if (userCubit.state.isGuest) {
+                    showGuestLoginDialog(context);
+                  } else {
+                    widget.isClient ? _favouriteDeal(userService, userId, deal.uid ?? '') : _onUpdate(context, deal);
+                  }
+                },
                 child: Container(
                   width: 70,
                   height: 70,

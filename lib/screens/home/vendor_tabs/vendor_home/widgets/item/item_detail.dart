@@ -149,7 +149,13 @@ class _ItemDetailState extends State<ItemDetail> {
               top: 240,
               right: 15,
               child: InkWell(
-                onTap: () => widget.isClient ? _favouriteItem(userService, userId, item.uid ?? '') : _onUpdate(context, item),
+                onTap: () {
+                  if (userCubit.state.isGuest) {
+                    showGuestLoginDialog(context);
+                  } else {
+                    widget.isClient ? _favouriteItem(userService, userId, item.uid ?? '') : _onUpdate(context, item);
+                  }
+                },
                 child: Container(
                   width: 70,
                   height: 70,

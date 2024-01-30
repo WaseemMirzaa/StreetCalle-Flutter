@@ -8,6 +8,7 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
+import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 
 class ClientSearchTab extends StatelessWidget {
   const ClientSearchTab({Key? key}) : super(key: key);
@@ -21,6 +22,12 @@ class ClientSearchTab extends StatelessWidget {
         ),
         BlocProvider(
           create: (context)=> MenuDealFilterCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> SearchItemsCubit(),
+        ),
+        BlocProvider(
+          create: (context)=> SearchDealsCubit(),
         ),
       ],
       child: DefaultTabController(

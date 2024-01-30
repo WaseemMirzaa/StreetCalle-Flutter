@@ -174,8 +174,8 @@ class DealService extends BaseService<Deal> {
               }
             }
           } else {
-            if (user.employeeItemsList != null) {
-              final itemIds = Set<String>.from(user.employeeItemsList ?? []);
+            if (user.employeeDealsList != null) {
+              final itemIds = Set<String>.from(user.employeeDealsList ?? []);
               final employeeDeals = await getEmployeeDealList(itemIds.toList());
               for (Deal deal in employeeDeals) {
                 if (!addedDealIds.contains(deal.id)) {

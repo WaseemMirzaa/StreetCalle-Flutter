@@ -210,6 +210,9 @@ class UserService extends BaseService<User> {
 
   Future<bool> isVendorInFavorites(String userId, String vendorId) async {
     try {
+      if (userId.isEmpty || vendorId.isEmpty) {
+        return false;
+      }
       final userDoc = await ref!.doc(userId).get();
       if (userDoc.exists) {
         final user = userDoc.data();

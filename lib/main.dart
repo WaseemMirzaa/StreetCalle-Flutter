@@ -4,12 +4,9 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/cubit/user_state.dart';
-import 'package:street_calle/screens/auth/cubit/create_employee/create_employee_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
-import 'package:street_calle/screens/auth/cubit/timer/timer_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/client_home_tab.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/online_vendors_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/cubit/apply_filter_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
@@ -21,21 +18,15 @@ import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart'
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_custom_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/menu_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_drop_down_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_deal_cubit.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/vendor_home_tab.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee/add_employee_menu_item_screen.dart';
-import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee/create_employee_profile_screen.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/utils/routing/routing.dart';
 import 'package:street_calle/utils/themes/app_theme.dart';
@@ -88,9 +79,6 @@ class MyApp extends StatelessWidget {
           create: (context)=> ImageCubit(),
         ),
         BlocProvider(
-          create: (context)=> TimerCubit(60),
-        ),
-        BlocProvider(
           create: (context)=> sl<UserCubit>(),
         ),
         BlocProvider(
@@ -119,28 +107,7 @@ class MyApp extends StatelessWidget {
           create: (context)=> sl<AddDealCubit>(),
         ),
         BlocProvider(
-          create: (context)=> AddCustomItemCubit(),
-        ),
-        BlocProvider(
           create: (context)=> SearchCubit(),
-        ),
-        BlocProvider(
-          create: (context)=> ClientMenuSearchCubit(),
-        ),
-        BlocProvider(
-          create: (context)=> FoodSearchCubit(),
-        ),
-        BlocProvider(
-          create: (context)=> AllDealsSearchCubit(),
-        ),
-        BlocProvider(
-          create: (context)=> AllItemsSearchCubit(),
-        ),
-        BlocProvider(
-          create: (context)=> SearchItemsCubit(),
-        ),
-        BlocProvider(
-          create: (context)=> SearchDealsCubit(),
         ),
         BlocProvider(
           create: (context)=> sl<ProfileStatusCubit>(),
@@ -156,23 +123,6 @@ class MyApp extends StatelessWidget {
           create: (context)=> sl<EditProfileEnableCubit>(),
         ),
         BlocProvider(
-          create: (context)=> sl<CreateEmployeeCubit>(),
-          child: CreateEmployeeProfileScreen(),
-        ),
-
-        BlocProvider(
-          create: (context)=> sl<SelectedItemsCubit>(),
-          child: AddEmployeeMenuItemsScreen(),
-        ),
-        BlocProvider(
-          create: (context)=> sl<MenuCubit>(),
-          child: AddEmployeeMenuItemsScreen(),
-        ),
-        BlocProvider(
-          create: (context)=> sl<SelectedDealsCubit>(),
-          child: AddEmployeeMenuItemsScreen(),
-        ),
-        BlocProvider(
           create: (_) => LocalItemsStorage(),
         ),
         BlocProvider(
@@ -183,9 +133,6 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => NavPositionCubit(),
-        ),
-        BlocProvider(
-          create: (_) => OnlineVendorsCubit(),
         ),
         BlocProvider(
           create: (context)=> sl<MarkersCubit>(),

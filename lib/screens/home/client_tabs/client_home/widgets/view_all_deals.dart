@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/models/deal.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/deal_widget.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -14,13 +14,14 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/widgets/search_field.dart';
 import 'package:street_calle/utils/common.dart';
+import 'package:street_calle/models/user.dart';
 
 class ViewAllDeals extends StatelessWidget {
-  const ViewAllDeals({Key? key}) : super(key: key);
+  const ViewAllDeals({Key? key, required this.user}) : super(key: key);
+  final User user;
 
   @override
   Widget build(BuildContext context) {
-    String? clientVendorId = context.select((ClientSelectedVendorCubit cubit) => cubit.state);
     context.read<AllDealsSearchCubit>().updateQuery('');
 
     return Scaffold(
@@ -57,9 +58,12 @@ class ViewAllDeals extends StatelessWidget {
                 builder: (context, state) {
                   return FirestoreListView<Deal>(
                     query: state.isEmpty
-                        ? dealQuery.where(DealKey.UID, isEqualTo: clientVendorId ?? '').orderBy(DealKey.UPDATED_AT, descending: true)
-                        : dealQuery.where(DealKey.UID, isEqualTo: clientVendorId ?? '')
-                          .where(DealKey.SEARCH_PARAM, arrayContains: state),
+                        ? user.isVendor
+                        ? dealQuery.where(ItemKey.UID, isEqualTo: user.uid ?? '').orderBy(ItemKey.UPDATED_AT, descending: true)
+                        : dealQuery.where(FieldPath.documentId, whereIn: user.employeeDealsList)
+                        : user.isVendor
+                        ? dealQuery.where(ItemKey.UID, isEqualTo: user.uid ?? '').where(ItemKey.SEARCH_PARAM, arrayContains: state.toLowerCase())
+                        : dealQuery.where(FieldPath.documentId, whereIn: user.employeeDealsList).where(ItemKey.SEARCH_PARAM, arrayContains: state.toLowerCase()),
                     pageSize: DEAL_PER_PAGE,
                     emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
                     errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),

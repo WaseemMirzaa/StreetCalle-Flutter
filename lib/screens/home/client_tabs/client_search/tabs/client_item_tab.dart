@@ -16,7 +16,6 @@ import 'package:street_calle/widgets/search_field.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/cubit/filter_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/cubit/apply_filter_cubit.dart';
-import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/models/drop_down_item.dart';
 import 'package:street_calle/services/category_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -238,9 +237,6 @@ class ItemsWidget extends StatelessWidget {
                     item: item,
                     user: user,
                     onTap: (){
-                      //context.pushNamed(AppRoutingName.itemDetail, extra: item, pathParameters: {IS_CLIENT: true.toString()});
-                      String id = user.isVendor ? user.uid ?? '' : user.vendorId ?? '';
-                      context.read<ClientSelectedVendorCubit>().selectedVendorId(id);
                       context.pushNamed(AppRoutingName.clientMenuItemDetail, extra: user);
                     },
                     onUpdate: (){},

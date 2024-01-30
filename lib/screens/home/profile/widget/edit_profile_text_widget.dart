@@ -7,6 +7,7 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
+import 'package:street_calle/utils/common.dart';
 
 class EditProfileTextWidget extends StatelessWidget {
   const EditProfileTextWidget({Key? key}) : super(key: key);
@@ -18,13 +19,17 @@ class EditProfileTextWidget extends StatelessWidget {
       builder: (_, state) {
         if (!state) {
           return GestureDetector(
-            onTap: userCubit.state.isGuest ? null : (){
-              final imageCubit = context.read<ImageCubit>();
-              final userCubit = context.read<UserCubit>();
-              imageCubit.resetForUpdateImage(userCubit.state.userImage ?? '',);
-              // context.read<EditProfileCubit>().nameController.text = userCubit.state.userName;
+            onTap: (){
+              if (userCubit.state.isGuest) {
+                showGuestLoginDialog(context);
+              } else {
+                final imageCubit = context.read<ImageCubit>();
+                final userCubit = context.read<UserCubit>();
+                imageCubit.resetForUpdateImage(userCubit.state.userImage ?? '',);
+                // context.read<EditProfileCubit>().nameController.text = userCubit.state.userName;
 
-              context.read<EditProfileEnableCubit>().editButtonClicked();
+                context.read<EditProfileEnableCubit>().editButtonClicked();
+              }
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

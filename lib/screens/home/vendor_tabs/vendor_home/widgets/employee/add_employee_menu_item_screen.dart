@@ -169,7 +169,6 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                               }else{
                                                 selectedItemIds = [itemData.id];
                                               }
-                                              print(selectedItemIds);
                                           },
                                           child: Column(
                                             children: [
@@ -316,7 +315,6 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                             }else{
                                               selectedDealsIds = [dealData.id];
                                             }
-                                            print(selectedDealsIds);
                                           },
                                           child: Column(
                                             children: [
