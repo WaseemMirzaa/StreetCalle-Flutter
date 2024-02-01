@@ -253,7 +253,7 @@ class UserService extends BaseService<User> {
         final vendorDoc = await ref!.doc(vendorId).get();
         if (vendorDoc.exists) {
           final userData = vendorDoc.data();
-          if (userData != null) {
+          if (userData != null && userData.isSubscribed) {
             favoriteUsers.add(userData);
           }
         }

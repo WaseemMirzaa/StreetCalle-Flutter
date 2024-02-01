@@ -77,6 +77,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   webview_flutter: ^4.4.4
   flutter_facebook_auth: ^6.0.4
+  purchases_flutter: ^6.18.0
 
 dev_dependencies:
   flutter_test:

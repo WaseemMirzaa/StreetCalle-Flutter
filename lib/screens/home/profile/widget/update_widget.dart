@@ -81,7 +81,7 @@ class UpdateWidget extends StatelessWidget {
       showToast(context, TempLanguage().lblSelectImage);
     } else if (name.isEmpty) {
       showToast(context, TempLanguage().lblEnterYourName);
-    } else if (!userCubit.state.isEmployee && (phone.isEmpty || !phone.validatePhone() || phone.length != country.minLength)) {
+    } else if ((userCubit.state.isVendor || userCubit.state.isEmployee) && !userCubit.state.isEmployee && (phone.isEmpty || !phone.validatePhone() || phone.length != country.minLength)) {
       showToast(context, TempLanguage().lblEnterYourPhone);
     } else {
       if (isUpdated ?? false) {

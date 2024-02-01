@@ -1,16 +1,8 @@
-# street_calle
+# Street Calle
 
-A new Flutter project.
+# Flutter Version
+version: 3.16.0
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Revenu-Cat Integration
+https://emrekabali.medium.com/how-to-implement-flutter-revenue-cat-integration-step-by-step-998d524aa151
+https://www.linkedin.com/posts/nikita-shuliak-a503201a5_revenuecat-flutter-integration-tbr-group-activity-7111381020523868160-KgBD
