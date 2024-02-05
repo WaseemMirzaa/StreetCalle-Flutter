@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:device_information/device_information.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -21,16 +22,16 @@ class PermissionUtils {
     required Function onNotificationGranted,
     required Function onNotificationDenied,
   }) async {
-
     locationStatus().then((isLocationGranted) async {
       if (!isLocationGranted) {
-        PermissionResponse permissionResponse = await showCustomLocationPermissionDialog(
+        PermissionResponse permissionResponse =
+            await showCustomLocationPermissionDialog(
           scaffoldContext: scaffoldContext,
           title: TempLanguage().lblYourConsent,
           message: TempLanguage().lblLocationPermissionRequired,
         );
 
-        switch(permissionResponse) {
+        switch (permissionResponse) {
           case PermissionResponse.granted:
             onLocationGranted();
             break;
@@ -44,13 +45,14 @@ class PermissionUtils {
         //checkAndRequestNotificationPermission(scaffoldContext, onNotificationGranted(), onNotificationDenied());
         notificationStatus().then((isNotificationGranted) async {
           if (!isNotificationGranted) {
-            PermissionResponse permissionResponse = await showCustomNotificationPermissionDialog(
+            PermissionResponse permissionResponse =
+                await showCustomNotificationPermissionDialog(
               scaffoldContext: scaffoldContext,
               title: TempLanguage().lblYourConsent,
               message: TempLanguage().lblNotificationPermissionRequired,
             );
 
-            switch(permissionResponse) {
+            switch (permissionResponse) {
               case PermissionResponse.granted:
                 onNotificationGranted();
                 break;
@@ -62,18 +64,18 @@ class PermissionUtils {
             }
           }
         });
-
       } else {
         //checkAndRequestNotificationPermission(scaffoldContext, onNotificationGranted(), onNotificationDenied());
         notificationStatus().then((isNotificationGranted) async {
           if (!isNotificationGranted) {
-            PermissionResponse permissionResponse = await showCustomNotificationPermissionDialog(
+            PermissionResponse permissionResponse =
+                await showCustomNotificationPermissionDialog(
               scaffoldContext: scaffoldContext,
               title: TempLanguage().lblYourConsent,
               message: TempLanguage().lblNotificationPermissionRequired,
             );
 
-            switch(permissionResponse) {
+            switch (permissionResponse) {
               case PermissionResponse.granted:
                 onNotificationGranted();
                 break;
@@ -114,12 +116,11 @@ class PermissionUtils {
       onAccept: (_) async {
         Navigator.pop(scaffoldContext);
         requestLocationPermissions(scaffoldContext).then((isGrantedNow) => {
-          if (isGrantedNow) {
-            completer.complete(PermissionResponse.granted)
-          } else {
-            completer.complete(PermissionResponse.denied)
-          }
-        });
+              if (isGrantedNow)
+                {completer.complete(PermissionResponse.granted)}
+              else
+                {completer.complete(PermissionResponse.denied)}
+            });
       },
       onCancel: (_) {
         Navigator.pop(scaffoldContext);
@@ -157,10 +158,10 @@ class PermissionUtils {
     return true;
   }
 
-
   static Future<bool> checkStatus() async {
     return await Geolocator.isLocationServiceEnabled();
   }
+
   // static Future<void> requestLocationPermissionWithConsentDialog({BuildContext? scaffoldContext, required Function onGranted, required Function onDenied}) async {
   //   if (isDisplayed) {
   //     return;
@@ -198,16 +199,20 @@ class PermissionUtils {
 
   /// Notification Permission
 
-  static Future<void> checkAndRequestNotificationPermission(BuildContext scaffoldContext, Function onNotificationGranted, Function onNotificationDenied) async {
+  static Future<void> checkAndRequestNotificationPermission(
+      BuildContext scaffoldContext,
+      Function onNotificationGranted,
+      Function onNotificationDenied) async {
     notificationStatus().then((isNotificationGranted) async {
       if (!isNotificationGranted) {
-        PermissionResponse permissionResponse = await showCustomNotificationPermissionDialog(
+        PermissionResponse permissionResponse =
+            await showCustomNotificationPermissionDialog(
           scaffoldContext: scaffoldContext,
           title: TempLanguage().lblYourConsent,
           message: TempLanguage().lblNotificationPermissionRequired,
         );
 
-        switch(permissionResponse) {
+        switch (permissionResponse) {
           case PermissionResponse.granted:
             onNotificationGranted();
             break;
@@ -235,30 +240,25 @@ class PermissionUtils {
   }) async {
     Completer<PermissionResponse> completer = Completer<PermissionResponse>();
 
-    await ownShowConfirmDialogCustom(
-        scaffoldContext,
+    await ownShowConfirmDialogCustom(scaffoldContext,
         title: TempLanguage().lblYourConsent,
         subTitle: TempLanguage().lblNotificationPermissionRequired,
         positiveText: TempLanguage().lblOk,
         cancelable: false,
         dialogType: CustomDialogType.NOTIFICATION,
         primaryColor: AppColors.primaryColor,
-        barrierDismissible: false,
-        onAccept: (_) async {
-          Navigator.pop(scaffoldContext);
-          requestNotificationPermissions(scaffoldContext).then((isGrantedNow) => {
-            if (isGrantedNow) {
-              completer.complete(PermissionResponse.granted)
-            } else {
-              completer.complete(PermissionResponse.denied)
-            }
+        barrierDismissible: false, onAccept: (_) async {
+      Navigator.pop(scaffoldContext);
+      requestNotificationPermissions(scaffoldContext).then((isGrantedNow) => {
+            if (isGrantedNow)
+              {completer.complete(PermissionResponse.granted)}
+            else
+              {completer.complete(PermissionResponse.denied)}
           });
-        },
-        onCancel: (_) {
-          Navigator.pop(scaffoldContext);
-          completer.complete(PermissionResponse.canceled);
-        }
-    );
+    }, onCancel: (_) {
+      Navigator.pop(scaffoldContext);
+      completer.complete(PermissionResponse.canceled);
+    });
 
     return completer.future;
   }
@@ -294,7 +294,8 @@ class PermissionUtils {
       if (sdkInt >= 31) {
         notificationStatus().then((isNotificationGranted) async {
           if (!isNotificationGranted) {
-            PermissionResponse permissionResponse = await showCustomNotificationPermissionDialog(
+            PermissionResponse permissionResponse =
+                await showCustomNotificationPermissionDialog(
               scaffoldContext: scaffoldContext,
               title: TempLanguage().lblYourConsent,
               message: TempLanguage().lblNotificationPermissionRequired,
@@ -351,7 +352,6 @@ class PermissionUtils {
   //   }
   // }
 
-
   /// Navigate to Permission Screen
   // static Future<bool> checkLocationPermissionNavigateToScreen(BuildContext context) async {
   //   bool isLocationGranted = await Permission.location.isGranted;
@@ -371,15 +371,34 @@ class PermissionUtils {
   //   }
   // }
 
-
-  static Future<bool> checkPermissionsAndNavigateToScreen(BuildContext context) async {
+  static Future<bool> checkPermissionsAndNavigateToScreen(
+      BuildContext context) async {
     bool isLocationGranted = await locationStatus();
     bool isNotificationGranted = await notificationStatus();
     bool isVersion12 = await checkAndroidSDK();
 
-    if (!(isLocationGranted && (isVersion12 ? isNotificationGranted : true))) {
+    if (Platform.isIOS && !isLocationGranted) {
       String title = isLocationGranted
-          ? (isVersion12 ? TempLanguage().lblNotificationPermission : TempLanguage().lblLocationPermission)
+          ? (isVersion12
+          ? TempLanguage().lblNotificationPermission
+          : TempLanguage().lblLocationPermission)
+          : TempLanguage().lblLocationAndNotificationPermission;
+
+      final returnedResult = await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => PermissionScreen(title: title),
+        ),
+      );
+
+      if (returnedResult != null) {
+        return returnedResult;
+      }
+    } else if (!(isLocationGranted &&
+        ((isVersion12 ? isNotificationGranted : true)))) {
+      String title = isLocationGranted
+          ? (isVersion12
+              ? TempLanguage().lblNotificationPermission
+              : TempLanguage().lblLocationPermission)
           : TempLanguage().lblLocationAndNotificationPermission;
 
       final returnedResult = await Navigator.of(context).push(
@@ -400,7 +419,8 @@ class PermissionUtils {
     return isAndroid && (await DeviceInformation.apiLevel >= 31);
   }
 
-  static Future<bool> checkLocationPermissionsAndNavigateToScreen(BuildContext context) async {
+  static Future<bool> checkLocationPermissionsAndNavigateToScreen(
+      BuildContext context) async {
     bool isLocationGranted = await locationStatus();
 
     if (!isLocationGranted) {
