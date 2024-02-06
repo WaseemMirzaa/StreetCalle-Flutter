@@ -9,6 +9,8 @@ class TempLanguage {
 
   String get lblVendor => 'Vendor';
 
+  String get lblActive => 'active';
+
   String get lblUnblock => 'Unblock';
 
   String get lblErrorOccurred => 'An error occurred while updating the menu';
@@ -235,13 +237,13 @@ class TempLanguage {
 
   String get lblForMoreEmployeesUpdatePlan => 'Upgrade your plan to enable more locations';
 
-  String get lblOneMonth => '1 month';
+  String get lblOneMonth => 'Monthly';
 
   String get lblSixMonths => '6 months';
 
   String get lblTwelveMonths => '12 months';
 
-  String get lblOneYear => '1 year';
+  String get lblOneYear => 'Yearly';
 
   String get lblForStarter => 'Perfect for starter';
 
@@ -257,17 +259,17 @@ class TempLanguage {
 
   String get lblEstablishAgencyGrowthPlan => 'Establish Agency Growth Plan';
 
-  String get lblIndividualStarterDes => 'As an individual, you can sell unlimited items.';
+  String get lblIndividualStarterDes => 'As an individual, you can upload unlimited items.';
 
-  String get lblIndividualGrowthDes => 'As a individual, you can sell your products for up to a year and save 4%.';
+  String get lblIndividualGrowthDes => 'As a individual, you can upload unlimited items and save 4% yearly.';
 
-  String get lblNewAgencyStarterDes => 'New agencies can unlock the potential of 2-7 locations with this fantastic plan!';
+  String get lblNewAgencyStarterDes => 'New agencies can unlock the potential of 2-7 locations and can upload unlimited items';
 
-  String get lblNewAgencyGrowthDes => 'With this plan, you can have 2-7 locations and enjoy a 20% discount for a whole year.';
+  String get lblNewAgencyGrowthDes => 'With this plan, you can have 2-7 locations and can upload unlimited items and enjoy a 20% discount for a whole year.';
 
-  String get lblEstablishAgencyStarterDes => 'Unlock the potential for your agency\'s expansion with 8 or more locations through this exclusive plan!';
+  String get lblEstablishAgencyStarterDes => 'Unlock the potential for your agency\'s expansion with 8 or more locations and can upload unlimited items';
 
-  String get lblEstablishAgencyGrowthDes => 'Establish your agency\'s success: Enjoy 8 or more locations and a 20% discount for a full year!';
+  String get lblEstablishAgencyGrowthDes => 'Establish your agency\'s success: Enjoy 8 or more locations and can upload unlimited items and a 20% discount for a full year!';
 
   String get lblProfile => 'Profile';
 

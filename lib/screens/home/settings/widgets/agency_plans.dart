@@ -27,7 +27,7 @@ class AgencyPlans extends StatelessWidget {
           builder: (context, state) {
             return SubscriptionPlanItem(
               title: TempLanguage().lblNewAgencyStarter,
-              amount: '\$40',
+              amount: '\$39.99',
               description: TempLanguage().lblNewAgencyStarterDes,
               subtitle: TempLanguage().lblOneMonth,
               isSubscribed: state.isSubscribed && state.planLookUpKey == AgencyPlan.new_agency_starter.name,
@@ -80,7 +80,7 @@ class AgencyPlans extends StatelessWidget {
           builder: (context, state) {
             return SubscriptionPlanItem(
               title: TempLanguage().lblNewAgencyGrowthPlan,
-              amount: '\$384',
+              amount: '\$384.99',
               description: TempLanguage().lblNewAgencyGrowthDes,
               subtitle: TempLanguage().lblOneYear,
               isSubscribed: state.isSubscribed && state.planLookUpKey == AgencyPlan.new_agency_growth.name,
@@ -133,7 +133,7 @@ class AgencyPlans extends StatelessWidget {
           builder: (context, state) {
             return SubscriptionPlanItem(
               title: TempLanguage().lblEstablishAgencyStarter,
-              amount: '\$60',
+              amount: '\$60.00',
               description: TempLanguage().lblEstablishAgencyStarterDes,
               subtitle: TempLanguage().lblOneMonth,
               isSubscribed: state.isSubscribed && state.planLookUpKey == AgencyPlan.establish_agency_starter.name,
@@ -186,7 +186,7 @@ class AgencyPlans extends StatelessWidget {
           builder: (context, state) {
             return SubscriptionPlanItem(
               title: TempLanguage().lblEstablishAgencyGrowthPlan,
-              amount: '\$576',
+              amount: '\$579.00',
               description: TempLanguage().lblEstablishAgencyGrowthDes,
               subtitle: TempLanguage().lblOneYear,
               isSubscribed: state.isSubscribed && state.planLookUpKey == AgencyPlan.establish_agency_growth.name,

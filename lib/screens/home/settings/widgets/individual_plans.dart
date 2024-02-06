@@ -27,7 +27,7 @@ class IndividualPlans extends StatelessWidget {
           builder: (context, state) {
             return SubscriptionPlanItem(
               title: TempLanguage().lblIndividualStarter,
-              amount: '\$20',
+              amount: '\$19.99',
               description: TempLanguage().lblIndividualStarterDes,
               subtitle: TempLanguage().lblOneMonth,
               isSubscribed: state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name,
@@ -80,7 +80,7 @@ class IndividualPlans extends StatelessWidget {
           builder: (context, state) {
             return SubscriptionPlanItem(
               title: TempLanguage().lblIndividualGrowthPlan,
-              amount: '\$192',
+              amount: '\$191.99',
               description: TempLanguage().lblIndividualGrowthDes,
               buttonText: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_year.name) ? TempLanguage().lblCancel : TempLanguage().lblSubscribe,
               isSubscribed: state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_year.name,

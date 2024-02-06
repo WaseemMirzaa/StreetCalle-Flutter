@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 
@@ -56,12 +57,12 @@ class SubscriptionPlanItem extends StatelessWidget {
                       style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 14, color: AppColors.blackColor, fontWeight: FontWeight.bold)
                   ),
                 ),
-                isSubscribed ? const SizedBox(
+                isSubscribed ? SizedBox(
                   height: 30,
                   child: Chip(
-                    label: Text('active', style: TextStyle(color: Colors.white)),
+                    label: Text(TempLanguage().lblActive, style: const TextStyle(color: Colors.white, fontSize: 14)),
                     padding: EdgeInsets.zero,
-                    shape: StadiumBorder(),
+                    shape: const StadiumBorder(),
                     side: BorderSide.none,
                     backgroundColor: Colors.green,
                   ),

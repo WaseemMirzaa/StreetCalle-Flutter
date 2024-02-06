@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+//import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/user.dart' as userModel;
@@ -234,35 +234,35 @@ class AuthService {
     }
   }
 
-  Future<Either<String, User?>> signInWithFacebook() async {
-    try {
-      final userService = sl.get<UserService>();
-
-      final LoginResult loginResult = await FacebookAuth.instance.login();
-
-      final OAuthCredential facebookAuthCredential =
-          FacebookAuthProvider.credential(loginResult.accessToken?.token ?? '');
-
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithCredential(facebookAuthCredential);
-
-      final User? user = userCredential.user;
-
-      final userModel.User? existingUser =
-          await _getUserByUid(userService, user?.uid);
-
-      final userModel.User uModel = _buildUserModel(user, existingUser);
-
-      await _updateOrCreateUser(
-          userService, user?.uid, uModel, existingUser != null);
-
-      return Right(user);
-    } on FirebaseAuthException catch (e) {
-      return _handleException(e);
-    } catch (e) {
-      return Left(TempLanguage().lblGoogleSignInError);
-    }
-  }
+  // Future<Either<String, User?>> signInWithFacebook() async {
+  //   try {
+  //     final userService = sl.get<UserService>();
+  //
+  //     final LoginResult loginResult = await FacebookAuth.instance.login();
+  //
+  //     final OAuthCredential facebookAuthCredential =
+  //         FacebookAuthProvider.credential(loginResult.accessToken?.token ?? '');
+  //
+  //     UserCredential userCredential = await FirebaseAuth.instance
+  //         .signInWithCredential(facebookAuthCredential);
+  //
+  //     final User? user = userCredential.user;
+  //
+  //     final userModel.User? existingUser =
+  //         await _getUserByUid(userService, user?.uid);
+  //
+  //     final userModel.User uModel = _buildUserModel(user, existingUser);
+  //
+  //     await _updateOrCreateUser(
+  //         userService, user?.uid, uModel, existingUser != null);
+  //
+  //     return Right(user);
+  //   } on FirebaseAuthException catch (e) {
+  //     return _handleException(e);
+  //   } catch (e) {
+  //     return Left(TempLanguage().lblGoogleSignInError);
+  //   }
+  // }
 
   Future<Either<String, User?>> signInWithTwitter() async {
     try {
