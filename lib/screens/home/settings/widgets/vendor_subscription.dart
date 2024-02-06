@@ -44,18 +44,18 @@ class VendorSubscription extends StatelessWidget {
 
               Text(
                 TempLanguage().lblChooseAPlane,
-                style: context.currentTextTheme.titleMedium?.copyWith(fontSize: 32, color: AppColors.primaryFontColor),
+                style: context.currentTextTheme.titleMedium?.copyWith(fontSize: 18, color: AppColors.primaryFontColor),
               ),
               const SizedBox(height: 18,),
 
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 24),
-                padding:  const EdgeInsets.symmetric(horizontal: 24),
-                height: 150,
+                padding:  const EdgeInsets.symmetric(horizontal: 14),
+                height: 100,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +70,7 @@ class VendorSubscription extends StatelessWidget {
                             TempLanguage().lblAddUnlimitedMenuItems,
                             style: const TextStyle(
                                 fontFamily: METROPOLIS_BOLD,
-                                fontSize: 16,
+                                fontSize: 12,
                                 color: AppColors.whiteColor
                             ),
                           ),
@@ -81,13 +81,13 @@ class VendorSubscription extends StatelessWidget {
                     Row(
                       children: [
                         Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,),
-                        const SizedBox(width: 16,),
+                        const SizedBox(width: 12,),
                         Flexible(
                           child: Text(
                             TempLanguage().lblMakeYourTruckVisible,
                             style: const TextStyle(
                                 fontFamily: METROPOLIS_BOLD,
-                                fontSize: 16,
+                                fontSize: 12,
                                 color: AppColors.whiteColor
                             ),
                           ),
@@ -97,7 +97,7 @@ class VendorSubscription extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 18,),
+              const SizedBox(height: 12,),
 
               userCubit.state.vendorType == VendorType.individual.name
                   ? const IndividualPlans()

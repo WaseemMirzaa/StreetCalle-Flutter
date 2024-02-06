@@ -384,15 +384,16 @@ class PermissionUtils {
           : TempLanguage().lblLocationPermission)
           : TempLanguage().lblLocationAndNotificationPermission;
 
-      final returnedResult = await Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => PermissionScreen(title: title),
-        ),
-      );
-
-      if (returnedResult != null) {
-        return returnedResult;
-      }
+      // final returnedResult = await Navigator.of(context).push(
+      //   MaterialPageRoute(
+      //     builder: (context) => PermissionScreen(title: title),
+      //   ),
+      // );
+      //
+      // if (returnedResult != null) {
+      //   return returnedResult;
+      // }
+      return false;
     } else if (!(isLocationGranted &&
         ((isVersion12 ? isNotificationGranted : true)))) {
       String title = isLocationGranted
