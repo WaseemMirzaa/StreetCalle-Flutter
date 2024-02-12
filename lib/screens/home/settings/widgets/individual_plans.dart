@@ -232,4 +232,79 @@ class IndividualPlans extends StatelessWidget {
       userCubit.setSessionId('');
     }
   }
+// Future<void> subscribe(UserService userService, UserCubit userCubit, BuildContext context, String planLookUpKey) async {
+//     try {
+//       final sessionId = await StripeService.createCheckoutSession(planLookUpKey);
+//       String id = sessionId['session']['id'] ?? '';
+//       String url = sessionId['session']['url'] ?? '';
+//       if (!context.mounted) return;
+//       Navigator.pop(context);
+//       Navigator.of(context).push(MaterialPageRoute(
+//           builder: (_) => CheckOutPage(
+//             sessionId: id,
+//             planLookUpKey: planLookUpKey,
+//             url: url,
+//             userCubit: userCubit,
+//             userService: userService,
+//             subscriptionType: SubscriptionType.individual.name,
+//           )
+//        )
+//       );
+//     } catch (e) {
+//       showToast(context, '$e');
+//     }
+//   }
+
+  // Future<void> cancelSubscription(UserCubit userCubit, UserService userService, String subscriptionId, String planLookUpKey, BuildContext context) async {
+  //   final cancelSubscription = await StripeService.cancelSubscription(subscriptionId);
+  //   if (!context.mounted) return;
+  //   Navigator.pop(context);
+  //   subscriptionStatus(cancelSubscription['subscription']['status'], userService, userCubit, planLookUpKey);
+  // }
+  //
+  // Future<void> updateSubscription(UserCubit userCubit, UserService userService, String subscriptionId, String planLookUpKey, BuildContext context) async {
+  //   final updateSubscription = await StripeService.updateSubscription(subscriptionId, planLookUpKey);
+  //   if (!context.mounted) return;
+  //   Navigator.pop(context);
+  //   subscriptionStatus(updateSubscription['subscription']['status'], userService, userCubit, planLookUpKey);
+  // }
+  //
+  // Future<void> subscriptionStatus(String status, UserService userService, UserCubit userCubit, String planLookUpKey) async {
+  //   switch(status) {
+  //     case 'incomplete':
+  //       break;
+  //     case 'incomplete_expired':
+  //       break;
+  //     case 'trialing':
+  //       syncUserSubscriptionStatus(userService, userCubit, true, SubscriptionType.individual.name, planLookUpKey);
+  //       toast(TempLanguage().lblSubscribedSuccessfully);
+  //       break;
+  //     case 'active':
+  //       syncUserSubscriptionStatus(userService, userCubit, true, SubscriptionType.individual.name, planLookUpKey);
+  //       break;
+  //     case 'past_due':
+  //       break;
+  //     case 'canceled':
+  //       syncUserSubscriptionStatus(userService, userCubit, false, SubscriptionType.none.name, '');
+  //       toast(TempLanguage().lblSubscriptionCancelledSuccessfully);
+  //       break;
+  //     case 'unpaid':
+  //       break;
+  //   }
+  // }
+  //
+  // Future<void> syncUserSubscriptionStatus(UserService userService, UserCubit userCubit, bool isSubscribed, String subscriptionType, String planLookUpKey) async {
+  //   final result = await userService.updateUserSubscription(isSubscribed, subscriptionType, userCubit.state.userId, planLookUpKey);
+  //   if (result) {
+  //     userCubit.setIsSubscribed(isSubscribed);
+  //     userCubit.setSubscriptionType(subscriptionType);
+  //     userCubit.setPlanLookUpKey(planLookUpKey);
+  //   }
+  //   if (!isSubscribed) {
+  //     await userService.updateUserStripeDetails('', '', '', userCubit.state.userId);
+  //     userCubit.setSubscriptionId('');
+  //     userCubit.setStripeId('');
+  //     userCubit.setSessionId('');
+  //   }
+  // }
 }

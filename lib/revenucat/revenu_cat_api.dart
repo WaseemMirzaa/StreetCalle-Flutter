@@ -9,7 +9,7 @@ class RevenuCatAPI{
     if (Platform.isAndroid) {
       configuration = PurchasesConfiguration('goog_eVoBcGsxTiwQWdNPCVpHeXsLCkz');
     } else if (Platform.isIOS) {
-      configuration = PurchasesConfiguration('');
+      configuration = PurchasesConfiguration('appl_jnwNgRrmTqnyuKGsjHolmxtcYPl');
     }
     await Purchases.configure(configuration);
   }

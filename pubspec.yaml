@@ -79,6 +79,7 @@ dependencies:
   flutter_facebook_auth: ^6.0.4
   purchases_flutter: ^6.18.0
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

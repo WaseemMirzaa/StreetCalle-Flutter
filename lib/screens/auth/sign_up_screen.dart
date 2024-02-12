@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
+import 'package:street_calle/screens/auth/cubit/checkbox/checkbox_cubit.dart';
+import 'package:street_calle/screens/auth/cubit/checkbox/checkbox_state.dart';
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -18,12 +20,14 @@ import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
+import 'package:street_calle/utils/my_sizer.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    MySizer().init(context);
     return Scaffold(
       body: SizedBox(
         width: context.width,
@@ -139,6 +143,7 @@ class SignUpScreen extends StatelessWidget {
                   isObscure: true,
                 ),
               ),
+
               const SizedBox(height: 24,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
@@ -149,6 +154,65 @@ class SignUpScreen extends StatelessWidget {
                   controller: context.read<SignUpCubit>().confirmPasswordController,
                   isSmall: true,
                   isObscure: true,
+                ),
+              ),
+              const SizedBox(height: 15,),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    BlocBuilder<CheckBoxCubit, CheckBoxStates>(
+                      buildWhen: (previous, current) => previous.isSwitch != current.isSwitch,
+                      builder: (context, state) {
+                        return Checkbox(
+                          value: state.isSwitch,
+                          onChanged: (newValue) {
+                            context.read<CheckBoxCubit>().enableOrDisableCheckBox(); // Dispatch the event
+
+                            // Access the updated state directly
+                            bool updatedValue = context.read<CheckBoxCubit>().state.isSwitch;
+                            print(updatedValue);
+                          },
+                        );
+                      },
+                    ),
+
+                     Flexible(child: RichText(
+                      text: TextSpan(
+                        text: 'I have read and agree to the ',
+                          style: context.currentTextTheme.labelSmall,
+                        children: [
+                          TextSpan(
+                            text: 'Terms of Use',
+                              style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor,decoration: TextDecoration.underline),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap =(){
+                                context.push(AppRoutingName.termsAndConditions);
+                              }
+                          ),
+                          TextSpan(
+                             text: ' and ',
+                           style: context.currentTextTheme.labelSmall,
+                         ),
+                           TextSpan(
+                            text: 'Privacy Policy',
+                               style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor,decoration: TextDecoration.underline),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap =(){
+                                  context.push(AppRoutingName.privacyPolicy);
+                                }
+                          ),
+                           TextSpan(
+                            text: '.',
+                            style: context.currentTextTheme.labelSmall,
+                          ),
+                        ]
+
+
+                      )))
+                  ],
                 ),
               ),
               const SizedBox(height: 24,),
@@ -205,6 +269,8 @@ class SignUpScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: 20,),
+
             ],
           ),
         ),
@@ -222,6 +288,7 @@ class SignUpScreen extends StatelessWidget {
     final countryCode = signUpCubit.countryCodeController.text;
     final password = signUpCubit.passwordController.text;
     final confirmPassword = signUpCubit.confirmPasswordController.text;
+    bool isCheckBoxChecked = context.read<CheckBoxCubit>().state.isSwitch;
 
     Country country = countries.where((element) => element.code == (countryCode.isEmpty ? initialCountyCode : countryCode)).first;
 
@@ -243,6 +310,8 @@ class SignUpScreen extends StatelessWidget {
       showToast(context, TempLanguage().lblPasswordMustBeGreater);
     } else if (password != confirmPassword) {
       showToast(context, TempLanguage().lblPasswordMismatch);
+    } else if (!isCheckBoxChecked) {
+      showToast(context, 'Please Accept the Terms of Use and Privacy Policy to sign up');
     } else {
       signUpCubit.signUp(image);
     }
