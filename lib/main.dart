@@ -4,7 +4,6 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/cubit/user_state.dart';
-import 'package:street_calle/revenucat/revenu_cat_api.dart';
 import 'package:street_calle/screens/auth/cubit/checkbox/checkbox_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
