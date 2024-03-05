@@ -29,7 +29,7 @@ class _VendorMainScreenState extends State<VendorMainScreen> {
   @override
   void initState() {
     super.initState();
-    init();
+    // init();
   }
 
   Future<void> init() async {

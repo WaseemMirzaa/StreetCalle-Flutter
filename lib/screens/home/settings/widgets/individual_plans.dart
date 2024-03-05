@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:purchases_flutter/models/customer_info_wrapper.dart';
+import 'package:purchases_flutter/models/offering_wrapper.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:street_calle/services/stripe_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/cubit/user_state.dart';
@@ -9,12 +13,15 @@ import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
-import 'package:street_calle/screens/home/settings/widgets/check_out_page.dart';
+// import 'package:street_calle/screens/home/settings/widgets/check_out_page.dart';
 import 'package:street_calle/utils/custom_widgets/own_show_confirm_dialog.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 
+import 'check_out_page.dart';
+
 class IndividualPlans extends StatelessWidget {
-  const IndividualPlans({Key? key}) : super(key: key);
+  final Offering? offering;
+  const IndividualPlans({Key? key, required this.offering}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,160 +30,251 @@ class IndividualPlans extends StatelessWidget {
 
     return Column(
       children: [
-        BlocBuilder<UserCubit, UserState>(
-          builder: (context, state) {
-            return SubscriptionPlanItem(
-              title: TempLanguage().lblIndividualStarter,
-              amount: '\$19.99',
-              description: TempLanguage().lblIndividualStarterDes,
-              subtitle: TempLanguage().lblOneMonth,
-              isSubscribed: state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name,
-              buttonText: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name) ? TempLanguage().lblCancel : TempLanguage().lblSubscribe,
-              onTap: () async {
-                try {
-                  ownShowConfirmDialogCustom(
-                    context,
-                    title: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name)
-                        ? TempLanguage().lblCancelSubscription
-                        : TempLanguage().lblSubscribe,
-                    subTitle: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name)
-                        ? TempLanguage().lblCancelSubscriptionInfo
-                        : TempLanguage().lblSubscribeInfo,
-                    positiveText: TempLanguage().lblOk,
-                    cancelable: false,
-                    dialogType: CustomDialogType.CONFIRMATION,
-                    primaryColor: AppColors.primaryColor,
-                    barrierDismissible: false,
-                    onAccept: (ctx) {
-                      Navigator.pop(ctx);
-                      if (state.isSubscribed) {
-                        if (state.planLookUpKey == IndivisualPlan.ind_one_month.name) {
-                          showLoadingDialog(context, null);
-                          cancelSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_month.name, context);
-                        } else {
-                          showLoadingDialog(context, null);
-                          updateSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_month.name, context);
+        offering != null?
+        ListView.builder(
+            itemCount: offering?.availablePackages.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index){
+              var myProducts = offering?.availablePackages;
+              return         Padding(
+                padding: const EdgeInsets.only(bottom:  18),
+                child: BlocBuilder<UserCubit, UserState>(
+                  builder: (context, state) {
+                    return SubscriptionPlanItem(
+                      title: myProducts![index].storeProduct.title,//TempLanguage().lblIndividualStarter,
+                      amount: myProducts[index].storeProduct.priceString,
+                      description: myProducts[index].storeProduct.description,//TempLanguage().lblIndividualStarterDes,
+                      subtitle: myProducts[index].storeProduct.subscriptionPeriod!,//TempLanguage().lblOneMonth,
+                      isSubscribed: state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name,
+                      buttonText: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name) ? TempLanguage().lblCancel : TempLanguage().lblSubscribe,
+                      onTap: () async {
+                        try {
+                          ownShowConfirmDialogCustom(
+                              context,
+                              title: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name)
+                                  ? TempLanguage().lblCancelSubscription
+                                  : TempLanguage().lblSubscribe,
+                              subTitle: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name)
+                                  ? TempLanguage().lblCancelSubscriptionInfo
+                                  : TempLanguage().lblSubscribeInfo,
+                              positiveText: TempLanguage().lblOk,
+                              cancelable: false,
+                              dialogType: CustomDialogType.CONFIRMATION,
+                              primaryColor: AppColors.primaryColor,
+                              barrierDismissible: false,
+                              onAccept: (ctx) {
+                                Navigator.pop(ctx);
+                                if (state.isSubscribed) {
+                                  if (state.planLookUpKey == IndivisualPlan.ind_one_month.name) {
+                                    showLoadingDialog(context, null);
+                                    cancelSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_month.name, context);
+                                  } else {
+                                    showLoadingDialog(context, null);
+                                    updateSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_month.name, context);
+                                  }
+                                } else {
+                                  // showLoadingDialog(context, null);
+                                  subscribe(userService, userCubit, context, IndivisualPlan.ind_one_month.name);
+                                }
+                              },
+                              onCancel: (context) {
+                                Navigator.pop(context);
+                              }
+                          );
+
+                        } catch (e) {
+                          Navigator.pop(context);
+                          showToast(context, '$e');
                         }
-                      } else {
-                        showLoadingDialog(context, null);
-                        subscribe(userService, userCubit, context, IndivisualPlan.ind_one_month.name);
-                      }
-                    },
-                    onCancel: (context) {
-                      Navigator.pop(context);
-                    }
-                  );
-
-                } catch (e) {
-                  Navigator.pop(context);
-                  showToast(context, '$e');
-                }
-              },
-            );
-          },
-        ),
-        const SizedBox(height: 18,),
-        BlocBuilder<UserCubit, UserState>(
-          builder: (context, state) {
-            return SubscriptionPlanItem(
-              title: TempLanguage().lblIndividualGrowthPlan,
-              amount: '\$191.99',
-              description: TempLanguage().lblIndividualGrowthDes,
-              buttonText: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_year.name) ? TempLanguage().lblCancel : TempLanguage().lblSubscribe,
-              isSubscribed: state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_year.name,
-              subtitle: TempLanguage().lblOneYear,
-              onTap: () async {
-                try {
-                  // final stripeId = await getStripeId(userCubit, userService, context, userCubit.state.userId);
-                  //
-                  // if (userCubit.state.isSubscribed) {
-                  //   cancelSubscription(userCubit, userService, stripeId);
-                  // } else {
-                  //   subscribe(stripeId, userService, userCubit);
-                  // }
-
-                  // if (state.isSubscribed) {
-                  //   if (state.planLookUpKey == IndivisualPlan.ind_one_year.name) {
-                  //     userCubit.setIsSubscribed(false);
-                  //     userCubit.setSubscriptionType(SubscriptionType.none.name);
-                  //     userCubit.setPlanLookUpKey('');
-                  //   } else {
-                  //     userCubit.setIsSubscribed(true);
-                  //     userCubit.setSubscriptionType(SubscriptionType.individual.name);
-                  //     userCubit.setPlanLookUpKey(IndivisualPlan.ind_one_year.name);
-                  //   }
-                  // } else {
-                  //   userCubit.setIsSubscribed(true);
-                  //   userCubit.setSubscriptionType(SubscriptionType.individual.name);
-                  //   userCubit.setPlanLookUpKey(IndivisualPlan.ind_one_year.name);
-                  // }
-
-                  ownShowConfirmDialogCustom(
-                      context,
-                      title: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_year.name)
-                          ? TempLanguage().lblCancelSubscription
-                          : TempLanguage().lblSubscribe,
-                      subTitle: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_year.name)
-                          ? TempLanguage().lblCancelSubscriptionInfo
-                          : TempLanguage().lblSubscribeInfo,
-                      positiveText: TempLanguage().lblOk,
-                      cancelable: false,
-                      dialogType: CustomDialogType.CONFIRMATION,
-                      primaryColor: AppColors.primaryColor,
-                      barrierDismissible: false,
-                      onAccept: (ctx) {
-                        Navigator.pop(ctx);
-                        if (state.isSubscribed) {
-                          if (state.planLookUpKey == IndivisualPlan.ind_one_year.name) {
-                            showLoadingDialog(context, null);
-                            cancelSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_year.name, context);
-                          } else {
-                            showLoadingDialog(context, null);
-                            updateSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_year.name, context);
-                          }
-                        } else {
-                          showLoadingDialog(context, null);
-                          subscribe(userService, userCubit, context, IndivisualPlan.ind_one_year.name);
-                        }
-
                       },
-                      onCancel: (context) {
-                        Navigator.pop(context);
-                      }
-                  );
+                    );
+                  },
+                ),
+              );
 
-                } catch (e) {
-                  Navigator.pop(context);
-                  showToast(context, '$e');
-                }
+            }):
+        Column(
+          children: [
+            BlocBuilder<UserCubit, UserState>(
+              builder: (context, state) {
+                return SubscriptionPlanItem(
+                  title: TempLanguage().lblIndividualStarter,
+                  amount: '\$19.999',
+                  description: TempLanguage().lblIndividualStarterDes,
+                  subtitle: TempLanguage().lblOneMonth,
+                  isSubscribed: state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name,
+                  buttonText: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name) ? TempLanguage().lblCancel : TempLanguage().lblSubscribe,
+                  onTap: () async {
+                    try {
+                      ownShowConfirmDialogCustom(
+                          context,
+                          title: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name)
+                              ? TempLanguage().lblCancelSubscription
+                              : TempLanguage().lblSubscribe,
+                          subTitle: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_month.name)
+                              ? TempLanguage().lblCancelSubscriptionInfo
+                              : TempLanguage().lblSubscribeInfo,
+                          positiveText: TempLanguage().lblOk,
+                          cancelable: false,
+                          dialogType: CustomDialogType.CONFIRMATION,
+                          primaryColor: AppColors.primaryColor,
+                          barrierDismissible: false,
+                          onAccept: (ctx) {
+                            Navigator.pop(ctx);
+                            if (state.isSubscribed) {
+                              if (state.planLookUpKey == IndivisualPlan.ind_one_month.name) {
+                                showLoadingDialog(context, null);
+                                cancelSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_month.name, context);
+                              } else {
+                                showLoadingDialog(context, null);
+                                updateSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_month.name, context);
+                              }
+                            } else {
+                              showLoadingDialog(context, null);
+                              subscribe(userService, userCubit, context, IndivisualPlan.ind_one_month.name);
+                            }
+                          },
+                          onCancel: (context) {
+                            Navigator.pop(context);
+                          }
+                      );
+
+                    } catch (e) {
+                      Navigator.pop(context);
+                      showToast(context, '$e');
+                    }
+                  },
+                );
               },
-            );
-          },
-        ),
+            ),
+            const SizedBox(height: 18,),
+            BlocBuilder<UserCubit, UserState>(
+              builder: (context, state) {
+                return SubscriptionPlanItem(
+                  title: TempLanguage().lblIndividualGrowthPlan,
+                  amount: '\$191.99',
+                  description: TempLanguage().lblIndividualGrowthDes,
+                  buttonText: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_year.name) ? TempLanguage().lblCancel : TempLanguage().lblSubscribe,
+                  isSubscribed: state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_year.name,
+                  subtitle: TempLanguage().lblOneYear,
+                  onTap: () async {
+                    try {
+                      // final stripeId = await getStripeId(userCubit, userService, context, userCubit.state.userId);
+                      //
+                      // if (userCubit.state.isSubscribed) {
+                      //   cancelSubscription(userCubit, userService, stripeId);
+                      // } else {
+                      //   subscribe(stripeId, userService, userCubit);
+                      // }
+
+                      // if (state.isSubscribed) {
+                      //   if (state.planLookUpKey == IndivisualPlan.ind_one_year.name) {
+                      //     userCubit.setIsSubscribed(false);
+                      //     userCubit.setSubscriptionType(SubscriptionType.none.name);
+                      //     userCubit.setPlanLookUpKey('');
+                      //   } else {
+                      //     userCubit.setIsSubscribed(true);
+                      //     userCubit.setSubscriptionType(SubscriptionType.individual.name);
+                      //     userCubit.setPlanLookUpKey(IndivisualPlan.ind_one_year.name);
+                      //   }
+                      // } else {
+                      //   userCubit.setIsSubscribed(true);
+                      //   userCubit.setSubscriptionType(SubscriptionType.individual.name);
+                      //   userCubit.setPlanLookUpKey(IndivisualPlan.ind_one_year.name);
+                      // }
+
+                      ownShowConfirmDialogCustom(
+                          context,
+                          title: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_year.name)
+                              ? TempLanguage().lblCancelSubscription
+                              : TempLanguage().lblSubscribe,
+                          subTitle: (state.isSubscribed && state.planLookUpKey == IndivisualPlan.ind_one_year.name)
+                              ? TempLanguage().lblCancelSubscriptionInfo
+                              : TempLanguage().lblSubscribeInfo,
+                          positiveText: TempLanguage().lblOk,
+                          cancelable: false,
+                          dialogType: CustomDialogType.CONFIRMATION,
+                          primaryColor: AppColors.primaryColor,
+                          barrierDismissible: false,
+                          onAccept: (ctx) {
+                            Navigator.pop(ctx);
+                            if (state.isSubscribed) {
+                              if (state.planLookUpKey == IndivisualPlan.ind_one_year.name) {
+                                showLoadingDialog(context, null);
+                                cancelSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_year.name, context);
+                              } else {
+                                showLoadingDialog(context, null);
+                                updateSubscription(userCubit, userService, state.subscriptionId, IndivisualPlan.ind_one_year.name, context);
+                              }
+                            } else {
+                              showLoadingDialog(context, null);
+                              subscribe(userService, userCubit, context, IndivisualPlan.ind_one_year.name);
+                            }
+
+                          },
+                          onCancel: (context) {
+                            Navigator.pop(context);
+                          }
+                      );
+
+                    } catch (e) {
+                      Navigator.pop(context);
+                      showToast(context, '$e');
+                    }
+                  },
+                );
+              },
+            ),
+          ],
+        )
+
       ],
     );
   }
 
   Future<void> subscribe(UserService userService, UserCubit userCubit, BuildContext context, String planLookUpKey) async {
-    try {
-      final sessionId = await StripeService.createCheckoutSession(planLookUpKey);
-      String id = sessionId['session']['id'] ?? '';
-      String url = sessionId['session']['url'] ?? '';
-      if (!context.mounted) return;
-      Navigator.pop(context);
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => CheckOutPage(
-            sessionId: id,
-            planLookUpKey: planLookUpKey,
-            url: url,
-            userCubit: userCubit,
-            userService: userService,
-            subscriptionType: SubscriptionType.individual.name,
-          )
-       )
-      );
-    } catch (e) {
-      showToast(context, '$e');
+
+
+    CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+
+    if (customerInfo.entitlements.all[planLookUpKey] != null &&
+        customerInfo.entitlements.all[planLookUpKey]?.isActive == true) {
+
+
+    } else {
+      Offerings? offerings;
+      try {
+        offerings = await Purchases.getOfferings();
+      } on PlatformException catch (e) {
+       toast(e.toString());
+      }
+
+
+
+      if (offerings == null || offerings.current == null) {
+        // offerings are empty, show a message to your user
+      } else {
+        // current offering is available, show paywall
+        await showModalBottomSheet(
+          useRootNavigator: true,
+          isDismissible: true,
+          isScrollControlled: true,
+          backgroundColor: Colors.blue,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+          ),
+          context: context,
+          builder: (BuildContext context) {
+            return StatefulBuilder(
+                builder: (BuildContext context, StateSetter setModalState) {
+                  return Paywall(
+                    offering: offerings!.current!,
+                    planLookUp: planLookUpKey,
+                  );
+                });
+          },
+        );
+      }
     }
   }
 
@@ -232,28 +330,30 @@ class IndividualPlans extends StatelessWidget {
       userCubit.setSessionId('');
     }
   }
-// Future<void> subscribe(UserService userService, UserCubit userCubit, BuildContext context, String planLookUpKey) async {
-//     try {
-//       final sessionId = await StripeService.createCheckoutSession(planLookUpKey);
-//       String id = sessionId['session']['id'] ?? '';
-//       String url = sessionId['session']['url'] ?? '';
-//       if (!context.mounted) return;
-//       Navigator.pop(context);
-//       Navigator.of(context).push(MaterialPageRoute(
-//           builder: (_) => CheckOutPage(
-//             sessionId: id,
-//             planLookUpKey: planLookUpKey,
-//             url: url,
-//             userCubit: userCubit,
-//             userService: userService,
-//             subscriptionType: SubscriptionType.individual.name,
-//           )
-//        )
-//       );
-//     } catch (e) {
-//       showToast(context, '$e');
-//     }
-//   }
+
+
+  Future<void> subscribes(UserService userService, UserCubit userCubit, BuildContext context, String planLookUpKey) async {
+    try {
+      final sessionId = await StripeService.createCheckoutSession(planLookUpKey);
+      String id = sessionId['session']['id'] ?? '';
+      String url = sessionId['session']['url'] ?? '';
+      if (!context.mounted) return;
+      Navigator.pop(context);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => CheckOutPage(
+            sessionId: id,
+            planLookUpKey: planLookUpKey,
+            url: url,
+            userCubit: userCubit,
+            userService: userService,
+            subscriptionType: SubscriptionType.individual.name,
+          )
+       )
+      );
+    } catch (e) {
+      showToast(context, '$e');
+    }
+  }
 
   // Future<void> cancelSubscription(UserCubit userCubit, UserService userService, String subscriptionId, String planLookUpKey, BuildContext context) async {
   //   final cancelSubscription = await StripeService.cancelSubscription(subscriptionId);
@@ -307,4 +407,94 @@ class IndividualPlans extends StatelessWidget {
   //     userCubit.setSessionId('');
   //   }
   // }
+}
+class Paywall extends StatefulWidget {
+  final Offering offering;
+  final String planLookUp;
+
+  const Paywall({Key? key, required this.offering, required this.planLookUp}) : super(key: key);
+
+  @override
+  _PaywallState createState() => _PaywallState();
+}
+
+class _PaywallState extends State<Paywall> {
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: SafeArea(
+        child: Wrap(
+          children: <Widget>[
+            Container(
+              height: 70.0,
+              width: double.infinity,
+              decoration: const BoxDecoration(borderRadius:
+                  BorderRadius.vertical(top: Radius.circular(25.0))),
+              child: const Center(
+                  child:
+                  Text('✨ Magic Weather Premium', )),
+            ),
+            const Padding(
+              padding:
+              EdgeInsets.only(top: 32, bottom: 16, left: 16.0, right: 16.0),
+              child: SizedBox(
+                child: Text(
+                  'MAGIC WEATHER PREMIUM',
+       ),
+                width: double.infinity,
+              ),
+            ),
+            ListView.builder(
+              itemCount: widget.offering.availablePackages.length,
+              itemBuilder: (BuildContext context, int index) {
+                var myProductList = widget.offering.availablePackages;
+                return Card(
+                  color: Colors.grey,
+                  child: ListTile(
+                      onTap: () async {
+                        try {
+                          final userService = sl.get<UserService>();
+                          final userCubit = context.read<UserCubit>();
+                          CustomerInfo customerInfo =
+                          await Purchases.purchasePackage(
+                              myProductList[index]);
+                          EntitlementInfo? entitlement =
+                          customerInfo.entitlements.all[widget.planLookUp];
+                          userCubit.setIsSubscribed(entitlement?.isActive ?? false);
+
+                        } catch (e) {
+                          print(e);
+                        }
+
+                        setState(() {});
+                        Navigator.pop(context);
+                      },
+                      title: Text(
+                        myProductList[index].storeProduct.title,
+                      ),
+                      subtitle: Text(
+                        myProductList[index].storeProduct.description,),
+
+                      trailing: Text(
+                          myProductList[index].storeProduct.priceString,))
+                );
+              },
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+            ),
+            const Padding(
+              padding:
+              EdgeInsets.only(top: 32, bottom: 16, left: 16.0, right: 16.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: Text(
+                  'footerText',
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

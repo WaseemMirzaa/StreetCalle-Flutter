@@ -5,6 +5,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 class RevenuCatAPI{
 
   static Future<void> initPlatformState() async {
+
     late PurchasesConfiguration configuration;
     if (Platform.isAndroid) {
       configuration = PurchasesConfiguration('goog_eVoBcGsxTiwQWdNPCVpHeXsLCkz');
@@ -14,8 +15,18 @@ class RevenuCatAPI{
     await Purchases.configure(configuration);
   }
 
-  static Future<Offerings> fetchAvailableProducts() async {
-    return await Purchases.getOfferings();
+  static Future<Offerings?> fetchAvailableProducts() async {
+    try {
+      var offerings = await Purchases.getOfferings();
+      return offerings;
+
+      // Process offerings here
+    } catch (e) {
+       print('Error fetching offerings: $e');
+      // Handle the error, check logs, and refer to documentation
+    }
+    return null;
+
   }
 
   static Future<void> purchasePackage(Package package, String entitleIdentifier) async {

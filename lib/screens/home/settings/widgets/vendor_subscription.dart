@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -11,9 +14,46 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/screens/home/settings/widgets/individual_plans.dart';
 import 'package:street_calle/screens/home/settings/widgets/agency_plans.dart';
 
-class VendorSubscription extends StatelessWidget {
+import 'package:street_calle/revenucat/revenu_cat_api.dart';
+
+class VendorSubscription extends StatefulWidget {
   const VendorSubscription({Key? key}) : super(key: key);
 
+  @override
+  State<VendorSubscription> createState() => _VendorSubscriptionState();
+}
+
+class _VendorSubscriptionState extends State<VendorSubscription> {
+   Offering? offer;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(Platform.isIOS){
+      print('%%%%%%%%%%%%%%%%%%${Platform.isIOS}');
+      initOfferings();
+    }
+    else{
+      offer = null;
+    }
+  }
+
+  initOfferings()async{
+    Offerings? offerings;
+
+      offerings = await RevenuCatAPI.fetchAvailableProducts();
+      if(offerings == null ||  offerings.current == null){
+        print('offers null');
+      }
+      else{
+        offer = offerings.current;
+        print(offer?.availablePackages);
+        setState(() {
+
+        });
+      }
+
+  }
   @override
   Widget build(BuildContext context) {
     final userCubit = context.read<UserCubit>();
@@ -100,7 +140,7 @@ class VendorSubscription extends StatelessWidget {
               const SizedBox(height: 12,),
 
               userCubit.state.vendorType == VendorType.individual.name
-                  ? const IndividualPlans()
+                  ?  IndividualPlans(offering: offer,)
                   : const AgencyPlans(),
 
               const SizedBox(height: 18,),

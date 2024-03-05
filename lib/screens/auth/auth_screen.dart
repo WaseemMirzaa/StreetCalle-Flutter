@@ -17,11 +17,12 @@ class AuthScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Spacer(),
           const SizedBox(height: 20,),
+          const SizedBox(),
           SvgPicture.asset(AppAssets.logo, width: defaultLogoSize, height: defaultLogoSize,),
-          const SizedBox(height: 20,),
+          // const SizedBox(height: 20,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48.0),
             child: Text(
@@ -30,53 +31,51 @@ class AuthScreen extends StatelessWidget {
               style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.secondaryFontColor),
             ),
           ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 44.0),
-                  child: SizedBox(
-                    width: context.width,
-                    height: defaultButtonSize,
-                    child: AppButton(
-                      text: TempLanguage().lblLogin,
-                      elevation: 0.0,
-                      onTap: () {
-                        context.pushNamed(AppRoutingName.loginScreen);
-                      },
-                      shapeBorder: RoundedRectangleBorder(
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 44.0),
+                child: SizedBox(
+                  width: context.width,
+                  height: defaultButtonSize,
+                  child: AppButton(
+                    text: TempLanguage().lblLogin,
+                    elevation: 0.0,
+                    onTap: () {
+                      context.pushNamed(AppRoutingName.loginScreen);
+                    },
+                    shapeBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)
+                    ),
+                    textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 44.0),
+                child: SizedBox(
+                  width: context.width,
+                  height: defaultButtonSize,
+                  child: AppButton(
+                    text: TempLanguage().lblCreateAccount,
+                    elevation: 0.0,
+                    onTap: () {
+                      context.pushNamed(AppRoutingName.signUpScreen);
+                    },
+                    shapeBorder: RoundedRectangleBorder(
+                        side: const BorderSide(color: AppColors.primaryColor),
                         borderRadius: BorderRadius.circular(30)
-                      ),
-                      textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.whiteColor),
-                      color: AppColors.primaryColor,
                     ),
+                    textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.primaryColor),
+                    color: AppColors.whiteColor,
                   ),
                 ),
-                const SizedBox(height: 20,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 44.0),
-                  child: SizedBox(
-                    width: context.width,
-                    height: defaultButtonSize,
-                    child: AppButton(
-                      text: TempLanguage().lblCreateAccount,
-                      elevation: 0.0,
-                      onTap: () {
-                        context.pushNamed(AppRoutingName.signUpScreen);
-                      },
-                      shapeBorder: RoundedRectangleBorder(
-                          side: const BorderSide(color: AppColors.primaryColor),
-                          borderRadius: BorderRadius.circular(30)
-                      ),
-                      textStyle: context.currentTextTheme.labelLarge?.copyWith(color: AppColors.primaryColor),
-                      color: AppColors.whiteColor,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20,),
-              ],
-            ),
+              ),
+              const SizedBox(height: 20,),
+            ],
           ),
         ],
       ),

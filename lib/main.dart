@@ -1,9 +1,13 @@
+
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/revenucat/revenu_cat_api.dart';
 import 'package:street_calle/screens/auth/cubit/checkbox/checkbox_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
@@ -47,7 +51,6 @@ Future<void> main() async {
   await init();
   final sharedPreferencesService = sl.get<SharedPreferencesService>();
   await sharedPreferencesService.init();
-  // RevenuCatAPI.initPlatformState();
 
   await dotenv.load(fileName: 'assets/.env');
   Stripe.publishableKey = dotenv.env['PUBLISHABLE_KEY_TEST'] ?? '';
@@ -56,6 +59,8 @@ Future<void> main() async {
   Stripe.merchantIdentifier = 'merchant.flutter.street-calle.stripe';
   Stripe.urlScheme = 'street-calle-stripe';
   await Stripe.instance.applySettings();
+  RevenuCatAPI.initPlatformState();
+
 
   try {
     if (isAndroid) {
@@ -65,7 +70,9 @@ Future<void> main() async {
     print(e);
   } finally {
     runApp(
-      const MyApp(),
+      DevicePreview(
+          enabled: !kReleaseMode,
+          builder: (context)=> const MyApp())
     );
   }
 }

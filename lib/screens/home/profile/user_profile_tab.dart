@@ -14,6 +14,7 @@ import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
+import 'package:street_calle/utils/my_sizer.dart';
 import 'package:street_calle/widgets/category_widget.dart';
 
 class UserprofileTab extends StatelessWidget {
@@ -41,7 +42,7 @@ class UserprofileTab extends StatelessWidget {
                   onPressed: (){
                     context.read<EditProfileEnableCubit>().updateButtonClicked();
                   },
-                  child: Text(TempLanguage().lblCancel, style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.redColor),)
+                  child: Text(TempLanguage().lblCancel, style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.redColor, fontSize: MySizer.size12),)
               );
             }
                  return const SizedBox.shrink();
