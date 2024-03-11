@@ -227,15 +227,18 @@ class TempLanguage {
 
   String get lblSubscribedSuccessfully => 'Subscribed successfully';
 
-  String get lblSubscriptionCancelledSuccessfully => 'Subscription Cancelled successfully';
+  String get lblSubscriptionCancelledSuccessfully =>
+      'Subscription Cancelled successfully';
 
   String get lblSubscribeInfo => 'Are you sure to Subscribe this plan?';
 
   String get lblCancelSubscription => 'Cancel Subscription';
 
-  String get lblCancelSubscriptionInfo => 'Are you sure to cancel this subscription?';
+  String get lblCancelSubscriptionInfo =>
+      'Are you sure to cancel this subscription?';
 
-  String get lblForMoreEmployeesUpdatePlan => 'Upgrade your plan to enable more locations';
+  String get lblForMoreEmployeesUpdatePlan =>
+      'Upgrade your plan to enable more locations';
 
   String get lblOneMonth => 'Monthly';
 
@@ -259,17 +262,29 @@ class TempLanguage {
 
   String get lblEstablishAgencyGrowthPlan => 'Establish Agency Growth Plan';
 
-  String get lblIndividualStarterDes => 'As an individual, you can upload unlimited items.';
+  String get lblIndividualStarterDes =>
+      'As an individual, you can upload unlimited items.';
 
-  String get lblIndividualGrowthDes => 'As a individual, you can upload unlimited items and save 4% yearly.';
+  String get lblIndividualGrowthDes =>
+      'As a individual, you can upload unlimited items.';
 
-  String get lblNewAgencyStarterDes => 'New agencies can unlock the potential of 2-7 locations and can upload unlimited items';
+  String get lblNewAgencyStarterDes =>
+      'New agencies can unlock the potential of 2-3 locations and can upload unlimited items';
 
-  String get lblNewAgencyGrowthDes => 'With this plan, you can have 2-7 locations and can upload unlimited items and enjoy a 20% discount for a whole year.';
+  String get lblNewAgencyStarter2Des =>
+      'New agencies can unlock the potential of 4-9 locations and can upload unlimited items';
 
-  String get lblEstablishAgencyStarterDes => 'Unlock the potential for your agency\'s expansion with 8 or more locations and can upload unlimited items';
+  String get lblNewAgencyGrowthDes =>
+      'With this plan, you can have 2-3 locations and can upload unlimited items and enjoy a 15% discount for a whole year.';
 
-  String get lblEstablishAgencyGrowthDes => 'Establish your agency\'s success: Enjoy 8 or more locations and can upload unlimited items and a 20% discount for a full year!';
+  String get lblNewAgencyGrowth2Des =>
+      'With this plan, you can have 4-9 locations and can upload unlimited items and enjoy a 30% discount for a whole year.';
+
+  String get lblEstablishAgencyStarterDes =>
+      'Unlock the potential for your agency\'s expansion with 10 or more locations and can upload unlimited items';
+
+  String get lblEstablishAgencyGrowthDes =>
+      'Establish your agency\'s success: Enjoy 10 or more locations and can upload unlimited items and a 45% discount for a full year!';
 
   String get lblProfile => 'Profile';
 
@@ -290,7 +305,8 @@ class TempLanguage {
 
   String get lblAddItemPrice => 'Add item actual price';
   String get lblAddDealPrice => 'Add deal actual price';
-  String get lblDiscountedPriceCantBeGrater => 'Discount price can\'t be grater than actual price';
+  String get lblDiscountedPriceCantBeGrater =>
+      'Discount price can\'t be grater than actual price';
 
   String get lblAddItemFoodType => 'Add item food type';
 
@@ -357,7 +373,8 @@ class TempLanguage {
 
   String get lblYourConsent => 'Your consent is required';
   String get lblPayAttention => 'Pay Attention';
-  String get lblCreateAccountToPerformFunctionality => 'Create your account to perform this functionality';
+  String get lblCreateAccountToPerformFunctionality =>
+      'Create your account to perform this functionality';
 
   String get lblLocationPermissionRequired =>
       'Location permission is required to run the app smoothly and work properly.';
@@ -395,7 +412,8 @@ class TempLanguage {
 
   String get lblYouHaveBennBlockedByAdmin => 'You have been blocked by Owner';
 
-  String get lblInternetDisabled => 'No internet connection. Please enable it to run the app smoothly and work properly.';
+  String get lblInternetDisabled =>
+      'No internet connection. Please enable it to run the app smoothly and work properly.';
 
   String get lblLocationServiceDisabled =>
       'Location service is disabled. Please enable it to run the app smoothly and work properly.';
@@ -431,7 +449,8 @@ class TempLanguage {
 
   String get lblSelectCategory => 'Select Category';
 
-  String get lblSelectCategoryList => 'Please select your business category from the list';
+  String get lblSelectCategoryList =>
+      'Please select your business category from the list';
 
   String get lblAddressNotFound => 'Address not found';
 
@@ -485,10 +504,6 @@ class TempLanguage {
   String get lblUserNotFound => 'User Not Found';
 
   String get lblSignUpFailed => 'Sign-up failed. Please try again.';
-
-
-
-
 
   String get lblLorem => '''
   One brave soul did take a stab at translating the almost-not-quite-Latin. According to The Guardian, Jaspreet Singh Boparai undertook the challenge with the goal of making the text “precisely as incoherent in English as it is in Latin - and to make it incoherent in the same way”. As a result, “the Greek 'eu' in Latin became the French 'bien' [...] and the '-ing' ending in 'lorem ipsum' seemed best rendered by an '-iendum' in English.”

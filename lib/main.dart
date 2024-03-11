@@ -1,7 +1,4 @@
-
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
@@ -61,19 +58,21 @@ Future<void> main() async {
   await Stripe.instance.applySettings();
   RevenuCatAPI.initPlatformState();
 
-
   try {
     if (isAndroid) {
-        await GoogleMapsFlutterAndroid().initializeWithRenderer(AndroidMapRenderer.latest);
-      }
+      await GoogleMapsFlutterAndroid()
+          .initializeWithRenderer(AndroidMapRenderer.latest);
+    }
   } catch (e) {
     print(e);
   } finally {
     runApp(
-      DevicePreview(
-          enabled: !kReleaseMode,
-          builder: (context)=> const MyApp())
-    );
+        // DevicePreview(
+        //     enabled: !kReleaseMode,
+        //     builder: (context)=> const
+        const MyApp()
+        // )
+        );
   }
 }
 
@@ -85,54 +84,54 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context)=> ImageCubit(),
+          create: (context) => ImageCubit(),
         ),
         BlocProvider(
-          create: (context)=> sl<UserCubit>(),
+          create: (context) => sl<UserCubit>(),
         ),
         BlocProvider(
-          create: (context)=> sl<AddItemCubit>(),
+          create: (context) => sl<AddItemCubit>(),
           child: const VendorHomeTab(),
         ),
         // BlocProvider(
         //   create: (context)=> ItemBloc(itemService, sharedPreferencesService),
         // ),
         BlocProvider(
-          create: (context)=> sl<FoodTypeCubit>(),
+          create: (context) => sl<FoodTypeCubit>(),
         ),
         BlocProvider(
-          create: (context)=> sl<FoodTypeExpandedCubit>(),
+          create: (context) => sl<FoodTypeExpandedCubit>(),
         ),
         BlocProvider(
-          create: (context)=> sl<PricingCategoryExpandedCubit>(),
+          create: (context) => sl<PricingCategoryExpandedCubit>(),
         ),
         BlocProvider(
-          create: (context)=> sl<FoodTypeDropDownCubit>(),
+          create: (context) => sl<FoodTypeDropDownCubit>(),
         ),
         BlocProvider(
-          create: (context)=> sl<PricingCategoryCubit>(),
+          create: (context) => sl<PricingCategoryCubit>(),
         ),
         BlocProvider(
-          create: (context)=> sl<AddDealCubit>(),
+          create: (context) => sl<AddDealCubit>(),
         ),
         BlocProvider(
-          create: (context)=> SearchCubit(),
+          create: (context) => SearchCubit(),
         ),
         BlocProvider(
-          create: (context)=> CheckBoxCubit(),
+          create: (context) => CheckBoxCubit(),
         ),
         BlocProvider(
-          create: (context)=> sl<ProfileStatusCubit>(),
+          create: (context) => sl<ProfileStatusCubit>(),
           child: const UserprofileTab(),
         ),
         BlocProvider(
-          create: (context)=> sl<EditProfileCubit>(),
+          create: (context) => sl<EditProfileCubit>(),
         ),
         BlocProvider(
-          create: (context)=> sl<ClientSelectedVendorCubit>(),
+          create: (context) => sl<ClientSelectedVendorCubit>(),
         ),
         BlocProvider(
-          create: (context)=> sl<EditProfileEnableCubit>(),
+          create: (context) => sl<EditProfileEnableCubit>(),
         ),
         BlocProvider(
           create: (_) => LocalItemsStorage(),
@@ -147,32 +146,32 @@ class MyApp extends StatelessWidget {
           create: (_) => NavPositionCubit(),
         ),
         BlocProvider(
-          create: (context)=> sl<MarkersCubit>(),
+          create: (context) => sl<MarkersCubit>(),
           child: const ClientHomeTab(),
         ),
         BlocProvider(
-          create: (context)=> sl<FavoriteCubit>(),
+          create: (context) => sl<FavoriteCubit>(),
         ),
         BlocProvider(
-          create: (context)=> sl<FavouriteListCubit>(),
+          create: (context) => sl<FavouriteListCubit>(),
         ),
         BlocProvider(
-          create: (context)=> sl<FilterItemsCubit>(),
+          create: (context) => sl<FilterItemsCubit>(),
         ),
         BlocProvider(
-          create: (context)=> FilterDealsCubit(),
+          create: (context) => FilterDealsCubit(),
         ),
         BlocProvider(
-          create: (context)=> RemoteUserDeals(),
+          create: (context) => RemoteUserDeals(),
         ),
         BlocProvider(
-          create: (context)=> sl<DirectionCubit>(),
+          create: (context) => sl<DirectionCubit>(),
         ),
         BlocProvider(
-          create: (context)=> ApplyFilterCubit(),
+          create: (context) => ApplyFilterCubit(),
         ),
         BlocProvider(
-          create: (context)=> sl<CurrentLocationCubit>(),
+          create: (context) => sl<CurrentLocationCubit>(),
         ),
       ],
       child: MaterialApp.router(
