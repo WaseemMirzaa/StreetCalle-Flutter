@@ -258,6 +258,10 @@ class TempLanguage {
 
   String get lblNewAgencyGrowthPlan => 'New Agency Growth Plan';
 
+  String get lblIntermediateAgencyStarter => 'Intermediate Agency Starter Plan';
+
+  String get lblIntermediateAgencyGrowthPlan => 'Intermediate Agency Growth Plan';
+
   String get lblEstablishAgencyStarter => 'Establish Agency Starter Plan';
 
   String get lblEstablishAgencyGrowthPlan => 'Establish Agency Growth Plan';

@@ -56,7 +56,7 @@ Future<void> main() async {
   Stripe.merchantIdentifier = 'merchant.flutter.street-calle.stripe';
   Stripe.urlScheme = 'street-calle-stripe';
   await Stripe.instance.applySettings();
-  RevenuCatAPI.initPlatformState();
+  RevenuCatAPI().ConfigureSDK();
 
   try {
     if (isAndroid) {

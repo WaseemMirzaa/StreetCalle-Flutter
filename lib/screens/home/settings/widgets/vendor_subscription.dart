@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -25,16 +26,19 @@ class VendorSubscription extends StatefulWidget {
 
 class _VendorSubscriptionState extends State<VendorSubscription> {
    Offering? offer;
+   Map<String,Offering>? offers;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    RevenuCatAPI().initPlatformState(FirebaseAuth.instance.currentUser!.uid);
     if(Platform.isIOS){
       print('%%%%%%%%%%%%%%%%%%${Platform.isIOS}');
       initOfferings();
     }
     else{
-      offer = null;
+      initOfferings();
+
     }
   }
 
@@ -48,6 +52,10 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
       else{
         offer = offerings.current;
         print(offer?.availablePackages);
+        offers = offerings.all;
+        print('offers.all =======>');
+
+        print(offerings.all['Established Agency']);
         setState(() {
 
         });
@@ -140,8 +148,15 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
               const SizedBox(height: 12,),
 
               userCubit.state.vendorType == VendorType.individual.name
-                  ?  IndividualPlans(offering: offer,)
-                  : const AgencyPlans(),
+                  ?  IndividualPlans(
+                // offering: offer,
+                offers: offers?['Individual'],)
+                  :  AgencyPlans(
+                newAgencyOffers: offers?['New Agency'],
+                intermediateAgencyOffers: offers?['Intermediate Agency'],
+                establishedAgencyOffers: offers?['Established Agency'],
+
+              ),
 
               const SizedBox(height: 18,),
             ],
