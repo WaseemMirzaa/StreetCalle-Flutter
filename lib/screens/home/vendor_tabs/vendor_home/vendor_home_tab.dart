@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/revenucat/revenu_cat_api.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/show_all_items.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_deal_buttons.dart';
@@ -14,9 +16,20 @@ import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dar
 import 'package:street_calle/widgets/search_field.dart';
 import 'package:street_calle/widgets/category_widget.dart';
 
-class VendorHomeTab extends StatelessWidget {
+class VendorHomeTab extends StatefulWidget {
   const VendorHomeTab({Key? key}) : super(key: key);
 
+  @override
+  State<VendorHomeTab> createState() => _VendorHomeTabState();
+}
+
+class _VendorHomeTabState extends State<VendorHomeTab> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    RevenuCatAPI().initPlatformState(FirebaseAuth.instance.currentUser!.uid);
+  }
   @override
   Widget build(BuildContext context) {
     final userCubit = context.read<UserCubit>();

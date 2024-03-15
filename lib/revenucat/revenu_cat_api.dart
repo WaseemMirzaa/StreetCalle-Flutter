@@ -84,6 +84,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 
 class RevenuCatAPI {
+
   Future<void> ConfigureSDK() async {
     await Purchases.setLogLevel(LogLevel.debug);
 
@@ -102,7 +103,6 @@ class RevenuCatAPI {
   }
 
   Future<void> initPlatformState(String uid) async {
-    /////////////
     print('========> syncPurchaces');
 
     print(uid);
@@ -202,23 +202,26 @@ checkAllSubscriptions();
     print(entitleIdentifier);
     print('0000000000000000000000000000000000000000000000000000000000000000');
 
-    // final lp = Provider.of<LoadingProvider>(context, listen: false);
 
     try {
       CustomerInfo customerInfo = await Purchases.purchasePackage(package);
+
       print(customerInfo.entitlements.all[entitleIdentifier]);
       // entitleIdentifier == 'Individual Starter Plan' ? entitlementIDInd : entitlementIDInd;
+      print(customerInfo.entitlements.active[entitleIdentifier]);
 
       EntitlementInfo? entitlement =
       customerInfo.entitlements.all[entitleIdentifier];
+
       print(entitlement?.isActive);
       print('0000000000000000');
       appData.entitlementIsActive = entitlement?.isActive ?? false;
-      // lp.startLoading(false);
+      appData.entitlement = entitlement?.productIdentifier ?? '';
+      print(appData.entitlement);
+
 
       print(appData.entitlementIsActive);
     } catch (e) {
-      // lp.startLoading(false);
 
       print(e);
     }
@@ -227,18 +230,34 @@ checkAllSubscriptions();
     // Navigator.pop(context);
   }
 
-  static Future<void> checkSubscriptionStatus(String entitleIdentifier) async {
+  static Future<String?> checkSubscriptionStatuses() async {
+    print('in check subscriptin');
     try {
       CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-      if (customerInfo.entitlements.all[entitleIdentifier]?.isActive ?? false) {
-        print('active -------->'); // Grant user "pro" access
-      } else {
-        print('<><><><> not active');
+
+      for (final entitlement in customerInfo.entitlements.active.values) {
+        print('in check subscriptin for llop');
+
+        if (entitlement.isActive) {
+          print('${entitlement.productIdentifier} is active');
+          // Grant features based on entitlement ID
+
+         return entitlement.productIdentifier.toString();
+        } else {
+          print('${entitlement.identifier} is not active');
+          return entitlement.identifier.toString();
+
+        }
+
       }
+      return '';
+
     } on PlatformException {
-      // Error fetching purchaser info
+      // Handle error fetching purchaser info
+      print('Error fetching subscription information');
     }
   }
+
 
   static Future<void> restorePurchase() async {
     try {
