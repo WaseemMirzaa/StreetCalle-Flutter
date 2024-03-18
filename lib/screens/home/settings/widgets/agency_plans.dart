@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:purchases_flutter/models/offering_wrapper.dart';
 import 'package:street_calle/cubit/user_state.dart';
@@ -17,6 +18,7 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/custom_widgets/own_show_confirm_dialog.dart';
 
 import 'package:street_calle/revenucat/revenu_cat_api.dart';
+import 'package:street_calle/utils/routing/app_routing_name.dart';
 
 class AgencyPlans extends StatelessWidget {
   final Offering? newAgencyOffers;
@@ -78,7 +80,6 @@ class AgencyPlans extends StatelessWidget {
                               //         IndivisualPlan.ind_one_month.name)
                               AppData().entitlementIsActive ==true
                                   && AppData().entitlement == myProducts[index].storeProduct.identifier
-
                                   ? TempLanguage().lblCancelSubscription
                                   : TempLanguage().lblSubscribe,
                               subTitle:
@@ -86,7 +87,6 @@ class AgencyPlans extends StatelessWidget {
                               //     state.planLookUpKey ==
                               //         IndivisualPlan.ind_one_month.name)
                               AppData().entitlementIsActive ==true && AppData().entitlement == myProducts[index].storeProduct.identifier
-
                                   ? TempLanguage().lblCancelSubscriptionInfo
                                   : TempLanguage().lblSubscribeInfo,
                               positiveText: TempLanguage().lblOk,
@@ -123,13 +123,18 @@ class AgencyPlans extends StatelessWidget {
                                     //     state.subscriptionId,
                                     //     IndivisualPlan.ind_one_month.name,
                                     //     context);
-                                    RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDNew, context).then((value){
-
+                                    RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDNew, context).then((value) {
                                       RevenuCatAPI.checkAllSubscriptions().then((value) {
+                                        syncUserSubscriptionStatus(userService, userCubit, AppData().entitlementIsActive, SubscriptionType.agency.name,AppData().entitlement );
                                         Navigator.pop(context);
-
+                                        context.pushNamed(AppRoutingName.mainScreen);
+                                      }).onError((error, stackTrace) {
+                                        Navigator.pop(context);
+                                        print('Errorrrrrr is hereee ${error.toString()}');
                                       });
-
+                                    }).onError((error, stackTrace) {
+                                      Navigator.pop(context);
+                                      print('Errorrrrrr is hereee ${error.toString()}');
                                     });
                                   }
                                 } else {
@@ -137,10 +142,16 @@ class AgencyPlans extends StatelessWidget {
                                   showLoadingDialog(context, null);
                                   RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDNew, context).then((value) {
                                     RevenuCatAPI.checkAllSubscriptions().then((value) {
+                                      syncUserSubscriptionStatus(userService, userCubit, AppData().entitlementIsActive, SubscriptionType.agency.name,AppData().entitlement );
                                       Navigator.pop(context);
-
+                                      context.pushNamed(AppRoutingName.mainScreen);
+                                    }).onError((error, stackTrace) {
+                                      Navigator.pop(context);
+                                      print('Errorrrrrr is hereee ${error.toString()}');
                                     });
-
+                                  }).onError((error, stackTrace) {
+                                    Navigator.pop(context);
+                                    print('Errorrrrrr is hereee ${error.toString()}');
                                   });
                                   // subscribe(userService, userCubit, context,
                                   //     IndivisualPlan.ind_one_month.name, myProducts[index],);
@@ -157,8 +168,8 @@ class AgencyPlans extends StatelessWidget {
                   },
                 ),
               );
-            }):
-        Column(
+            })
+            : Column(
           children: [
             BlocBuilder<UserCubit, UserState>(
               builder: (context, state) {
@@ -299,9 +310,11 @@ class AgencyPlans extends StatelessWidget {
             ),
           ],
         ),
+
         const SizedBox(
           height: 18,
         ),
+
         intermediateAgencyOffers != null
             ? ListView.builder(
             itemCount: intermediateAgencyOffers?.availablePackages.length,
@@ -389,11 +402,18 @@ class AgencyPlans extends StatelessWidget {
                                     //     state.subscriptionId,
                                     //     IndivisualPlan.ind_one_month.name,
                                     //     context);
-                                    RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDInter, context).then((value){
+                                    RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDInter, context).then((value) {
                                       RevenuCatAPI.checkAllSubscriptions().then((value) {
+                                        syncUserSubscriptionStatus(userService, userCubit, AppData().entitlementIsActive, SubscriptionType.agency.name,AppData().entitlement );
                                         Navigator.pop(context);
-
+                                        context.pushNamed(AppRoutingName.mainScreen);
+                                      }).onError((error, stackTrace) {
+                                        Navigator.pop(context);
+                                        print('Errorrrrrr is hereee ${error.toString()}');
                                       });
+                                    }).onError((error, stackTrace) {
+                                      Navigator.pop(context);
+                                      print('Errorrrrrr is hereee ${error.toString()}');
                                     });
                                   }
                                 } else {
@@ -401,9 +421,17 @@ class AgencyPlans extends StatelessWidget {
                                   showLoadingDialog(context, null);
                                   RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDInter, context).then((value) {
                                     RevenuCatAPI.checkAllSubscriptions().then((value) {
+                                      syncUserSubscriptionStatus(userService, userCubit, AppData().entitlementIsActive, SubscriptionType.agency.name,AppData().entitlement );
                                       Navigator.pop(context);
-
-                                    });                                  });
+                                      context.pushNamed(AppRoutingName.mainScreen);
+                                    }).onError((error, stackTrace) {
+                                      Navigator.pop(context);
+                                      print('Errorrrrrr is hereee ${error.toString()}');
+                                    });
+                                  }).onError((error, stackTrace) {
+                                    Navigator.pop(context);
+                                    print('Errorrrrrr is hereee ${error.toString()}');
+                                  });
                                   // subscribe(userService, userCubit, context,
                                   //     IndivisualPlan.ind_one_month.name, myProducts[index],);
                                 }
@@ -419,9 +447,8 @@ class AgencyPlans extends StatelessWidget {
                   },
                 ),
               );
-            }):
-
-        Column(
+            })
+            : Column(
           children: [
             BlocBuilder<UserCubit, UserState>(
               builder: (context, state) {
@@ -564,9 +591,11 @@ class AgencyPlans extends StatelessWidget {
             ),
           ],
         ),
+
         const SizedBox(
           height: 18,
         ),
+
         establishedAgencyOffers != null
             ? ListView.builder(
             itemCount: establishedAgencyOffers?.availablePackages.length,
@@ -663,15 +692,37 @@ class AgencyPlans extends StatelessWidget {
 
                                       });
                                     });
+
+                                    RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDEstab, context).then((value) {
+                                      RevenuCatAPI.checkAllSubscriptions().then((value) {
+                                        syncUserSubscriptionStatus(userService, userCubit, AppData().entitlementIsActive, SubscriptionType.agency.name,AppData().entitlement );
+                                        Navigator.pop(context);
+                                        context.pushNamed(AppRoutingName.mainScreen);
+                                      }).onError((error, stackTrace) {
+                                        Navigator.pop(context);
+                                        print('Errorrrrrr is hereee ${error.toString()}');
+                                      });
+                                    }).onError((error, stackTrace) {
+                                      Navigator.pop(context);
+                                      print('Errorrrrrr is hereee ${error.toString()}');
+                                    });
                                   }
                                 } else {
                                   // showLoadingDialog(context, null);
                                   showLoadingDialog(context, null);
                                   RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDEstab, context).then((value) {
                                     RevenuCatAPI.checkAllSubscriptions().then((value) {
+                                      syncUserSubscriptionStatus(userService, userCubit, AppData().entitlementIsActive, SubscriptionType.agency.name,AppData().entitlement );
                                       Navigator.pop(context);
-
-                                    });                                  });
+                                      context.pushNamed(AppRoutingName.mainScreen);
+                                    }).onError((error, stackTrace) {
+                                      Navigator.pop(context);
+                                      print('Errorrrrrr is hereee ${error.toString()}');
+                                    });
+                                  }).onError((error, stackTrace) {
+                                    Navigator.pop(context);
+                                    print('Errorrrrrr is hereee ${error.toString()}');
+                                  });
                                   // subscribe(userService, userCubit, context,
                                   //     IndivisualPlan.ind_one_month.name, myProducts[index],);
                                 }
@@ -687,9 +738,8 @@ class AgencyPlans extends StatelessWidget {
                   },
                 ),
               );
-            }):
-
-        Column(
+            })
+            : Column(
           children: [
             BlocBuilder<UserCubit, UserState>(
               builder: (context, state) {
@@ -912,16 +962,20 @@ class AgencyPlans extends StatelessWidget {
       UserCubit userCubit,
       bool isSubscribed,
       String subscriptionType,
-      String planLookUpKey) async {
+      String planLookUpKey)
+  async {
+
     print('in syncUserSubscriptionStatus function');
     final result = await userService.updateUserSubscription(
         isSubscribed, subscriptionType, userCubit.state.userId, planLookUpKey);
     print(result);
+
     if (result) {
       userCubit.setIsSubscribed(isSubscribed);
       userCubit.setSubscriptionType(subscriptionType);
       userCubit.setPlanLookUpKey(planLookUpKey);
     }
+
     if (!isSubscribed) {
       await userService.updateUserStripeDetails(
           '', '', '', userCubit.state.userId);

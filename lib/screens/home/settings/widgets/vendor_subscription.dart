@@ -27,6 +27,7 @@ class VendorSubscription extends StatefulWidget {
 class _VendorSubscriptionState extends State<VendorSubscription> {
    Offering? offer;
    Map<String,Offering>? offers;
+
   @override
   void initState() {
     // TODO: implement initState

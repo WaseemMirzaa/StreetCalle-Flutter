@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/revenucat/singleton_data.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -65,6 +66,9 @@ class _SplashScreenState extends State<SplashScreen> {
         userCubit.setSessionId(sharedPreferencesService.getStringAsync(SharePreferencesKey.SESSION_ID));
         userCubit.setStripeId(sharedPreferencesService.getStringAsync(SharePreferencesKey.STRIPE_ID));
         userCubit.setPlanLookUpKey(sharedPreferencesService.getStringAsync(SharePreferencesKey.PLAN_LOOK_UP_KEY));
+
+        appData.entitlementIsActive = isSubscribed;
+        appData.entitlement = sharedPreferencesService.getStringAsync(SharePreferencesKey.PLAN_LOOK_UP_KEY);
 
 
         userCubit.setIsOnline(isOnline);

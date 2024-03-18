@@ -58,7 +58,7 @@ class IndividualPlans extends StatelessWidget {
                   var myProducts = offers?.availablePackages;
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 18),
-                    child: BlocBuilder<UserCubit, UserState>(
+                     child: BlocBuilder<UserCubit, UserState>(
                       builder: (context, state) {
                         return SubscriptionPlanItem(
                           title: myProducts![index]
@@ -118,8 +118,7 @@ class IndividualPlans extends StatelessWidget {
                                   primaryColor: AppColors.primaryColor,
                                   barrierDismissible: false, onAccept: (ctx) async {
                                 Navigator.pop(ctx);
-                                if (
-                                AppData().entitlementIsActive
+                                if (AppData().entitlementIsActive
                                 // state.isSubscribed
                                 ) {
                                   if (
@@ -167,7 +166,8 @@ class IndividualPlans extends StatelessWidget {
                                 } else {
 
                                   showLoadingDialog(context, null);
-                                await RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDInd, context).then((value) async {
+                                  await RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDInd, context)
+                                      .then((value) async {
                                     await RevenuCatAPI.checkAllSubscriptions().then((value) {
                                       print(AppData().entitlementIsActive,);
                                       print(AppData().entitlement,);
@@ -183,7 +183,8 @@ class IndividualPlans extends StatelessWidget {
 
                                       print('Errorrrrrr is hereee ${error.toString()}');
                                     });
-                                  }).onError((error, stackTrace) {
+                                  })
+                                      .onError((error, stackTrace) {
                                   Navigator.pop(context);
 
                                   print('Errorrrrrr is hereee 2222${error.toString()}');
@@ -439,9 +440,11 @@ class IndividualPlans extends StatelessWidget {
       UserCubit userCubit,
       bool isSubscribed,
       String subscriptionType,
-      String planLookUpKey) async {
+      String planLookUpKey
+      ) async {
+
     print('in syncUserSubscriptionStatus function');
-print(isSubscribed);
+    print(isSubscribed);
     print(subscriptionType);
     print(planLookUpKey);
     print(isSubscribed);

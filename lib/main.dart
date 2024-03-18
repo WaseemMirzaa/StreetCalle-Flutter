@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/cubit/user_state.dart';
@@ -35,7 +34,6 @@ import 'package:street_calle/utils/themes/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/firebase_options.dart';
 import 'package:street_calle/dependency_injection.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 String SECRET_KEY = '';
 String PUBLISH_KEY = '';
@@ -49,13 +47,13 @@ Future<void> main() async {
   final sharedPreferencesService = sl.get<SharedPreferencesService>();
   await sharedPreferencesService.init();
 
-  await dotenv.load(fileName: 'assets/.env');
-  Stripe.publishableKey = dotenv.env['PUBLISHABLE_KEY_TEST'] ?? '';
-  PUBLISH_KEY = dotenv.env['PUBLISHABLE_KEY_TEST'] ?? '';
-  SECRET_KEY = dotenv.env['SECRET_KEY_TEST'] ?? '';
-  Stripe.merchantIdentifier = 'merchant.flutter.street-calle.stripe';
-  Stripe.urlScheme = 'street-calle-stripe';
-  await Stripe.instance.applySettings();
+  // await dotenv.load(fileName: 'assets/.env');
+  // Stripe.publishableKey = dotenv.env['PUBLISHABLE_KEY_TEST'] ?? '';
+  // PUBLISH_KEY = dotenv.env['PUBLISHABLE_KEY_TEST'] ?? '';
+  // SECRET_KEY = dotenv.env['SECRET_KEY_TEST'] ?? '';
+  // Stripe.merchantIdentifier = 'merchant.flutter.street-calle.stripe';
+  // Stripe.urlScheme = 'street-calle-stripe';
+  // await Stripe.instance.applySettings();
   RevenuCatAPI().ConfigureSDK();
 
   try {
