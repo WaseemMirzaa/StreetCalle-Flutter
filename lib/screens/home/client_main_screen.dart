@@ -40,28 +40,24 @@ class _MainScreenState extends State<ClientMainScreen> {
       _selectedIndex = index;
     });
   }
-  Future<void> syncUserSubscriptionStatus(
-      UserService userService,
-      UserCubit userCubit,
-      bool isSubscribed,
-      String subscriptionType,
-      String planLookUpKey) async {
+
+  Future<void> syncUserSubscriptionStatus(UserService userService, UserCubit userCubit, bool isSubscribed,
+      String subscriptionType, String planLookUpKey) async {
     print('in syncUserSubscriptionStatus function');
     print(isSubscribed);
     print(subscriptionType);
     print(planLookUpKey);
     print(isSubscribed);
 
-    final result = await userService.updateUserSubscription(
-        isSubscribed, subscriptionType, userCubit.state.userId, planLookUpKey);
+    final result =
+        await userService.updateUserSubscription(isSubscribed, subscriptionType, userCubit.state.userId, planLookUpKey);
     if (result) {
       userCubit.setIsSubscribed(isSubscribed);
       userCubit.setSubscriptionType(subscriptionType);
       userCubit.setPlanLookUpKey(planLookUpKey);
     }
     if (!isSubscribed) {
-      await userService.updateUserStripeDetails(
-          '', '', '', userCubit.state.userId);
+      await userService.updateUserStripeDetails('', '', '', userCubit.state.userId);
       userCubit.setSubscriptionId('');
       userCubit.setStripeId('');
       userCubit.setSessionId('');
@@ -71,19 +67,14 @@ class _MainScreenState extends State<ClientMainScreen> {
   @override
   void initState() {
     super.initState();
-    // RevenuCatAPI().initPlatformState(FirebaseAuth.instance.currentUser!.uid).then((value) {
-    //
-    // });
 
-    PermissionUtils.checkLocationPermissionsAndNavigateToScreen(context).then((value) {
-
-    });
+    PermissionUtils.checkLocationPermissionsAndNavigateToScreen(context).then((value) {});
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context)=> MapFilterCubit(),
+      create: (context) => MapFilterCubit(),
       child: Scaffold(
         body: LocationService(
           child: ConnectivityChecker(child: _clientWidgets.elementAt(_selectedIndex)),
@@ -96,19 +87,35 @@ class _MainScreenState extends State<ClientMainScreen> {
           child: BottomNavigationBar(
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: CustomBottomNavItem(iconAsset: AppAssets.home, text: TempLanguage().lblHome, isSelected: _selectedIndex == 0,),
+                icon: CustomBottomNavItem(
+                  iconAsset: AppAssets.home,
+                  text: TempLanguage().lblHome,
+                  isSelected: _selectedIndex == 0,
+                ),
                 label: '',
               ),
               BottomNavigationBarItem(
-                icon: CustomBottomNavItem(iconAsset: AppAssets.bottomSearch, text: TempLanguage().lblSearch, isSelected: _selectedIndex == 1,),
+                icon: CustomBottomNavItem(
+                  iconAsset: AppAssets.bottomSearch,
+                  text: TempLanguage().lblSearch,
+                  isSelected: _selectedIndex == 1,
+                ),
                 label: '',
               ),
               BottomNavigationBarItem(
-                icon: CustomBottomNavItem(iconAsset: AppAssets.favourite, text: TempLanguage().lblFavourites, isSelected: _selectedIndex == 2,),
+                icon: CustomBottomNavItem(
+                  iconAsset: AppAssets.favourite,
+                  text: TempLanguage().lblFavourites,
+                  isSelected: _selectedIndex == 2,
+                ),
                 label: '',
               ),
               BottomNavigationBarItem(
-                icon: CustomBottomNavItem(iconAsset: AppAssets.more, text: TempLanguage().lblMore, isSelected: _selectedIndex == 3,),
+                icon: CustomBottomNavItem(
+                  iconAsset: AppAssets.more,
+                  text: TempLanguage().lblMore,
+                  isSelected: _selectedIndex == 3,
+                ),
                 label: '',
               ),
             ],

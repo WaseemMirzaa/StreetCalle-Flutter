@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/cubit/user_state.dart';
-import 'package:street_calle/revenucat/revenu_cat_api.dart';
-import 'package:street_calle/revenucat/singleton_data.dart';
+// import 'package:street_calle/revenucat/revenu_cat_api.dart';
+// import 'package:street_calle/revenucat/singleton_data.dart';
 import 'package:street_calle/screens/home/profile/user_profile_tab.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/vendor_home_tab.dart';
 import 'package:street_calle/screens/home/settings/settings_tab.dart';
@@ -19,7 +19,7 @@ import 'package:street_calle/widgets/connectivity_checker.dart';
 import 'package:street_calle/widgets/employee_status_checker_widget.dart';
 import 'package:street_calle/widgets/location_service.dart';
 
-import 'package:street_calle/dependency_injection.dart';
+// import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/user_service.dart';
 
 class VendorMainScreen extends StatefulWidget {
@@ -35,29 +35,36 @@ class _VendorMainScreenState extends State<VendorMainScreen> {
   @override
   void initState() {
     super.initState();
-    print('++++++++++++++++++++++++++++++++++++++++');
+    // print('++++++++++++++++++++++++++++++++++++++++');
 
-    final userCubit = context.read<UserCubit>();
-    final userService = sl.get<UserService>();
-    RevenuCatAPI().initPlatformState(FirebaseAuth.instance.currentUser!.uid).then((value) {
-      print('++++++++++++++++++++++++++++++++++++++++');
-      print(AppData().entitlementIsActive,);
-      print(AppData().entitlement,);
-      print(SubscriptionType.individual.name);
-      print('++++++++++++++++++++++++++++++++++++++++');
+    // final userCubit = context.read<UserCubit>();
+    // final userService = sl.get<UserService>();
+    // RevenuCatAPI().initPlatformState(FirebaseAuth.instance.currentUser!.uid).then((value) {
+    //   print('++++++++++++++++++++++++++++++++++++++++');
+    //   print(
+    //     AppData().entitlementIsActive,
+    //   );
+    //   print(
+    //     AppData().entitlement,
+    //   );
+    //   print(SubscriptionType.individual.name);
+    //   print('++++++++++++++++++++++++++++++++++++++++');
 
-      syncUserSubscriptionStatus(userService, userCubit, AppData().entitlementIsActive,
-          AppData().entitlement == IndivisualPlan.ind_growth_v1.name
-              || AppData().entitlement == IndivisualPlan.ind_starter_v1.name ? SubscriptionType.individual.name : SubscriptionType.agency.name
-          ,AppData().entitlement);
-    });
-    print('++++++++++++++++++++++++++++++++++++++++');
-    // init();
+    //   syncUserSubscriptionStatus(
+    //       userService,
+    //       userCubit,
+    //       AppData().entitlementIsActive,
+    //       AppData().entitlement == IndivisualPlan.ind_growth_v1.name ||
+    //               AppData().entitlement == IndivisualPlan.ind_starter_v1.name
+    //           ? SubscriptionType.individual.name
+    //           : SubscriptionType.agency.name,
+    //       AppData().entitlement);
+    // });
+    // print('++++++++++++++++++++++++++++++++++++++++');
+    init();
   }
 
   Future<void> init() async {
-
-
     PermissionUtils.checkPermissionsAndNavigateToScreen(context).then((value) {
       LocationUtils.getBackgroundLocation().then((value) {});
     });
@@ -85,7 +92,7 @@ class _VendorMainScreenState extends State<VendorMainScreen> {
 
   void _onItemTapped(int index) {
     setState(() {
-      switch(index) {
+      switch (index) {
         case 0:
           _navPosition = BottomNavPosition.home;
           return;
@@ -106,33 +113,30 @@ class _VendorMainScreenState extends State<VendorMainScreen> {
       //_selectedIndex = index;
     });
   }
-  Future<void> syncUserSubscriptionStatus(
-      UserService userService,
-      UserCubit userCubit,
-      bool isSubscribed,
-      String subscriptionType,
-      String planLookUpKey) async {
+
+  Future<void> syncUserSubscriptionStatus(UserService userService, UserCubit userCubit, bool isSubscribed,
+      String subscriptionType, String planLookUpKey) async {
     print('in syncUserSubscriptionStatus function');
     print(isSubscribed);
     print(subscriptionType);
     print(planLookUpKey);
     print(isSubscribed);
 
-    final result = await userService.updateUserSubscription(
-        isSubscribed, subscriptionType, userCubit.state.userId, planLookUpKey);
+    final result =
+        await userService.updateUserSubscription(isSubscribed, subscriptionType, userCubit.state.userId, planLookUpKey);
     if (result) {
       userCubit.setIsSubscribed(isSubscribed);
       userCubit.setSubscriptionType(subscriptionType);
       userCubit.setPlanLookUpKey(planLookUpKey);
     }
     if (!isSubscribed) {
-      await userService.updateUserStripeDetails(
-          '', '', '', userCubit.state.userId);
+      await userService.updateUserStripeDetails('', '', '', userCubit.state.userId);
       userCubit.setSubscriptionId('');
       userCubit.setStripeId('');
       userCubit.setSessionId('');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final userCubit = context.read<UserCubit>();
@@ -147,8 +151,9 @@ class _VendorMainScreenState extends State<VendorMainScreen> {
       body: LocationService(
         child: userCubit.state.isEmployee
             ? EmployeeStatusCheckerWidget(
-               child: ConnectivityChecker(child: _vendorWidgets.elementAt(_navMap[_navPosition]!),)
-              )
+                child: ConnectivityChecker(
+                child: _vendorWidgets.elementAt(_navMap[_navPosition]!),
+              ))
             : ConnectivityChecker(child: _vendorWidgets.elementAt(_navMap[_navPosition]!)),
       ),
       bottomNavigationBar: Theme(
