@@ -2,7 +2,6 @@
     "name": "Street Calle",
     "short_name": "Street Calle",
     "start_url": ".",
-    "type":"module",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
