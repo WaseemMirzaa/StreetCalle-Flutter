@@ -32,6 +32,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/s
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/deal_detail.dart';
 import 'package:street_calle/screens/selectUser/select_user_screen.dart';
 import 'package:street_calle/screens/splash/splash_screen.dart';
+import 'package:street_calle/screens/web/delete_account_web_view.dart';
 import 'package:street_calle/services/stripe_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -383,6 +384,13 @@ final router = GoRouter(
       builder: (context, state) {
         final userId = state.extra as String;
         return VendorEmployeeMap(userId: userId,);
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.deleteAccount,
+      name: AppRoutingName.deleteAccount,
+      builder: (context, state) {
+        return const DeleteAccountWebView();
       },
     ),
   ],

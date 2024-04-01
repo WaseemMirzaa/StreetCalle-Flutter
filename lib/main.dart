@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -28,6 +29,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/vendor_home_tab.dart';
+import 'package:street_calle/screens/web/delete_account_screen.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/utils/routing/routing.dart';
 import 'package:street_calle/utils/themes/app_theme.dart';
@@ -43,18 +45,12 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await init();
-  final sharedPreferencesService = sl.get<SharedPreferencesService>();
-  await sharedPreferencesService.init();
-
-  // await dotenv.load(fileName: 'assets/.env');
-  // Stripe.publishableKey = dotenv.env['PUBLISHABLE_KEY_TEST'] ?? '';
-  // PUBLISH_KEY = dotenv.env['PUBLISHABLE_KEY_TEST'] ?? '';
-  // SECRET_KEY = dotenv.env['SECRET_KEY_TEST'] ?? '';
-  // Stripe.merchantIdentifier = 'merchant.flutter.street-calle.stripe';
-  // Stripe.urlScheme = 'street-calle-stripe';
-  // await Stripe.instance.applySettings();
-  RevenuCatAPI().ConfigureSDK();
+  if (!kIsWeb) {
+    await init();
+    final sharedPreferencesService = sl.get<SharedPreferencesService>();
+    await sharedPreferencesService.init();
+    RevenuCatAPI().ConfigureSDK();
+  }
 
   try {
     if (isAndroid) {
@@ -64,13 +60,7 @@ Future<void> main() async {
   } catch (e) {
     print(e);
   } finally {
-    runApp(
-        // DevicePreview(
-        //     enabled: !kReleaseMode,
-        //     builder: (context)=> const
-        const MyApp()
-        // )
-        );
+    runApp(const MyApp());
   }
 }
 
@@ -79,8 +69,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
+
+    return kIsWeb
+        ? MaterialApp(
+      debugShowCheckedModeBanner: false,
+      //locale: DevicePreview.locale(context),
+      //builder: DevicePreview.appBuilder,
+      title: 'Street Calle',
+      theme: AppThemes.lightTheme,
+      darkTheme: AppThemes.darkTheme,
+      themeMode: ThemeMode.light,
+      home: const DeleteAccountScreen(),
+    )
+        : MultiBlocProvider(
+           providers: [
         BlocProvider(
           create: (context) => ImageCubit(),
         ),
@@ -172,7 +174,7 @@ class MyApp extends StatelessWidget {
           create: (context) => sl<CurrentLocationCubit>(),
         ),
       ],
-      child: MaterialApp.router(
+           child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         //locale: DevicePreview.locale(context),
         //builder: DevicePreview.appBuilder,
@@ -182,6 +184,6 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.light,
         routerConfig: router,
       ),
-    );
+        );
   }
 }

@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,6 +46,16 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyAydQRB2u2s2VnEUOL47rY5dhaU0gX1r58',
+    appId: '1:554187940881:web:5c9f1c8d6c236d84427db0',
+    messagingSenderId: '554187940881',
+    projectId: 'street-calle-72cff',
+    authDomain: 'street-calle-72cff.firebaseapp.com',
+    storageBucket: 'street-calle-72cff.appspot.com',
+    measurementId: 'G-WJB0K0E9Q3',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyB_NMd-RkaBZ1TkmB6M08BefczCZymjY10',
     appId: '1:554187940881:android:defc7f6858577e30427db0',
@@ -59,10 +66,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyB0YOiTNZAGz2I28aacOtIVuVHPYWDRiPY',
-    appId: '1:554187940881:ios:323911d44d30196e427db0',
+    appId: '1:554187940881:ios:ed7c25b597478d3c427db0',
     messagingSenderId: '554187940881',
     projectId: 'street-calle-72cff',
     storageBucket: 'street-calle-72cff.appspot.com',
-    iosBundleId: 'com.developlogix.streetcalle.streetCalle',
+    androidClientId: '554187940881-8vp48rtqdtve7tp1u8djf8pue854dgaa.apps.googleusercontent.com',
+    iosClientId: '554187940881-8kg434k628ri89o4jkchgmu54qbr7qhh.apps.googleusercontent.com',
+    iosBundleId: 'com.developlogix.streetcalle.streetCalleFlutter',
   );
 }

@@ -13,6 +13,7 @@ class AppRoutingName {
   static const addItem = '/addItem/:$IS_UPDATE/:$IS_FROM_DETAIL';
   static const privacyPolicy = '/privacyPolicy';
   static const termsAndConditions = '/termsAndConditions';
+  static const deleteAccount = '/deleteAccount';
   static const vendorSubscriptions = '/vendorSubscriptions';
   static const itemDetail = '/itemDetail/:$IS_CLIENT';
   static const addDeal = '/addDeal/:$IS_UPDATE/:$IS_FROM_DETAIL';

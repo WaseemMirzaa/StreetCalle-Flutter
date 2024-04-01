@@ -313,8 +313,25 @@ class AuthService {
     }
   }
 
+  Future<Either<String, String?>> deleteAccount(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+
+      if (userCredential.user != null) {
+        await userCredential.user!.delete();
+        return Right(TempLanguage().lblAccountDeletedSuccessfully);
+      } else {
+       return Left(TempLanguage().lblNoUserFound);
+      }
+    } on FirebaseAuthException catch (e) {
+      return _handleDeleteException(e);
+    } catch (e) {
+      log(e.toString());
+      return Left(TempLanguage().lblErrorDuringDeleteAccount);
+    }
+  }
+
   Either<String, User?> _handleException(FirebaseAuthException e) {
-    log(e.toString());
     switch (e.code) {
       case 'email-already-in-use':
         return Left(TempLanguage().lblEmailAddressInUse);
@@ -343,6 +360,32 @@ class AuthService {
         return Left(TempLanguage().lblErrorAccessingCredentials);
       default:
         return Left(TempLanguage().lblErrorDuringLogIn);
+    }
+  }
+
+  Either<String, String> _handleDeleteException(FirebaseAuthException e) {
+    log(e.toString());
+    switch (e.code) {
+      case 'invalid-email':
+        return Left(TempLanguage().lblInvalidEmailAddress);
+      case 'user-not-found':
+        return Left(TempLanguage().lblNoUserFound);
+      case 'wrong-password':
+        return Left(TempLanguage().lblInvalidCredentials);
+      case 'too-many-requests':
+        return Left(TempLanguage().lblTooManyRequest);
+      case 'user-disabled':
+        return Left(TempLanguage().lblAccountDisable);
+      case 'operation-not-allowed':
+        return Left(TempLanguage().lblOperationNotAllowed);
+      case 'network-request-failed':
+        return Left(TempLanguage().lblNetworkRequestFailed);
+      case 'INVALID_LOGIN_CREDENTIALS':
+        return Left(TempLanguage().lblInvalidCredentials);
+      case 'invalid-credential':
+        return Left(TempLanguage().lblErrorAccessingCredentials);
+      default:
+        return Left(TempLanguage().lblErrorDuringDeleteAccount);
     }
   }
 }

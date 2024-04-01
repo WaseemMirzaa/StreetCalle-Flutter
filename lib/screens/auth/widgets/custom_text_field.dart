@@ -9,13 +9,24 @@ OutlineInputBorder border = OutlineInputBorder(
 );
 
 class CustomTextField extends StatefulWidget {
-  CustomTextField({Key? key, required this.hintText, required this.keyboardType, this.asset, required this.controller, required this.isSmall, this.isObscure}) : super(key: key);
+  CustomTextField({
+    Key? key,
+    required this.hintText,
+    required this.keyboardType,
+    required this.controller,
+    required this.isSmall,
+    this.isObscure,
+    this.asset,
+    this.isDecor
+  }) : super(key: key);
+
   final String hintText;
   final String? asset;
   final TextInputType keyboardType;
   final TextEditingController controller;
   final bool isSmall;
   final bool? isObscure;
+  final bool? isDecor;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -28,7 +39,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: widget.isDecor ?? true
+          ? BoxDecoration(
         boxShadow: [
           BoxShadow(
             color: AppColors.blackColor.withOpacity(0.15),
@@ -37,6 +49,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
             offset: const Offset(1, 3), // Offset in the Y direction
           ),
         ],
+      )
+      :  BoxDecoration(
+        border: Border.all(color: AppColors.blackColor),
+        borderRadius: BorderRadius.circular(30)
       ),
       child: TextField(
         controller: widget.controller,

@@ -49,6 +49,17 @@ class SettingsTab extends StatelessWidget {
             SettingItem(title: TempLanguage().lblTermsAndConditions, onTap: (){
               context.push(AppRoutingName.termsAndConditions);
             }),
+
+            SettingItem(title: TempLanguage().lblDeleteAccount, onTap: () async {
+              bool? result = await context.push(AppRoutingName.deleteAccount);
+              if (result ?? false) {
+                await sharedPreferencesService.clearSharedPref();
+                if (context.mounted) {
+                  context.goNamed(AppRoutingName.authScreen);
+                }
+              }
+            }),
+
             SettingItem(title: TempLanguage().lblSignOut, onTap: () async {
               await firebaseAuth.signOut();
               await sharedPreferencesService.clearSharedPref();

@@ -22,6 +22,7 @@ class TempLanguage {
   String get lblNoDealsFound => 'No deals found with the provided IDs';
 
   String get lblLogin => 'Login';
+  String get lblDeleteAccount => 'Delete Account';
 
   String get lblApply => 'Apply';
 
@@ -474,6 +475,7 @@ class TempLanguage {
   String get lblInvalidEmailAddress => 'Invalid email address.';
 
   String get lblNoUserFound => 'No user found for that email.';
+  String get lblAccountDeletedSuccessfully => 'Account deleted successfully';
 
   String get lblTooManyRequest =>
       'Too many login attempts. Please try again later.';
@@ -490,6 +492,7 @@ class TempLanguage {
   String get lblEmailAddressInUse => 'Email address is already in use.';
 
   String get lblErrorDuringSignUp => 'Error during sign-up:';
+  String get lblErrorDuringDeleteAccount => 'Error during account deletion';
   String get lblViewProfile => 'View Profile';
 
   String get lblErrorDuringResetPassword => 'Error during password reset:';
