@@ -84,19 +84,37 @@ class SubscriptionPlanItem extends StatelessWidget {
             ),
             const SizedBox(height: 5,),
 
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //         'Price : ${amount}',
+            //         style: context.currentTextTheme.titleMedium?.copyWith(fontSize: 12, color: AppColors.primaryFontColor)
+            //     ),
+            //     Text(
+            //         'Duration : ${subtitle}',
+            //         style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 12, color: AppColors.primaryFontColor)
+            //     ),
+            //   ],
+            // ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                    'Price : ${amount}',
-                    style: context.currentTextTheme.titleMedium?.copyWith(fontSize: 12, color: AppColors.primaryFontColor)
+                  'Price : ',
+                  style: context.currentTextTheme.titleMedium?.copyWith(fontSize: 12, color: AppColors.primaryFontColor),
                 ),
                 Text(
-                    'Duration : ${subtitle}',
-                    style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 12, color: AppColors.primaryFontColor)
+                  '$amount/',
+                  style: context.currentTextTheme.titleMedium?.copyWith(fontSize: 12, color: AppColors.primaryFontColor, fontWeight: FontWeight.normal),
+                ),
+                Text(
+                  subtitle,
+                  style: context.currentTextTheme.bodyMedium?.copyWith(fontSize: 12, color: AppColors.primaryFontColor, fontWeight: FontWeight.normal),
                 ),
               ],
             ),
+
 
             const SizedBox(height: 4,),
             Row(

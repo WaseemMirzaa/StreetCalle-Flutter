@@ -113,6 +113,11 @@ class IndividualPlans extends StatelessWidget {
                                       ? TempLanguage().lblCancelSubscriptionInfo
                                       : TempLanguage().lblSubscribeInfo,
                                   positiveText: TempLanguage().lblOk,
+                                  price: myProducts[index].storeProduct.priceString,
+                                  des: myProducts[index].storeProduct.presentedOfferingIdentifier,
+                                  duration: myProducts[index]
+                                      .storeProduct
+                                      .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
                                   cancelable: false,
                                   dialogType: CustomDialogType.CONFIRMATION,
                                   primaryColor: AppColors.primaryColor,

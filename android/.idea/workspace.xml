@@ -4,45 +4,41 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="425c0002-46e5-498c-8d7e-fecc73e75e95" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../lib/revenucat/revenuecar_constants.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../lib/revenucat/singleton_data.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/app-release.aab" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/app-release.aab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/revenucat/revenu_cat_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/revenucat/revenu_cat_api.dart" afterDir="false" />
+    <list default="true" id="f03e6728-1c5a-4a6d-8f14-cd78dca0cc0f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/screens/home/settings/widgets/agency_plans.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/screens/home/settings/widgets/agency_plans.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/screens/home/settings/widgets/individual_plans.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/screens/home/settings/widgets/individual_plans.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/screens/home/settings/widgets/subscription_plan_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/screens/home/settings/widgets/subscription_plan_item.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/screens/home/settings/widgets/vendor_subscription.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/screens/home/settings/widgets/vendor_subscription.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/utils/constant/temp_language.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/utils/constant/temp_language.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/utils/custom_widgets/own_show_confirm_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/utils/custom_widgets/own_show_confirm_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../linux/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/developlogix.dev1/.android/avd/Pixel_3a_API_33_x86_64.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
   </component>
-  <component name="GenerateSignedApkSettings">
-    <option name="EXPORT_PRIVATE_KEY" value="false" />
-    <option name="KEY_STORE_PATH" value="$PROJECT_DIR$/../jks/jks" />
-    <option name="KEY_ALIAS" value="key0" />
-    <option name="REMEMBER_PASSWORDS" value="true" />
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectId" id="2daJPtVrT7NpfYNuZQajMnJdzq6" />
+  <component name="ProjectId" id="2eUn6tuxqr3hwafoPUye3eXm3Ve" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -50,20 +46,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "BundleExportedModule": "android.app",
-    "ExportBundle.BundlePathForandroid.app": "/Users/developlogix.dev1/Documents/DevelopLogix/StreetCalle-Flutter/android/app",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "memory.settings.postsync.last.time.stamp": "1710240253935",
     "show.migrate.to.gradle.popup": "false"
-  },
-  "keyToStringList": {
-    "ExportApk.BuildVariants": [
-      "release"
-    ]
   }
 }]]></component>
   <component name="RunManager">
@@ -129,11 +115,11 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="425c0002-46e5-498c-8d7e-fecc73e75e95" name="Changes" comment="" />
-      <created>1710240234651</created>
+      <changelist id="f03e6728-1c5a-4a6d-8f14-cd78dca0cc0f" name="Changes" comment="" />
+      <created>1711967851913</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1710240234651</updated>
+      <updated>1711967851913</updated>
     </task>
     <servers />
   </component>

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import 'package:street_calle/utils/constant/app_assets.dart';
+import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:street_calle/utils/constant/constants.dart';
+
 /// Enum for Dialog Type
 enum CustomDialogType { CONFIRMATION, ACCEPT, DELETE, UPDATE, ADD, RETRY, NOTIFICATION, LOCATION }
 
@@ -338,6 +342,9 @@ Future<bool?> ownShowConfirmDialogCustom(
       required Function(BuildContext) onAccept,
       String? title,
       String? subTitle,
+      String? price,
+      String? des,
+      String? duration,
       String? positiveText,
       String? negativeText,
       String? centerImage,
@@ -393,7 +400,7 @@ Future<bool?> ownShowConfirmDialogCustom(
             width: width ?? customDialogWidth,
             color: Colors.transparent,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: title == 'Subscribe' ? CrossAxisAlignment.start: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
@@ -407,6 +414,104 @@ Future<bool?> ownShowConfirmDialogCustom(
                   style: secondaryTextStyle(size: 16),
                   textAlign: TextAlign.center,
                 ).visible(subTitle.validate().isNotEmpty),
+                16.height,
+                Visibility(
+                  visible: title == 'Subscribe' ? true: false,
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                        children: [
+                          Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,color: AppColors.primaryColor,),
+                          const SizedBox(width: 16,),
+                          const Flexible(
+                            child: Text(
+                              'Enjoy a free 60-day trial with full access to all features of this plan.',//TempLanguage().lblAddUnlimitedMenuItems,
+                              style: TextStyle(
+                                fontFamily: METROPOLIS_BOLD,
+                                fontSize: 12,
+                                // color: AppColors.whiteColor
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                        children: [
+                          Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,color: AppColors.primaryColor,),
+                          const SizedBox(width: 16,),
+                          const Flexible(
+                            child: Text(
+                              'Subscription will auto-renew unless canceled.',//TempLanguage().lblAddUnlimitedMenuItems,
+                              style: TextStyle(
+                                fontFamily: METROPOLIS_BOLD,
+                                fontSize: 12,
+                                // color: AppColors.whiteColor
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                        children: [
+                          Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,color: AppColors.primaryColor,),
+                          const SizedBox(width: 16,),
+                          Flexible(
+                            child: Text(
+                              des == 'Individual' ?
+                              'Get access to a single location.' :
+                              des == 'New Agency'?
+                              'Get access to 2-3 locations.':
+                              des == 'Intermediate Agency'?
+                              'Get access to 4-9 locations.':
+                              des == 'Established Agency'?
+                              'Get access to unlimited locations.':
+                              'Get access to locations.',
+
+
+
+                              //TempLanguage().lblAddUnlimitedMenuItems,
+                              style: const TextStyle(
+                                fontFamily: METROPOLIS_BOLD,
+                                fontSize: 12,
+                                // color: AppColors.whiteColor
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                        children: [
+                          Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,color: AppColors.primaryColor,),
+                          const SizedBox(width: 16,),
+                          Flexible(
+                            child: Text(
+                              'You will be charged $price/$duration for this subscription after 60 days free trail.',
+                              style: const TextStyle(
+                                fontFamily: METROPOLIS_BOLD,
+                                fontSize: 12,
+                                // color: AppColors.whiteColor
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+
+                      // Text(
+                      //  'You will be charged $price/$duration for this subscription.', //subTitle.validate(),
+                      //   style: secondaryTextStyle(size: 16),
+                      //   textAlign: TextAlign.center,
+                      // ).visible(subTitle.validate().isNotEmpty),
+                    ],
+                  ),
+                ),
                 16.height,
                 Row(
                   children: [

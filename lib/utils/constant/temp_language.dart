@@ -241,13 +241,13 @@ class TempLanguage {
   String get lblForMoreEmployeesUpdatePlan =>
       'Upgrade your plan to enable more locations';
 
-  String get lblOneMonth => 'Monthly';
+  String get lblOneMonth => 'Month';
 
   String get lblSixMonths => '6 months';
 
   String get lblTwelveMonths => '12 months';
 
-  String get lblOneYear => 'Yearly';
+  String get lblOneYear => 'Year';
 
   String get lblForStarter => 'Perfect for starter';
 

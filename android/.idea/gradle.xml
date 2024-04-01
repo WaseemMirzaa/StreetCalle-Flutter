@@ -42,6 +42,7 @@
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_android-2.2.1/android" />
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite-2.3.2/android" />
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/stripe_android-3.3.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.0/android" />
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_android-3.14.0/android" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />

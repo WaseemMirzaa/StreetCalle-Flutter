@@ -89,6 +89,12 @@ class AgencyPlans extends StatelessWidget {
                               AppData().entitlementIsActive ==true && AppData().entitlement == myProducts[index].storeProduct.identifier
                                   ? TempLanguage().lblCancelSubscriptionInfo
                                   : TempLanguage().lblSubscribeInfo,
+                              price: myProducts[index].storeProduct.priceString,
+                              des: myProducts[index].storeProduct.presentedOfferingIdentifier,
+                              duration: myProducts[index]
+                                  .storeProduct
+                                  .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
+
                               positiveText: TempLanguage().lblOk,
                               cancelable: false,
                               dialogType: CustomDialogType.CONFIRMATION,

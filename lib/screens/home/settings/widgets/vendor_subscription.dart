@@ -100,50 +100,107 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 24),
                 padding:  const EdgeInsets.symmetric(horizontal: 14),
-                height: 100,
+                // height: 100,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: AppColors.primaryColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,),
-                        const SizedBox(width: 16,),
-                        Flexible(
-                          child: Text(
-                            TempLanguage().lblAddUnlimitedMenuItems,
-                            style: const TextStyle(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                        children: [
+                          Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,),
+                          const SizedBox(width: 16,),
+                          const Flexible(
+                            child: Text(
+                              'Enjoy a free 60-day trial on all plans with full access to all features of subscribed plan.',//TempLanguage().lblAddUnlimitedMenuItems,
+                              style: TextStyle(
+                                  fontFamily: METROPOLIS_BOLD,
+                                  fontSize: 12,
+                                  color: AppColors.whiteColor
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 12,),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,),
+                          const SizedBox(width: 16,),
+                          const Flexible(
+                            child: Text(
+                              'After the trial period, you will be automatically enrolled in a paid subscription.',                            style: TextStyle(
                                 fontFamily: METROPOLIS_BOLD,
                                 fontSize: 12,
                                 color: AppColors.whiteColor
                             ),
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 12,),
-                    Row(
-                      children: [
-                        Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,),
-                        const SizedBox(width: 12,),
-                        Flexible(
-                          child: Text(
-                            TempLanguage().lblMakeYourTruckVisible,
-                            style: const TextStyle(
-                                fontFamily: METROPOLIS_BOLD,
-                                fontSize: 12,
-                                color: AppColors.whiteColor
                             ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 12,),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,),
+                          const SizedBox(width: 16,),
+                          const Flexible(
+                            child: Text(
+                              'You can cancel anytime during the trial period at no charge.',
+                              style: TextStyle(
+                                  fontFamily: METROPOLIS_BOLD,
+                                  fontSize: 12,
+                                  color: AppColors.whiteColor
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 12,),
+                      Row(
+                        children: [
+                          Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,),
+                          const SizedBox(width: 16,),
+                          Flexible(
+                            child: Text(
+                              TempLanguage().lblAddUnlimitedMenuItems,
+                              style: const TextStyle(
+                                  fontFamily: METROPOLIS_BOLD,
+                                  fontSize: 12,
+                                  color: AppColors.whiteColor
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 12,),
+                      Row(
+                        children: [
+                          Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,),
+                          const SizedBox(width: 12,),
+                          Flexible(
+                            child: Text(
+                              TempLanguage().lblMakeYourTruckVisible,
+                              style: const TextStyle(
+                                  fontFamily: METROPOLIS_BOLD,
+                                  fontSize: 12,
+                                  color: AppColors.whiteColor
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 12,),
