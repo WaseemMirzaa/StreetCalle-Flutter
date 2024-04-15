@@ -63,9 +63,6 @@ class AgencyPlans extends StatelessWidget {
                           state.planLookUpKey ==
                               myProducts[index].storeProduct.identifier,
                       buttonText:
-                      // (state.isSubscribed &&
-                      //     state.planLookUpKey ==
-                      //         IndivisualPlan.ind_one_month.name)
                       AppData().entitlementIsActive
                           ? AppData().entitlement == myProducts[index].storeProduct.identifier?
                            TempLanguage().lblCancel:
@@ -74,23 +71,15 @@ class AgencyPlans extends StatelessWidget {
                       onTap: () async {
                         try {
                           ownShowConfirmDialogCustom(context,
-                              title:
-                              // (state.isSubscribed &&
-                              //     state.planLookUpKey ==
-                              //         IndivisualPlan.ind_one_month.name)
-                              AppData().entitlementIsActive ==true
+                              title: AppData().entitlementIsActive == true
                                   && AppData().entitlement == myProducts[index].storeProduct.identifier
                                   ? TempLanguage().lblCancelSubscription
                                   : TempLanguage().lblSubscribe,
-                              subTitle:
-                              // (state.isSubscribed &&
-                              //     state.planLookUpKey ==
-                              //         IndivisualPlan.ind_one_month.name)
-                              AppData().entitlementIsActive ==true && AppData().entitlement == myProducts[index].storeProduct.identifier
+                              subTitle: AppData().entitlementIsActive ==true && AppData().entitlement == myProducts[index].storeProduct.identifier
                                   ? TempLanguage().lblCancelSubscriptionInfo
                                   : TempLanguage().lblSubscribeInfo,
                               price: myProducts[index].storeProduct.priceString,
-                              des: myProducts[index].storeProduct.presentedOfferingIdentifier,
+                              des: myProducts[index].storeProduct.description,
                               duration: myProducts[index]
                                   .storeProduct
                                   .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
@@ -101,34 +90,12 @@ class AgencyPlans extends StatelessWidget {
                               primaryColor: AppColors.primaryColor,
                               barrierDismissible: false, onAccept: (ctx) {
                                 Navigator.pop(ctx);
-                                if (
-                                // state.isSubscribed
-                                AppData().entitlementIsActive
-
-                                ) {
-                                  if (
-                                  AppData().entitlement == myProducts[index].storeProduct.identifier
-
-                                  // state.planLookUpKey ==
-                                  //     IndivisualPlan.ind_one_month.name
-                                  ) {
+                                if (AppData().entitlementIsActive) {
+                                  if (AppData().entitlement == myProducts[index].storeProduct.identifier) {
                                     RevenuCatAPI.cancelSubscription();
 
-                                    // showLoadingDialog(context, null);
-                                    // cancelSubscription(
-                                    //     userCubit,
-                                    //     userService,
-                                    //     state.subscriptionId,
-                                    //     IndivisualPlan.ind_one_month.name,
-                                    //     context);
                                   } else {
                                     showLoadingDialog(context, null);
-                                    // updateSubscription(
-                                    //     userCubit,
-                                    //     userService,
-                                    //     state.subscriptionId,
-                                    //     IndivisualPlan.ind_one_month.name,
-                                    //     context);
                                     RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDNew, context).then((value) {
                                       RevenuCatAPI.checkAllSubscriptions().then((value) {
                                         syncUserSubscriptionStatus(userService, userCubit, AppData().entitlementIsActive, SubscriptionType.agency.name,AppData().entitlement );
@@ -144,7 +111,6 @@ class AgencyPlans extends StatelessWidget {
                                     });
                                   }
                                 } else {
-                                  // showLoadingDialog(context, null);
                                   showLoadingDialog(context, null);
                                   RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDNew, context).then((value) {
                                     RevenuCatAPI.checkAllSubscriptions().then((value) {
@@ -159,8 +125,6 @@ class AgencyPlans extends StatelessWidget {
                                     Navigator.pop(context);
                                     print('Errorrrrrr is hereee ${error.toString()}');
                                   });
-                                  // subscribe(userService, userCubit, context,
-                                  //     IndivisualPlan.ind_one_month.name, myProducts[index],);
                                 }
                               }, onCancel: (context) {
                                 Navigator.pop(context);
@@ -191,55 +155,6 @@ class AgencyPlans extends StatelessWidget {
                       ? TempLanguage().lblCancel
                       : TempLanguage().lblSubscribe,
                   onTap: () async {
-                    // try {
-                    //   ownShowConfirmDialogCustom(context,
-                    //       title: (state.isSubscribed &&
-                    //               state.planLookUpKey ==
-                    //                   AgencyPlan.new_agency_starter.name)
-                    //           ? TempLanguage().lblCancelSubscription
-                    //           : TempLanguage().lblSubscribe,
-                    //       subTitle: (state.isSubscribed &&
-                    //               state.planLookUpKey ==
-                    //                   AgencyPlan.new_agency_starter.name)
-                    //           ? TempLanguage().lblCancelSubscriptionInfo
-                    //           : TempLanguage().lblSubscribeInfo,
-                    //       positiveText: TempLanguage().lblOk,
-                    //       cancelable: false,
-                    //       dialogType: CustomDialogType.CONFIRMATION,
-                    //       primaryColor: AppColors.primaryColor,
-                    //       barrierDismissible: false, onAccept: (ctx) {
-                    //     Navigator.pop(ctx);
-                    //     if (state.isSubscribed) {
-                    //       if (state.planLookUpKey ==
-                    //           AgencyPlan.new_agency_starter.name) {
-                    //         showLoadingDialog(context, null);
-                    //         cancelSubscription(
-                    //             userCubit,
-                    //             userService,
-                    //             state.subscriptionId,
-                    //             AgencyPlan.new_agency_starter.name,
-                    //             context);
-                    //       } else {
-                    //         showLoadingDialog(context, null);
-                    //         updateSubscription(
-                    //             userCubit,
-                    //             userService,
-                    //             state.subscriptionId,
-                    //             AgencyPlan.new_agency_starter.name,
-                    //             context);
-                    //       }
-                    //     } else {
-                    //       showLoadingDialog(context, null);
-                    //       subscribe(userService, userCubit, context,
-                    //           AgencyPlan.new_agency_starter.name);
-                    //     }
-                    //   }, onCancel: (context) {
-                    //     Navigator.pop(context);
-                    //   });
-                    // } catch (e) {
-                    //   Navigator.pop(context);
-                    //   showToast(context, '$e');
-                    // }
                   },
                 );
               },
@@ -261,55 +176,6 @@ class AgencyPlans extends StatelessWidget {
                       ? TempLanguage().lblCancel
                       : TempLanguage().lblSubscribe,
                   onTap: () async {
-                    // try {
-                    //   ownShowConfirmDialogCustom(context,
-                    //       title: (state.isSubscribed &&
-                    //               state.planLookUpKey ==
-                    //                   AgencyPlan.new_agency_growth.name)
-                    //           ? TempLanguage().lblCancelSubscription
-                    //           : TempLanguage().lblSubscribe,
-                    //       subTitle: (state.isSubscribed &&
-                    //               state.planLookUpKey ==
-                    //                   AgencyPlan.new_agency_growth.name)
-                    //           ? TempLanguage().lblCancelSubscriptionInfo
-                    //           : TempLanguage().lblSubscribeInfo,
-                    //       positiveText: TempLanguage().lblOk,
-                    //       cancelable: false,
-                    //       dialogType: CustomDialogType.CONFIRMATION,
-                    //       primaryColor: AppColors.primaryColor,
-                    //       barrierDismissible: false, onAccept: (ctx) {
-                    //     Navigator.pop(ctx);
-                    //     if (state.isSubscribed) {
-                    //       if (state.planLookUpKey ==
-                    //           AgencyPlan.new_agency_growth.name) {
-                    //         showLoadingDialog(context, null);
-                    //         cancelSubscription(
-                    //             userCubit,
-                    //             userService,
-                    //             state.subscriptionId,
-                    //             AgencyPlan.new_agency_growth.name,
-                    //             context);
-                    //       } else {
-                    //         showLoadingDialog(context, null);
-                    //         updateSubscription(
-                    //             userCubit,
-                    //             userService,
-                    //             state.subscriptionId,
-                    //             AgencyPlan.new_agency_growth.name,
-                    //             context);
-                    //       }
-                    //     } else {
-                    //       showLoadingDialog(context, null);
-                    //       subscribe(userService, userCubit, context,
-                    //           AgencyPlan.new_agency_growth.name);
-                    //     }
-                    //   }, onCancel: (context) {
-                    //     Navigator.pop(context);
-                    //   });
-                    // } catch (e) {
-                    //   Navigator.pop(context);
-                    //   showToast(context, '$e');
-                    // }
                   },
                 );
               },
@@ -347,9 +213,6 @@ class AgencyPlans extends StatelessWidget {
                           state.planLookUpKey ==
                               myProducts[index].storeProduct.identifier,
                       buttonText:
-                      // (state.isSubscribed &&
-                      //     state.planLookUpKey ==
-                      //         IndivisualPlan.ind_one_month.name)
                       AppData().entitlementIsActive
                           ? AppData().entitlement == myProducts[index].storeProduct.identifier?
                       TempLanguage().lblCancel:
@@ -358,18 +221,10 @@ class AgencyPlans extends StatelessWidget {
                       onTap: () async {
                         try {
                           ownShowConfirmDialogCustom(context,
-                              title:
-                              // (state.isSubscribed &&
-                              //     state.planLookUpKey ==
-                              //         IndivisualPlan.ind_one_month.name)
-                              AppData().entitlementIsActive ==true && AppData().entitlement == myProducts[index].storeProduct.identifier
-
+                              title: AppData().entitlementIsActive ==true && AppData().entitlement == myProducts[index].storeProduct.identifier
                                   ? TempLanguage().lblCancelSubscription
                                   : TempLanguage().lblSubscribe,
                               subTitle:
-                              // (state.isSubscribed &&
-                              //     state.planLookUpKey ==
-                              //         IndivisualPlan.ind_one_month.name)
                               AppData().entitlementIsActive ==true && AppData().entitlement == myProducts[index].storeProduct.identifier
 
                                   ? TempLanguage().lblCancelSubscriptionInfo
@@ -380,34 +235,13 @@ class AgencyPlans extends StatelessWidget {
                               primaryColor: AppColors.primaryColor,
                               barrierDismissible: false, onAccept: (ctx) {
                                 Navigator.pop(ctx);
-                                if (
-                                // state.isSubscribed
-                                AppData().entitlementIsActive
-
-                                ) {
-                                  if (
-                                  AppData().entitlement == myProducts[index].storeProduct.identifier
-
-                                  // state.planLookUpKey ==
-                                  //     IndivisualPlan.ind_one_month.name
-                                  ) {
+                                if (AppData().entitlementIsActive) {
+                                  if (AppData().entitlement == myProducts[index].storeProduct.identifier) {
                                     RevenuCatAPI.cancelSubscription();
 
-                                    // showLoadingDialog(context, null);
-                                    // cancelSubscription(
-                                    //     userCubit,
-                                    //     userService,
-                                    //     state.subscriptionId,
-                                    //     IndivisualPlan.ind_one_month.name,
-                                    //     context);
                                   } else {
                                     showLoadingDialog(context, null);
-                                    // updateSubscription(
-                                    //     userCubit,
-                                    //     userService,
-                                    //     state.subscriptionId,
-                                    //     IndivisualPlan.ind_one_month.name,
-                                    //     context);
+
                                     RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDInter, context).then((value) {
                                       RevenuCatAPI.checkAllSubscriptions().then((value) {
                                         syncUserSubscriptionStatus(userService, userCubit, AppData().entitlementIsActive, SubscriptionType.agency.name,AppData().entitlement );
@@ -423,7 +257,6 @@ class AgencyPlans extends StatelessWidget {
                                     });
                                   }
                                 } else {
-                                  // showLoadingDialog(context, null);
                                   showLoadingDialog(context, null);
                                   RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDInter, context).then((value) {
                                     RevenuCatAPI.checkAllSubscriptions().then((value) {
@@ -438,8 +271,6 @@ class AgencyPlans extends StatelessWidget {
                                     Navigator.pop(context);
                                     print('Errorrrrrr is hereee ${error.toString()}');
                                   });
-                                  // subscribe(userService, userCubit, context,
-                                  //     IndivisualPlan.ind_one_month.name, myProducts[index],);
                                 }
                               }, onCancel: (context) {
                                 Navigator.pop(context);
@@ -471,57 +302,7 @@ class AgencyPlans extends StatelessWidget {
                               AgencyPlan.establish_agency_starter.name)
                       ? TempLanguage().lblCancel
                       : TempLanguage().lblSubscribe,
-                  onTap: () async {
-                    // try {
-                    //   ownShowConfirmDialogCustom(context,
-                    //       title: (state.isSubscribed &&
-                    //               state.planLookUpKey ==
-                    //                   AgencyPlan.establish_agency_starter.name)
-                    //           ? TempLanguage().lblCancelSubscription
-                    //           : TempLanguage().lblSubscribe,
-                    //       subTitle: (state.isSubscribed &&
-                    //               state.planLookUpKey ==
-                    //                   AgencyPlan.establish_agency_starter.name)
-                    //           ? TempLanguage().lblCancelSubscriptionInfo
-                    //           : TempLanguage().lblSubscribeInfo,
-                    //       positiveText: TempLanguage().lblOk,
-                    //       cancelable: false,
-                    //       dialogType: CustomDialogType.CONFIRMATION,
-                    //       primaryColor: AppColors.primaryColor,
-                    //       barrierDismissible: false, onAccept: (ctx) {
-                    //     Navigator.pop(ctx);
-                    //     if (state.isSubscribed) {
-                    //       if (state.planLookUpKey ==
-                    //           AgencyPlan.establish_agency_starter.name) {
-                    //         showLoadingDialog(context, null);
-                    //         cancelSubscription(
-                    //             userCubit,
-                    //             userService,
-                    //             state.subscriptionId,
-                    //             AgencyPlan.establish_agency_starter.name,
-                    //             context);
-                    //       } else {
-                    //         showLoadingDialog(context, null);
-                    //         updateSubscription(
-                    //             userCubit,
-                    //             userService,
-                    //             state.subscriptionId,
-                    //             AgencyPlan.establish_agency_starter.name,
-                    //             context);
-                    //       }
-                    //     } else {
-                    //       showLoadingDialog(context, null);
-                    //       subscribe(userService, userCubit, context,
-                    //           AgencyPlan.establish_agency_starter.name);
-                    //     }
-                    //   }, onCancel: (context) {
-                    //     Navigator.pop(context);
-                    //   });
-                    // } catch (e) {
-                    //   Navigator.pop(context);
-                    //   showToast(context, '$e');
-                    // }
-                  },
+                  onTap: () async {},
                 );
               },
             ),
@@ -541,57 +322,7 @@ class AgencyPlans extends StatelessWidget {
                           state.planLookUpKey == AgencyPlan.new_agency_growth.name)
                       ? TempLanguage().lblCancel
                       : TempLanguage().lblSubscribe,
-                  onTap: () async {
-                    // try {
-                    //   ownShowConfirmDialogCustom(context,
-                    //       title: (state.isSubscribed &&
-                    //               state.planLookUpKey ==
-                    //                   AgencyPlan.new_agency_growth.name)
-                    //           ? TempLanguage().lblCancelSubscription
-                    //           : TempLanguage().lblSubscribe,
-                    //       subTitle: (state.isSubscribed &&
-                    //               state.planLookUpKey ==
-                    //                   AgencyPlan.new_agency_growth.name)
-                    //           ? TempLanguage().lblCancelSubscriptionInfo
-                    //           : TempLanguage().lblSubscribeInfo,
-                    //       positiveText: TempLanguage().lblOk,
-                    //       cancelable: false,
-                    //       dialogType: CustomDialogType.CONFIRMATION,
-                    //       primaryColor: AppColors.primaryColor,
-                    //       barrierDismissible: false, onAccept: (ctx) {
-                    //     Navigator.pop(ctx);
-                    //     if (state.isSubscribed) {
-                    //       if (state.planLookUpKey ==
-                    //           AgencyPlan.new_agency_growth.name) {
-                    //         showLoadingDialog(context, null);
-                    //         cancelSubscription(
-                    //             userCubit,
-                    //             userService,
-                    //             state.subscriptionId,
-                    //             AgencyPlan.new_agency_growth.name,
-                    //             context);
-                    //       } else {
-                    //         showLoadingDialog(context, null);
-                    //         updateSubscription(
-                    //             userCubit,
-                    //             userService,
-                    //             state.subscriptionId,
-                    //             AgencyPlan.new_agency_growth.name,
-                    //             context);
-                    //       }
-                    //     } else {
-                    //       showLoadingDialog(context, null);
-                    //       subscribe(userService, userCubit, context,
-                    //           AgencyPlan.new_agency_growth.name);
-                    //     }
-                    //   }, onCancel: (context) {
-                    //     Navigator.pop(context);
-                    //   });
-                    // } catch (e) {
-                    //   Navigator.pop(context);
-                    //   showToast(context, '$e');
-                    // }
-                  },
+                  onTap: () async {},
                 );
               },
             ),
@@ -628,9 +359,6 @@ class AgencyPlans extends StatelessWidget {
                           state.planLookUpKey ==
                               myProducts[index].storeProduct.identifier,
                       buttonText:
-                      // (state.isSubscribed &&
-                      //     state.planLookUpKey ==
-                      //         IndivisualPlan.ind_one_month.name)
                       AppData().entitlementIsActive
                           ? AppData().entitlement == myProducts[index].storeProduct.identifier?
                       TempLanguage().lblCancel:
@@ -642,17 +370,11 @@ class AgencyPlans extends StatelessWidget {
                         try {
                           ownShowConfirmDialogCustom(context,
                               title:
-                              // (state.isSubscribed &&
-                              //     state.planLookUpKey ==
-                              //         IndivisualPlan.ind_one_month.name)
                               AppData().entitlementIsActive ==true && AppData().entitlement == myProducts[index].storeProduct.identifier
 
                                   ? TempLanguage().lblCancelSubscription
                                   : TempLanguage().lblSubscribe,
                               subTitle:
-                              // (state.isSubscribed &&
-                              //     state.planLookUpKey ==
-                              //         IndivisualPlan.ind_one_month.name)
                               AppData().entitlementIsActive ==true && AppData().entitlement == myProducts[index].storeProduct.identifier
 
                                   ? TempLanguage().lblCancelSubscriptionInfo
@@ -664,34 +386,11 @@ class AgencyPlans extends StatelessWidget {
                               barrierDismissible: false, onAccept: (ctx) {
                                 Navigator.pop(ctx);
                                 print(myProducts[index].storeProduct.title);
-                                if (
-                                // state.isSubscribed
-                                AppData().entitlementIsActive
-
-                                ) {
-                                  if (
-                                  AppData().entitlement == myProducts[index].storeProduct.identifier
-
-                                  // state.planLookUpKey ==
-                                  //     IndivisualPlan.ind_one_month.name
-                                  ) {
+                                if (AppData().entitlementIsActive) {
+                                  if (AppData().entitlement == myProducts[index].storeProduct.identifier) {
                                     RevenuCatAPI.cancelSubscription();
-
-                                    // showLoadingDialog(context, null);
-                                    // cancelSubscription(
-                                    //     userCubit,
-                                    //     userService,
-                                    //     state.subscriptionId,
-                                    //     IndivisualPlan.ind_one_month.name,
-                                    //     context);
                                   } else {
                                     showLoadingDialog(context, null);
-                                    // updateSubscription(
-                                    //     userCubit,
-                                    //     userService,
-                                    //     state.subscriptionId,
-                                    //     IndivisualPlan.ind_one_month.name,
-                                    //     context);
                                     RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDEstab, context).then((value){
                                       RevenuCatAPI.checkAllSubscriptions().then((value) {
                                         Navigator.pop(context);
@@ -714,7 +413,6 @@ class AgencyPlans extends StatelessWidget {
                                     });
                                   }
                                 } else {
-                                  // showLoadingDialog(context, null);
                                   showLoadingDialog(context, null);
                                   RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDEstab, context).then((value) {
                                     RevenuCatAPI.checkAllSubscriptions().then((value) {
@@ -729,8 +427,6 @@ class AgencyPlans extends StatelessWidget {
                                     Navigator.pop(context);
                                     print('Errorrrrrr is hereee ${error.toString()}');
                                   });
-                                  // subscribe(userService, userCubit, context,
-                                  //     IndivisualPlan.ind_one_month.name, myProducts[index],);
                                 }
                               }, onCancel: (context) {
                                 Navigator.pop(context);
@@ -760,57 +456,7 @@ class AgencyPlans extends StatelessWidget {
                           state.planLookUpKey == AgencyPlan.new_agency_starter.name)
                       ? TempLanguage().lblCancel
                       : TempLanguage().lblSubscribe,
-                  onTap: () async {
-                    // try {
-                    //   ownShowConfirmDialogCustom(context,
-                    //       title: (state.isSubscribed &&
-                    //               state.planLookUpKey ==
-                    //                   AgencyPlan.new_agency_starter.name)
-                    //           ? TempLanguage().lblCancelSubscription
-                    //           : TempLanguage().lblSubscribe,
-                    //       subTitle: (state.isSubscribed &&
-                    //               state.planLookUpKey ==
-                    //                   AgencyPlan.new_agency_starter.name)
-                    //           ? TempLanguage().lblCancelSubscriptionInfo
-                    //           : TempLanguage().lblSubscribeInfo,
-                    //       positiveText: TempLanguage().lblOk,
-                    //       cancelable: false,
-                    //       dialogType: CustomDialogType.CONFIRMATION,
-                    //       primaryColor: AppColors.primaryColor,
-                    //       barrierDismissible: false, onAccept: (ctx) {
-                    //     Navigator.pop(ctx);
-                    //     if (state.isSubscribed) {
-                    //       if (state.planLookUpKey ==
-                    //           AgencyPlan.new_agency_starter.name) {
-                    //         showLoadingDialog(context, null);
-                    //         cancelSubscription(
-                    //             userCubit,
-                    //             userService,
-                    //             state.subscriptionId,
-                    //             AgencyPlan.new_agency_starter.name,
-                    //             context);
-                    //       } else {
-                    //         showLoadingDialog(context, null);
-                    //         updateSubscription(
-                    //             userCubit,
-                    //             userService,
-                    //             state.subscriptionId,
-                    //             AgencyPlan.new_agency_starter.name,
-                    //             context);
-                    //       }
-                    //     } else {
-                    //       showLoadingDialog(context, null);
-                    //       subscribe(userService, userCubit, context,
-                    //           AgencyPlan.new_agency_starter.name);
-                    //     }
-                    //   }, onCancel: (context) {
-                    //     Navigator.pop(context);
-                    //   });
-                    // } catch (e) {
-                    //   Navigator.pop(context);
-                    //   showToast(context, '$e');
-                    // }
-                  },
+                  onTap: () async {},
                 );
               },
             ),
@@ -832,57 +478,7 @@ class AgencyPlans extends StatelessWidget {
                               AgencyPlan.establish_agency_growth.name)
                       ? TempLanguage().lblCancel
                       : TempLanguage().lblSubscribe,
-                  onTap: () async {
-                    // try {
-                    //   ownShowConfirmDialogCustom(context,
-                    //       title: (state.isSubscribed &&
-                    //               state.planLookUpKey ==
-                    //                   AgencyPlan.establish_agency_growth.name)
-                    //           ? TempLanguage().lblCancelSubscription
-                    //           : TempLanguage().lblSubscribe,
-                    //       subTitle: (state.isSubscribed &&
-                    //               state.planLookUpKey ==
-                    //                   AgencyPlan.establish_agency_growth.name)
-                    //           ? TempLanguage().lblCancelSubscriptionInfo
-                    //           : TempLanguage().lblSubscribeInfo,
-                    //       positiveText: TempLanguage().lblOk,
-                    //       cancelable: false,
-                    //       dialogType: CustomDialogType.CONFIRMATION,
-                    //       primaryColor: AppColors.primaryColor,
-                    //       barrierDismissible: false, onAccept: (ctx) {
-                    //     Navigator.pop(ctx);
-                    //     if (state.isSubscribed) {
-                    //       if (state.planLookUpKey ==
-                    //           AgencyPlan.establish_agency_growth.name) {
-                    //         showLoadingDialog(context, null);
-                    //         cancelSubscription(
-                    //             userCubit,
-                    //             userService,
-                    //             state.subscriptionId,
-                    //             AgencyPlan.establish_agency_growth.name,
-                    //             context);
-                    //       } else {
-                    //         showLoadingDialog(context, null);
-                    //         updateSubscription(
-                    //             userCubit,
-                    //             userService,
-                    //             state.subscriptionId,
-                    //             AgencyPlan.establish_agency_growth.name,
-                    //             context);
-                    //       }
-                    //     } else {
-                    //       showLoadingDialog(context, null);
-                    //       subscribe(userService, userCubit, context,
-                    //           AgencyPlan.establish_agency_growth.name);
-                    //     }
-                    //   }, onCancel: (context) {
-                    //     Navigator.pop(context);
-                    //   });
-                    // } catch (e) {
-                    //   Navigator.pop(context);
-                    //   showToast(context, '$e');
-                    // }
-                  },
+                  onTap: () async {},
                 );
               },
             ),

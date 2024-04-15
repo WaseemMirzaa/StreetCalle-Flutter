@@ -165,7 +165,8 @@ checkAllSubscriptions();
 
     });
   }
- static Future<void> checkAllSubscriptions() async {
+
+  static Future<void> checkAllSubscriptions() async {
     final customerInfo = await Purchases.getCustomerInfo();
 
     if (customerInfo.entitlements.active.isEmpty) {
@@ -257,7 +258,6 @@ checkAllSubscriptions();
       print('Error fetching subscription information');
     }
   }
-
 
   static Future<void> restorePurchase() async {
     try {

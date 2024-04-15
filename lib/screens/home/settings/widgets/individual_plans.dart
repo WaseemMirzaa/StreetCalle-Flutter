@@ -39,9 +39,6 @@ class IndividualPlans extends StatelessWidget {
     print(offers?.availablePackages[0]);
     print(offers?.availablePackages[1]);
     print(offers?.availablePackages[0].storeProduct.title);
-
-
-
     print(offers?.availablePackages[0].storeProduct.identifier);
 
     // print(offering?.availablePackages);
@@ -74,13 +71,7 @@ class IndividualPlans extends StatelessWidget {
                           isSubscribed: state.isSubscribed &&
                               state.planLookUpKey ==
                                   myProducts[index].storeProduct.identifier,
-                          buttonText:
-
-                         // (    // state.isSubscribed &&
-                              //     state.planLookUpKey ==
-                              //         IndivisualPlan.ind_one_month.name
-                          //)
-                          index == 0?
+                          buttonText: index == 0?
                         AppData().entitlementIsActive
                               ? AppData().entitlement == 'ind_starter_v1'?
                         TempLanguage().lblCancel: TempLanguage().lblUpdate
@@ -98,17 +89,11 @@ class IndividualPlans extends StatelessWidget {
 
                             try {
                               ownShowConfirmDialogCustom(context,
-                                  title: //(
-                                      // state.isSubscribed &&
-                                      //     state.planLookUpKey ==
-                                      //         IndivisualPlan.ind_one_month.name)
+                                  title:
                                   AppData().entitlementIsActive ==true && AppData().entitlement == myProducts[index].storeProduct.identifier
                                       ? TempLanguage().lblCancelSubscription
                                       : TempLanguage().lblSubscribe,
                                   subTitle:
-                                  // (state.isSubscribed &&
-                                  //         state.planLookUpKey ==
-                                  //             IndivisualPlan.ind_one_month.name)
                                   AppData().entitlementIsActive && AppData().entitlement == myProducts[index].storeProduct.identifier
                                       ? TempLanguage().lblCancelSubscriptionInfo
                                       : TempLanguage().lblSubscribeInfo,
@@ -123,27 +108,10 @@ class IndividualPlans extends StatelessWidget {
                                   primaryColor: AppColors.primaryColor,
                                   barrierDismissible: false, onAccept: (ctx) async {
                                 Navigator.pop(ctx);
-                                if (AppData().entitlementIsActive
-                                // state.isSubscribed
-                                ) {
-                                  if (
-                                  AppData().entitlement == myProducts[index].storeProduct.identifier
-                                  // state.planLookUpKey ==
-                                  //     IndivisualPlan.ind_one_month.name
-                                  ) {
-                                    // showLoadingDialog(context, null);
-
+                                if (AppData().entitlementIsActive) {
+                                  if (AppData().entitlement == myProducts[index].storeProduct.identifier) {
                                     RevenuCatAPI.cancelSubscription();
-                                        // .then((value) {
-                                    //   // Navigator.pop(context);
-                                    //
-                                    // });
-                                    // cancelSubscription(
-                                    //     userCubit,
-                                    //     userService,
-                                    //     state.subscriptionId,
-                                    //     IndivisualPlan.ind_one_month.name,
-                                    //     context);
+
                                   } else {
                                     showLoadingDialog(context, null);
                                    await RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDInd, context).then((value) async {
@@ -160,13 +128,6 @@ class IndividualPlans extends StatelessWidget {
 
                                       });
                                     });
-
-                                    // updateSubscription(
-                                    //     userCubit,
-                                    //     userService,
-                                    //     state.subscriptionId,
-                                    //     IndivisualPlan.ind_one_month.name,
-                                    //     context);
                                   }
                                 } else {
 
@@ -195,8 +156,6 @@ class IndividualPlans extends StatelessWidget {
                                   print('Errorrrrrr is hereee 2222${error.toString()}');
 
                                   });
-                                  // subscribe(userService, userCubit, context,
-                                  //     IndivisualPlan.ind_one_month.name, myProducts[index],);
                                 }
                               }, onCancel: (context) {
                                 Navigator.pop(context);
@@ -229,57 +188,6 @@ class IndividualPlans extends StatelessWidget {
                             ? TempLanguage().lblCancel
                             : TempLanguage().lblSubscribe,
                         onTap: (){},
-                        // onTap: () async {
-                        //   try {
-                        //     ownShowConfirmDialogCustom(context,
-                        //         title: (state.isSubscribed &&
-                        //                 state.planLookUpKey ==
-                        //                     IndivisualPlan.ind_one_month.name)
-                        //             ? TempLanguage().lblCancelSubscription
-                        //             : TempLanguage().lblSubscribe,
-                        //         subTitle: (state.isSubscribed &&
-                        //                 state.planLookUpKey ==
-                        //                     IndivisualPlan.ind_one_month.name)
-                        //             ? TempLanguage().lblCancelSubscriptionInfo
-                        //             : TempLanguage().lblSubscribeInfo,
-                        //         positiveText: TempLanguage().lblOk,
-                        //         cancelable: false,
-                        //         dialogType: CustomDialogType.CONFIRMATION,
-                        //         primaryColor: AppColors.primaryColor,
-                        //         barrierDismissible: false, onAccept: (ctx) {
-                        //       Navigator.pop(ctx);
-                        //       if (state.isSubscribed) {
-                        //         if (state.planLookUpKey ==
-                        //             IndivisualPlan.ind_one_month.name) {
-                        //           showLoadingDialog(context, null);
-                        //           cancelSubscription(
-                        //               userCubit,
-                        //               userService,
-                        //               state.subscriptionId,
-                        //               IndivisualPlan.ind_one_month.name,
-                        //               context);
-                        //         } else {
-                        //           showLoadingDialog(context, null);
-                        //           updateSubscription(
-                        //               userCubit,
-                        //               userService,
-                        //               state.subscriptionId,
-                        //               IndivisualPlan.ind_one_month.name,
-                        //               context);
-                        //         }
-                        //       } else {
-                        //         showLoadingDialog(context, null);
-                        //         subscribe(userService, userCubit, context,
-                        //             IndivisualPlan.ind_one_month.name, '');
-                        //       }
-                        //     }, onCancel: (context) {
-                        //       Navigator.pop(context);
-                        //     });
-                        //   } catch (e) {
-                        //     Navigator.pop(context);
-                        //     showToast(context, '$e');
-                        //   }
-                        // },
                       );
                     },
                   ),
@@ -302,81 +210,6 @@ class IndividualPlans extends StatelessWidget {
                                 IndivisualPlan.ind_growth_v1.name,
                         subtitle: TempLanguage().lblOneYear,
                         onTap: (){},
-                        // onTap: () async {
-                        //   try {
-                        //     // final stripeId = await getStripeId(userCubit, userService, context, userCubit.state.userId);
-                        //     //
-                        //     // if (userCubit.state.isSubscribed) {
-                        //     //   cancelSubscription(userCubit, userService, stripeId);
-                        //     // } else {
-                        //     //   subscribe(stripeId, userService, userCubit);
-                        //     // }
-                        //
-                        //     // if (state.isSubscribed) {
-                        //     //   if (state.planLookUpKey == IndivisualPlan.ind_one_year.name) {
-                        //     //     userCubit.setIsSubscribed(false);
-                        //     //     userCubit.setSubscriptionType(SubscriptionType.none.name);
-                        //     //     userCubit.setPlanLookUpKey('');
-                        //     //   } else {
-                        //     //     userCubit.setIsSubscribed(true);
-                        //     //     userCubit.setSubscriptionType(SubscriptionType.individual.name);
-                        //     //     userCubit.setPlanLookUpKey(IndivisualPlan.ind_one_year.name);
-                        //     //   }
-                        //     // } else {
-                        //     //   userCubit.setIsSubscribed(true);
-                        //     //   userCubit.setSubscriptionType(SubscriptionType.individual.name);
-                        //     //   userCubit.setPlanLookUpKey(IndivisualPlan.ind_one_year.name);
-                        //     // }
-                        //
-                        //     ownShowConfirmDialogCustom(context,
-                        //         title: (state.isSubscribed &&
-                        //                 state.planLookUpKey ==
-                        //                     IndivisualPlan.ind_one_year.name)
-                        //             ? TempLanguage().lblCancelSubscription
-                        //             : TempLanguage().lblSubscribe,
-                        //         subTitle: (state.isSubscribed &&
-                        //                 state.planLookUpKey ==
-                        //                     IndivisualPlan.ind_one_year.name)
-                        //             ? TempLanguage().lblCancelSubscriptionInfo
-                        //             : TempLanguage().lblSubscribeInfo,
-                        //         positiveText: TempLanguage().lblOk,
-                        //         cancelable: false,
-                        //         dialogType: CustomDialogType.CONFIRMATION,
-                        //         primaryColor: AppColors.primaryColor,
-                        //         barrierDismissible: false, onAccept: (ctx) {
-                        //       Navigator.pop(ctx);
-                        //       if (state.isSubscribed) {
-                        //         if (state.planLookUpKey ==
-                        //             IndivisualPlan.ind_one_year.name) {
-                        //           showLoadingDialog(context, null);
-                        //           cancelSubscription(
-                        //               userCubit,
-                        //               userService,
-                        //               state.subscriptionId,
-                        //               IndivisualPlan.ind_one_year.name,
-                        //               context);
-                        //         } else {
-                        //           showLoadingDialog(context, null);
-                        //           updateSubscription(
-                        //               userCubit,
-                        //               userService,
-                        //               state.subscriptionId,
-                        //               IndivisualPlan.ind_one_year.name,
-                        //               context);
-                        //         }
-                        //       } else {
-                        //         showLoadingDialog(context, null);
-                        //         subscribe(userService, userCubit, context,
-                        //             IndivisualPlan.ind_one_year.name, '');
-                        //       }
-                        //     }, onCancel: (context) {
-                        //       Navigator.pop(context);
-                        //     });
-                        //   } catch (e) {
-                        //     Navigator.pop(context);
-                        //     showToast(context, '$e');
-                        //   }
-                        // },
                       );
                     },
                   ),
