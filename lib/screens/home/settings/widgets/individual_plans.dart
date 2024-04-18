@@ -32,16 +32,6 @@ class IndividualPlans extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(offers?.availablePackages[0].storeProduct.price);
-    print('storeProduct here');
-    print(offers?.availablePackages[0].packageType.name);
-    print('package type name here');
-    print(offers?.availablePackages[0]);
-    print(offers?.availablePackages[1]);
-    print(offers?.availablePackages[0].storeProduct.title);
-    print(offers?.availablePackages[0].storeProduct.identifier);
-
-    // print(offering?.availablePackages);
     final userService = sl.get<UserService>();
     final userCubit = context.read<UserCubit>();
 
@@ -58,108 +48,91 @@ class IndividualPlans extends StatelessWidget {
                      child: BlocBuilder<UserCubit, UserState>(
                       builder: (context, state) {
                         return SubscriptionPlanItem(
-                          title: myProducts![index]
-                              .storeProduct
-                              .title, //TempLanguage().lblIndividualStarter,
+                          title: myProducts![index].storeProduct.title,
                           amount: myProducts[index].storeProduct.priceString,
-                          description: myProducts[index]
-                              .storeProduct
-                              .description, //TempLanguage().lblIndividualStarterDes,
+                          description: myProducts[index].storeProduct.description,
                           subtitle: myProducts[index]
                               .storeProduct
                               .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear, //TempLanguage().lblOneMonth,
-                          isSubscribed: state.isSubscribed &&
-                              state.planLookUpKey ==
-                                  myProducts[index].storeProduct.identifier,
-                          buttonText: index == 0?
-                        AppData().entitlementIsActive
-                              ? AppData().entitlement == 'ind_starter_v1'?
-                        TempLanguage().lblCancel: TempLanguage().lblUpdate
-                              : TempLanguage().lblSubscribe
-                          :
-                          AppData().entitlementIsActive
-                              ? AppData().entitlement == 'ind_growth_v1'?
-                          TempLanguage().lblCancel: TempLanguage().lblUpdate
-                              : TempLanguage().lblSubscribe,
-                          onTap: () async {
-                            print(AppData().entitlement);
-                            print(AppData().entitlementIsActive);
-                            print(myProducts[0].storeProduct.identifier);
-                            print(myProducts[1].identifier);
-
+                          isSubscribed: isSubscribed(index),
+                          buttonText: getButtonText(index),
+                          onTap: () {
                             try {
-                              ownShowConfirmDialogCustom(context,
-                                  title:
-                                  AppData().entitlementIsActive ==true && AppData().entitlement == myProducts[index].storeProduct.identifier
-                                      ? TempLanguage().lblCancelSubscription
-                                      : TempLanguage().lblSubscribe,
-                                  subTitle:
-                                  AppData().entitlementIsActive && AppData().entitlement == myProducts[index].storeProduct.identifier
-                                      ? TempLanguage().lblCancelSubscriptionInfo
-                                      : TempLanguage().lblSubscribeInfo,
-                                  positiveText: TempLanguage().lblOk,
-                                  price: myProducts[index].storeProduct.priceString,
-                                  des: myProducts[index].storeProduct.presentedOfferingIdentifier,
-                                  duration: myProducts[index]
-                                      .storeProduct
-                                      .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
-                                  cancelable: false,
-                                  dialogType: CustomDialogType.CONFIRMATION,
-                                  primaryColor: AppColors.primaryColor,
-                                  barrierDismissible: false, onAccept: (ctx) async {
-                                Navigator.pop(ctx);
-                                if (AppData().entitlementIsActive) {
-                                  if (AppData().entitlement == myProducts[index].storeProduct.identifier) {
-                                    RevenuCatAPI.cancelSubscription();
-
-                                  } else {
-                                    showLoadingDialog(context, null);
-                                   await RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDInd, context).then((value) async {
-                                    await  RevenuCatAPI.checkAllSubscriptions().then((value) {
-                                        print(AppData().entitlementIsActive,);
-                                        print(AppData().entitlement,);
-                                        print(SubscriptionType.individual.name);
-                                        print('===============');
+                              if (AppData().entitlementIsActive) {
+                                if (AppData().entitlement == myProducts[index].storeProduct.identifier.split(':')[0]) {
+                                  showConfirmDialogCustom(
+                                    context,
+                                    title: TempLanguage().lblCancelSubscription,
+                                    subTitle: TempLanguage().lblCancelSubscriptionInfo,
+                                    cancelable: false,
+                                    dialogType: DialogType.CONFIRMATION,
+                                    primaryColor: AppColors.primaryColor,
+                                    barrierDismissible: false,
+                                    onAccept: (ctx){
+                                      userCubit.setSubscriptionCanceledTap(true);
+                                      Navigator.pop(ctx);
+                                      RevenuCatAPI.cancelSubscription();
+                                      context.pushNamed(AppRoutingName.mainScreen);
+                                    },
+                                    onCancel: (context) {
+                                      Navigator.pop(context);
+                                    }
+                                  );
+                                } else {
+                                  ownShowConfirmDialogCustom(context,
+                                      title: TempLanguage().lblSubscribe,
+                                      subTitle: TempLanguage().lblSubscribeInfo,
+                                      positiveText: TempLanguage().lblOk,
+                                      price: myProducts[index].storeProduct.priceString,
+                                      des: myProducts[index].storeProduct.presentedOfferingIdentifier,
+                                      duration: myProducts[index]
+                                          .storeProduct
+                                          .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
+                                      cancelable: false,
+                                      isUpdateSubscription: true,
+                                      dialogType: CustomDialogType.CONFIRMATION,
+                                      primaryColor: AppColors.primaryColor,
+                                      barrierDismissible: false, onAccept: (ctx) async {
+                                        Navigator.pop(ctx);
+                                        showLoadingDialog(context, null);
+                                        RevenuCatAPI.updatePackage(myProducts[index], entitlementIDInd, context).then((value) async {
+                                          syncUserSubscriptionStatus(userService, userCubit, AppData().entitlementIsActive, SubscriptionType.individual.name,AppData().entitlement );
+                                          Navigator.pop(context);
+                                          context.pushNamed(AppRoutingName.mainScreen);
+                                        });
+                                      }, onCancel: (context) {
+                                        Navigator.pop(context);
+                                      });
+                                }
+                              }
+                              else {
+                                ownShowConfirmDialogCustom(context,
+                                    title: TempLanguage().lblSubscribe,
+                                    subTitle: TempLanguage().lblSubscribeInfo,
+                                    positiveText: TempLanguage().lblOk,
+                                    price: myProducts[index].storeProduct.priceString,
+                                    des: myProducts[index].storeProduct.presentedOfferingIdentifier,
+                                    duration: myProducts[index]
+                                        .storeProduct
+                                        .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
+                                    cancelable: false,
+                                    dialogType: CustomDialogType.CONFIRMATION,
+                                    primaryColor: AppColors.primaryColor,
+                                    barrierDismissible: false, onAccept: (ctx) async {
+                                      Navigator.pop(ctx);
+                                      showLoadingDialog(context, null);
+                                      RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDInd, context)
+                                          .then((value) async {
                                         syncUserSubscriptionStatus(userService, userCubit, AppData().entitlementIsActive, SubscriptionType.individual.name,AppData().entitlement );
-                                        print('===============');
-
                                         Navigator.pop(context);
                                         context.pushNamed(AppRoutingName.mainScreen);
-
+                                      }).onError((error, stackTrace) {
+                                        Navigator.pop(context);
                                       });
-                                    });
-                                  }
-                                } else {
-
-                                  showLoadingDialog(context, null);
-                                  await RevenuCatAPI.purchasePackage(myProducts[index], entitlementIDInd, context)
-                                      .then((value) async {
-                                    await RevenuCatAPI.checkAllSubscriptions().then((value) {
-                                      print(AppData().entitlementIsActive,);
-                                      print(AppData().entitlement,);
-                                      print(SubscriptionType.individual.name);
-
-                                      syncUserSubscriptionStatus(userService, userCubit, AppData().entitlementIsActive, SubscriptionType.individual.name,AppData().entitlement );
+                                    }, onCancel: (context) {
                                       Navigator.pop(context);
-                                      context.pushNamed(AppRoutingName.mainScreen);
-
-
-                                    }).onError((error, stackTrace) {
-                                      Navigator.pop(context);
-
-                                      print('Errorrrrrr is hereee ${error.toString()}');
                                     });
-                                  })
-                                      .onError((error, stackTrace) {
-                                  Navigator.pop(context);
-
-                                  print('Errorrrrrr is hereee 2222${error.toString()}');
-
-                                  });
-                                }
-                              }, onCancel: (context) {
-                                Navigator.pop(context);
-                              });
+                              }
                             } catch (e) {
                               Navigator.pop(context);
                               showToast(context, '$e');
@@ -170,65 +143,64 @@ class IndividualPlans extends StatelessWidget {
                     ),
                   );
                 })
-            : Column(
-                children: [
-                  BlocBuilder<UserCubit, UserState>(
-                    builder: (context, state) {
-                      return SubscriptionPlanItem(
-                        title: TempLanguage().lblIndividualStarter,
-                        amount: '\$20.00',
-                        description: TempLanguage().lblIndividualStarterDes,
-                        subtitle: TempLanguage().lblOneMonth,
-                        isSubscribed: state.isSubscribed &&
-                            state.planLookUpKey ==
-                                IndivisualPlan.ind_starter_v1.name,
-                        buttonText: (state.isSubscribed &&
-                                state.planLookUpKey ==
-                                    IndivisualPlan.ind_growth_v1.name)
-                            ? TempLanguage().lblCancel
-                            : TempLanguage().lblSubscribe,
-                        onTap: (){},
-                      );
-                    },
-                  ),
-                  const SizedBox(
-                    height: 18,
-                  ),
-                  BlocBuilder<UserCubit, UserState>(
-                    builder: (context, state) {
-                      return SubscriptionPlanItem(
-                        title: TempLanguage().lblIndividualGrowthPlan,
-                        amount: '\$192.00',
-                        description: TempLanguage().lblIndividualGrowthDes,
-                        buttonText: (state.isSubscribed &&
-                                state.planLookUpKey ==
-                                    IndivisualPlan.ind_starter_v1.name)
-                            ? TempLanguage().lblCancel
-                            : TempLanguage().lblSubscribe,
-                        isSubscribed: state.isSubscribed &&
-                            state.planLookUpKey ==
-                                IndivisualPlan.ind_growth_v1.name,
-                        subtitle: TempLanguage().lblOneYear,
-                        onTap: (){},
-                      );
-                    },
-                  ),
-                ],
-              )
+            : Center(child: Text(TempLanguage().lblNoSubscriptionFound),)
       ],
     );
   }
 
-  Future<void> subscribe(UserService userService, UserCubit userCubit,
-      BuildContext context, String planLookUpKey, String package) async {
-    // RevenuCatAPI.purchasePackage('', entitleIdentifier, context);
+  Future<void> syncUserSubscriptionStatus(
+      UserService userService,
+      UserCubit userCubit,
+      bool isSubscribed,
+      String subscriptionType,
+      String planLookUpKey
+  ) async {
+
+    final result = await userService.updateUserSubscription(
+        isSubscribed, subscriptionType, userCubit.state.userId, planLookUpKey);
+    if (result) {
+      userCubit.setIsSubscribed(isSubscribed);
+      userCubit.setSubscriptionType(subscriptionType);
+      userCubit.setPlanLookUpKey(planLookUpKey);
+    }
+    if (!isSubscribed) {
+      await userService.updateUserStripeDetails(
+          '', '', '', userCubit.state.userId);
+      userCubit.setSubscriptionId('');
+      userCubit.setStripeId('');
+      userCubit.setSessionId('');
+    }
   }
 
+  String getButtonText(int index) {
+    return index == 0
+        ? AppData().entitlementIsActive
+            ? AppData().entitlement == 'ind_starter_v1'
+                ? TempLanguage().lblCancel
+                : TempLanguage().lblUpdate
+            : TempLanguage().lblSubscribe
+        : AppData().entitlementIsActive
+            ? AppData().entitlement == 'ind_growth_v1'
+                ? TempLanguage().lblCancel
+                : TempLanguage().lblUpdate
+            : TempLanguage().lblSubscribe;
+  }
 
+  bool isSubscribed(int index) {
+    return index == 0
+        ? AppData().entitlementIsActive
+            ? 'ind_starter_v1' == AppData().entitlement
+            : false
+        : AppData().entitlementIsActive
+            ? 'ind_growth_v1' == AppData().entitlement
+            : false;
+  }
+
+  /// Stripe implementation for future use ///
   Future<void> cancelSubscription(UserCubit userCubit, UserService userService,
       String subscriptionId, String planLookUpKey, BuildContext context) async {
     final cancelSubscription =
-        await StripeService.cancelSubscription(subscriptionId);
+    await StripeService.cancelSubscription(subscriptionId);
     if (!context.mounted) return;
     Navigator.pop(context);
     subscriptionStatus(cancelSubscription['subscription']['status'],
@@ -238,7 +210,7 @@ class IndividualPlans extends StatelessWidget {
   Future<void> updateSubscription(UserCubit userCubit, UserService userService,
       String subscriptionId, String planLookUpKey, BuildContext context) async {
     final updateSubscription =
-        await StripeService.updateSubscription(subscriptionId, planLookUpKey);
+    await StripeService.updateSubscription(subscriptionId, planLookUpKey);
     if (!context.mounted) return;
     Navigator.pop(context);
     subscriptionStatus(updateSubscription['subscription']['status'],
@@ -273,62 +245,28 @@ class IndividualPlans extends StatelessWidget {
     }
   }
 
-  Future<void> syncUserSubscriptionStatus(
-      UserService userService,
-      UserCubit userCubit,
-      bool isSubscribed,
-      String subscriptionType,
-      String planLookUpKey
-      ) async {
-
-    print('in syncUserSubscriptionStatus function');
-    print(isSubscribed);
-    print(subscriptionType);
-    print(planLookUpKey);
-    print(isSubscribed);
-
-    final result = await userService.updateUserSubscription(
-        isSubscribed, subscriptionType, userCubit.state.userId, planLookUpKey);
-    if (result) {
-      userCubit.setIsSubscribed(isSubscribed);
-      userCubit.setSubscriptionType(subscriptionType);
-      userCubit.setPlanLookUpKey(planLookUpKey);
-    }
-    if (!isSubscribed) {
-      await userService.updateUserStripeDetails(
-          '', '', '', userCubit.state.userId);
-      userCubit.setSubscriptionId('');
-      userCubit.setStripeId('');
-      userCubit.setSessionId('');
-    }
-  }
-
-  // Future<void> subscribe(UserService userService, UserCubit userCubit,
-  //     BuildContext context, String planLookUpKey) async {
-  //   try {
-  //     final sessionId =
-  //         await StripeService.createCheckoutSession(planLookUpKey);
-  //     String id = sessionId['session']['id'] ?? '';
-  //     String url = sessionId['session']['url'] ?? '';
-  //     if (!context.mounted) return;
-  //     Navigator.pop(context);
-  //     Navigator.of(context).push(MaterialPageRoute(
-  //         builder: (_) => CheckOutPage(
-  //               sessionId: id,
-  //               planLookUpKey: planLookUpKey,
-  //               url: url,
-  //               userCubit: userCubit,
-  //               userService: userService,
-  //               subscriptionType: SubscriptionType.individual.name,
-  //             )));
-  //   } catch (e) {
-  //     showToast(context, '$e');
-  //   }
-  // }
-
-
-
-
+// Future<void> subscribe(UserService userService, UserCubit userCubit,
+//     BuildContext context, String planLookUpKey) async {
+//   try {
+//     final sessionId =
+//         await StripeService.createCheckoutSession(planLookUpKey);
+//     String id = sessionId['session']['id'] ?? '';
+//     String url = sessionId['session']['url'] ?? '';
+//     if (!context.mounted) return;
+//     Navigator.pop(context);
+//     Navigator.of(context).push(MaterialPageRoute(
+//         builder: (_) => CheckOutPage(
+//               sessionId: id,
+//               planLookUpKey: planLookUpKey,
+//               url: url,
+//               userCubit: userCubit,
+//               userService: userService,
+//               subscriptionType: SubscriptionType.individual.name,
+//             )));
+//   } catch (e) {
+//     showToast(context, '$e');
+//   }
+// }
+  ///
 
 }
-

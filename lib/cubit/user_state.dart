@@ -19,6 +19,7 @@ class UserState {
   final bool isEmployeeBlocked;
   final bool isSubscribed;
   final bool isGuest;
+  final bool isSubscriptionCanceledTap;
   final String vendorType;
   final String userType;
   final String category;
@@ -57,7 +58,8 @@ class UserState {
     required this.stripeId,
     required this.planLookUpKey,
     required this.subscriptionId,
-    required this.sessionId
+    required this.sessionId,
+    this.isSubscriptionCanceledTap = false
   });
 
   UserState copyWith(
@@ -86,7 +88,8 @@ class UserState {
       String? stripeId,
       String? planLookUpKey,
       String? subscriptionId,
-      String? sessionId
+      String? sessionId,
+      bool? isSubscriptionCanceledTap
       }) {
     return UserState(
       userId: userId ?? this.userId,
@@ -114,7 +117,8 @@ class UserState {
       stripeId: stripeId ?? this.stripeId,
       planLookUpKey: planLookUpKey ?? this.planLookUpKey,
       subscriptionId: subscriptionId ?? this.subscriptionId,
-      sessionId: sessionId ?? this.sessionId
+      sessionId: sessionId ?? this.sessionId,
+      isSubscriptionCanceledTap: isSubscriptionCanceledTap ?? this.isSubscriptionCanceledTap
     );
   }
 }
@@ -142,6 +146,7 @@ class UserCubit extends Cubit<UserState> {
             isEmployeeBlocked: false,
             isSubscribed: false,
             isGuest: false,
+            isSubscriptionCanceledTap: false,
             employeeOwnerName: '',
             employeeOwnerImage: '',
             subscriptionType: '',
@@ -193,6 +198,11 @@ class UserCubit extends Cubit<UserState> {
   void setSessionId(String value) {
     emit(state.copyWith(sessionId: value));
     sharedPreferencesService.setValue(SharePreferencesKey.SESSION_ID, value);
+  }
+
+  void setSubscriptionCanceledTap(bool value) {
+    emit(state.copyWith(isSubscriptionCanceledTap: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.IS_SUBSCRIPTION_CANCELED_TAP, value);
   }
 
   void setUserImage(String value) {

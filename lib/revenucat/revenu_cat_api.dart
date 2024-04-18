@@ -72,6 +72,7 @@
 
 // ignore_for_file: avoid_print
 
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -96,73 +97,19 @@ class RevenuCatAPI {
     }
     await Purchases.configure(configuration);
     if (FirebaseAuth.instance.currentUser != null) {
-      print(
-          '####################################################################################################################################################################################################');
       initPlatformState(FirebaseAuth.instance.currentUser!.uid);
     }
   }
 
   Future<void> initPlatformState(String uid) async {
-    print('========> syncPurchaces');
-
-    print(uid);
-    print('========> firebase app user id');
     await Purchases.logIn(uid).then((value) {
       appData.appUserID = value.customerInfo.originalAppUserId;
-      print('========>  app user id while used to login');
-      print(value.customerInfo.originalAppUserId);
-      print('========>  app user id saved in appdata');
-      print(appData.appUserID);
     });
-
-    // appData.appUserID = result.customerInfo.originalAppUserId;
-    print(appData.appUserID);
-    print('========>  app user id appdata');
 
     await Purchases.syncPurchases();
 
     Purchases.addCustomerInfoUpdateListener((customerInfo) async {
-      // appData.appUserID = await Purchases.appUserID;
-      // print(Purchases.appUserID.toString());
-      // print('========>  app user id in Purchases');
-      //
-      // print(appData.appUserID);
-      // print('========>  app user id appdata after getting from purchases');
-
-      // CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-print(customerInfo.entitlements.active.isNotEmpty);
-print(customerInfo.entitlements.active);
-print(customerInfo.entitlements.all);
-print(customerInfo.entitlements.active.values);
-
-      print('%%%%%%%%%%%%%%%%%% active subscription or not');
-
-checkAllSubscriptions();
-
-      // if(customerInfo.entitlements.active.isNotEmpty){
-      //   print(customerInfo.activeSubscriptions);
-      //   print('%%%%%%%%%%%%%%%%%% active subscription');
-      //
-      //   print('%%%%%%%%%%%%%%%%%%active subscriptions');
-      //
-      //   print(customerInfo.entitlements.active);
-      //   // print(customerInfo.entitlements.active[entitlementID]?.isActive);
-      //   print('%%%%%%%%%%%%%%%%%% active entitlement');
-      //   // print(customerInfo.entitlements.active[entitlementID]?.store);
-      //   print('%%%%%%%%%%%%%%%%%% active entitlement');
-      //   // print(customerInfo.entitlements.active[entitlementID]?.periodType);
-      //   print('%%%%%%%%%%%%%%%%%% active entitlement');
-      //
-      //   appData.entitlementIsActive =   true;
-      //   appData.entitlement = customerInfo.activeSubscriptions.toString() ?? '';
-      //   print(appData.entitlement);
-      //
-      //   print('${appData.entitlementIsActive}!!!!!!!!!!!!_____!!!!!!!!!!!!!!');
-      //   print('%%%%%%%%%%%%%%%%%%');
-      //   print(appData.appUserID);
-      //   print(customerInfo.entitlements.all[entitlementIDInd]);
-      // }
-
+      checkAllSubscriptions();
     });
   }
 
@@ -172,22 +119,12 @@ checkAllSubscriptions();
     if (customerInfo.entitlements.active.isEmpty) {
       appData.entitlementIsActive =   false;
       appData.entitlement = '';
-      print('User is not subscribed to any entitlements');
     } else {
       for (final entitlement in customerInfo.entitlements.active.values) {
-        print(entitlement.isActive);
-        print('User =============<><');
-        print(customerInfo.entitlements.active.values);
-
-
         if (entitlement.isActive) {
-          print("User is subscribed to '${entitlement.productIdentifier}'");
-          appData.entitlementIsActive =   true;
+          appData.entitlementIsActive = true;
           appData.entitlement = entitlement.productIdentifier ?? '';
-          print(appData.entitlement);
-
-          print('${appData.entitlementIsActive}!!!!!!!!!!!!_____!!!!!!!!!!!!!!');
-          // Grant features based on entitlement ID
+          return;
         }
       }
     }
@@ -199,63 +136,66 @@ checkAllSubscriptions();
 
   static Future<void> purchasePackage(
       Package package, String entitleIdentifier, BuildContext context) async {
-    print(package);
-    print(entitleIdentifier);
-    print('0000000000000000000000000000000000000000000000000000000000000000');
-
-
     try {
       CustomerInfo customerInfo = await Purchases.purchasePackage(package);
 
-      print(customerInfo.entitlements.all[entitleIdentifier]);
-      // entitleIdentifier == 'Individual Starter Plan' ? entitlementIDInd : entitlementIDInd;
-      print(customerInfo.entitlements.active[entitleIdentifier]);
+      EntitlementInfo? entitlement = customerInfo.entitlements.all[entitleIdentifier];
 
-      EntitlementInfo? entitlement =
-      customerInfo.entitlements.all[entitleIdentifier];
-
-      print(entitlement?.isActive);
-      print('0000000000000000');
       appData.entitlementIsActive = entitlement?.isActive ?? false;
       appData.entitlement = entitlement?.productIdentifier ?? '';
-      print(appData.entitlement);
-
-
-      print(appData.entitlementIsActive);
     } catch (e) {
-
-      print(e);
+      log(e.toString());
     }
+  }
 
-    // Navigator.pop(context);
-    // Navigator.pop(context);
+  static Future<void> updatePackage(
+      Package package, String entitleIdentifier, BuildContext context) async {
+    try {
+      CustomerInfo customerInfo = await Purchases.purchasePackage(package,
+          googleProductChangeInfo: GoogleProductChangeInfo(appData.entitlement,
+              prorationMode: GoogleProrationMode.immediateWithTimeProration));
+
+      EntitlementInfo? entitlement =
+          customerInfo.entitlements.all[entitleIdentifier];
+
+      appData.entitlementIsActive = entitlement?.isActive ?? false;
+      appData.entitlement = entitlement?.productIdentifier ?? '';
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   static Future<String?> checkSubscriptionStatuses() async {
-    print('in check subscriptin');
     try {
       CustomerInfo customerInfo = await Purchases.getCustomerInfo();
 
       for (final entitlement in customerInfo.entitlements.active.values) {
-        print('in check subscriptin for llop');
 
         if (entitlement.isActive) {
-          print('${entitlement.productIdentifier} is active');
-          // Grant features based on entitlement ID
-
          return entitlement.productIdentifier.toString();
         } else {
-          print('${entitlement.identifier} is not active');
           return entitlement.identifier.toString();
-
         }
-
       }
       return '';
-
     } on PlatformException {
-      // Handle error fetching purchaser info
-      print('Error fetching subscription information');
+      log('Error fetching subscription information');
+    }
+  }
+
+
+  static Future<bool> checkSubscriptionStatus() async {
+    try {
+      CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+      for (final entitlement in customerInfo.entitlements.active.values) {
+        if (entitlement.isActive) {
+          return true;
+        }
+      }
+      return false;
+    } on PlatformException {
+      log('Error fetching subscription information');
+      return false;
     }
   }
 
@@ -270,19 +210,16 @@ checkAllSubscriptions();
 
   static Future<void> cancelSubscription() async {
     try {
-      CustomerInfo customerInfo =
-          await Purchases.getCustomerInfo();
-
+      CustomerInfo customerInfo = await Purchases.getCustomerInfo();
 
       // Grant user "pro" access
-      final Uri url =
-      Uri.parse(customerInfo.managementURL!);
+      final Uri url = Uri.parse(customerInfo.managementURL!);
 
       if (!await launchUrl(url)) {
-    throw Exception('Could not launch $url');
-    }
+        throw Exception('Could not launch $url');
+      }
     } on PlatformException {
-    // Error fetching purchaser info
+      // Error fetching purchaser info
     }
   }
 }

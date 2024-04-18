@@ -50,6 +50,7 @@ class SharePreferencesKey {
   static const USER_ID = 'USER_ID';
   static const STRIPE_ID = 'STRIPE_ID';
   static const SESSION_ID = 'SESSION_ID';
+  static const IS_SUBSCRIPTION_CANCELED_TAP = 'IS_SUBSCRIPTION_CANCELED_TAP';
   static const SUBSCRIPTION_ID = 'SUBSCRIPTION_ID';
   static const VENDOR_ID = 'VENDOR_ID';
   static const USER_NAME = 'USER_NAME';

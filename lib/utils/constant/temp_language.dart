@@ -242,6 +242,7 @@ class TempLanguage {
       'Upgrade your plan to enable more locations';
 
   String get lblOneMonth => 'Month';
+  String get lblNoSubscriptionFound => 'No Subscription found';
 
   String get lblSixMonths => '6 months';
 

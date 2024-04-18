@@ -358,6 +358,7 @@ Future<bool?> ownShowConfirmDialogCustom(
       double? height,
       double? width,
       bool cancelable = true,
+      bool isUpdateSubscription = false,
       Color? barrierColor,
       CustomDialogType dialogType = CustomDialogType.CONFIRMATION,
       DialogAnimation dialogAnimation = DialogAnimation.DEFAULT,
@@ -419,7 +420,9 @@ Future<bool?> ownShowConfirmDialogCustom(
                   visible: title == 'Subscribe' ? true: false,
                   child: Column(
                     children: [
-                      Row(
+                      isUpdateSubscription
+                          ? const SizedBox.shrink()
+                          : Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: [
@@ -491,7 +494,18 @@ Future<bool?> ownShowConfirmDialogCustom(
                         children: [
                           Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,color: AppColors.primaryColor,),
                           const SizedBox(width: 16,),
-                          Flexible(
+                          isUpdateSubscription
+                              ? Flexible(
+                            child: Text(
+                              'You will be charged $price/$duration for this subscription.',
+                              style: const TextStyle(
+                                fontFamily: METROPOLIS_BOLD,
+                                fontSize: 12,
+                                // color: AppColors.whiteColor
+                              ),
+                            ),
+                          )
+                              : Flexible(
                             child: Text(
                               'You will be charged $price/$duration for this subscription after 60 days free trail.',
                               style: const TextStyle(
@@ -500,7 +514,7 @@ Future<bool?> ownShowConfirmDialogCustom(
                                 // color: AppColors.whiteColor
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
 

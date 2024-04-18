@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -30,38 +28,18 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    RevenuCatAPI().initPlatformState(FirebaseAuth.instance.currentUser!.uid);
-    if(Platform.isIOS){
-      print('%%%%%%%%%%%%%%%%%%${Platform.isIOS}');
-      initOfferings();
-    }
-    else{
-      initOfferings();
-
-    }
+    initOfferings();
   }
 
   initOfferings()async{
-    Offerings? offerings;
-
-      offerings = await RevenuCatAPI.fetchAvailableProducts();
-      if(offerings == null ||  offerings.current == null){
-        print('offers null');
-      }
-      else{
-        offer = offerings.current;
-        print(offer?.availablePackages);
-        offers = offerings.all;
-        print('offers.all =======>');
-
-        print(offerings.all['Established Agency']);
+     Offerings offerings = await RevenuCatAPI.fetchAvailableProducts();
+      if(offerings.current != null){
         setState(() {
-
+          offer = offerings.current;
+          offers = offerings.all;
         });
       }
-
   }
   @override
   Widget build(BuildContext context) {
