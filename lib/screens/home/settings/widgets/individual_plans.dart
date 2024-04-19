@@ -175,12 +175,12 @@ class IndividualPlans extends StatelessWidget {
   String getButtonText(int index) {
     return index == 0
         ? AppData().entitlementIsActive
-            ? AppData().entitlement == 'ind_starter_v1'
+            ? AppData().entitlement == 'ind_starter_v2'
                 ? TempLanguage().lblCancel
                 : TempLanguage().lblUpdate
             : TempLanguage().lblSubscribe
         : AppData().entitlementIsActive
-            ? AppData().entitlement == 'ind_growth_v1'
+            ? AppData().entitlement == 'ind_growth_v2'
                 ? TempLanguage().lblCancel
                 : TempLanguage().lblUpdate
             : TempLanguage().lblSubscribe;
@@ -189,10 +189,10 @@ class IndividualPlans extends StatelessWidget {
   bool isSubscribed(int index) {
     return index == 0
         ? AppData().entitlementIsActive
-            ? 'ind_starter_v1' == AppData().entitlement
+            ? 'ind_starter_v2' == AppData().entitlement
             : false
         : AppData().entitlementIsActive
-            ? 'ind_growth_v1' == AppData().entitlement
+            ? 'ind_growth_v2' == AppData().entitlement
             : false;
   }
 
