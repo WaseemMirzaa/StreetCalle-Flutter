@@ -104,16 +104,32 @@ class ManageEmployeesScreen extends StatelessWidget {
                     final imageCubit = context.read<ImageCubit>();
                     imageCubit.resetImage();
 
-                    if (userCubit.state.planLookUpKey == AgencyPlan.new_agency_starter.name || userCubit.state.planLookUpKey == AgencyPlan.new_agency_growth.name) {
+                    if (userCubit.state.planLookUpKey == AgencyPlan.new_agency_starter_v1.name
+                        || userCubit.state.planLookUpKey == AgencyPlan.new_agency_growth_v1.name) {
+
                       int employeeCount = await userService.getEmployeeCount(userCubit.state.userId);
-                      if (employeeCount < 7) {
+                      if (employeeCount < 4) {
                         if (!context.mounted) return;
                         context.pushNamed(AppRoutingName.createEmployeeProfileScreen);
                       } else {
                         if (!context.mounted) return;
                         showToast(context, TempLanguage().lblForMoreEmployeesUpdatePlan);
                       }
-                    } else {
+
+                    } else if (userCubit.state.planLookUpKey == AgencyPlan.intermediate_agency_starter_v1.name
+                        || userCubit.state.planLookUpKey == AgencyPlan.intermediate_agency_growth_v1.name) {
+
+                      int employeeCount = await userService.getEmployeeCount(userCubit.state.userId);
+                      if (employeeCount < 10) {
+                        if (!context.mounted) return;
+                        context.pushNamed(AppRoutingName.createEmployeeProfileScreen);
+                      } else {
+                        if (!context.mounted) return;
+                        showToast(context, TempLanguage().lblForMoreEmployeesUpdatePlan);
+                      }
+
+                    } else if (userCubit.state.planLookUpKey == AgencyPlan.establish_agency_starter_v1.name
+                        || userCubit.state.planLookUpKey == AgencyPlan.establish_agency_growth_v1.name) {
                       context.pushNamed(AppRoutingName.createEmployeeProfileScreen);
                     }
                   },

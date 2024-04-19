@@ -45,8 +45,6 @@ class _SplashScreenState extends State<SplashScreen> {
         final isSubscribed = sharedPreferencesService.getBoolAsync(SharePreferencesKey.IS_SUBSCRIBED);
         final userType = sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_TYPE);
 
-        userCubit.setSubscriptionCanceledTap(sharedPreferencesService.getBoolAsync(SharePreferencesKey.IS_SUBSCRIPTION_CANCELED_TAP));
-
         userCubit.setUserId(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_ID));
         userCubit.setVendorId(sharedPreferencesService.getStringAsync(SharePreferencesKey.VENDOR_ID));
 

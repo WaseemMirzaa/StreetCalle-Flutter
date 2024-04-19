@@ -15,4 +15,11 @@ enum IndivisualPlan { ind_starter_v1, ind_growth_v1 }
 
 enum IndivisualPlanRevenueCat { ind_starter_v1, ind_growth_v1 }
 
-enum AgencyPlan { new_agency_starter, new_agency_growth, establish_agency_starter, establish_agency_growth }
+enum AgencyPlan {
+  new_agency_starter_v1,
+  new_agency_growth_v1,
+  intermediate_agency_starter_v1,
+  intermediate_agency_growth_v1,
+  establish_agency_starter_v1,
+  establish_agency_growth_v1
+}

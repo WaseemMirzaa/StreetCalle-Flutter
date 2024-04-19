@@ -35,6 +35,11 @@ class IndividualPlans extends StatelessWidget {
     final userService = sl.get<UserService>();
     final userCubit = context.read<UserCubit>();
 
+      if (AppData().entitlement != 'ind_starter_v1' && AppData().entitlement != 'ind_growth_v1') {
+        AppData().entitlement = '';
+        AppData().entitlementIsActive = false;
+      }
+
     return Column(
       children: [
         offers != null
@@ -69,7 +74,6 @@ class IndividualPlans extends StatelessWidget {
                                     primaryColor: AppColors.primaryColor,
                                     barrierDismissible: false,
                                     onAccept: (ctx){
-                                      userCubit.setSubscriptionCanceledTap(true);
                                       Navigator.pop(ctx);
                                       RevenuCatAPI.cancelSubscription();
                                       context.pushNamed(AppRoutingName.mainScreen);

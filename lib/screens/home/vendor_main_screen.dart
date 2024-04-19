@@ -28,13 +28,33 @@ class VendorMainScreen extends StatefulWidget {
   State<VendorMainScreen> createState() => _VendorMainScreenState();
 }
 
-class _VendorMainScreenState extends State<VendorMainScreen> {
+class _VendorMainScreenState extends State<VendorMainScreen> with WidgetsBindingObserver {
   BottomNavPosition _navPosition = BottomNavPosition.home;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     init();
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.paused) {
+      // went to Background
+    } else if(state == AppLifecycleState.resumed) {
+      // went to Foreground
+      final userCubit = context.read<UserCubit>();
+      final userService = sl.get<UserService>();
+
+      final isSubscribed = await RevenuCatAPI.checkSubscriptionStatus();
+      if (!isSubscribed && userCubit.state.isSubscribed) {
+        await userService.updateUserSubscription(false, SubscriptionType.none.name, userCubit.state.userId, '');
+        userCubit.setPlanLookUpKey('');
+        userCubit.setIsSubscribed(false);
+        userCubit.setSubscriptionId('');
+      }
+    }
   }
 
   Future<void> init() async {
@@ -46,20 +66,18 @@ class _VendorMainScreenState extends State<VendorMainScreen> {
     final userService = sl.get<UserService>();
 
     await RevenuCatAPI().initPlatformState(FirebaseAuth.instance.currentUser!.uid);
-    if (userCubit.state.isSubscriptionCanceledTap) {
-      final isSubscribed = await RevenuCatAPI.checkSubscriptionStatus();
-      if (!isSubscribed) {
-        await userService.updateUserSubscription(false, SubscriptionType.none.name, userCubit.state.userId, '');
-        userCubit.setPlanLookUpKey('');
-        userCubit.setIsSubscribed(false);
-        userCubit.setSubscriptionId('');
-        userCubit.setSubscriptionCanceledTap(false);
-      }
+    final isSubscribed = await RevenuCatAPI.checkSubscriptionStatus();
+    if (!isSubscribed && userCubit.state.isSubscribed) {
+      await userService.updateUserSubscription(false, SubscriptionType.none.name, userCubit.state.userId, '');
+      userCubit.setPlanLookUpKey('');
+      userCubit.setIsSubscribed(false);
+      userCubit.setSubscriptionId('');
     }
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     LocationUtils.stopBackgroundLocation();
     super.dispose();
   }
