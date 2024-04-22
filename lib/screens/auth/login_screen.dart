@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
+import 'package:street_calle/screens/auth/cubit/facebook_login/facebook_login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
@@ -214,21 +215,46 @@ class LoginScreen extends StatelessWidget {
                         }
                       },
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.placeholderColor)
-                      ),
-                      child: Image.asset(AppAssets.facebook, width: 20, height: 20,),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.placeholderColor)
-                      ),
-                      child: Image.asset(AppAssets.twitter, width: 20, height: 20,),
+                    BlocConsumer<FacebookLoginCubit, FacebookLoginState>(
+                      builder: (context, state) {
+                        return GestureDetector(
+                          onTap: () {
+                            showLoadingDialog(context, null);
+                            context.read<FacebookLoginCubit>().facebookSignIn();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: AppColors.placeholderColor)
+                            ),
+                            child: Image.asset(AppAssets.facebook, width: 20, height: 20,),
+                          ),
+                        );
+                      },
+                      listener: (context, state) {
+                        if (state is FacebookLoginFailure) {
+                          Navigator.pop(context);
+                          showToast(context, state.error);
+                        } else if (state is FacebookLoginSuccess) {
+                          Navigator.pop(context);
+                          if (state.isEmailVerified) {
+                            context.read<UserCubit>().setUserModel(state.user, isLoggedIn: true);
+                            if (state.user.userType != null) {
+                              if (state.user.isVendor || state.user.isEmployee || state.user.userType == UserType.vendor.name) {
+                                context.goNamed(AppRoutingName.mainScreen);
+                              } else {
+                                context.goNamed(AppRoutingName.clientMainScreen);
+                              }
+                            } else {
+                              context.goNamed(AppRoutingName.selectUserScreen);
+                            }
+                          } else {
+                            context.read<UserCubit>().setUserModel(state.user);
+                            context.pushNamed(AppRoutingName.emailVerificationScreen, pathParameters: {EMAIL: state.user.email ?? ''});
+                          }
+                        }
+                      },
                     ),
                   ],
                 ),

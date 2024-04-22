@@ -6,6 +6,7 @@ import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/auth/cubit/checkbox/checkbox_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/create_employee/create_employee_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/email_verification/email_verification_cubit.dart';
+import 'package:street_calle/screens/auth/cubit/facebook_login/facebook_login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/forget_password/forget_password_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/google_login/google_login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/guest/guest_cubit.dart';
@@ -58,6 +59,7 @@ Future<void> init() async {
   sl.registerFactory(() => EmailVerificationCubit(sl.call()));
   sl.registerFactory(() => GuestCubit(sl.call()));
   sl.registerFactory(() => GoogleLoginCubit(sl.call(), sl.call()));
+  sl.registerFactory(() => FacebookLoginCubit(sl.call(), sl.call()));
   sl.registerFactory(() => UserCubit(sl.call()));
   sl.registerFactory(() => AddItemCubit(sl.call(), sl.call(), sl.call()));
   sl.registerFactory(() => AddDealCubit(sl.call(), sl.call()));

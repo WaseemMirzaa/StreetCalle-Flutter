@@ -109,7 +109,7 @@ class AgencyPlans extends StatelessWidget {
                                   subTitle: TempLanguage().lblSubscribeInfo,
                                   positiveText: TempLanguage().lblOk,
                                   price: myProducts[index].storeProduct.priceString,
-                                  des: myProducts[index].storeProduct.presentedOfferingIdentifier,
+                                  des: myProducts[index].storeProduct.presentedOfferingContext?.offeringIdentifier,
                                   duration: myProducts[index]
                                       .storeProduct
                                       .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
@@ -136,7 +136,7 @@ class AgencyPlans extends StatelessWidget {
                                 subTitle: TempLanguage().lblSubscribeInfo,
                                 positiveText: TempLanguage().lblOk,
                                 price: myProducts[index].storeProduct.priceString,
-                                des: myProducts[index].storeProduct.presentedOfferingIdentifier,
+                                des: myProducts[index].storeProduct.presentedOfferingContext?.offeringIdentifier,
                                 duration: myProducts[index]
                                     .storeProduct
                                     .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
@@ -243,7 +243,7 @@ class AgencyPlans extends StatelessWidget {
                                   subTitle: TempLanguage().lblSubscribeInfo,
                                   positiveText: TempLanguage().lblOk,
                                   price: myProducts[index].storeProduct.priceString,
-                                  des: myProducts[index].storeProduct.presentedOfferingIdentifier,
+                                  des: myProducts[index].storeProduct.presentedOfferingContext?.offeringIdentifier,
                                   duration: myProducts[index]
                                       .storeProduct
                                       .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
@@ -270,7 +270,7 @@ class AgencyPlans extends StatelessWidget {
                                 subTitle: TempLanguage().lblSubscribeInfo,
                                 positiveText: TempLanguage().lblOk,
                                 price: myProducts[index].storeProduct.priceString,
-                                des: myProducts[index].storeProduct.presentedOfferingIdentifier,
+                                des: myProducts[index].storeProduct.presentedOfferingContext?.offeringIdentifier,
                                 duration: myProducts[index]
                                     .storeProduct
                                     .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
@@ -380,7 +380,7 @@ class AgencyPlans extends StatelessWidget {
                                   subTitle: TempLanguage().lblSubscribeInfo,
                                   positiveText: TempLanguage().lblOk,
                                   price: myProducts[index].storeProduct.priceString,
-                                  des: myProducts[index].storeProduct.presentedOfferingIdentifier,
+                                  des: myProducts[index].storeProduct.presentedOfferingContext?.offeringIdentifier,
                                   duration: myProducts[index]
                                       .storeProduct
                                       .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
@@ -407,7 +407,7 @@ class AgencyPlans extends StatelessWidget {
                                 subTitle: TempLanguage().lblSubscribeInfo,
                                 positiveText: TempLanguage().lblOk,
                                 price: myProducts[index].storeProduct.priceString,
-                                des: myProducts[index].storeProduct.presentedOfferingIdentifier,
+                                des: myProducts[index].storeProduct.presentedOfferingContext?.offeringIdentifier,
                                 duration: myProducts[index]
                                     .storeProduct
                                     .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,

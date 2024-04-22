@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:street_calle/screens/auth/auth_screen.dart';
+import 'package:street_calle/screens/auth/cubit/facebook_login/facebook_login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/login/login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/sign_up/sign_up_cubit.dart';
 import 'package:street_calle/screens/auth/email_verification_screen.dart';
@@ -84,6 +85,9 @@ final router = GoRouter(
             ),
             BlocProvider(
               create: (context)=> sl<GoogleLoginCubit>(),
+            ),
+            BlocProvider(
+              create: (context)=> sl<FacebookLoginCubit>(),
             ),
             BlocProvider(
               create: (context)=> sl<GuestCubit>(),
