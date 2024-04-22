@@ -10,6 +10,7 @@ import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
+import 'package:street_calle/utils/common.dart';
 
 class SettingsTab extends StatelessWidget {
   const SettingsTab({Key? key}) : super(key: key);
@@ -33,7 +34,9 @@ class SettingsTab extends StatelessWidget {
           children: [
             userCubit.state.isEmployee
                 ? const SizedBox.shrink()
-                : SettingItem(title: TempLanguage().lblProfile, onTap: (){
+                : SettingItem(title: TempLanguage().lblProfile, onTap: userCubit.state.isGuest ? (){
+              showGuestLoginDialog(context);
+            } : (){
                   if (userCubit.state.isVendor ) {
                     context.pushNamed(AppRoutingName.vendorProfile);
                   } else {
@@ -41,7 +44,7 @@ class SettingsTab extends StatelessWidget {
                   }
             }),
             userCubit.state.isVendor
-                ? SettingItem(title: TempLanguage().lblSubscription, onTap: (){context.push(AppRoutingName.vendorSubscriptions);})
+                ? SettingItem(title: TempLanguage().lblSubscription, onTap: userCubit.state.isGuest ? (){} :  (){context.push(AppRoutingName.vendorSubscriptions);})
                 : const SizedBox.shrink(),
             SettingItem(title: TempLanguage().lblPrivacyPolicy, onTap: (){
               context.push(AppRoutingName.privacyPolicy);
@@ -50,19 +53,20 @@ class SettingsTab extends StatelessWidget {
               context.push(AppRoutingName.termsAndConditions);
             }),
 
-            SettingItem(title: TempLanguage().lblDeleteAccount, onTap: () async {
-              bool? result = await context.push(AppRoutingName.deleteAccount);
-              if (result ?? false) {
-                await sharedPreferencesService.clearSharedPref();
-                if (context.mounted) {
-                  context.goNamed(AppRoutingName.authScreen);
-                }
-              }
-            }),
+            // SettingItem(title: TempLanguage().lblDeleteAccount, onTap: () async {
+            //   bool? result = await context.push(AppRoutingName.deleteAccount);
+            //   if (result ?? false) {
+            //     await sharedPreferencesService.clearSharedPref();
+            //     if (context.mounted) {
+            //       context.goNamed(AppRoutingName.authScreen);
+            //     }
+            //   }
+            // }),
 
             SettingItem(title: TempLanguage().lblSignOut, onTap: () async {
               await firebaseAuth.signOut();
               await sharedPreferencesService.clearSharedPref();
+              userCubit.setDefaultState();
               if (context.mounted) {
                 context.goNamed(AppRoutingName.authScreen);
               }

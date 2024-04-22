@@ -285,6 +285,37 @@ class UserCubit extends Cubit<UserState> {
     sharedPreferencesService.setValue(SharePreferencesKey.SUBSCRIPTION_TYPE, value);
   }
 
+  void setDefaultState() {
+    emit(UserState(
+        userId: '',
+        vendorId: '',
+        userName: '',
+        userEmail: '',
+        userImage: '',
+        userPhone: '',
+        userAbout: '',
+        isLoggedIn: false,
+        isVendor: false,
+        isOnline: true,
+        countryCode: initialCountyCode,
+        vendorType: '',
+        userType: '',
+        category: '',
+        categoryImage: '',
+        isEmployee: false,
+        isEmployeeBlocked: false,
+        isSubscribed: false,
+        isGuest: false,
+        employeeOwnerName: '',
+        employeeOwnerImage: '',
+        subscriptionType: '',
+        stripeId: '',
+        planLookUpKey: '',
+        subscriptionId: '',
+        sessionId: ''
+    ));
+  }
+
   void setUserModel(User user,
       {bool isLoggedIn = false}) {
     setUsername(user.name ?? '');
