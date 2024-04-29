@@ -109,7 +109,7 @@ class RevenuCatAPI {
     await Purchases.syncPurchases();
 
     Purchases.addCustomerInfoUpdateListener((customerInfo) async {
-      checkAllSubscriptions();
+      // checkAllSubscriptions();
     });
   }
 
@@ -120,7 +120,17 @@ class RevenuCatAPI {
       appData.entitlementIsActive =   false;
       appData.entitlement = '';
     } else {
+      print(customerInfo.entitlements.active.entries.first);
+      print('0---------------------0');
+
+      print(customerInfo.entitlements.active.entries.last);
+      print('---------------------0');
+
+      print(customerInfo.activeSubscriptions);
       for (final entitlement in customerInfo.entitlements.active.values) {
+        print(entitlement);
+        print(entitlement.isActive);
+        print('---------------------');
         if (entitlement.isActive) {
           appData.entitlementIsActive = true;
           appData.entitlement = entitlement.productIdentifier ?? '';

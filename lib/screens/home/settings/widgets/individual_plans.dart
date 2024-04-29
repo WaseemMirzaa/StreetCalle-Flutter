@@ -38,13 +38,13 @@ class IndividualPlans extends StatelessWidget {
     final userCubit = context.read<UserCubit>();
 
     if(Platform.isIOS){
-      if (AppData().entitlement != 'ind_starter_v2' && AppData().entitlement != 'ind_growth_v2') {
+      if (AppData().entitlement != 'ind_starter_v2' || AppData().entitlement != 'ind_growth_v2') {
         AppData().entitlement = '';
         AppData().entitlementIsActive = false;
       }
 
     }else{
-      if (AppData().entitlement != 'ind_starter_v1' && AppData().entitlement != 'ind_growth_v1') {
+      if (AppData().entitlement != 'ind_starter_v1' || AppData().entitlement != 'ind_growth_v1') {
         AppData().entitlement = '';
         AppData().entitlementIsActive = false;
       }

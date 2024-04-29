@@ -3,6 +3,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/price_tile.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:street_calle/utils/my_sizer.dart';
 
 class PricingCategory extends StatelessWidget {
   const PricingCategory({Key? key, required this.item}) : super(key: key);
@@ -14,6 +15,7 @@ class PricingCategory extends StatelessWidget {
     final isMediumItemAvailable =  item.mediumItemTitle.isEmptyOrNull;
     final isLargeItemAvailable =  item.largeItemTitle.isEmptyOrNull;
 
+    MySizer().init(context);
     return Row(
       mainAxisAlignment: isLargeItemAvailable ? MainAxisAlignment.center : MainAxisAlignment.spaceBetween,
       children: [
@@ -22,9 +24,9 @@ class PricingCategory extends StatelessWidget {
             : PriceTile(title: item.smallItemTitle, actualPrice: item.smallItemActualPrice, discountedPrice: item.smallItemDiscountedPrice),
         isMediumItemAvailable ? const SizedBox.shrink() : SizedBox(
           height: 50,
-          width: isLargeItemAvailable ? 140 : 2,
-          child: const VerticalDivider(
-            width: 2,
+          width: isLargeItemAvailable ? MySizer.size110 : MySizer.size2,
+          child:  VerticalDivider(
+            width: MySizer.size2,
             color: AppColors.placeholderColor,
           ),
         ),

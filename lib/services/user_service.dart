@@ -137,6 +137,8 @@ class UserService extends BaseService<User> {
   }
 
   Future<List<User>> getVendorsAndEmployees() async {
+    print('This is getvender : iiiiiiiiiiiiiiiiiiiiiiiiiii' );
+
     final vendorQuerySnapshot = await ref!
         .where(UserKey.IS_VENDOR, isEqualTo: true)
         .where(UserKey.IS_EMPLOYEE, isEqualTo: false)
@@ -156,7 +158,7 @@ class UserService extends BaseService<User> {
     List<User> userList = [];
     userList.addAll(vendorQuerySnapshot.docs.where((element) => element.data().latitude != null && element.data().longitude != null).map((user) => user.data()));
     userList.addAll(employeeQuerySnapshot.docs.where((element) => element.data().latitude != null && element.data().longitude != null).map((user) => user.data()));
-
+    print('$userList iiiiiii');
     return userList;
   }
 
