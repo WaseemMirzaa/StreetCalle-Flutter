@@ -66,13 +66,14 @@ class PasswordResetScreen extends StatelessWidget {
                       builder: (context, state) {
                         return state is PasswordResetLoading
                             ? const CircularProgressIndicator(color: AppColors.primaryColor,)
-                            : Container(
+                            : SizedBox(
                           width: context.width,
                           height: defaultButtonSize,
                           child: AppButton(
                             text: TempLanguage().lblSend,
                             elevation: 0.0,
                             onTap: () {
+                              hideKeyboard(context);
                               resetPassword(context);
                             },
                             shapeBorder: RoundedRectangleBorder(
