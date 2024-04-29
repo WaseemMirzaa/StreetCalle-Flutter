@@ -145,17 +145,33 @@ class UserService extends BaseService<User> {
         .orderBy(UserKey.UPDATED_AT, descending: true)
         .get();
 
-    final employeeQuerySnapshot = await ref!
-        .where(UserKey.IS_VENDOR, isEqualTo: false)
-        .where(UserKey.IS_EMPLOYEE, isEqualTo: true)
-        .where(UserKey.IS_EMPLOYEE_BLOCKED, isEqualTo: false)
-        .where(UserKey.IS_ONLINE, isEqualTo: true)
-        .orderBy(UserKey.UPDATED_AT, descending: true)
-        .get();
+    // final employeeQuerySnapshot = await ref!
+    //     .where(UserKey.IS_VENDOR, isEqualTo: false)
+    //     .where(UserKey.IS_EMPLOYEE, isEqualTo: true)
+    //     .where(UserKey.IS_EMPLOYEE_BLOCKED, isEqualTo: false)
+    //     .where(UserKey.IS_ONLINE, isEqualTo: true)
+    //     .orderBy(UserKey.UPDATED_AT, descending: true)
+    //     .get();
 
     List<User> userList = [];
     userList.addAll(vendorQuerySnapshot.docs.where((element) => element.data().latitude != null && element.data().longitude != null).map((user) => user.data()));
-    userList.addAll(employeeQuerySnapshot.docs.where((element) => element.data().latitude != null && element.data().longitude != null).map((user) => user.data()));
+    //userList.addAll(employeeQuerySnapshot.docs.where((element) => element.data().latitude != null && element.data().longitude != null).map((user) => user.data()));
+
+    for (final vendorDoc in vendorQuerySnapshot.docs) {
+      final vendor = vendorDoc.data();
+      if (vendor.isSubscribed) {
+        final employeeQuerySnapshot = await ref!
+            .where(UserKey.IS_VENDOR, isEqualTo: false)
+            .where(UserKey.IS_EMPLOYEE, isEqualTo: true)
+            .where(UserKey.VENDOR_ID, isEqualTo: vendor.uid)
+            .where(UserKey.IS_EMPLOYEE_BLOCKED, isEqualTo: false)
+            .where(UserKey.IS_ONLINE, isEqualTo: true)
+            .orderBy(UserKey.UPDATED_AT, descending: true)
+            .get();
+
+        userList.addAll(employeeQuerySnapshot.docs.where((element) => element.data().latitude != null && element.data().longitude != null).map((user) => user.data()));
+      }
+    }
 
     return userList;
   }

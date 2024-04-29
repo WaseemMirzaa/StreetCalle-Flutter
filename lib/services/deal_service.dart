@@ -117,7 +117,7 @@ class DealService extends BaseService<Deal> {
   Stream<List<Deal>> getEmployeeDealsStream(String userId) async* {
     try {
       final userDoc = await UserService().userByUid(userId);
-      yield* getEmployeeDeals(userDoc.employeeItemsList);
+      yield* getEmployeeDeals(userDoc.employeeDealsList);
     }catch(e){
       log(e.toString());
     }

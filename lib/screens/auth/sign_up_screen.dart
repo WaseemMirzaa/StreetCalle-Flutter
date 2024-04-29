@@ -222,7 +222,7 @@ class SignUpScreen extends StatelessWidget {
                     context.read<UserCubit>().setUserModel(state.user);
                     context.read<ProfileStatusCubit>().defaultStatus(true);
                     context.read<ImageCubit>().resetImage();
-                    context.pushNamed(AppRoutingName.emailVerificationScreen, pathParameters: {EMAIL: state.user.email ?? ''});
+                    context.goNamed(AppRoutingName.emailVerificationScreen, pathParameters: {EMAIL: state.user.email ?? ''});
                     context.read<SignUpCubit>().clearControllers();
                   } else if (state is SignUpFailure) {
                     showToast(context, state.error);

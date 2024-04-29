@@ -24,6 +24,7 @@ class UserprofileTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final userCubit = context.read<UserCubit>();
     context.read<EditProfileEnableCubit>().updateButtonClicked();
+    MySizer().init(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

@@ -228,23 +228,16 @@ class AuthService {
 
   Future<void> _updateOrCreateUser(UserService userService, String? uid,
       userModel.User uModel, bool isUpdate) async {
-    print(uid);
     if (uid == null) {
-      print('_update or create users if condition, id is null');
       throw Left(TempLanguage().lblAppleeSignInError);
     }
-    print(isUpdate);
-    print('is update here222222');
     if (isUpdate) {
-      print('_update or create users else condition, id not null');
 
       await userService.updateDocument({
         UserKey.UPDATED_AT: Timestamp.now(),
       }, uid);
     } else {
-      print('here is all the mess111111111111');
         await userService.addDocumentWithCustomId( uid,uModel,);
-
      }
   }
 
@@ -274,7 +267,6 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       return _handleException(e);
     } catch (e) {
-      print('here is the error : $e');
       return Left(TempLanguage().lblFacebookSignInError);
     }
   }
@@ -371,7 +363,6 @@ class AuthService {
 
   Future<Either<String, User?>> signInWithApple() async {
     try {
-      print('here in apple sign in=========================');
       final userService = sl.get<UserService>();
       // final SharedPreferences prefs = await SharedPreferences.getInstance();
       // final bool hasSavedCredentials = prefs.containsKey('email')&& prefs.containsKey('name');
@@ -384,7 +375,6 @@ class AuthService {
       // }
 
       final appleProvider = AppleAuthProvider();
-      print('just before apple sign in=========================');
       appleProvider.addScope('email');
       appleProvider.addScope('name');
 
@@ -395,27 +385,15 @@ class AuthService {
 
       final userModel.User? existingUser =
       await _getUserByUid(userService, user?.uid);
-      print('existing user====================');
-      print(existingUser);
       final userModel.User uModel = _buildUserModel(user, existingUser);
-      print('here is back from user model build');
-
-      print(uModel);
-      print(uModel.uid);
-      print(uModel.email);
-      print(uModel.name);
-      print(existingUser != null);
-      print(user?.uid);
 
       await _updateOrCreateUser(
           userService, user?.uid, uModel, existingUser != null);
 
       return Right(user);
     } on FirebaseAuthException catch (e) {
-      print('firrebase exception-----------');
       return _handleException(e);
     } catch (e) {
-      print('in the catch $e');
       log(e.toString());
       return Left(TempLanguage().lblAppleeSignInError);
     }
