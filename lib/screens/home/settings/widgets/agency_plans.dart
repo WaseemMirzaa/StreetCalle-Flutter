@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -33,10 +35,19 @@ class AgencyPlans extends StatelessWidget {
     final userService = sl.get<UserService>();
     final userCubit = context.read<UserCubit>();
 
+    if(Platform.isIOS){
+      if (AppData().entitlement == 'ind_starter_v2' || AppData().entitlement == 'ind_growth_v2') {
+        AppData().entitlement = '';
+        AppData().entitlementIsActive = false;
+      }
+    }else{
       if (AppData().entitlement == 'ind_starter_v1' || AppData().entitlement == 'ind_growth_v1') {
         AppData().entitlement = '';
         AppData().entitlementIsActive = false;
       }
+    }
+
+
 
     return Column(
       children: [

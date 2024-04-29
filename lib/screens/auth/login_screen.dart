@@ -271,6 +271,8 @@ class LoginScreen extends StatelessWidget {
                           }
                         },
                       ):
+                        const SizedBox(),
+
                     BlocConsumer<GoogleLoginCubit, GoogleLoginState>(
                       builder: (context, state) {
                         return GestureDetector(

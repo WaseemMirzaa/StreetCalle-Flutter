@@ -29,10 +29,11 @@ class LocationUtils {
 
 
     if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+      print('if condition permission');
       return await Geolocator.getLastKnownPosition() ?? await Geolocator.getCurrentPosition();
     }
     var a = await Geolocator.getCurrentPosition();
-    print(a.longitude );
+    print('This is Longitude : ${a.longitude} iiiiiiiiiiiiiiiiiiiiiiiiiii' );
     return a;
   }
 

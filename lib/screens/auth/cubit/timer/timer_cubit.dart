@@ -10,7 +10,9 @@ class TimerCubit extends Cubit<int> {
   void start() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       emit(state - 1);
-      if (state == 0) {
+      if (state <= 0) {
+        print('if condition iiiiiiii');
+        emit(0);
         _timer.cancel();
       }
     });

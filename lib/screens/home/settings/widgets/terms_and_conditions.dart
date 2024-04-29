@@ -17,7 +17,7 @@ class TermsAndConditions extends StatelessWidget {
         const PlatformWebViewControllerCreationParams());
     controller
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse('https://sites.google.com/view/wa-direct-without-saving/home'));
+      ..loadRequest(Uri.parse('https://www.app-privacy-policy.com/live.php?token=M93RqWFZmCRS0RSTsVVauE1GPpQNI01k'));
 
     return Scaffold(
       appBar: AppBar(
