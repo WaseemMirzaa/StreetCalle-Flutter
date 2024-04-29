@@ -508,6 +508,10 @@ class TempLanguage {
 
   String get lblGoogleSignInError =>
       'Error occurred using Google Sign In. Try again.';
+  String get lblAppleeSignInError =>
+      'Error occurred using Apple Sign In. Try again.';
+  String get lblFacebookSignInError =>
+      'Error occurred using Facebook Sign In. Try again.';
 
   String get lblUserNotFound => 'User Not Found';
 

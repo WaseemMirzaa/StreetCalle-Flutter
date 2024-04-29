@@ -1,10 +1,13 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 //import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:nb_utils/nb_utils.dart';
+// import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/user.dart' as userModel;
 import 'package:street_calle/services/user_service.dart';
@@ -196,10 +199,14 @@ class AuthService {
 
   userModel.User _buildUserModel(User? user, userModel.User? existingUser) {
     if (existingUser != null) {
+      print('here is user model build if condition true');
+
       var uModel = userModel.User.fromJson(
           existingUser.toJson(), existingUser.uid ?? '');
       return uModel;
     } else {
+      print('here is user model build else condition');
+
       var uModel = userModel.User(
         uid: user?.uid,
         email: user?.email,
@@ -221,48 +228,56 @@ class AuthService {
 
   Future<void> _updateOrCreateUser(UserService userService, String? uid,
       userModel.User uModel, bool isUpdate) async {
+    print(uid);
     if (uid == null) {
-      throw Left(TempLanguage().lblGoogleSignInError);
+      print('_update or create users if condition, id is null');
+      throw Left(TempLanguage().lblAppleeSignInError);
     }
-
+    print(isUpdate);
+    print('is update here222222');
     if (isUpdate) {
+      print('_update or create users else condition, id not null');
+
       await userService.updateDocument({
         UserKey.UPDATED_AT: Timestamp.now(),
       }, uid);
     } else {
-      await userService.updateDocument(uModel.toJson(), uid);
-    }
+      print('here is all the mess111111111111');
+        await userService.addDocumentWithCustomId( uid,uModel,);
+
+     }
   }
 
-  // Future<Either<String, User?>> signInWithFacebook() async {
-  //   try {
-  //     final userService = sl.get<UserService>();
-  //
-  //     final LoginResult loginResult = await FacebookAuth.instance.login();
-  //
-  //     final OAuthCredential facebookAuthCredential =
-  //         FacebookAuthProvider.credential(loginResult.accessToken?.token ?? '');
-  //
-  //     UserCredential userCredential = await FirebaseAuth.instance
-  //         .signInWithCredential(facebookAuthCredential);
-  //
-  //     final User? user = userCredential.user;
-  //
-  //     final userModel.User? existingUser =
-  //         await _getUserByUid(userService, user?.uid);
-  //
-  //     final userModel.User uModel = _buildUserModel(user, existingUser);
-  //
-  //     await _updateOrCreateUser(
-  //         userService, user?.uid, uModel, existingUser != null);
-  //
-  //     return Right(user);
-  //   } on FirebaseAuthException catch (e) {
-  //     return _handleException(e);
-  //   } catch (e) {
-  //     return Left(TempLanguage().lblGoogleSignInError);
-  //   }
-  // }
+  Future<Either<String, User?>> signInWithFacebook() async {
+    try {
+      final userService = sl.get<UserService>();
+
+      final LoginResult loginResult = await FacebookAuth.instance.login();
+
+      final OAuthCredential facebookAuthCredential =
+          FacebookAuthProvider.credential(loginResult.accessToken?.token ?? '');
+
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(facebookAuthCredential);
+
+      final User? user = userCredential.user;
+
+      final userModel.User? existingUser =
+          await _getUserByUid(userService, user?.uid);
+
+      final userModel.User uModel = _buildUserModel(user, existingUser);
+
+      await _updateOrCreateUser(
+          userService, user?.uid, uModel, existingUser != null);
+
+      return Right(user);
+    } on FirebaseAuthException catch (e) {
+      return _handleException(e);
+    } catch (e) {
+      print('here is the error : $e');
+      return Left(TempLanguage().lblFacebookSignInError);
+    }
+  }
 
   Future<Either<String, User?>> signInWithTwitter() async {
     try {
@@ -289,27 +304,120 @@ class AuthService {
     }
   }
 
+  // Future<UserCredential> signInWithFacebook() async {
+  //   try {
+  //     final LoginResult loginResult = await FacebookAuth.instance.login();
+  //
+  //     if (loginResult.status == LoginStatus.success) {
+  //       final AccessToken accessToken = loginResult.accessToken!;
+  //       final OAuthCredential credential = FacebookAuthProvider.credential(accessToken.token);
+  //       return await FirebaseAuth.instance.signInWithCredential(credential);
+  //     } else {
+  //       throw FirebaseAuthException(
+  //         code: 'Facebook Login Failed',
+  //         message: 'The Facebook login was not successful.',
+  //       );
+  //     }
+  //   } on FirebaseAuthException catch (e) {
+  //     // Handle Firebase authentication exceptions
+  //     print('Firebase Auth Exception: ${e.message}');
+  //     throw e; // rethrow the exception
+  //   } catch (e) {
+  //     // Handle other exceptions
+  //     print('Other Exception: $e');
+  //     throw e; // rethrow the exception
+  //   }
+  // }
+  // Future<Either<String, User?>> signInWithApple() async {
+  //   try {
+  //     print('here in apple sign in=========================');
+  //     final userService = sl.get<UserService>();
+  //
+  //     final appleProvider = AppleAuthProvider();
+  //     print('just before apple sign in=========================');
+  //
+  //     UserCredential userCredential =  await FirebaseAuth.instance.signInWithProvider(appleProvider);
+  //
+  //
+  //     final User? user = userCredential.user;
+  //
+  //     final userModel.User? existingUser =
+  //     await _getUserByUid(userService, user?.uid);
+  //     print('existing user====================');
+  //     print(existingUser);
+  //     final userModel.User uModel = _buildUserModel(user, existingUser);
+  //     print('here is back from user model build');
+  //
+  //     print(uModel);
+  //     print(uModel.uid);
+  //     print(uModel.email);
+  //     print(uModel.name);
+  //     print(existingUser != null);
+  //     print(user?.uid);
+  //
+  //     await _updateOrCreateUser(
+  //         userService, user?.uid, uModel, existingUser != null);
+  //
+  //     return Right(user);
+  //   } on FirebaseAuthException catch (e) {
+  //     print('firrebase exception-----------');
+  //     return _handleException(e);
+  //   } catch (e) {
+  //     print('in the catch $e');
+  //     log(e.toString());
+  //     return Left(TempLanguage().lblGoogleSignInError);
+  //   }
+  // }
+
   Future<Either<String, User?>> signInWithApple() async {
     try {
+      print('here in apple sign in=========================');
       final userService = sl.get<UserService>();
+      // final SharedPreferences prefs = await SharedPreferences.getInstance();
+      // final bool hasSavedCredentials = prefs.containsKey('email')&& prefs.containsKey('name');
+      //
+      // if(hasSavedCredentials){
+      //   final appleCredentials = await SignInWithApple.getAppleIDCredential(scopes: [
+      //     AppleIDAuthorizationScopes.email,
+      //     AppleIDAuthorizationScopes.fullName,
+      //   ]);
+      // }
 
       final appleProvider = AppleAuthProvider();
+      print('just before apple sign in=========================');
+      appleProvider.addScope('email');
+      appleProvider.addScope('name');
+
       UserCredential userCredential =  await FirebaseAuth.instance.signInWithProvider(appleProvider);
+
+
       final User? user = userCredential.user;
 
       final userModel.User? existingUser =
       await _getUserByUid(userService, user?.uid);
+      print('existing user====================');
+      print(existingUser);
       final userModel.User uModel = _buildUserModel(user, existingUser);
+      print('here is back from user model build');
+
+      print(uModel);
+      print(uModel.uid);
+      print(uModel.email);
+      print(uModel.name);
+      print(existingUser != null);
+      print(user?.uid);
 
       await _updateOrCreateUser(
           userService, user?.uid, uModel, existingUser != null);
 
       return Right(user);
     } on FirebaseAuthException catch (e) {
+      print('firrebase exception-----------');
       return _handleException(e);
     } catch (e) {
+      print('in the catch $e');
       log(e.toString());
-      return Left(TempLanguage().lblGoogleSignInError);
+      return Left(TempLanguage().lblAppleeSignInError);
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,7 +37,13 @@ class PermissionScreenState extends State<PermissionScreen> with WidgetsBindingO
       //
       // print('%%%%%%%%%%%%%%%%');
       if (await PermissionUtils.locationStatus() == false || await PermissionUtils.notificationStatus() == false) {
-        _showPermissionDialog();
+        _showPermissionDialog().then((value) {
+          if(Platform.isIOS){
+            Permission.location.request().then((value) {
+              Permission.notification.request();
+            });
+          }
+        });;
       }
     });
   }
