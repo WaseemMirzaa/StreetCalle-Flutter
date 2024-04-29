@@ -20,9 +20,19 @@ import 'package:street_calle/services/category_service.dart';
 import 'package:street_calle/screens/selectUser/widgets/drop_down_widget.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
 
-class ClientHomeTab extends StatelessWidget {
+class ClientHomeTab extends StatefulWidget {
   const ClientHomeTab({Key? key}) : super(key: key);
 
+  @override
+  State<ClientHomeTab> createState() => _ClientHomeTabState();
+}
+
+class _ClientHomeTabState extends State<ClientHomeTab> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     DropDownItem? selectedItem;
@@ -37,12 +47,17 @@ class ClientHomeTab extends StatelessWidget {
               future: LocationUtils.fetchLocation(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
+                  print('loading');
                   return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));
                 } else if (snapshot.hasError) {
+                    print('has error');
                   return Center(child: Text(TempLanguage().lblSomethingWentWrong));
                 } else {
-                  return BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
+                    print('in else');
+
+                    return BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
                     builder: (context, state) {
+                      print(snapshot.data?.longitude);
                       if (state.updatedLatitude != null && state.updatedLongitude != null) {
                           Position position = Position(
                               longitude: state.updatedLongitude!,

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/screens/auth/cubit/apple_login/apple_login_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/checkbox/checkbox_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/create_employee/create_employee_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/email_verification/email_verification_cubit.dart';
@@ -59,6 +60,7 @@ Future<void> init() async {
   sl.registerFactory(() => EmailVerificationCubit(sl.call()));
   sl.registerFactory(() => GuestCubit(sl.call()));
   sl.registerFactory(() => GoogleLoginCubit(sl.call(), sl.call()));
+  sl.registerFactory(() => AppleeLoginCubit(sl.call(), sl.call()));
   sl.registerFactory(() => FacebookLoginCubit(sl.call(), sl.call()));
   sl.registerFactory(() => UserCubit(sl.call()));
   sl.registerFactory(() => AddItemCubit(sl.call(), sl.call(), sl.call()));

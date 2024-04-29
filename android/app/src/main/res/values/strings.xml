@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <string name="facebook_app_id">1365719610250300</string>
-    <string name="facebook_client_token">YOUR_CLIENT_TOKEN</string>
-</resources>
+    <string name="app_name">Street Calle</string>
+    <string name="facebook_app_id">266229469815515</string>
+<string name="fb_login_protocol_scheme">fb266229469815515</string>
+<string name="facebook_client_token">d884dd955b412dd1782b89cab8fca8f0</string>
+    </resources>

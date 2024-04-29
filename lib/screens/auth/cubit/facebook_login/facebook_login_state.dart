@@ -1,5 +1,7 @@
 part of 'facebook_login_cubit.dart';
 
+
+
 class FacebookLoginState extends Equatable {
   @override
   List<Object?> get props => [];

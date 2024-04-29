@@ -12,11 +12,14 @@ abstract class BaseService<T> {
   }
 
   Future<DocumentReference> addDocumentWithCustomId(String id, T data) async {
+    print('here in addDocumentWithCustomId');
+    print(data);
     var doc = ref!.doc(id);
 
     return await doc.set(data).then((value) {
       return doc;
     }).catchError((e) {
+      print('catch erorrrrr $e');
       throw e;
     });
   }

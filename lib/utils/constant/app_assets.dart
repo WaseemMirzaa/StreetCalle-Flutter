@@ -18,6 +18,7 @@ class AppAssets {
   static const client = 'assets/images/client.png';
   static const vendor = 'assets/images/vendor.png';
   static const google = 'assets/images/google.png';
+  static const apple = 'assets/images/apple.png';
   static const facebook = 'assets/images/facebook.png';
   static const twitter = 'assets/images/twitter.png';
   static const home = 'assets/images/home.png';

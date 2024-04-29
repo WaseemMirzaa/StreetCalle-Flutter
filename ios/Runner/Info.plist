@@ -2,6 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+  <key>CFBundleURLSchemes</key>
+  <array>
+    <string>fb266229469815515</string>
+  </array>
+  </dict>
+</array>
+<key>FacebookAppID</key>
+<string>266229469815515</string>
+<key>FacebookClientToken</key>
+<string>CLIENT-TOKEN</string>
+<key>FacebookDisplayName</key>
+<string>Street Calle</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -43,6 +59,11 @@
 		<string>fetch</string>
 		<string>location</string>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>com.googleusercontent.apps.55418794</string>
+                <string>com.googleusercontent.apps.554187940881-s0robbko9nrm53euolrp2a2qjvebteoq</string>
+    </array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

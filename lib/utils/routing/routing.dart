@@ -58,6 +58,8 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/menu_cub
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected_item_cubit.dart';
 
+import 'package:street_calle/screens/auth/cubit/apple_login/apple_login_cubit.dart';
+
 final router = GoRouter(
   routes: [
     GoRoute(
@@ -85,6 +87,9 @@ final router = GoRouter(
             ),
             BlocProvider(
               create: (context)=> sl<GoogleLoginCubit>(),
+            ),
+            BlocProvider(
+              create: (context)=> sl<AppleeLoginCubit>(),
             ),
             BlocProvider(
               create: (context)=> sl<FacebookLoginCubit>(),

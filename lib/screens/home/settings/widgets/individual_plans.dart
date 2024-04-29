@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,10 +37,19 @@ class IndividualPlans extends StatelessWidget {
     final userService = sl.get<UserService>();
     final userCubit = context.read<UserCubit>();
 
+    if(Platform.isIOS){
+      if (AppData().entitlement != 'ind_starter_v2' && AppData().entitlement != 'ind_growth_v2') {
+        AppData().entitlement = '';
+        AppData().entitlementIsActive = false;
+      }
+
+    }else{
       if (AppData().entitlement != 'ind_starter_v1' && AppData().entitlement != 'ind_growth_v1') {
         AppData().entitlement = '';
         AppData().entitlementIsActive = false;
       }
+
+    }
 
     return Column(
       children: [
@@ -176,29 +187,43 @@ class IndividualPlans extends StatelessWidget {
     }
   }
 
-  String getButtonText(int index) {
+  String getButtonText(int index,) {
     return index == 0
         ? AppData().entitlementIsActive
-            ? AppData().entitlement == 'ind_starter_v2'
-                ? TempLanguage().lblCancel
-                : TempLanguage().lblUpdate
-            : TempLanguage().lblSubscribe
+        ? Platform.isIOS
+        ? AppData().entitlement == 'ind_starter_v2'
+        ? TempLanguage().lblCancel
+        : TempLanguage().lblUpdate
+        : AppData().entitlement == 'ind_starter_v1'
+        ? TempLanguage().lblCancel
+        : TempLanguage().lblUpdate
+        : TempLanguage().lblSubscribe
         : AppData().entitlementIsActive
-            ? AppData().entitlement == 'ind_growth_v2'
-                ? TempLanguage().lblCancel
-                : TempLanguage().lblUpdate
-            : TempLanguage().lblSubscribe;
+        ? Platform.isIOS
+        ? AppData().entitlement == 'ind_growth_v2'
+        ? TempLanguage().lblCancel
+        : TempLanguage().lblUpdate
+        : AppData().entitlement == 'ind_growth_v1'
+        ? TempLanguage().lblCancel
+        : TempLanguage().lblUpdate
+        : TempLanguage().lblSubscribe;
   }
 
-  bool isSubscribed(int index) {
+
+  bool isSubscribed(int index, ) {
     return index == 0
         ? AppData().entitlementIsActive
-            ? 'ind_starter_v2' == AppData().entitlement
-            : false
+        ? Platform.isIOS
+        ? 'ind_starter_v2' == AppData().entitlement
+        : 'ind_starter_v1' == AppData().entitlement
+        : false
         : AppData().entitlementIsActive
-            ? 'ind_growth_v2' == AppData().entitlement
-            : false;
+        ? Platform.isIOS
+        ? 'ind_growth_v2' == AppData().entitlement
+        : 'ind_growth_v1' == AppData().entitlement
+        : false;
   }
+
 
   /// Stripe implementation for future use ///
   Future<void> cancelSubscription(UserCubit userCubit, UserService userService,

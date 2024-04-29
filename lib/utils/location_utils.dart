@@ -1,3 +1,4 @@
+
 import 'package:background_location/background_location.dart';
 import 'package:geocoding/geocoding.dart' hide Location;
 import 'package:geolocator/geolocator.dart';
@@ -19,15 +20,20 @@ class LocationUtils {
     LocationPermission permission;
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    print(serviceEnabled);
     if (!serviceEnabled) {
       toast(TempLanguage().lblEnableLocationService);
     }
     permission = await Geolocator.checkPermission();
+    print(permission);
+
 
     if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
       return await Geolocator.getLastKnownPosition() ?? await Geolocator.getCurrentPosition();
     }
-    return await Geolocator.getCurrentPosition();
+    var a = await Geolocator.getCurrentPosition();
+    print(a.longitude );
+    return a;
   }
 
   static Future<void> getBackgroundLocation() async {
