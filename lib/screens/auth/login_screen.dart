@@ -179,52 +179,6 @@ class LoginScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    BlocConsumer<FacebookLoginCubit, FacebookLoginState>(
-                      builder: (context, state) {
-                        return GestureDetector(
-                          onTap: () {
-                            showLoadingDialog(context, null);
-                            context.read<FacebookLoginCubit>().facebookSignIn();
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                  color: AppColors.placeholderColor),
-                            ),
-                            child: Image.asset(
-                              AppAssets.facebook, width: 20, height: 20,),
-                          ),
-                        );
-                      },
-                      listener: (context, state) {
-                        if (state is FacebookLoginFailure) {
-                          Navigator.pop(context);
-                          showToast(context, state.error);
-                        } else if (state is FacebookLoginSuccess) {
-                          Navigator.pop(context);
-                            context.read<UserCubit>().setUserModel(
-                                state.user, isLoggedIn: true);
-                            if (state.user.userType != null) {
-                              if (state.user.isVendor ||
-                                  state.user.isEmployee ||
-                                  state.user.userType ==
-                                      UserType.vendor.name) {
-                                context.goNamed(AppRoutingName.mainScreen);
-                              } else {
-                                context.goNamed(
-                                    AppRoutingName.clientMainScreen);
-                              }
-                            } else {
-                              context.goNamed(
-                                  AppRoutingName.selectUserScreen);
-                            }
-
-                        }
-                      },
-                    ),
-
                     Platform.isIOS ?
                       BlocConsumer<AppleeLoginCubit, AppleeLoginState>(
                         builder: (context, state) {
