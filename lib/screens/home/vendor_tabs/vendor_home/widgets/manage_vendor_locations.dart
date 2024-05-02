@@ -21,6 +21,10 @@ class ManageVendorLocations extends StatelessWidget {
             ? const SizedBox.shrink()
             : InkWell(
                 onTap: () {
+                  print(state.isSubscribed);
+                  print(state.subscriptionType);
+
+                  print('==================');
                   if (state.isSubscribed && state.subscriptionType.toLowerCase() ==
                           SubscriptionType.agency.name.toLowerCase()) {
                     context.pushNamed(AppRoutingName.manageEmployee);

@@ -108,7 +108,7 @@ class ManageEmployeesScreen extends StatelessWidget {
                         || userCubit.state.planLookUpKey == AgencyPlan.new_agency_growth_v1.name) {
 
                       int employeeCount = await userService.getEmployeeCount(userCubit.state.userId);
-                      if (employeeCount < 4) {
+                      if (employeeCount < 3) {
                         if (!context.mounted) return;
                         context.pushNamed(AppRoutingName.createEmployeeProfileScreen);
                       } else {
@@ -120,7 +120,7 @@ class ManageEmployeesScreen extends StatelessWidget {
                         || userCubit.state.planLookUpKey == AgencyPlan.intermediate_agency_growth_v1.name) {
 
                       int employeeCount = await userService.getEmployeeCount(userCubit.state.userId);
-                      if (employeeCount < 10) {
+                      if (employeeCount < 9) {
                         if (!context.mounted) return;
                         context.pushNamed(AppRoutingName.createEmployeeProfileScreen);
                       } else {

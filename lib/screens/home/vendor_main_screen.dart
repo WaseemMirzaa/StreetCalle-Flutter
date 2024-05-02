@@ -65,7 +65,7 @@ class _VendorMainScreenState extends State<VendorMainScreen> with WidgetsBinding
     final userCubit = context.read<UserCubit>();
     final userService = sl.get<UserService>();
 
-    await RevenuCatAPI().initPlatformState(FirebaseAuth.instance.currentUser!.uid);
+    await RevenuCatAPI().initPlatformState(FirebaseAuth.instance.currentUser!.uid, userCubit.state.vendorType);
     final isSubscribed = await RevenuCatAPI.checkSubscriptionStatus();
     if (!isSubscribed && userCubit.state.isSubscribed) {
       await userService.updateUserSubscription(false, SubscriptionType.none.name, userCubit.state.userId, '');

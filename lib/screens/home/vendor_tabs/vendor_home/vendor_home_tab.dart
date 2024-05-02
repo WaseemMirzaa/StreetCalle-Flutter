@@ -3,18 +3,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/cubit/user_state.dart';
-import 'package:street_calle/revenucat/revenu_cat_api.dart';
+import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/revenucat/singleton_data.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/show_all_items.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item_deal_buttons.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/manage_vendor_locations.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/widgets/search_field.dart';
 import 'package:street_calle/widgets/category_widget.dart';
+
+import 'package:street_calle/revenucat/revenu_cat_api.dart';
+import 'package:street_calle/services/user_service.dart';
 
 class VendorHomeTab extends StatefulWidget {
   const VendorHomeTab({Key? key}) : super(key: key);
@@ -28,12 +33,46 @@ class _VendorHomeTabState extends State<VendorHomeTab> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    RevenuCatAPI().initPlatformState(FirebaseAuth.instance.currentUser!.uid);
+  }
+  Future<void> syncUserSubscriptionStatus(
+      UserService userService,
+      UserCubit userCubit,
+      bool isSubscribed,
+      String subscriptionType,
+      String planLookUpKey
+      ) async {
+
+    final result = await userService.updateUserSubscription(
+        isSubscribed, subscriptionType, userCubit.state.userId, planLookUpKey);
+    if (result) {
+      userCubit.setIsSubscribed(isSubscribed);
+      userCubit.setSubscriptionType(subscriptionType);
+      userCubit.setPlanLookUpKey(planLookUpKey);
+    }
+    if (!isSubscribed) {
+      await userService.updateUserStripeDetails(
+          '', '', '', userCubit.state.userId);
+      userCubit.setSubscriptionId('');
+      userCubit.setStripeId('');
+      userCubit.setSessionId('');
+    }
   }
   @override
   Widget build(BuildContext context) {
     final userCubit = context.read<UserCubit>();
+    final userService = sl.get<UserService>();
+
     context.read<SearchCubit>().updateQuery('');
+    var uid = FirebaseAuth.instance.currentUser!.uid;
+    RevenuCatAPI().initPlatformState(uid,userCubit.state.vendorType).then((value) {
+      if(['ind_starter_v1', 'ind_starter_v2', 'ind_growth_v2', 'ind_growth__v1']
+          .contains(AppData().entitlement)){
+        syncUserSubscriptionStatus(userService, userCubit,AppData().entitlementIsActive, SubscriptionType.individual.name,AppData().entitlement);
+      }else{
+        syncUserSubscriptionStatus(userService, userCubit,AppData().entitlementIsActive, SubscriptionType.agency.name,AppData().entitlement);
+
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(

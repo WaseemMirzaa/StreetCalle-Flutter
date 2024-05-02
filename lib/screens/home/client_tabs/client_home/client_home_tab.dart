@@ -33,6 +33,7 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     DropDownItem? selectedItem;
@@ -41,24 +42,27 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
       body: Stack(
         children: [
           SizedBox(
-            width: ContextExtension(context).width,
-            height: ContextExtension(context).height,
-            child: FutureBuilder<Position>(
-              future: LocationUtils.fetchLocation(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  print('loading');
-                  return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));
-                } else if (snapshot.hasError) {
-                    print('has error');
-                  return Center(child: Text(TempLanguage().lblSomethingWentWrong));
-                } else {
-                    print('in else');
-
-                    return BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
-                    builder: (context, state) {
-                      print(snapshot.data?.longitude);
-                      if (state.updatedLatitude != null && state.updatedLongitude != null) {
+              width: ContextExtension(context).width,
+              height: ContextExtension(context).height,
+              child: FutureBuilder<Position>(
+                future: LocationUtils.fetchLocation(),
+                builder: (context, snapshot) {
+                  print('---------$snapshot');
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      color: AppColors.primaryColor,
+                    ));
+                  } else if (snapshot.hasError) {
+                    return Center(
+                        child: Text(TempLanguage().lblSomethingWentWrong));
+                  } else {
+                    return
+                      BlocBuilder<CurrentLocationCubit,
+                        CurrentLocationState>(
+                      builder: (context, state) {
+                        if (state.updatedLatitude != null &&
+                            state.updatedLongitude != null) {
                           Position position = Position(
                               longitude: state.updatedLongitude!,
                               latitude: state.updatedLatitude!,
@@ -67,17 +71,26 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                               altitude: 0.0,
                               heading: 0.0,
                               speed: 0.0,
-                              speedAccuracy: 0.0, altitudeAccuracy: 100,headingAccuracy: 100);
-                        return DisplayMap(position: position, isLocationUpdated: true,);
-                      } else {
-                        return DisplayMap(position: snapshot.data, isLocationUpdated: false,);
-                      }
-                    },
-                  );
-                }
-              },
-            )
-          ),
+                              speedAccuracy: 0.0,
+                              altitudeAccuracy: 100,
+                              headingAccuracy: 100);
+                          return DisplayMap(
+                            position: position,
+                            isLocationUpdated: true,
+                          );
+                        } else {
+                          return DisplayMap(
+                            position: snapshot.data,
+                            isLocationUpdated: true,
+                          );
+                        }
+                      },
+                    );
+
+                  }
+
+                },
+              )),
           Padding(
             padding: const EdgeInsets.only(top: 54, left: 24, right: 24),
             child: Column(
@@ -88,7 +101,7 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           context.pushNamed(AppRoutingName.clientMenu);
                         },
                         child: SearchField(
@@ -99,9 +112,11 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16,),
+                    const SizedBox(
+                      width: 16,
+                    ),
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         context.pushNamed(AppRoutingName.clientMenu);
                       },
                       child: Container(
@@ -110,27 +125,35 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                         padding: const EdgeInsets.all(16),
                         decoration: const BoxDecoration(
                             color: AppColors.primaryLightColor,
-                            shape: BoxShape.circle
-                        ),
+                            shape: BoxShape.circle),
                         child: Image.asset(AppAssets.topMenuIcon),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12,),
+                const SizedBox(
+                  height: 12,
+                ),
                 FutureBuilder<List<dynamic>?>(
                   future: sl.get<CategoryService>().fetchCategories(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primaryColor,
+                        ),
+                      );
                     } else if (snapshot.hasData && snapshot.data != null) {
                       List<DropDownItem> category = [];
                       snapshot.data?.forEach((element) {
                         final dropDown = DropDownItem(
                             title: element[CategoryKey.TITLE],
-                            icon: Image.network(element[CategoryKey.ICON], width: 18, height: 18,),
-                            url: element[CategoryKey.ICON]
-                        );
+                            icon: Image.network(
+                              element[CategoryKey.ICON],
+                              width: 18,
+                              height: 18,
+                            ),
+                            url: element[CategoryKey.ICON]);
                         category.add(dropDown);
                       });
 
@@ -144,7 +167,8 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                               color: AppColors.blackColor.withOpacity(0.1),
                               spreadRadius: 2, // Spread radius
                               blurRadius: 15, // Blur radius
-                              offset: const Offset(0, 0), // Offset in the Y direction
+                              offset: const Offset(
+                                  0, 0), // Offset in the Y direction
                             ),
                           ],
                         ),
@@ -153,7 +177,9 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                           items: category,
                           onChanged: (value) {
                             selectedItem = value;
-                            context.read<MapFilterCubit>().updateFilter(value?.title ?? '');
+                            context
+                                .read<MapFilterCubit>()
+                                .updateFilter(value?.title ?? '');
                           },
                         ),
                       );
@@ -170,16 +196,18 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
               ],
             ),
           ),
-
           Positioned(
             bottom: 30,
             left: 30,
             right: 30,
             child: BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
               builder: (context, state) {
-                final latLng = LatLng(state.updatedLatitude ?? 0.0, state.updatedLongitude ?? 0.0);
+                final latLng = LatLng(state.updatedLatitude ?? 0.0,
+                    state.updatedLongitude ?? 0.0);
                 return FutureBuilder(
-                    future: state.updatedLatitude == null ? LocationUtils.getAddressFromPosition() : LocationUtils.getAddressFromLatLng(latLng),
+                    future: state.updatedLatitude == null
+                        ? LocationUtils.getAddressFromPosition()
+                        : LocationUtils.getAddressFromLatLng(latLng),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const SizedBox.shrink();
@@ -193,27 +221,40 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                           ),
                           child: Row(
                             children: [
-                              const SizedBox(width: 8,),
+                              const SizedBox(
+                                width: 8,
+                              ),
                               Expanded(
-                                child: Text('${snapshot.data}', style: const TextStyle(color: AppColors.blackColor),),
+                                child: Text(
+                                  '${snapshot.data}',
+                                  style: const TextStyle(
+                                      color: AppColors.blackColor),
+                                ),
                               ),
                               IconButton(
                                 onPressed: () async {
-                                  LocationUtils.fetchLocation().then((current){
-                                    final position = LatLng(current.latitude, current.longitude);
-                                    context.pushNamed(AppRoutingName.locationPicker, extra: position);
+                                  LocationUtils.fetchLocation().then((current) {
+                                    final position = LatLng(
+                                        current.latitude, current.longitude);
+                                    context.pushNamed(
+                                        AppRoutingName.locationPicker,
+                                        extra: position);
                                   });
                                 },
-                                icon: const Icon(Icons.edit, color: AppColors.blackColor,),
+                                icon: const Icon(
+                                  Icons.edit,
+                                  color: AppColors.blackColor,
+                                ),
                               ),
-                              const SizedBox(width: 8,),
+                              const SizedBox(
+                                width: 8,
+                              ),
                             ],
                           ),
                         );
                       }
                       return const SizedBox.shrink();
-                    }
-                );
+                    });
               },
             ),
           ),

@@ -15,6 +15,15 @@ class LocationUtils {
 
   static Position? position;
 
+  static Future<Position> fetchLocation0() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    var a = await Geolocator.getCurrentPosition();
+    print('This is Longitude : ${a.longitude} iiiiiiiiiiiiiiiiiiiiiiiiiii' );
+    return a;
+  }
+
   static Future<Position> fetchLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -32,8 +41,12 @@ class LocationUtils {
       print('if condition permission');
       return await Geolocator.getLastKnownPosition() ?? await Geolocator.getCurrentPosition();
     }
-    var a = await Geolocator.getCurrentPosition();
+    var a =
+
+   await Geolocator.getCurrentPosition();
     print('This is Longitude : ${a.longitude} iiiiiiiiiiiiiiiiiiiiiiiiiii' );
+    print('This is Latitude : ${a.latitude} iiiiiiiiiiiiiiiiiiiiiiiiiii' );
+
     return a;
   }
 

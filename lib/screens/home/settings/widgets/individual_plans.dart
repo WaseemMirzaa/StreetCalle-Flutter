@@ -38,13 +38,15 @@ class IndividualPlans extends StatelessWidget {
     final userCubit = context.read<UserCubit>();
 
     if(Platform.isIOS){
-      if (AppData().entitlement != 'ind_starter_v2' || AppData().entitlement != 'ind_growth_v2') {
-        AppData().entitlement = '';
-        AppData().entitlementIsActive = false;
+
+      if (appData.entitlement != 'ind_starter_v2' && AppData().entitlement != 'ind_growth_v2') {
+
+        appData.entitlement = '';
+        appData.entitlementIsActive = false;
       }
 
     }else{
-      if (AppData().entitlement != 'ind_starter_v1' || AppData().entitlement != 'ind_growth_v1') {
+      if (AppData().entitlement != 'ind_starter_v1' && AppData().entitlement != 'ind_growth_v1') {
         AppData().entitlement = '';
         AppData().entitlementIsActive = false;
       }
@@ -74,7 +76,7 @@ class IndividualPlans extends StatelessWidget {
                           buttonText: getButtonText(index),
                           onTap: () {
                             try {
-                              if (AppData().entitlementIsActive) {
+                              if (appData.entitlementIsActive) {
                                 if (AppData().entitlement == myProducts[index].storeProduct.identifier.split(':')[0]) {
                                   showConfirmDialogCustom(
                                     context,
