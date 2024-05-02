@@ -14,6 +14,11 @@ import 'package:street_calle/screens/home/settings/widgets/agency_plans.dart';
 
 import 'package:street_calle/revenucat/revenu_cat_api.dart';
 
+import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/services/user_service.dart';
+
+import 'package:street_calle/revenucat/singleton_data.dart';
+
 class VendorSubscription extends StatefulWidget {
   const VendorSubscription({Key? key}) : super(key: key);
 
@@ -43,6 +48,7 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
   @override
   Widget build(BuildContext context) {
     final userCubit = context.read<UserCubit>();
+    final userService = sl.get<UserService>();
 
     return Scaffold(
       appBar: AppBar(
@@ -192,6 +198,26 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
                 establishedAgencyOffers: offers?['Established Agency'],
 
               ),
+              ElevatedButton(
+                onPressed: (){
+                  showCircularProgressDialog(context);
+                  RevenuCatAPI.restorePurchase(context, userCubit.state.vendorType).then((value) {
+                    if(['ind_starter_v1', 'ind_starter_v2', 'ind_growth_v2', 'ind_growth__v1']
+                        .contains(AppData().entitlement)){
+                      syncUserSubscriptionStatus(userService, userCubit,AppData().entitlementIsActive, SubscriptionType.individual.name,AppData().entitlement);
+                    }else{
+                      syncUserSubscriptionStatus(userService, userCubit,AppData().entitlementIsActive, SubscriptionType.agency.name,AppData().entitlement);
+
+                    }
+                    Navigator.pop(context);
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor:  AppColors.primaryColor
+                ),
+                child: const Text('Restore Subscription', style: TextStyle(color: AppColors.whiteColor, fontSize: 14),),
+              ),
+
 
               const SizedBox(height: 18,),
             ],
@@ -200,4 +226,61 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
       ),
     );
   }
+   Future<void> syncUserSubscriptionStatus(
+       UserService userService,
+       UserCubit userCubit,
+       bool isSubscribed,
+       String subscriptionType,
+       String planLookUpKey
+       ) async {
+
+     final result = await userService.updateUserSubscription(
+         isSubscribed, subscriptionType, userCubit.state.userId, planLookUpKey);
+     if (result) {
+       userCubit.setIsSubscribed(isSubscribed);
+       userCubit.setSubscriptionType(subscriptionType);
+       userCubit.setPlanLookUpKey(planLookUpKey);
+     }
+     if (!isSubscribed) {
+       await userService.updateUserStripeDetails(
+           '', '', '', userCubit.state.userId);
+       userCubit.setSubscriptionId('');
+       userCubit.setStripeId('');
+       userCubit.setSessionId('');
+     }
+   }
+
+   void showCircularProgressDialog(BuildContext context) {
+     showDialog(
+       context: context,
+       barrierDismissible: false,
+       builder: (BuildContext context) {
+         return Dialog(
+           backgroundColor: Colors.transparent,
+           child: Container(
+             decoration: BoxDecoration(
+               color: Colors.white,
+               borderRadius: BorderRadius.circular(10.0),
+             ),
+             padding: const EdgeInsets.all(20.0),
+             child: const Column(
+               mainAxisSize: MainAxisSize.min,
+               children: [
+                 CircularProgressIndicator(),
+                 SizedBox(height: 20.0),
+                 Text(
+                   'Loading...',
+                   style: TextStyle(
+                     fontSize: 16.0,
+                     fontWeight: FontWeight.bold,
+                   ),
+                 ),
+               ],
+             ),
+           ),
+         );
+       },
+     );
+   }
+
 }

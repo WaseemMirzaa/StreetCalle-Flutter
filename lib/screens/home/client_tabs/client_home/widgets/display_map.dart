@@ -54,11 +54,11 @@ class _DisplayMapState extends State<DisplayMap> {
             return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));
           } else {
 
+
+
             return BlocBuilder<MapFilterCubit, String>(
               builder: (context, filterString) {
-
                 List<User> users = [];
-
                 if (filterString != defaultVendorFilter) {
                   users = snap.data!.where((user) {
                     final category = user.category?.toLowerCase().trim() ?? '';
@@ -68,8 +68,8 @@ class _DisplayMapState extends State<DisplayMap> {
                   users = snap.data ?? [];
                 }
                 if (widget.position != null) {
-
                   addVendorMarkers(users, widget.position!).then((markers) {
+                    print(markers);
                     //final locationCubit = context.read<CurrentLocationCubit>();
                     // if (locationCubit.state.latitude == null && locationCubit.state.longitude == null) {
                     //   locationCubit.setCurrentLocation(latitude: position.latitude, longitude: position.longitude);
@@ -129,13 +129,14 @@ class _DisplayMapState extends State<DisplayMap> {
       AppAssets.ambulanceMarker
     ];
     int markerIndex = 0;
-
+    print(users.length);
     for (User user in users) {
       if (user.latitude != null && user.longitude != null) {
         BitmapDescriptor? icon;
         if (user.image == null) {
           icon = await createCustomMarkerIconLocal(markerAssets[markerIndex]);
         } else {
+
           icon = await createCustomMarkerIconNetwork(user.isEmployee ? user.employeeOwnerImage! : user.image!);
         }
 
@@ -152,12 +153,16 @@ class _DisplayMapState extends State<DisplayMap> {
           );
 
           markers.add(marker);
+          print(markers.first.icon);
+          print(markers.length);
+
         }
         markerIndex = (markerIndex + 1) % markerAssets.length;
       }
     }
 
     if(widget.isLocationUpdated) {
+
       final marker = Marker(
         markerId: MarkerId('${position.latitude}--${position.longitude}'),
         position: LatLng(position.latitude, position.longitude),

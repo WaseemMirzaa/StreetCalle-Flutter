@@ -158,6 +158,7 @@ class UserService extends BaseService<User> {
     List<User> userList = [];
     userList.addAll(vendorQuerySnapshot.docs.where((element) => element.data().latitude != null && element.data().longitude != null).map((user) => user.data()));
     userList.addAll(employeeQuerySnapshot.docs.where((element) => element.data().latitude != null && element.data().longitude != null).map((user) => user.data()));
+    print('${userList.length} iiiiiii');
     print('$userList iiiiiii');
     return userList;
   }
