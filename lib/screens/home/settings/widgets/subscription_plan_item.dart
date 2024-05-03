@@ -120,10 +120,11 @@ class SubscriptionPlanItem extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Expanded(child:
                 Text(
                     'Free Trial : 60 days',
                     style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 12, color: AppColors.primaryFontColor)
-                ),
+                )),
                 SizedBox(
                   width: 120,
                   child: ElevatedButton(

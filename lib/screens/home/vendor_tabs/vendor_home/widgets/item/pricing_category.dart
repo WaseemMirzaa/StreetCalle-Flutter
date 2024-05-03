@@ -24,7 +24,7 @@ class PricingCategory extends StatelessWidget {
             : PriceTile(title: item.smallItemTitle, actualPrice: item.smallItemActualPrice, discountedPrice: item.smallItemDiscountedPrice),
         isMediumItemAvailable ? const SizedBox.shrink() : SizedBox(
           height: 50,
-          width: isLargeItemAvailable ? MySizer.size110 : MySizer.size2,
+          width: isLargeItemAvailable ? MySizer.size90 : MySizer.size2,
           child:  VerticalDivider(
             width: MySizer.size2,
             color: AppColors.placeholderColor,

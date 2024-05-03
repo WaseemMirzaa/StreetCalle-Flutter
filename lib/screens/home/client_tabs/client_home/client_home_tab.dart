@@ -20,6 +20,8 @@ import 'package:street_calle/services/category_service.dart';
 import 'package:street_calle/screens/selectUser/widgets/drop_down_widget.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
 
+import 'package:street_calle/utils/my_sizer.dart';
+
 class ClientHomeTab extends StatefulWidget {
   const ClientHomeTab({Key? key}) : super(key: key);
 
@@ -36,6 +38,8 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
 
   @override
   Widget build(BuildContext context) {
+    MySizer().init(context);
+
     DropDownItem? selectedItem;
 
     return Scaffold(
@@ -160,7 +164,7 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                       selectedItem = category[0];
 
                       return Container(
-                        margin: const EdgeInsets.only(right: 130),
+                        margin:  EdgeInsets.only(right: MySizer.size130),
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
