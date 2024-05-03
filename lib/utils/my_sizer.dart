@@ -61,6 +61,7 @@ class MySizer {
   static late double size100;
   static late double size110;
   static late double size120;
+  static late double size130;
   static late double size140;
   static late double size160;
   static late double size180;
@@ -152,6 +153,7 @@ class MySizer {
     size100 = scaleFactorHeight * 100;
     size110 = scaleFactorHeight * 110;
     size120 = scaleFactorHeight * 120;
+    size130 = scaleFactorHeight * 130;
     size140 = scaleFactorHeight * 140;
     size160 = scaleFactorHeight * 160;
     size180 = scaleFactorHeight * 180;

@@ -25,30 +25,73 @@ class LocationUtils {
   }
 
   static Future<Position> fetchLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
+    Position? a;
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    print(serviceEnabled);
+    // Check if the location is already available
+    a = await Geolocator.getLastKnownPosition();
+
+    // If the last known position is available, return it immediately
+    if (a != null) {
+      print('Last known position available: Latitude: ${a.latitude}, Longitude: ${a.longitude}');
+      return a;
+    }
+
+    // If last known position is not available, wait for the current position
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       toast(TempLanguage().lblEnableLocationService);
+      // You might want to handle this case appropriately
     }
-    permission = await Geolocator.checkPermission();
-    print(permission);
 
-
+    LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
-      print('if condition permission');
+      print('Location permission denied');
+      // You might want to handle this case appropriately
       return await Geolocator.getLastKnownPosition() ?? await Geolocator.getCurrentPosition();
     }
-    var a =
 
-   await Geolocator.getCurrentPosition();
-    print('This is Longitude : ${a.longitude} iiiiiiiiiiiiiiiiiiiiiiiiiii' );
-    print('This is Latitude : ${a.latitude} iiiiiiiiiiiiiiiiiiiiiiiiiii' );
-
+    // Fetch the current position
+    a = await Geolocator.getCurrentPosition();
+    print('Current position fetched: Latitude: ${a.latitude}, Longitude: ${a.longitude}');
     return a;
   }
+
+  // static Future<Position> fetchLocation() async {
+  //
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
+  //
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   print(serviceEnabled);
+  //   if (!serviceEnabled) {
+  //     toast(TempLanguage().lblEnableLocationService);
+  //   }
+  //   permission = await Geolocator.checkPermission();
+  //   print(permission);
+  //
+  //
+  //   if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+  //     print('if condition permission');
+  //     return await Geolocator.getLastKnownPosition() ?? await Geolocator.getCurrentPosition();
+  //   }
+  //   var a =
+  //   // Position(
+  //   //     longitude:73.11695253082252,
+  //   //     latitude: 33.62951163315331,
+  //   //     timestamp: DateTime.now(),
+  //   //     accuracy: 0.0,
+  //   //     altitude: 0.0,
+  //   //     heading: 0.0,
+  //   //     speed: 0.0,
+  //   //     speedAccuracy: 0.0,
+  //   //     altitudeAccuracy: 100,
+  //   //     headingAccuracy: 100);
+  //   await Geolocator.getCurrentPosition();
+  //   print('This is Position : $a iiiiiiiiiiiiiiiiiiiiiiiiiii' );
+  //
+  //
+  //   return a;
+  // }
 
   static Future<void> getBackgroundLocation() async {
 
