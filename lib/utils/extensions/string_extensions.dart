@@ -23,6 +23,9 @@ extension StringExtension on String? {
 
     List<String> words = this!.trim().split(' ');
     List<String> capitalizedWords = words.map((word) {
+      if (word.isEmpty) {
+        return '';
+      }
       return word.trim().substring(0, 1).toUpperCase() + word.trim().substring(1).toLowerCase();
     }).toList();
 

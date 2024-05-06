@@ -60,74 +60,74 @@ class ShowAllItems extends StatelessWidget {
     //         );
     //       }),
     // );
-    return Expanded(
-      child: StreamBuilder<List<Item>>(
-        stream: userCubit.state.isEmployee
-            ? itemService.getEmployeeItemsStream(userCubit.state.userId)
-            : itemService.getItems(userCubit.state.userId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primaryColor,
+    return StreamBuilder<List<Item>>(
+      stream: userCubit.state.isEmployee
+          ? itemService.getEmployeeItemsStream(userCubit.state.userId)
+          : itemService.getItems(userCubit.state.userId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: AppColors.primaryColor,
+            ),
+          );
+        }
+        if (snapshot.hasData && snapshot.data != null) {
+          if (snapshot.data!.isEmpty) {
+            return Center(
+              child: Text(
+                TempLanguage().lblNoDataFound,
+                style: context.currentTextTheme.displaySmall,
               ),
             );
           }
-          if (snapshot.hasData && snapshot.data != null) {
-            if (snapshot.data!.isEmpty) {
-              return Center(
+          return BlocBuilder<SearchCubit, String>(
+            builder: (context, state) {
+              List<Item> list = [];
+              if (state.isNotEmpty) {
+                list = snapshot.data!.where((item) {
+                  final itemName = item.title!.toLowerCase();
+                  return itemName.contains(state.toLowerCase());
+                }).toList();
+              } else {
+                list = snapshot.data!;
+              }
+
+              return list.isEmpty
+                  ? Center(
                 child: Text(
                   TempLanguage().lblNoDataFound,
                   style: context.currentTextTheme.displaySmall,
                 ),
+              )
+                  : ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: list.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final item = list[index];
+                  return ItemView(
+                    index: index,
+                    item: item,
+                    isEmployee: userCubit.state.isEmployee,
+                    onUpdate: () => _onUpdate(context, item),
+                    onDelete: () => _showDeleteConfirmationDialog(
+                        context, item, itemService),
+                    onTap: () => _goToItemDetail(context, item),
+                  );
+                },
               );
-            }
-            return BlocBuilder<SearchCubit, String>(
-              builder: (context, state) {
-                List<Item> list = [];
-                if (state.isNotEmpty) {
-                  list = snapshot.data!.where((item) {
-                    final itemName = item.title!.toLowerCase();
-                    return itemName.contains(state.toLowerCase());
-                  }).toList();
-                } else {
-                  list = snapshot.data!;
-                }
-
-                return list.isEmpty
-                    ? Center(
-                  child: Text(
-                    TempLanguage().lblNoDataFound,
-                    style: context.currentTextTheme.displaySmall,
-                  ),
-                )
-                    : ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: list.length,
-                  itemBuilder: (context, index) {
-                    final item = list[index];
-                    return ItemView(
-                      index: index,
-                      item: item,
-                      isEmployee: userCubit.state.isEmployee,
-                      onUpdate: () => _onUpdate(context, item),
-                      onDelete: () => _showDeleteConfirmationDialog(
-                          context, item, itemService),
-                      onTap: () => _goToItemDetail(context, item),
-                    );
-                  },
-                );
-              },
-            );
-          }
-          return Center(
-            child: Text(
-              TempLanguage().lblNoDataFound,
-              style: context.currentTextTheme.displaySmall,
-            ),
+            },
           );
-        },
-      ),
+        }
+        return Center(
+          child: Text(
+            TempLanguage().lblNoDataFound,
+            style: context.currentTextTheme.displaySmall,
+          ),
+        );
+      },
     );
   }
 

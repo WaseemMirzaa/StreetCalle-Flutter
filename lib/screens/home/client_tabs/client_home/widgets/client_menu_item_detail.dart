@@ -23,6 +23,7 @@ import 'package:street_calle/widgets/show_favourite_item_widget.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
+import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 
 class ClientMenuItemDetail extends StatefulWidget {
   const ClientMenuItemDetail({Key? key, required this.user}) : super(key: key);
@@ -79,6 +80,7 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                           if (userCubit.state.isGuest) {
                             showGuestLoginDialog(context);
                           } else {
+                            context.read<ClientSelectedVendorCubit>().selectedVendorId(widget.user.uid);
                             context.pushNamed(AppRoutingName.clientVendorDirection);
                           }
                         },

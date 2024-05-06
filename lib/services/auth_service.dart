@@ -71,12 +71,12 @@ class AuthService {
 
   Future<Either<String, bool>> resetPassword(String email) async {
     try {
-      final user =
-          await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-      if (user.isEmpty) {
-        // Email does not exist
-        return Left(TempLanguage().lblNoUserFound);
-      }
+      // final user =
+      //     await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
+      // if (user.isEmpty) {
+      //   // Email does not exist
+      //   return Left(TempLanguage().lblNoUserFound);
+      // }
 
       await _auth.sendPasswordResetEmail(email: email);
       return const Right(true); // Password reset email sent successfully

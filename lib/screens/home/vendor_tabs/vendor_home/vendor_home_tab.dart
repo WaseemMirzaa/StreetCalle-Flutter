@@ -57,6 +57,8 @@ class _VendorHomeTabState extends State<VendorHomeTab> {
       userCubit.setSessionId('');
     }
   }
+
+
   @override
   Widget build(BuildContext context) {
     final userCubit = context.read<UserCubit>();
@@ -117,70 +119,76 @@ class _VendorHomeTabState extends State<VendorHomeTab> {
           const SizedBox(width: 20,),
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-              width: 110,
-              height: 110,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.primaryColor,
-              ),
-              child: context.read<UserCubit>().state.userImage.isEmpty
-                  ? const Icon(
-                      Icons.image_outlined,
-                      color: AppColors.whiteColor,
-                    )
-                  : ClipOval(
-                      child: CachedNetworkImage(
-                        imageUrl: context.read<UserCubit>().state.userImage,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
-                      ),
-                      // child: Image.network(
-                      //   context.read<UserCubit>().state.userImage,
-                      //   fit: BoxFit.cover,
-                      // ),
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                Container(
+                  width: 110,
+                  height: 110,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.primaryColor,
+                  ),
+                  child: context.read<UserCubit>().state.userImage.isEmpty
+                      ? const Icon(
+                    Icons.image_outlined,
+                    color: AppColors.whiteColor,
+                  )
+                      : ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl: context.read<UserCubit>().state.userImage,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
-          ),
-          const SizedBox(
-            height: 2,
-          ),
-          Text(
-            '${TempLanguage().lblHello} ${context.read<UserCubit>().state.userName.capitalizeEachFirstLetter()}!',
-            textAlign: TextAlign.center,
-            style: context.currentTextTheme.titleMedium
-                ?.copyWith(fontSize: 20, color: AppColors.primaryFontColor),
-          ),
-          const SizedBox(
-            height: 2,
-          ),
-          const CategoryWidget(),
-          const SizedBox(
-            height: 8,
-          ),
-          const ManageVendorLocations(),
-          const SizedBox(
-            height: 16,
-          ),
-          SearchField(
-            hintText: TempLanguage().lblSearchItemDeal,
-            padding: const EdgeInsets.symmetric(horizontal: 40.0),
-            onChanged: (String? value) => _searchQuery(context, value),
-          ),
-          SizedBox(
-            height: userCubit.state.isEmployee ? 0 : 24,
-          ),
-          userCubit.state.isEmployee
-              ? const SizedBox.shrink()
-              : const ItemDealsButtons(),
-          SizedBox(
-            height: userCubit.state.isEmployee ? 40 : 12,
-          ),
+                    // child: Image.network(
+                    //   context.read<UserCubit>().state.userImage,
+                    //   fit: BoxFit.cover,
+                    // ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 2,
+                ),
+                Text(
+                  '${TempLanguage().lblHello} ${context.read<UserCubit>().state.userName.capitalizeEachFirstLetter()}!',
+                  textAlign: TextAlign.center,
+                  style: context.currentTextTheme.titleMedium
+                      ?.copyWith(fontSize: 20, color: AppColors.primaryFontColor),
+                ),
+                const SizedBox(
+                  height: 2,
+                ),
+                const CategoryWidget(),
+                const SizedBox(
+                  height: 8,
+                ),
+                const ManageVendorLocations(),
+                const SizedBox(
+                  height: 16,
+                ),
+                SearchField(
+                  hintText: TempLanguage().lblSearchItemDeal,
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                  onChanged: (String? value) => _searchQuery(context, value),
+                ),
+                SizedBox(
+                  height: userCubit.state.isEmployee ? 0 : 24,
+                ),
+                userCubit.state.isEmployee
+                    ? const SizedBox.shrink()
+                    : const ItemDealsButtons(),
+                SizedBox(
+                  height: userCubit.state.isEmployee ? 40 : 12,
+                ),
 
-          //TODO: Do it with bloc rather than direct use
-          const ShowAllItems(),
+                //TODO: Do it with bloc rather than direct use
+                const ShowAllItems(),
+              ],
+            ),
+          )
         ],
       ),
     );
