@@ -135,8 +135,10 @@ class _VendorMainScreenState extends State<VendorMainScreen> with WidgetsBinding
       body: LocationService(
         child: userCubit.state.isEmployee
             ? EmployeeStatusCheckerWidget(
-                child: _vendorWidgets.elementAt(_navMap[_navPosition]!))
-            : _vendorWidgets.elementAt(_navMap[_navPosition]!),
+                child: ConnectivityChecker(
+                child: _vendorWidgets.elementAt(_navMap[_navPosition]!),
+              ))
+            : ConnectivityChecker(child: _vendorWidgets.elementAt(_navMap[_navPosition]!)),
       ),
       bottomNavigationBar: Theme(
         data: ThemeData(
