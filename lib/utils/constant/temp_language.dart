@@ -295,6 +295,7 @@ class TempLanguage {
   String get lblProfile => 'Profile';
 
   String get lblFavourites => 'Favourites';
+  String get lblLiked => 'Liked';
 
   String get lblMobileNo => 'Mobile No';
 

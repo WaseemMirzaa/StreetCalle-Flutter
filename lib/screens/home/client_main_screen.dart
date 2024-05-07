@@ -81,7 +81,7 @@ class _MainScreenState extends State<ClientMainScreen> {
               BottomNavigationBarItem(
                 icon: CustomBottomNavItem(
                   iconAsset: AppAssets.favourite,
-                  text: TempLanguage().lblFavourites,
+                  text: TempLanguage().lblLiked,
                   isSelected: _selectedIndex == 2,
                 ),
                 label: '',
