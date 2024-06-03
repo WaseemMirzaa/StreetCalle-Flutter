@@ -111,6 +111,7 @@ class RevenuCatAPI {
       checkAllSubscriptions(vendorType);
     });
   }
+
   static Future<void> checkAllSubscriptions(String vendorType) async {
     final customerInfo = await Purchases.getCustomerInfo();
     if (customerInfo.entitlements.active.isEmpty) {

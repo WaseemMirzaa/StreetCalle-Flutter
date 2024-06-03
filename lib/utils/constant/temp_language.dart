@@ -59,7 +59,7 @@ class TempLanguage {
 
   String get lblPassword => 'Password';
 
-  String get lblForgetPassword => 'Forgot your password?';
+  String get lblForgetPassword => 'Forgot password?';
 
   String get lblGuest => 'Guest';
 
@@ -466,7 +466,7 @@ class TempLanguage {
   String get lblAddItemsForLocation => 'Add Items For Location';
 
   String get lblSetEmployeeCredentials =>
-      'Set a Username and password for your employee to login';
+      'Set a Username and password for your location to login';
 
   String get lblEmailNotVerified =>
       'Email not verified. A verification email has been sent.';

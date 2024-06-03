@@ -37,20 +37,21 @@ class IndividualPlans extends StatelessWidget {
     final userService = sl.get<UserService>();
     final userCubit = context.read<UserCubit>();
 
-    if(Platform.isIOS){
-
-      if (appData.entitlement != 'ind_starter_v2' && AppData().entitlement != 'ind_growth_v2') {
-
-        appData.entitlement = '';
-        appData.entitlementIsActive = false;
+    if (userCubit.state.isSubscribed) {
+      if(Platform.isIOS){
+        if (appData.entitlement != 'ind_starter_v2' && AppData().entitlement != 'ind_growth_v2') {
+          appData.entitlement = '';
+          appData.entitlementIsActive = false;
+        }
+      }else{
+        if (AppData().entitlement != 'ind_starter_v1' && AppData().entitlement != 'ind_growth_v1') {
+          AppData().entitlement = '';
+          AppData().entitlementIsActive = false;
+        }
       }
-
-    }else{
-      if (AppData().entitlement != 'ind_starter_v1' && AppData().entitlement != 'ind_growth_v1') {
-        AppData().entitlement = '';
-        AppData().entitlementIsActive = false;
-      }
-
+    } else {
+      appData.entitlement = '';
+      appData.entitlementIsActive = false;
     }
 
     return Column(
