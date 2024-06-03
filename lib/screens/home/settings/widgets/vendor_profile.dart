@@ -1,12 +1,12 @@
  import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nb_utils/nb_utils.dart' hide StringExtension;
 import 'package:street_calle/services/user_service.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/cubit/user_state.dart';
@@ -18,6 +18,7 @@ import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/marker_cubit.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/widgets/category_widget.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class VendorProfile extends StatefulWidget {
   const VendorProfile({Key? key}) : super(key: key);
@@ -57,7 +58,8 @@ class _VendorProfileState extends State<VendorProfile> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          TempLanguage().lblProfile,
+          //TempLanguage().lblProfile,
+          LocaleKeys.profile.tr(),
           style: context.textTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
         titleSpacing: 0,
@@ -82,7 +84,8 @@ class _VendorProfileState extends State<VendorProfile> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    userCubit.state.isOnline ? TempLanguage().lblOnline : TempLanguage().lblOffline,
+                    //userCubit.state.isOnline ? TempLanguage().lblOnline : TempLanguage().lblOffline,
+                    userCubit.state.isOnline ? LocaleKeys.online.tr() : LocaleKeys.offline.tr(),
                     style: const TextStyle(
                       fontSize: 18,
                     ),
@@ -128,7 +131,8 @@ class _VendorProfileState extends State<VendorProfile> {
 
               SizedBox(height: isAboutAvailable ? 30 : 0,),
               isAboutAvailable ? Text(
-                TempLanguage().lblAbout,
+                //TempLanguage().lblAbout,
+                LocaleKeys.about.tr(),
                 style: context.textTheme.displaySmall?.copyWith(color: AppColors.secondaryFontColor),
               ) : const SizedBox.shrink(),
 
@@ -144,7 +148,8 @@ class _VendorProfileState extends State<VendorProfile> {
 
               const SizedBox(height: 15,),
               Text(
-                TempLanguage().lblLiveLocation,
+                //TempLanguage().lblLiveLocation,
+                LocaleKeys.liveLocation.tr(),
                 style: context.textTheme.displaySmall?.copyWith(color: AppColors.secondaryFontColor),
               ),
               const SizedBox(height: 20,),
@@ -161,7 +166,8 @@ class _VendorProfileState extends State<VendorProfile> {
                     if (snap.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));
                     } else if (snap.hasError) {
-                      return Center(child: Text(TempLanguage().lblSomethingWentWrong));
+                      //return Center(child: Text(TempLanguage().lblSomethingWentWrong));
+                      return Center(child: Text(LocaleKeys.somethingWentWrong.tr()));
                     } else {
                       return FutureBuilder<List<User>>(
                         future: userService.getOnlineEmployees(userCubit.state.userId),
@@ -218,7 +224,8 @@ class _VendorProfileState extends State<VendorProfile> {
                                             return Row(
                                               children: [
                                                 Text(
-                                                  TempLanguage().lblNearestToYou,
+                                                  //TempLanguage().lblNearestToYou,
+                                                  LocaleKeys.nearestToYou.tr(),
                                                   style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor),
                                                 ),
                                                 Text(

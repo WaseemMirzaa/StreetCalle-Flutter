@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/countries.dart';
@@ -7,10 +8,10 @@ import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class UpdateWidget extends StatelessWidget {
   const UpdateWidget({Key? key}) : super(key: key);
@@ -31,7 +32,8 @@ class UpdateWidget extends StatelessWidget {
           userCubit.setUserAbout(user.about ?? '');
           context.read<ImageCubit>().resetImage();
 
-          showToast(context, TempLanguage().lblEditProfileSuccessfully);
+          //showToast(context, TempLanguage().lblEditProfileSuccessfully);
+          showToast(context, LocaleKeys.editProfileSuccessfully.tr());
           context.read<EditProfileEnableCubit>().updateButtonClicked();
           if (progressDialog != null) {
             Navigator.of(context).removeRoute(progressDialog as Route);
@@ -54,7 +56,10 @@ class UpdateWidget extends StatelessWidget {
                 onPressed: (){
                   _update(context);
                 },
-                child: Text(TempLanguage().lblUpdate, style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor),)
+                child: Text(
+                  //TempLanguage().lblUpdate,
+                  LocaleKeys.update.tr(),
+                  style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor),)
             );
           }
           return const SizedBox.shrink();
@@ -78,11 +83,14 @@ class UpdateWidget extends StatelessWidget {
     Country country = countries.where((element) => element.code == (countryCode.isEmpty ? initialCountyCode : countryCode)).first;
 
     if (image.isEmpty && url == null) {
-      showToast(context, TempLanguage().lblSelectImage);
+      //showToast(context, TempLanguage().lblSelectImage);
+      showToast(context, LocaleKeys.selectImage.tr());
     } else if (name.isEmpty) {
-      showToast(context, TempLanguage().lblEnterYourName);
+      //showToast(context, TempLanguage().lblEnterYourName);
+      showToast(context, LocaleKeys.enterYourName.tr());
     } else if ((userCubit.state.isVendor || userCubit.state.isEmployee) && !userCubit.state.isEmployee && (phone.isEmpty || !phone.validatePhone() || phone.length != country.minLength)) {
-      showToast(context, TempLanguage().lblEnterYourPhone);
+      //showToast(context, TempLanguage().lblEnterYourPhone);
+      showToast(context, LocaleKeys.enterYourPhone.tr());
     } else {
       if (isUpdated ?? false) {
         editProfileCubit.editProfile(image: image, isUpdate: true);

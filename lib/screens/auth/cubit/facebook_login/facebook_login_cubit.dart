@@ -1,9 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/user_service.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 part 'facebook_login_state.dart';
 
 class FacebookLoginCubit extends Cubit<FacebookLoginState> {
@@ -24,10 +25,10 @@ class FacebookLoginCubit extends Cubit<FacebookLoginState> {
               final isEmailVerified = await authService.isUserEmailVerified();
               emit(FacebookLoginSuccess(result, isEmailVerified));
             } catch (e) {
-              emit(FacebookLoginFailure(TempLanguage().lblSignUpFailed));
+              emit(FacebookLoginFailure(LocaleKeys.signUpFailed.tr()));
             }
           } else {
-            emit(FacebookLoginFailure(TempLanguage().lblSignUpFailed));
+            emit(FacebookLoginFailure(LocaleKeys.signUpFailed.tr()));
           }
         }
     );

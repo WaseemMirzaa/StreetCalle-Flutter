@@ -1,8 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'package:nb_utils/nb_utils.dart' hide S;
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/revenucat/revenu_cat_api.dart';
 import 'package:street_calle/screens/auth/cubit/checkbox/checkbox_cubit.dart';
@@ -36,6 +37,7 @@ import 'package:street_calle/utils/themes/app_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/firebase_options.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/generated/codegen_loader.g.dart';
 
 String SECRET_KEY = '';
 String PUBLISH_KEY = '';
@@ -45,6 +47,9 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await EasyLocalization.ensureInitialized();
+
   if (!kIsWeb) {
     await init();
     final sharedPreferencesService = sl.get<SharedPreferencesService>();
@@ -60,7 +65,12 @@ Future<void> main() async {
   } catch (e) {
     print(e);
   } finally {
-    runApp(const MyApp());
+    runApp(EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('es')],
+      path: 'assets/translation',
+      assetLoader: const CodegenLoader(),
+      child: const MyApp(),
+    ));
   }
 }
 
@@ -69,7 +79,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    //EasyLocalization.of(context)?.setLocale(const Locale('es', ''));
     return kIsWeb
         ? MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -183,6 +193,9 @@ class MyApp extends StatelessWidget {
         darkTheme: AppThemes.darkTheme,
         themeMode: ThemeMode.light,
         routerConfig: router,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
       ),
         );
   }

@@ -1,14 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/auth/cubit/timer/timer_cubit.dart';
@@ -36,7 +37,8 @@ class EmailVerificationScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
               child: Text(
-                TempLanguage().lblSendVerificationEmail,
+                //TempLanguage().lblSendVerificationEmail,
+                LocaleKeys.sendVerificationEmail.tr(),
                 textAlign: TextAlign.center,
                 style: context.currentTextTheme.titleMedium,
               ),
@@ -47,7 +49,8 @@ class EmailVerificationScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    TempLanguage().lblPleaseCheckYourEmail,
+                    //TempLanguage().lblPleaseCheckYourEmail,
+                    LocaleKeys.pleaseCheckYourEmail.tr(),
                     style: context.currentTextTheme.labelSmall!.copyWith(fontSize: 15, color: AppColors.secondaryFontColor),
                   ),
                   RichText(
@@ -59,7 +62,8 @@ class EmailVerificationScreen extends StatelessWidget {
                           style: context.currentTextTheme.labelSmall!.copyWith(fontSize: 13, color: AppColors.secondaryFontColor),
                         ),
                         TextSpan(
-                          text: TempLanguage().lblToVerify,
+                          //text: TempLanguage().lblToVerify,
+                          text: LocaleKeys.toVerify.tr(),
                           style: context.currentTextTheme.labelSmall!.copyWith(fontSize: 13, color: AppColors.secondaryFontColor),
                         ),
                       ],
@@ -76,7 +80,8 @@ class EmailVerificationScreen extends StatelessWidget {
                 width: context.width,
                 height: defaultButtonSize,
                 child: AppButton(
-                  text: TempLanguage().lblContinue,
+                  //text: TempLanguage().lblContinue,
+                  text: LocaleKeys.continueText.tr(),
                   elevation: 0.0,
                   onTap: () async {
                     final result = await authService.isUserEmailVerified();
@@ -88,7 +93,8 @@ class EmailVerificationScreen extends StatelessWidget {
                       context.read<UserCubit>().setIsLoggedIn(true);
                       context.goNamed(AppRoutingName.selectUserScreen);
                     } else {
-                      showToast(context, TempLanguage().lblVerifyYourEmail);
+                      //showToast(context, TempLanguage().lblVerifyYourEmail);
+                      showToast(context, LocaleKeys.verifyYourEmail.tr());
                     }
                   },
                   shapeBorder: RoundedRectangleBorder(
@@ -121,16 +127,19 @@ class EmailVerificationScreen extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                        text: TempLanguage().lblDidNotReceive,
+                        //text: TempLanguage().lblDidNotReceive,
+                        text: LocaleKeys.didNotReceive.tr(),
                         style: context.currentTextTheme.labelSmall!.copyWith(fontSize: 14, color: AppColors.secondaryFontColor),
                     ),
                     TextSpan(
-                      text: TempLanguage().lblSendAgain,
+                      //text: TempLanguage().lblSendAgain,
+                      text: LocaleKeys.sendAgain.tr(),
                       style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 14, color: AppColors.primaryColor, fontWeight: FontWeight.bold),
                       recognizer: TapGestureRecognizer()..onTap = () {
                         if (timerCubit.state == 0) {
                           authService.sendEmailVerificationAgain();
-                          showToast(context, TempLanguage().lblPleaseCheckYourEmail);
+                          //showToast(context, TempLanguage().lblPleaseCheckYourEmail);
+                          showToast(context, LocaleKeys.pleaseCheckYourEmail.tr());
                           timerCubit.resetAndStartTimer(60);
                         }
                       },

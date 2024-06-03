@@ -1,10 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/user_service.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 part 'apple_login_state.dart';
+
 class AppleeLoginCubit extends Cubit<AppleeLoginState> {
   AppleeLoginCubit(this.authService, this.userService) : super(AppleeLoginInitial());
 
@@ -23,10 +25,10 @@ class AppleeLoginCubit extends Cubit<AppleeLoginState> {
               final isEmailVerified = await authService.isUserEmailVerified();
               emit(AppleeLoginSuccess(result, isEmailVerified));
             } catch (e) {
-              emit(AppleeLoginFailure(TempLanguage().lblSignUpFailed));
+              emit(AppleeLoginFailure(LocaleKeys.signUpFailed.tr()));
             }
           } else {
-            emit(AppleeLoginFailure(TempLanguage().lblSignUpFailed));
+            emit(AppleeLoginFailure(LocaleKeys.signUpFailed.tr()));
           }
         }
     );

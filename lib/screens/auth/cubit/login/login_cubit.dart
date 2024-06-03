@@ -1,10 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/user_service.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
+
 part 'login_state.dart';
 
 
@@ -41,10 +43,10 @@ class LoginCubit extends Cubit<LoginState>{
            clearControllers();
            emit(LoginSuccess(result));
          } catch (e) {
-           emit(LoginFailure(TempLanguage().lblUserNotFound));
+           emit(LoginFailure(LocaleKeys.userNotFound.tr()));
          }
        } else {
-         emit(LoginFailure(TempLanguage().lblLoginFailed));
+         emit(LoginFailure(LocaleKeys.loginFailed.tr()));
        }
      }
     );

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +12,6 @@ import 'package:street_calle/screens/home/widgets/custom_bottom_nav_item.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/utils/permission_utils.dart';
 import 'package:street_calle/widgets/connectivity_checker.dart';
@@ -20,6 +20,7 @@ import 'package:street_calle/widgets/location_service.dart';
 
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/user_service.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class VendorMainScreen extends StatefulWidget {
   const VendorMainScreen({Key? key}) : super(key: key);
@@ -150,7 +151,8 @@ class _VendorMainScreenState extends State<VendorMainScreen> with WidgetsBinding
             BottomNavigationBarItem(
               icon: CustomBottomNavItem(
                 iconAsset: AppAssets.home,
-                text: TempLanguage().lblHome,
+                //text: TempLanguage().lblHome,
+                text: LocaleKeys.home.tr(),
                 isSelected: _navPosition == BottomNavPosition.home,
               ),
               label: '',
@@ -158,7 +160,8 @@ class _VendorMainScreenState extends State<VendorMainScreen> with WidgetsBinding
             BottomNavigationBarItem(
               icon: CustomBottomNavItem(
                 iconAsset: AppAssets.menu,
-                text: TempLanguage().lblMenu,
+                //text: TempLanguage().lblMenu,
+                text: LocaleKeys.menu.tr(),
                 isSelected: _navPosition == BottomNavPosition.menu,
               ),
               label: '',
@@ -166,7 +169,8 @@ class _VendorMainScreenState extends State<VendorMainScreen> with WidgetsBinding
             BottomNavigationBarItem(
               icon: CustomBottomNavItem(
                 iconAsset: AppAssets.user,
-                text: TempLanguage().lblProfile,
+                //text: TempLanguage().lblProfile,
+                text: LocaleKeys.profile.tr(),
                 isSelected: _navPosition == BottomNavPosition.profile,
               ),
               label: '',
@@ -174,7 +178,8 @@ class _VendorMainScreenState extends State<VendorMainScreen> with WidgetsBinding
             BottomNavigationBarItem(
               icon: CustomBottomNavItem(
                 iconAsset: AppAssets.more,
-                text: TempLanguage().lblMore,
+                //text: TempLanguage().lblMore,
+                text: LocaleKeys.more.tr(),
                 isSelected: _navPosition == BottomNavPosition.settings,
               ),
               label: '',

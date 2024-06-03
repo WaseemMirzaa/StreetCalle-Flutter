@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,7 +8,8 @@ import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
+
 part 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
@@ -71,13 +73,14 @@ class SignUpCubit extends Cubit<SignUpState> {
               final user = await userService.userByUid(r.uid);
               emit(SignUpSuccess(user));
             } catch(e) {
-              emit(SignUpFailure(TempLanguage().lblSignUpFailed));
+              //emit(SignUpFailure(TempLanguage().lblSignUpFailed));
+              emit(SignUpFailure(LocaleKeys.signUpFailed.tr()));
             }
           } else {
-            emit(SignUpFailure(TempLanguage().lblSignUpFailed));
+            emit(SignUpFailure(LocaleKeys.signUpFailed.tr()));
           }
         } else {
-          emit(SignUpFailure(TempLanguage().lblSignUpFailed));
+          emit(SignUpFailure(LocaleKeys.signUpFailed.tr()));
         }
       }
     );

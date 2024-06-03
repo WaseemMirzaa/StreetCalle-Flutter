@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -6,11 +7,11 @@ import 'package:street_calle/screens/auth/cubit/forget_password/forget_password_
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/utils/common.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class PasswordResetScreen extends StatelessWidget {
   const PasswordResetScreen({Key? key}) : super(key: key);
@@ -31,14 +32,16 @@ class PasswordResetScreen extends StatelessWidget {
                   children: <Widget>[
                     const SizedBox(height: 20,),
                     Text(
-                      TempLanguage().lblResetPassword,
+                      //TempLanguage().lblResetPassword,
+                      LocaleKeys.resetPassword.tr(),
                       style: context.currentTextTheme.titleMedium,
                     ),
                     const SizedBox(height: 10,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 40.0),
                       child: Text(
-                        TempLanguage().lblPleaseEnterEmailQuote,
+                        //TempLanguage().lblPleaseEnterEmailQuote,
+                        LocaleKeys.pleaseEnterEmailQuote.tr(),
                         style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 15, color: AppColors.secondaryFontColor),
                       ),
                     ),
@@ -47,7 +50,8 @@ class PasswordResetScreen extends StatelessWidget {
                     ),
 
                     CustomTextField(
-                      hintText: TempLanguage().lblEmail,
+                     // hintText: TempLanguage().lblEmail,
+                      hintText: LocaleKeys.email.tr(),
                       keyboardType: TextInputType.emailAddress,
                       asset: AppAssets.emailIcon,
                       controller: context.read<PasswordResetCubit>().emailController,
@@ -58,7 +62,7 @@ class PasswordResetScreen extends StatelessWidget {
                     BlocConsumer<PasswordResetCubit, PasswordResetState>(
                       listener: (context, state) {
                         if (state is PasswordResetSuccess) {
-                          showToast(context, 'Check your email');
+                          showToast(context, LocaleKeys.pleaseCheckYourEmail.tr());
                         } else if (state is PasswordResetFailure) {
                           showToast(context, state.error);
                         }
@@ -70,7 +74,8 @@ class PasswordResetScreen extends StatelessWidget {
                           width: context.width,
                           height: defaultButtonSize,
                           child: AppButton(
-                            text: TempLanguage().lblSend,
+                            //text: TempLanguage().lblSend,
+                            text: LocaleKeys.send.tr(),
                             elevation: 0.0,
                             onTap: () {
                               hideKeyboard(context);
@@ -97,11 +102,13 @@ class PasswordResetScreen extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                        text: TempLanguage().lblBackTo,
+                        //text: TempLanguage().lblBackTo,
+                        text: LocaleKeys.backTo.tr(),
                         style: context.currentTextTheme.labelSmall
                     ),
                     TextSpan(
-                        text: TempLanguage().lblLogin,
+                        //text: TempLanguage().lblLogin,
+                        text: LocaleKeys.login.tr(),
                         style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.bold),
                       recognizer: TapGestureRecognizer()..onTap = () => context.pop(),
                     ),
@@ -120,7 +127,8 @@ class PasswordResetScreen extends StatelessWidget {
     final email = resetPasswordCubit.emailController.text;
 
     if (email.isEmpty || !email.validateEmailEnhanced()) {
-      showToast(context, TempLanguage().lblEnterYourEmail);
+      //showToast(context, TempLanguage().lblEnterYourEmail);
+      showToast(context, LocaleKeys.enterYourEmail.tr());
     } else {
       resetPasswordCubit.resetPassword();
     }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,11 +7,13 @@ import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/settings/widgets/settings_item.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/utils/common.dart';
+
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class SettingsTab extends StatelessWidget {
   const SettingsTab({Key? key}) : super(key: key);
@@ -24,7 +27,8 @@ class SettingsTab extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          TempLanguage().lblSettings,
+          //TempLanguage().lblSettings,
+          LocaleKeys.settings.tr(),
           style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
       ),
@@ -34,7 +38,10 @@ class SettingsTab extends StatelessWidget {
           children: [
             userCubit.state.isEmployee
                 ? const SizedBox.shrink()
-                : SettingItem(title: TempLanguage().lblProfile, onTap: userCubit.state.isGuest ? (){
+                : SettingItem(
+                //title: TempLanguage().lblProfile,
+                title: LocaleKeys.profile.tr(),
+                onTap: userCubit.state.isGuest ? (){
               showGuestLoginDialog(context);
             } : (){
                   if (userCubit.state.isVendor ) {
@@ -44,12 +51,12 @@ class SettingsTab extends StatelessWidget {
                   }
             }),
             userCubit.state.isVendor
-                ? SettingItem(title: TempLanguage().lblSubscription, onTap: userCubit.state.isGuest ? (){} :  (){context.push(AppRoutingName.vendorSubscriptions);})
+                ? SettingItem(title: LocaleKeys.subscription.tr(), onTap: userCubit.state.isGuest ? (){} :  (){context.push(AppRoutingName.vendorSubscriptions);})
                 : const SizedBox.shrink(),
-            SettingItem(title: TempLanguage().lblPrivacyPolicy, onTap: (){
+            SettingItem(title: LocaleKeys.privacyPolicy2.tr(), onTap: (){
               context.push(AppRoutingName.privacyPolicy);
             }),
-            SettingItem(title: TempLanguage().lblTermsAndConditions, onTap: (){
+            SettingItem(title: LocaleKeys.termsAndConditions.tr(), onTap: (){
               context.push(AppRoutingName.termsAndConditions);
             }),
 
@@ -63,7 +70,7 @@ class SettingsTab extends StatelessWidget {
             //   }
             // }),
 
-            SettingItem(title: TempLanguage().lblSignOut, onTap: () async {
+            SettingItem(title: LocaleKeys.signOut.tr(), onTap: () async {
               await firebaseAuth.signOut();
               await sharedPreferencesService.clearSharedPref();
               userCubit.setDefaultState();

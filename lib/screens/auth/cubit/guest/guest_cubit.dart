@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:street_calle/services/auth_service.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+
+import 'package:street_calle/generated/locale_keys.g.dart';
 part 'guest_state.dart';
 
 class GuestCubit extends Cubit<GuestState> {
@@ -18,7 +20,7 @@ class GuestCubit extends Cubit<GuestState> {
         (r) => emit(GuestLoginSuccess(r!)),
       );
     } catch (e) {
-      emit(GuestLoginFailure(TempLanguage().lblLoginFailed));
+      emit(GuestLoginFailure(LocaleKeys.loginFailed.tr()));
     }
   }
 

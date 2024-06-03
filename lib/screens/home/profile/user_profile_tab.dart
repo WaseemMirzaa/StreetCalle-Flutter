@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -10,12 +11,12 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
 import 'package:street_calle/utils/my_sizer.dart';
 import 'package:street_calle/widgets/category_widget.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class UserprofileTab extends StatelessWidget {
   const UserprofileTab({Key? key}) : super(key: key);
@@ -30,7 +31,8 @@ class UserprofileTab extends StatelessWidget {
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text(
-          TempLanguage().lblProfile,
+          //TempLanguage().lblProfile,
+          LocaleKeys.profile.tr(),
           style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
         titleSpacing: (userCubit.state.isVendor || userCubit.state.isEmployee) ? 15 : 0,
@@ -43,7 +45,10 @@ class UserprofileTab extends StatelessWidget {
                   onPressed: (){
                     context.read<EditProfileEnableCubit>().updateButtonClicked();
                   },
-                  child: Text(TempLanguage().lblCancel, style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.redColor, fontSize: MySizer.size12),)
+                  child: Text(
+                    //TempLanguage().lblCancel,
+                    LocaleKeys.cancel.tr(),
+                    style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.redColor, fontSize: MySizer.size12),)
               );
             }
                  return const SizedBox.shrink();
@@ -80,7 +85,7 @@ class UserprofileTab extends StatelessWidget {
                   selector: (userState) => userState.userName,
                   builder: (context, userName) {
                     return Text(
-                      '${TempLanguage().lblHiThere} ${userName.capitalizeEachFirstLetter()}!',
+                      '${LocaleKeys.hiThere.tr()} ${userName.capitalizeEachFirstLetter()}!',
                       style: const TextStyle(
                           fontFamily: METROPOLIS_BOLD,
                           fontSize: 16,

@@ -1,14 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/services/auth_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/common.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class DeleteAccountScreen extends StatefulWidget {
   const DeleteAccountScreen({super.key});
@@ -40,14 +41,16 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              TempLanguage().lblDeleteAccount,
+              //TempLanguage().lblDeleteAccount,
+              LocaleKeys.deleteAccount.tr(),
               style: context.currentTextTheme.titleMedium,
             ),
             const SizedBox(height: 50,),
             SizedBox(
               width: 400,
               child: CustomTextField(
-                hintText: TempLanguage().lblEmail,
+                //hintText: TempLanguage().lblEmail,
+                hintText: LocaleKeys.email.tr(),
                 keyboardType: TextInputType.emailAddress,
                 asset: AppAssets.emailIcon,
                 controller: _emailController,
@@ -59,7 +62,8 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
             SizedBox(
               width: 400,
               child: CustomTextField(
-                hintText: TempLanguage().lblPassword,
+                //hintText: TempLanguage().lblPassword,
+                hintText: LocaleKeys.password.tr(),
                 keyboardType: TextInputType.visiblePassword,
                 asset: AppAssets.passwordIcon,
                 controller: _passwordController,
@@ -77,7 +81,8 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                 child: isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : AppButton(
-                  text: TempLanguage().lblDelete,
+                  //text: TempLanguage().lblDelete,
+                  text: LocaleKeys.delete.tr(),
                   elevation: 0.0,
                   onTap: () {
                    deleteAccount();
@@ -103,9 +108,9 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
     AuthService authService = AuthService();
 
     if (email.isEmpty || !email.validateEmailEnhanced()) {
-      showToast(context, TempLanguage().lblEnterYourEmail);
+      showToast(context, LocaleKeys.enterYourEmail.tr());
     } else if (password.isEmpty || password.toString().length < 6) {
-      showToast(context, TempLanguage().lblPasswordMustBeGreater);
+      showToast(context, LocaleKeys.passwordMustBeGreater.tr());
     } else {
       setState(() {
         isLoading = true;
@@ -130,7 +135,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                 Navigator.pop(context, true);
               }
             } else {
-              showToast(context, TempLanguage().lblErrorDuringDeleteAccount);
+              showToast(context, LocaleKeys.errorDuringDeleteAccount.tr());
             }
             setState(() {
               isLoading = false;

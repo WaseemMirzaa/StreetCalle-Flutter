@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,12 +13,12 @@ import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/permission_utils.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/drop_down_item.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class SelectUserScreen extends StatefulWidget {
   const SelectUserScreen({Key? key}) : super(key: key);
@@ -32,14 +33,16 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
 
   List<DropDownItem> items = [
     DropDownItem(
-        title: TempLanguage().lblIndividual,
+        //title: TempLanguage().lblIndividual,
+        title: LocaleKeys.individual.tr(),
         icon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6),
           child: SvgPicture.asset(AppAssets.phone),
         )
     ),
     DropDownItem(
-      title: TempLanguage().lblAgency,
+      //title: TempLanguage().lblAgency,
+      title: LocaleKeys.agency.tr(),
       icon: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 6),
         child: SvgPicture.asset(AppAssets.people),
@@ -84,7 +87,8 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                   BuildSelectableImage(
                     assetPath: AppAssets.clientIcon,
                     isSelected: _userType == UserType.client,
-                    title: TempLanguage().lblClient,
+                    //title: TempLanguage().lblClient,
+                    title: LocaleKeys.client.tr(),
                     onTap: () {
                       setState(() {
                         _userType = UserType.client;
@@ -94,7 +98,8 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                   BuildSelectableImage(
                     assetPath: AppAssets.vendorIcon,
                     isSelected: _userType == UserType.vendor,
-                    title: TempLanguage().lblVendor,
+                    //title: TempLanguage().lblVendor,
+                    title: LocaleKeys.vendor.tr(),
                     onTap: () {
                       setState(() {
                         _userType = UserType.vendor;
@@ -113,7 +118,8 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                   child: Column(
                     children: [
                       Text(
-                        TempLanguage().lblPleaseSelectVendorType,
+                        //TempLanguage().lblPleaseSelectVendorType,
+                        LocaleKeys.pleaseSelectVendorType.tr(),
                         style: context.currentTextTheme.displaySmall!.copyWith(
                             color: AppColors.primaryFontColor, fontSize: 16),
                       ),
@@ -162,7 +168,8 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
                   width: context.width,
                   height: defaultButtonSize,
                   child: AppButton(
-                    text: TempLanguage().lblNext,
+                    //text: TempLanguage().lblNext,
+                    text: LocaleKeys.next.tr(),
                     elevation: 0.0,
                     onTap: () => gotoNextScreen(),
                     shapeBorder: RoundedRectangleBorder(

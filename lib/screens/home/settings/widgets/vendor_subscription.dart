@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -7,17 +8,14 @@ import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/screens/home/settings/widgets/individual_plans.dart';
 import 'package:street_calle/screens/home/settings/widgets/agency_plans.dart';
-
 import 'package:street_calle/revenucat/revenu_cat_api.dart';
-
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/user_service.dart';
-
 import 'package:street_calle/revenucat/singleton_data.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class VendorSubscription extends StatefulWidget {
   const VendorSubscription({Key? key}) : super(key: key);
@@ -53,7 +51,8 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          TempLanguage().lblSubscriptionPlans,
+          //TempLanguage().lblSubscriptionPlans,
+          LocaleKeys.subscriptionPlans.tr(),
           style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
         titleSpacing: 0,
@@ -75,7 +74,8 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
             children: [
 
               Text(
-                TempLanguage().lblChooseAPlane,
+                //TempLanguage().lblChooseAPlane,
+                LocaleKeys.chooseAPlane.tr(),
                 style: context.currentTextTheme.titleMedium?.copyWith(fontSize: 18, color: AppColors.primaryFontColor),
               ),
               const SizedBox(height: 18,),
@@ -155,7 +155,8 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
                           const SizedBox(width: 16,),
                           Flexible(
                             child: Text(
-                              TempLanguage().lblAddUnlimitedMenuItems,
+                              //TempLanguage().lblAddUnlimitedMenuItems,
+                              LocaleKeys.addUnlimitedMenuItems.tr(),
                               style: const TextStyle(
                                   fontFamily: METROPOLIS_BOLD,
                                   fontSize: 12,
@@ -172,7 +173,8 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
                           const SizedBox(width: 12,),
                           Flexible(
                             child: Text(
-                              TempLanguage().lblMakeYourTruckVisible,
+                              //TempLanguage().lblMakeYourTruckVisible,
+                              LocaleKeys.makeYourTruckVisible.tr(),
                               style: const TextStyle(
                                   fontFamily: METROPOLIS_BOLD,
                                   fontSize: 12,

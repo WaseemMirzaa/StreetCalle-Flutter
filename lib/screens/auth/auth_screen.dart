@@ -1,13 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -26,7 +27,8 @@ class AuthScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48.0),
             child: Text(
-              TempLanguage().lblQuote,
+              //TempLanguage().lblQuote,
+              LocaleKeys.quote.tr(),
               textAlign: TextAlign.center,
               style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.secondaryFontColor),
             ),
@@ -40,7 +42,7 @@ class AuthScreen extends StatelessWidget {
                   width: context.width,
                   height: defaultButtonSize,
                   child: AppButton(
-                    text: TempLanguage().lblLogin,
+                    text: LocaleKeys.login.tr(),
                     elevation: 0.0,
                     onTap: () {
                       context.pushNamed(AppRoutingName.loginScreen);
@@ -60,7 +62,7 @@ class AuthScreen extends StatelessWidget {
                   width: context.width,
                   height: defaultButtonSize,
                   child: AppButton(
-                    text: TempLanguage().lblCreateAccount,
+                    text: LocaleKeys.createAccount.tr(),
                     elevation: 0.0,
                     onTap: () {
                       context.pushNamed(AppRoutingName.signUpScreen);

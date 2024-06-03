@@ -1,7 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/services/auth_service.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 part 'forget_password_state.dart';
 
@@ -25,7 +26,7 @@ class PasswordResetCubit extends Cubit<PasswordResetState> {
        (r) => emit(PasswordResetSuccess())
       );
     }  catch (e) {
-      emit(PasswordResetFailure(TempLanguage().lblSomethingWentWrong));
+      emit(PasswordResetFailure(LocaleKeys.somethingWentWrong.tr()));
     }
   }
 }

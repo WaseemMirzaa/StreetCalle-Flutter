@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -11,8 +12,8 @@ import 'package:street_calle/services/category_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class SelectCategory extends StatefulWidget {
   const SelectCategory({Key? key, required this.vendorName, required this.userName}) : super(key: key);
@@ -39,7 +40,7 @@ class _SelectCategoryState extends State<SelectCategory> {
           } else if (snapshot.hasData && snapshot.data != null) {
             List<DropDownItem> category = [];
             snapshot.data?.forEach((element) {
-              if (element[CategoryKey.TITLE] == TempLanguage().lblAll) {
+              if (element[CategoryKey.TITLE] == LocaleKeys.all.tr()) {
                 return;
               }
               final dropDown = DropDownItem(
@@ -55,12 +56,14 @@ class _SelectCategoryState extends State<SelectCategory> {
             return Column(
               children: [
                 Text(
-                  TempLanguage().lblSelectCategory,
+                  //TempLanguage().lblSelectCategory,
+                  LocaleKeys.selectCategory.tr(),
                   style: context.currentTextTheme.labelMedium,
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  TempLanguage().lblSelectCategoryList,
+                  //TempLanguage().lblSelectCategoryList,
+                  LocaleKeys.selectCategoryList.tr(),
                   textAlign: TextAlign.center,
                   style: context.currentTextTheme.displaySmall,
                 ),
@@ -90,7 +93,8 @@ class _SelectCategoryState extends State<SelectCategory> {
                   width: ContextExtensions(context).width(),
                   height: defaultButtonSize,
                   child: AppButton(
-                    text: TempLanguage().lblDone,
+                    //text: TempLanguage().lblDone,
+                    text: LocaleKeys.done.tr(),
                     elevation: 0.0,
                     onTap: onTap,
                     shapeBorder: RoundedRectangleBorder(
@@ -105,11 +109,11 @@ class _SelectCategoryState extends State<SelectCategory> {
             );
           } else if (snapshot.hasError) {
             return Center(
-              child: Text(TempLanguage().lblSomethingWentWrong),
+              child: Text(LocaleKeys.somethingWentWrong.tr()),
             );
           }
             return Center(
-            child: Text(TempLanguage().lblSomethingWentWrong),
+            child: Text(LocaleKeys.somethingWentWrong.tr()),
           );
         },
       ),
@@ -132,7 +136,7 @@ class _SelectCategoryState extends State<SelectCategory> {
           userService.setVendorType(userId, widget.vendorName, widget.userName);
           context.goNamed(AppRoutingName.mainScreen);
         } else {
-          toast(TempLanguage().lblSomethingWentWrong);
+          toast(LocaleKeys.somethingWentWrong.tr());
         }
       });
     }

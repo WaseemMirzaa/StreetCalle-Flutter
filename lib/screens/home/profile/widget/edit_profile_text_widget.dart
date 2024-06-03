@@ -1,13 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
 import 'package:street_calle/utils/common.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class EditProfileTextWidget extends StatelessWidget {
   const EditProfileTextWidget({Key? key}) : super(key: key);
@@ -38,7 +39,8 @@ class EditProfileTextWidget extends StatelessWidget {
                 Image.asset(AppAssets.editPencil, width: 15, height: 15,),
                 const SizedBox(width: 6,),
                 Text(
-                  TempLanguage().lblEditProfile,
+                  //TempLanguage().lblEditProfile,
+                  LocaleKeys.editProfile.tr(),
                   style: context.currentTextTheme.displaySmall?.copyWith(fontSize: 18, color: AppColors.primaryColor),
                 )
               ],

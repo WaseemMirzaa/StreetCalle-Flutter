@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class UserOnlineOfflineWidget extends StatelessWidget {
   const UserOnlineOfflineWidget({Key? key}) : super(key: key);
@@ -40,7 +42,8 @@ class UserOnlineOfflineWidget extends StatelessWidget {
         BlocBuilder<ProfileStatusCubit, bool>(
           builder: (context, state) {
             return Text(
-              state ? TempLanguage().lblOnline : TempLanguage().lblOffline,
+              //state ? TempLanguage().lblOnline : TempLanguage().lblOffline,
+              state ? LocaleKeys.online.tr() : LocaleKeys.offline.tr(),
               style: const TextStyle(
                 // fontFamily: RIFTSOFT,
                 fontSize: 18,

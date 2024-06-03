@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/countries.dart';
@@ -6,10 +7,10 @@ import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/custom_widgets/custom_intl_phone_field.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_cubit.dart';
 import 'package:street_calle/screens/home/profile/cubit/edit_profile_enable_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class UserInfo extends StatelessWidget {
   const UserInfo({Key? key}) : super(key: key);
@@ -50,7 +51,8 @@ class UserInfo extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 34, top: 12.0),
                 child: Text(
-                  TempLanguage().lblName,
+                  //TempLanguage().lblName,
+                  LocaleKeys.name.tr(),
                   style: context.currentTextTheme.displaySmall?.copyWith(fontSize: 12, color: AppColors.placeholderColor),
                 ),
               ),
@@ -105,7 +107,8 @@ class UserInfo extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 34, top: 12.0),
                 child: Text(
-                  TempLanguage().lblEmail,
+                  //TempLanguage().lblEmail,
+                  LocaleKeys.email.tr(),
                   style: context.currentTextTheme.displaySmall?.copyWith(fontSize: 12, color: AppColors.placeholderColor),
                 ),
               ),
@@ -154,7 +157,8 @@ class UserInfo extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 34, top: 12.0),
                 child: Text(
-                  TempLanguage().lblMobileNo,
+                  //TempLanguage().lblMobileNo,
+                  LocaleKeys.mobileNo.tr(),
                   style: context.currentTextTheme.displaySmall?.copyWith(fontSize: 12, color: AppColors.placeholderColor),
                 ),
               ),
@@ -175,7 +179,8 @@ class UserInfo extends StatelessWidget {
                           contentPadding: EdgeInsets.zero,
                           fillColor: AppColors.whiteColor,
                           filled: true,
-                          hintText: TempLanguage().lblPhoneNumber,
+                          //hintText: TempLanguage().lblPhoneNumber,
+                          hintText: LocaleKeys.phoneNumber.tr(),
                           hintStyle: context.currentTextTheme.displaySmall?.copyWith(fontSize: 16, color: AppColors.secondaryFontColor),
                           border: OutlineInputBorder(
                               borderSide: BorderSide.none,
@@ -221,7 +226,8 @@ class UserInfo extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 34, top: 12.0),
                 child: Text(
-                  TempLanguage().lblAbout,
+                  //TempLanguage().lblAbout,
+                  LocaleKeys.about.tr(),
                   style: context.currentTextTheme.displaySmall?.copyWith(fontSize: 12, color: AppColors.placeholderColor),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,7 +11,6 @@ import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/custom_widgets/custom_intl_phone_field.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -21,6 +21,7 @@ import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/utils/my_sizer.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -37,12 +38,14 @@ class SignUpScreen extends StatelessWidget {
             children: <Widget>[
               const SizedBox(height: 36,),
               Text(
-                TempLanguage().lblSignUp,
+                //TempLanguage().lblSignUp,
+                LocaleKeys.signUp.tr(),
                 style: context.currentTextTheme.titleMedium,
               ),
               const SizedBox(height: 10,),
               Text(
-                TempLanguage().lblAddYourSignDetails,
+                //TempLanguage().lblAddYourSignDetails,
+                LocaleKeys.addYourSignDetails.tr(),
                 style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 15, color: AppColors.secondaryFontColor),
               ),
               const SizedBox(height: 24,),
@@ -72,7 +75,8 @@ class SignUpScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                 child: CustomTextField(
-                  hintText: TempLanguage().lblName,
+                  //hintText: TempLanguage().lblName,
+                  hintText: LocaleKeys.name.tr(),
                   keyboardType: TextInputType.name,
                   asset: AppAssets.person,
                   controller: context.read<SignUpCubit>().nameController,
@@ -83,7 +87,8 @@ class SignUpScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                 child: CustomTextField(
-                  hintText: TempLanguage().lblEmail,
+                  //hintText: TempLanguage().lblEmail,
+                  hintText: LocaleKeys.email.tr(),
                   keyboardType: TextInputType.emailAddress,
                   asset: AppAssets.emailIcon,
                   controller: context.read<SignUpCubit>().emailController,
@@ -114,7 +119,8 @@ class SignUpScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       fillColor: AppColors.whiteColor,
                       filled: true,
-                      hintText: TempLanguage().lblPhoneNumber,
+                      //hintText: TempLanguage().lblPhoneNumber,
+                      hintText: LocaleKeys.phoneNumber.tr(),
                       hintStyle: context.currentTextTheme.displaySmall?.copyWith(fontSize: 16, color: AppColors.secondaryFontColor),
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -135,7 +141,8 @@ class SignUpScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                 child: CustomTextField(
-                  hintText: TempLanguage().lblPassword,
+                  //hintText: TempLanguage().lblPassword,
+                  hintText: LocaleKeys.password.tr(),
                   keyboardType: TextInputType.visiblePassword,
                   asset: AppAssets.passwordIcon,
                   controller: context.read<SignUpCubit>().passwordController,
@@ -148,7 +155,8 @@ class SignUpScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
                 child: CustomTextField(
-                  hintText: TempLanguage().lblConfirmPassword,
+                  //hintText: TempLanguage().lblConfirmPassword,
+                  hintText: LocaleKeys.confirmPassword.tr(),
                   keyboardType: TextInputType.visiblePassword,
                   asset: AppAssets.passwordIcon,
                   controller: context.read<SignUpCubit>().confirmPasswordController,
@@ -181,11 +189,11 @@ class SignUpScreen extends StatelessWidget {
 
                      Flexible(child: RichText(
                       text: TextSpan(
-                        text: 'I have read and agree to the ',
+                        text: LocaleKeys.readAndAgree.tr(),
                           style: context.currentTextTheme.labelSmall,
                         children: [
                           TextSpan(
-                            text: 'Terms of Use',
+                            text: LocaleKeys.terms.tr(),
                               style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor,decoration: TextDecoration.underline),
                             recognizer: TapGestureRecognizer()
                               ..onTap =(){
@@ -193,11 +201,11 @@ class SignUpScreen extends StatelessWidget {
                               }
                           ),
                           TextSpan(
-                             text: ' and ',
+                             text: LocaleKeys.and.tr(),
                            style: context.currentTextTheme.labelSmall,
                          ),
                            TextSpan(
-                            text: 'Privacy Policy',
+                            text: LocaleKeys.privacyPolicy2.tr(),
                                style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor,decoration: TextDecoration.underline),
                               recognizer: TapGestureRecognizer()
                                 ..onTap =(){
@@ -237,7 +245,8 @@ class SignUpScreen extends StatelessWidget {
                     width: context.width,
                     height: defaultButtonSize,
                     child: AppButton(
-                      text: TempLanguage().lblSignUp,
+                      //text: TempLanguage().lblSignUp,
+                      text: LocaleKeys.signUp.tr(),
                       elevation: 0.0,
                       onTap: () {
                         signUp(context);
@@ -258,11 +267,13 @@ class SignUpScreen extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                        text: TempLanguage().lblAlreadyhaveAccount,
+                        //text: TempLanguage().lblAlreadyhaveAccount,
+                        text: LocaleKeys.alreadyhaveAccount.tr(),
                         style: context.currentTextTheme.labelSmall
                     ),
                     TextSpan(
-                        text: TempLanguage().lblLogin,
+                        //text: TempLanguage().lblLogin,
+                        text: LocaleKeys.login.tr(),
                         style: context.currentTextTheme.labelSmall?.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.bold),
                       recognizer: TapGestureRecognizer()..onTap = () => context.pushNamed(AppRoutingName.loginScreen),
                     ),
@@ -293,25 +304,34 @@ class SignUpScreen extends StatelessWidget {
     Country country = countries.where((element) => element.code == (countryCode.isEmpty ? initialCountyCode : countryCode)).first;
 
     if (image.isEmpty) {
-      showToast(context, TempLanguage().lblSelectImage);
+      //showToast(context, TempLanguage().lblSelectImage);
+      showToast(context, LocaleKeys.selectImage.tr());
     } else if (name.isEmpty) {
       if (name.length < 3) {
-        showToast(context, TempLanguage().lblEnterYourName);
+        //showToast(context, TempLanguage().lblEnterYourName);
+        showToast(context, LocaleKeys.enterYourName.tr());
       } else {
-        showToast(context, TempLanguage().lblNameMustBeGrater);
+        //showToast(context, TempLanguage().lblNameMustBeGrater);
+        showToast(context, LocaleKeys.nameMustBeGrater.tr());
       }
     } else if (email.isEmpty || !email.validateEmailEnhanced()) {
-      showToast(context, TempLanguage().lblEnterYourEmail);
+      //showToast(context, TempLanguage().lblEnterYourEmail);
+      showToast(context, LocaleKeys.enterYourEmail.tr());
     } else if (phone.isEmpty || phone.length != country.minLength || !phone.validatePhone()) {
-      showToast(context, TempLanguage().lblEnterYourPhone);
+      //showToast(context, TempLanguage().lblEnterYourPhone);
+      showToast(context, LocaleKeys.enterYourPhone.tr());
     } else if (password.isEmpty || password.length < 6) {
-      showToast(context, TempLanguage().lblPasswordMustBeGreater);
+      //showToast(context, TempLanguage().lblPasswordMustBeGreater);
+      showToast(context, LocaleKeys.passwordMustBeGreater.tr());
     } else if (confirmPassword.isEmpty || confirmPassword.length < 6) {
-      showToast(context, TempLanguage().lblPasswordMustBeGreater);
+      //showToast(context, TempLanguage().lblPasswordMustBeGreater);
+      showToast(context, LocaleKeys.passwordMustBeGreater.tr());
     } else if (password != confirmPassword) {
-      showToast(context, TempLanguage().lblPasswordMismatch);
+      //showToast(context, TempLanguage().lblPasswordMismatch);
+      showToast(context, LocaleKeys.passwordMismatch.tr());
     } else if (!isCheckBoxChecked) {
-      showToast(context, 'Please Accept the Terms of Use and Privacy Policy to sign up');
+      //showToast(context, 'Please Accept the Terms of Use and Privacy Policy to sign up');
+      showToast(context, LocaleKeys.acceptTermOfUse.tr());
     } else {
       signUpCubit.signUp(image);
     }
