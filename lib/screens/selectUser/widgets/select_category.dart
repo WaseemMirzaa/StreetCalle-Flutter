@@ -14,6 +14,7 @@ import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/generated/locale_keys.g.dart';
+import 'package:street_calle/main.dart';
 
 class SelectCategory extends StatefulWidget {
   const SelectCategory({Key? key, required this.vendorName, required this.userName}) : super(key: key);
@@ -40,11 +41,12 @@ class _SelectCategoryState extends State<SelectCategory> {
           } else if (snapshot.hasData && snapshot.data != null) {
             List<DropDownItem> category = [];
             snapshot.data?.forEach((element) {
-              if (element[CategoryKey.TITLE] == LocaleKeys.all.tr()) {
+              if (element[CategoryKey.TITLE] == LocaleKeys.all.tr() || element[CategoryKey.TRANSLATED_TITLE] == 'Todo') {
                 return;
               }
               final dropDown = DropDownItem(
-                  title: element[CategoryKey.TITLE],
+                  title: LANGUAGE == 'en' ? element[CategoryKey.TITLE] : element[CategoryKey.TRANSLATED_TITLE],
+                  translatedTitle: element[CategoryKey.TRANSLATED_TITLE],
                   icon: Image.network(element[CategoryKey.ICON], width: 18, height: 18,),
                   url: element[CategoryKey.ICON]
               );
@@ -126,13 +128,19 @@ class _SelectCategoryState extends State<SelectCategory> {
     final userId = userCubit.state.userId;
 
     if (_selectedItem != null) {
-      userService.updateCategory(_selectedItem!.title, _selectedItem!.url ?? '', userId).then((value) {
+      userService.updateCategory(LANGUAGE == 'en' ? _selectedItem!.title : _selectedItem!.translatedTitle, _selectedItem!.url ?? '', userId, LANGUAGE == 'en' ? _selectedItem!.translatedTitle : _selectedItem!.title).then((value) {
         if (value) {
           userCubit.setUserType(widget.userName);
           userCubit.setVendorType(widget.vendorName);
           userCubit.setIsVendor(true);
-          userCubit.setCategory(_selectedItem!.title);
           userCubit.setCategoryImage(_selectedItem!.url ?? '');
+          if (LANGUAGE == 'en') {
+            userCubit.setCategory(_selectedItem!.title);
+            userCubit.setTranslatedCategory(_selectedItem!.translatedTitle);
+          } else {
+            userCubit.setCategory(_selectedItem!.translatedTitle);
+            userCubit.setTranslatedCategory(_selectedItem!.title);
+          }
           userService.setVendorType(userId, widget.vendorName, widget.userName);
           context.goNamed(AppRoutingName.mainScreen);
         } else {

@@ -1,12 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/cubit/filter_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/widgets/no_data_found_widget.dart';
 import 'package:street_calle/services/deal_service.dart';
@@ -20,6 +21,7 @@ import 'package:street_calle/models/drop_down_item.dart';
 import 'package:street_calle/services/category_service.dart';
 import 'package:street_calle/screens/selectUser/widgets/drop_down_widget.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class ClientDealTab extends StatelessWidget {
   const ClientDealTab({Key? key}) : super(key: key);
@@ -38,7 +40,7 @@ class ClientDealTab extends StatelessWidget {
     return Column(
       children: [
         SearchField(
-          hintText: TempLanguage().lblSearchDeals,
+          hintText: LocaleKeys.searchDeals.tr(),
           padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
           onChanged: (String? value) => _searchQuery(context, value),
         ),
@@ -56,7 +58,8 @@ class ClientDealTab extends StatelessWidget {
                 List<DropDownItem> category = [];
                 snapshot.data?.forEach((element) {
                   final dropDown = DropDownItem(
-                      title: element[CategoryKey.TITLE],
+                      title: LANGUAGE == 'en' ? element[CategoryKey.TITLE] : element[CategoryKey.TRANSLATED_TITLE],
+                      translatedTitle: element[CategoryKey.TRANSLATED_TITLE],
                       icon: Image.network(element[CategoryKey.ICON], width: 18, height: 18,),
                       url: element[CategoryKey.ICON]
                   );
@@ -88,11 +91,11 @@ class ClientDealTab extends StatelessWidget {
                 );
               } else if (snapshot.hasError) {
                 return Center(
-                  child: Text(TempLanguage().lblSomethingWentWrong),
+                  child: Text(LocaleKeys.somethingWentWrong.tr()),
                 );
               }
               return Center(
-                child: Text(TempLanguage().lblSomethingWentWrong),
+                child: Text(LocaleKeys.somethingWentWrong.tr()),
               );
             },
           ),
@@ -197,9 +200,12 @@ class DealsWidget extends StatelessWidget {
             List<Deal> deals = [];
             List<User> users = [];
 
-            if (filterString != defaultVendorFilter) {
+            final filter = LANGUAGE == 'en' ? 'All' : 'Todo';
+            if (filterString != filter) {
               deals = dealsList.where((deal) {
-                final category = deal.category?.toLowerCase().trim() ?? '';
+                final category = LANGUAGE == 'en'
+                    ? deal.category?.toLowerCase().trim() ?? ''
+                    : deal.translatedCategory?.toLowerCase().trim() ?? '';
                 return category.contains(filterString.toLowerCase().trim());
               }).toList();
 
@@ -220,8 +226,8 @@ class DealsWidget extends StatelessWidget {
 
             if (state.isNotEmpty) {
               deals = dealsList.where((deal) {
-                final dealName = deal.title!.toLowerCase();
-                final dealDescription = deal.description?.toLowerCase() ?? '';
+                final dealName = (deal.translatedTitle?[LANGUAGE] as String? ?? '').toLowerCase();
+                final dealDescription = (deal.translatedDes?[LANGUAGE] as String? ?? '').toLowerCase() ?? '';
                 return dealName.contains(state.toLowerCase()) || dealDescription.contains(state.toLowerCase());
               }).toList();
               //users = deals.map((deal) => snapshot.data![deal]!).toList();

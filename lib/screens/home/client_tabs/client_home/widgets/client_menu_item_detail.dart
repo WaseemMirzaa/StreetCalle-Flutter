@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart' hide StringExtension;
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/vendor_deals_widget.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/vendor_items_widget.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -24,6 +25,7 @@ import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class ClientMenuItemDetail extends StatefulWidget {
   const ClientMenuItemDetail({Key? key, required this.user}) : super(key: key);
@@ -155,7 +157,7 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                                   widget.user.categoryImage!,
                                   fit: BoxFit.cover,
                                 ),
-                                label: Text(widget.user.category ?? '', style: context.currentTextTheme.displaySmall,),
+                                label: Text(LANGUAGE == 'en' ? widget.user.category ?? '' : widget.user.translatedCategory ?? '', style: context.currentTextTheme.displaySmall,),
                                 backgroundColor: AppColors.greyColor,
                                 side: BorderSide.none,
                                 shape: const StadiumBorder(),
@@ -171,7 +173,7 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                               }
                             },
                             child: Text(
-                              TempLanguage().lblViewProfile,
+                              LocaleKeys.viewProfile.tr(),
                               style: context.textTheme.displaySmall?.copyWith(color: AppColors.primaryColor, decoration: TextDecoration.underline),
                             ),
                           ),
@@ -190,7 +192,7 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      TempLanguage().lblDeals,
+                      LocaleKeys.deals.tr(),
                       style: context.currentTextTheme.labelMedium?.copyWith(fontSize: 16),
                     ),
 
@@ -199,7 +201,7 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                         context.pushNamed(AppRoutingName.viewAllDeals, extra: widget.user);
                       },
                       child: Text(
-                        TempLanguage().lblViewAll,
+                        LocaleKeys.viewAll.tr(),
                         style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryColor),
                       ),
                     ),
@@ -215,7 +217,7 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
               ),
               SearchField(
                 padding: const EdgeInsets.symmetric(horizontal: 60),
-                hintText: TempLanguage().lblSearchFood,
+                hintText: LocaleKeys.searchFood.tr(),
                 onChanged: (String? value) => _searchQuery(context, value),
               ),
               const SizedBox(
@@ -227,7 +229,7 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      TempLanguage().lblItems,
+                      LocaleKeys.items.tr(),
                       style: context.currentTextTheme.labelMedium?.copyWith(fontSize: 16),
                     ),
 
@@ -236,7 +238,7 @@ class _ClientMenuItemDetailState extends State<ClientMenuItemDetail> with Automa
                         context.pushNamed(AppRoutingName.viewAllItems, extra: widget.user );
                       },
                       child: Text(
-                        TempLanguage().lblViewAll,
+                        LocaleKeys.viewAll.tr(),
                         style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 16, color: AppColors.primaryColor),
                       ),
                     ),

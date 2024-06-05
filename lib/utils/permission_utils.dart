@@ -1,15 +1,16 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:device_information/device_information.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/widgets/permission_screen.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/custom_widgets/own_show_confirm_dialog.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class PermissionUtils {
   static bool isDisplayed = false;
@@ -27,8 +28,8 @@ class PermissionUtils {
         PermissionResponse permissionResponse =
             await showCustomLocationPermissionDialog(
           scaffoldContext: scaffoldContext,
-          title: TempLanguage().lblYourConsent,
-          message: TempLanguage().lblLocationPermissionRequired,
+          title: LocaleKeys.yourConsent.tr(),
+          message: LocaleKeys.locationPermissionRequired.tr(),
         );
 
         switch (permissionResponse) {
@@ -48,8 +49,8 @@ class PermissionUtils {
             PermissionResponse permissionResponse =
                 await showCustomNotificationPermissionDialog(
               scaffoldContext: scaffoldContext,
-              title: TempLanguage().lblYourConsent,
-              message: TempLanguage().lblNotificationPermissionRequired,
+              title: LocaleKeys.yourConsent.tr(),
+              message: LocaleKeys.notificationPermissionRequired.tr(),
             );
 
             switch (permissionResponse) {
@@ -71,8 +72,8 @@ class PermissionUtils {
             PermissionResponse permissionResponse =
                 await showCustomNotificationPermissionDialog(
               scaffoldContext: scaffoldContext,
-              title: TempLanguage().lblYourConsent,
-              message: TempLanguage().lblNotificationPermissionRequired,
+              title: LocaleKeys.yourConsent.tr(),
+              message: LocaleKeys.notificationPermissionRequired.tr(),
             );
 
             switch (permissionResponse) {
@@ -106,9 +107,9 @@ class PermissionUtils {
 
     ownShowConfirmDialogCustom(
       scaffoldContext,
-      title: TempLanguage().lblYourConsent,
-      subTitle: TempLanguage().lblLocationPermissionRequired,
-      positiveText: TempLanguage().lblOk,
+      title: LocaleKeys.yourConsent.tr(),
+      subTitle: LocaleKeys.locationPermissionRequired.tr(),
+      positiveText: LocaleKeys.ok.tr(),
       cancelable: false,
       dialogType: CustomDialogType.LOCATION,
       primaryColor: AppColors.primaryColor,
@@ -137,7 +138,7 @@ class PermissionUtils {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      toast(TempLanguage().lblDisableLocationService);
+      toast(LocaleKeys.disableLocationService.tr());
     }
 
     permission = await Geolocator.checkPermission();
@@ -208,8 +209,8 @@ class PermissionUtils {
         PermissionResponse permissionResponse =
             await showCustomNotificationPermissionDialog(
           scaffoldContext: scaffoldContext,
-          title: TempLanguage().lblYourConsent,
-          message: TempLanguage().lblNotificationPermissionRequired,
+          title: LocaleKeys.yourConsent.tr(),
+          message: LocaleKeys.notificationPermissionRequired.tr(),
         );
 
         switch (permissionResponse) {
@@ -241,9 +242,9 @@ class PermissionUtils {
     Completer<PermissionResponse> completer = Completer<PermissionResponse>();
 
     await ownShowConfirmDialogCustom(scaffoldContext,
-        title: TempLanguage().lblYourConsent,
-        subTitle: TempLanguage().lblNotificationPermissionRequired,
-        positiveText: TempLanguage().lblOk,
+        title: LocaleKeys.yourConsent.tr(),
+        subTitle: LocaleKeys.notificationPermissionRequired.tr(),
+        positiveText: LocaleKeys.ok.tr(),
         cancelable: false,
         dialogType: CustomDialogType.NOTIFICATION,
         primaryColor: AppColors.primaryColor,
@@ -297,8 +298,8 @@ class PermissionUtils {
             PermissionResponse permissionResponse =
                 await showCustomNotificationPermissionDialog(
               scaffoldContext: scaffoldContext,
-              title: TempLanguage().lblYourConsent,
-              message: TempLanguage().lblNotificationPermissionRequired,
+              title: LocaleKeys.yourConsent.tr(),
+              message: LocaleKeys.notificationPermissionRequired.tr(),
             );
 
             switch (permissionResponse) {
@@ -380,9 +381,9 @@ class PermissionUtils {
     if (Platform.isIOS && !isLocationGranted) {
       String title = isLocationGranted
           ? (isVersion12
-          ? TempLanguage().lblNotificationPermission
-          : TempLanguage().lblLocationPermission)
-          : TempLanguage().lblLocationAndNotificationPermission;
+          ? LocaleKeys.notificationPermission.tr()
+          : LocaleKeys.locationPermission.tr())
+          : LocaleKeys.locationAndNotificationPermission.tr();
 
       log(title);
 
@@ -400,9 +401,9 @@ class PermissionUtils {
         ((isVersion12 ? isNotificationGranted : true)))) {
       String title = isLocationGranted
           ? (isVersion12
-              ? TempLanguage().lblNotificationPermission
-              : TempLanguage().lblLocationPermission)
-          : TempLanguage().lblLocationAndNotificationPermission;
+              ? LocaleKeys.notificationPermission.tr()
+              : LocaleKeys.locationPermission.tr())
+          : LocaleKeys.locationAndNotificationPermission.tr();
 
       final returnedResult = await Navigator.of(context).push(
         MaterialPageRoute(
@@ -427,7 +428,7 @@ class PermissionUtils {
     bool isLocationGranted = await locationStatus();
 
     if (!isLocationGranted) {
-      String title = TempLanguage().lblLocationPermission;
+      String title = LocaleKeys.locationPermission.tr();
 
       final returnedResult = await Navigator.of(context).push(
         MaterialPageRoute(

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
@@ -5,7 +6,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/display_map.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/location_utils.dart';
@@ -19,8 +19,9 @@ import 'package:street_calle/models/drop_down_item.dart';
 import 'package:street_calle/services/category_service.dart';
 import 'package:street_calle/screens/selectUser/widgets/drop_down_widget.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
-
 import 'package:street_calle/utils/my_sizer.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
+import 'package:street_calle/main.dart';
 
 class ClientHomeTab extends StatefulWidget {
   const ClientHomeTab({Key? key}) : super(key: key);
@@ -59,7 +60,7 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                     ));
                   } else if (snapshot.hasError) {
                     return Center(
-                        child: Text(TempLanguage().lblSomethingWentWrong));
+                        child: Text(LocaleKeys.somethingWentWrong.tr()));
                   } else {
                     return
                       BlocBuilder<CurrentLocationCubit,
@@ -90,9 +91,7 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                         }
                       },
                     );
-
                   }
-
                 },
               )),
           Padding(
@@ -110,7 +109,7 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                         },
                         child: SearchField(
                           padding: EdgeInsets.zero,
-                          hintText: TempLanguage().lblSearchFoodTrucks,
+                          hintText: LocaleKeys.searchFoodTrucks.tr(),
                           onChanged: (String? value) {},
                           enabled: false,
                         ),
@@ -151,7 +150,8 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                       List<DropDownItem> category = [];
                       snapshot.data?.forEach((element) {
                         final dropDown = DropDownItem(
-                            title: element[CategoryKey.TITLE],
+                            title: LANGUAGE == 'en' ? element[CategoryKey.TITLE] : element[CategoryKey.TRANSLATED_TITLE],
+                            translatedTitle: element[CategoryKey.TRANSLATED_TITLE],
                             icon: Image.network(
                               element[CategoryKey.ICON],
                               width: 18,
@@ -181,19 +181,17 @@ class _ClientHomeTabState extends State<ClientHomeTab> {
                           items: category,
                           onChanged: (value) {
                             selectedItem = value;
-                            context
-                                .read<MapFilterCubit>()
-                                .updateFilter(value?.title ?? '');
+                            context.read<MapFilterCubit>().updateFilter(value?.title ?? '');
                           },
                         ),
                       );
                     } else if (snapshot.hasError) {
                       return Center(
-                        child: Text(TempLanguage().lblSomethingWentWrong),
+                        child: Text(LocaleKeys.somethingWentWrong.tr()),
                       );
                     }
                     return Center(
-                      child: Text(TempLanguage().lblSomethingWentWrong),
+                      child: Text(LocaleKeys.somethingWentWrong.tr()),
                     );
                   },
                 ),

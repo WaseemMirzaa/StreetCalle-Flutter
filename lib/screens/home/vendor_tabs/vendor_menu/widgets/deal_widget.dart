@@ -1,5 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
@@ -9,6 +10,7 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/widgets/image_widget.dart';
 import 'package:street_calle/models/user.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class DealWidget extends StatelessWidget {
   const DealWidget({Key? key, required this.deal, this.isLastIndex, this.user, required this.onTap, required this.onUpdate, required this.onDelete, this.isFromClient = false, this.isFromVendorLocation = false}) : super(key: key);
@@ -41,7 +43,7 @@ class DealWidget extends StatelessWidget {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            deal.title.capitalizeEachFirstLetter(),
+                            (deal.translatedTitle?[LANGUAGE] as String?).capitalizeEachFirstLetter(),
                             style: const TextStyle(
                                 fontSize: 23,
                                 fontFamily: METROPOLIS_BOLD,
@@ -106,7 +108,7 @@ class DealWidget extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerRight,
               child: Text(
-                  '${user!.clientVendorDistance} ${TempLanguage().lblMiles}',
+                  '${user!.clientVendorDistance} ${LocaleKeys.miles.tr()}',
                   style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16)
               ),
             ),

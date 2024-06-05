@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 
 class TermsAndConditions extends StatelessWidget {
@@ -22,7 +23,7 @@ class TermsAndConditions extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          TempLanguage().lblTermsAndConditions,
+          LocaleKeys.termsAndConditions.tr(),
           style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
         titleSpacing: 0,

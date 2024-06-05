@@ -11,7 +11,9 @@ class Item extends Equatable {
   final String? title;
   final String? description;
   final String? foodType;
+  //final Map<String, dynamic>? translatedFoodType;
   final String? category;
+  final String? translatedCategory;
   final num? actualPrice;
   final num? discountedPrice;
   final Timestamp? createdAt;
@@ -31,6 +33,12 @@ class Item extends Equatable {
 
   final num? largeItemActualPrice;
   final num? largeItemDiscountedPrice;
+
+  final Map<String, dynamic>? translatedDes;
+  final Map<String, dynamic>? translatedTitle;
+  final Map<String, dynamic>? translatedST;
+  final Map<String, dynamic>? translatedMT;
+  final Map<String, dynamic>? translatedLT;
 
 
   Item({
@@ -54,7 +62,14 @@ class Item extends Equatable {
     this.mediumItemActualPrice,
     this.mediumItemDiscountedPrice,
     this.largeItemActualPrice,
-    this.largeItemDiscountedPrice
+    this.largeItemDiscountedPrice,
+    this.translatedTitle,
+    this.translatedDes,
+    this.translatedST,
+    this.translatedMT,
+    this.translatedLT,
+    this.translatedCategory,
+    //this.translatedFoodType
   });
 
   Item copyWith({
@@ -64,7 +79,9 @@ class Item extends Equatable {
    String? title,
    String? description,
    String? foodType,
+    Map<String, dynamic>? translatedFoodType,
    String? category,
+   String? translatedCategory,
    num? actualPrice,
    num? discountedPrice,
    List<dynamic>? searchParam,
@@ -79,6 +96,11 @@ class Item extends Equatable {
     num? mediumItemDiscountedPrice,
     num? largeItemActualPrice,
     num? largeItemDiscountedPrice,
+    Map<String, dynamic>? translatedDes,
+    Map<String, dynamic>? translatedTitle,
+    Map<String, dynamic>? translatedST,
+    Map<String, dynamic>? translatedMT,
+    Map<String, dynamic>? translatedLT,
   }){
     return Item(
       uid: uid ?? this.uid,
@@ -88,6 +110,7 @@ class Item extends Equatable {
       description: description ?? this.description,
       foodType: foodType ?? this.foodType,
       category: category ?? this.category,
+      translatedCategory: translatedCategory ?? this.translatedCategory,
       actualPrice: actualPrice ?? this.actualPrice,
       discountedPrice: discountedPrice ?? this.discountedPrice,
       createdAt: createdAt ?? this.createdAt,
@@ -101,7 +124,13 @@ class Item extends Equatable {
       largeItemActualPrice: largeItemActualPrice ?? this.largeItemActualPrice,
       smallItemDiscountedPrice: smallItemDiscountedPrice ?? this.smallItemDiscountedPrice,
       mediumItemDiscountedPrice: mediumItemDiscountedPrice ?? this.mediumItemDiscountedPrice,
-      largeItemDiscountedPrice: largeItemDiscountedPrice ?? this.largeItemDiscountedPrice
+      largeItemDiscountedPrice: largeItemDiscountedPrice ?? this.largeItemDiscountedPrice,
+      translatedTitle: translatedTitle ?? this.translatedTitle,
+      translatedDes: translatedDes ?? this.translatedDes,
+      translatedST: translatedST ?? this.translatedST,
+      translatedMT: translatedMT ?? this.translatedMT,
+      translatedLT: translatedLT ?? this.translatedLT,
+      //translatedFoodType: translatedFoodType ?? this.translatedFoodType
     );
   }
 
@@ -113,7 +142,9 @@ class Item extends Equatable {
       title: json[ItemKey.TITLE],
       description: json[ItemKey.DESCRIPTION],
       foodType: json[ItemKey.FOOD_TYPE],
+      //translatedFoodType: json[ItemKey.TRANSLATED_FOOD_TYPE],
       category: json[ItemKey.CATEGORY],
+      translatedCategory: json[ItemKey.TRANSLATED_CATEGORY],
       searchParam: json[ItemKey.SEARCH_PARAM],
       createdAt: json[ItemKey.CREATED_AT],
       updatedAt: json[ItemKey.UPDATED_AT],
@@ -128,6 +159,11 @@ class Item extends Equatable {
       smallItemDiscountedPrice: json[ItemKey.SMALL_ITEM_DISCOUNTED_PRICE],
       mediumItemDiscountedPrice: json[ItemKey.MEDIUM_ITEM_DISCOUNTED_PRICE],
       largeItemDiscountedPrice: json[ItemKey.LARGE_ITEM_DISCOUNTED_PRICE],
+      translatedTitle: json['translatedTitle'],
+      translatedDes: json['translatedDes'],
+      translatedST: json['translatedST'],
+      translatedMT: json['translatedMT'],
+      translatedLT: json['translatedLT'],
     );
   }
 
@@ -139,7 +175,9 @@ class Item extends Equatable {
     data[ItemKey.TITLE] = title;
     data[ItemKey.DESCRIPTION] = description;
     data[ItemKey.FOOD_TYPE] = foodType;
+    //data[ItemKey.TRANSLATED_FOOD_TYPE] = translatedFoodType;
     data[ItemKey.CATEGORY] = category;
+    data[ItemKey.TRANSLATED_CATEGORY] = translatedCategory;
     data[ItemKey.CREATED_AT] = createdAt;
     data[ItemKey.UPDATED_AT] = updatedAt;
     data[ItemKey.ACTUAL_PRICE] = actualPrice;

@@ -35,6 +35,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
     DropDownItem(
         //title: TempLanguage().lblIndividual,
         title: LocaleKeys.individual.tr(),
+        translatedTitle: '',
         icon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6),
           child: SvgPicture.asset(AppAssets.phone),
@@ -43,6 +44,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
     DropDownItem(
       //title: TempLanguage().lblAgency,
       title: LocaleKeys.agency.tr(),
+      translatedTitle: '',
       icon: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 6),
         child: SvgPicture.asset(AppAssets.people),

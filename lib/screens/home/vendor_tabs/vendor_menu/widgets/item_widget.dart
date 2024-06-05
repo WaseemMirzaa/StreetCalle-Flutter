@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/pricing_widget.dart';
@@ -8,7 +9,8 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/widgets/image_widget.dart';
 import 'package:street_calle/models/user.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
+import 'package:street_calle/main.dart';
 
 class ItemWidget extends StatelessWidget {
   const ItemWidget({Key? key, required this.item, this.user, this.isLastIndex, required this.onUpdate, required this.onDelete, required this.onTap, required this.isFromItemTab, this.isFromVendorLocation = false}) : super(key: key);
@@ -41,7 +43,7 @@ class ItemWidget extends StatelessWidget {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            item.title.capitalizeEachFirstLetter(),
+                            (item.translatedTitle?[LANGUAGE] as String?).capitalizeEachFirstLetter(),
                             style: const TextStyle(
                                 fontSize: 23,
                                 fontFamily: METROPOLIS_BOLD,
@@ -93,7 +95,7 @@ class ItemWidget extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                        '${user!.clientVendorDistance} ${TempLanguage().lblMiles}',
+                        '${user!.clientVendorDistance} ${LocaleKeys.miles.tr()}',
                         style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16)
                     ),
                   ),

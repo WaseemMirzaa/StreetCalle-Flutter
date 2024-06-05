@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/pricing_widget.dart';
 import 'package:street_calle/utils/common.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -17,6 +18,7 @@ import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/cubit/apply_filter_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 
 class VendorItemsWidget extends StatelessWidget {
@@ -47,11 +49,11 @@ class VendorItemsWidget extends StatelessWidget {
                           ? itemQuery.where(ItemKey.UID, isEqualTo: user.uid ?? '').orderBy(ItemKey.UPDATED_AT, descending: true)
                           : itemQuery.where(FieldPath.documentId, whereIn: user.employeeItemsList)
                       : user.isVendor
-                          ? itemQuery.where(ItemKey.UID, isEqualTo: user.uid ?? '').where(ItemKey.SEARCH_PARAM, arrayContains: state)
-                          : itemQuery.where(FieldPath.documentId, whereIn: user.employeeItemsList).where(ItemKey.SEARCH_PARAM, arrayContains: state),
+                          ? itemQuery.where(ItemKey.UID, isEqualTo: user.uid ?? '').where(LANGUAGE == 'es' ? ItemKey.SEARCH_TRANSLATED_PARAM : ItemKey.SEARCH_PARAM, arrayContains: state)
+                          : itemQuery.where(FieldPath.documentId, whereIn: user.employeeItemsList).where(LANGUAGE == 'es' ? ItemKey.SEARCH_TRANSLATED_PARAM : ItemKey.SEARCH_PARAM, arrayContains: state),
                   pageSize: ITEM_PER_PAGE,
-                  emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
-                  errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),
+                  emptyBuilder: (context) => Center(child: Text(LocaleKeys.noDataFound.tr())),
+                  errorBuilder: (context, error, stackTrace) => Center(child: Text(LocaleKeys.somethingWentWrong.tr())),
                   loadingBuilder: (context) => const Center(child: CircularProgressIndicator()),
                   itemBuilder: (context, item) {
                     return InkWell(
@@ -111,17 +113,17 @@ class _ItemWidget extends StatelessWidget {
                       children: [
                        // const SizedBox(height: 4,),
                         Text(
-                          item.title.capitalizeEachFirstLetter(),
+                          (item.translatedTitle?[LANGUAGE] as String?).capitalizeEachFirstLetter(),
                           style: context.currentTextTheme.labelMedium?.copyWith(color: AppColors.primaryFontColor),
                         ),
-                        item.description.isEmptyOrNull ? const SizedBox.shrink() : Text(
-                          item.description.capitalizeFirstLetter(),
+                        (item.translatedDes?[LANGUAGE] as String?).isEmptyOrNull ? const SizedBox.shrink() : Text(
+                          (item.translatedDes?[LANGUAGE] as String?).capitalizeFirstLetter(),
                           maxLines: 1,
                           style: context.currentTextTheme.displaySmall,
                         ),
                         const SizedBox(height: 4,),
-                        item.foodType == null ? const SizedBox.shrink() : Text(
-                          item.foodType.capitalizeEachFirstLetter(),
+                         item.foodType == null ? const SizedBox.shrink() : Text(
+                           item.foodType.capitalizeEachFirstLetter(),
                           style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),
                         ),
                       ],

@@ -1,11 +1,12 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/permission_utils.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class LocationService extends StatefulWidget {
   final Widget child;
@@ -84,7 +85,7 @@ class LocationServiceErrorWidget extends StatelessWidget {
                 fit: BoxFit.fitHeight,
               ),
               Text(
-                TempLanguage().lblLocationServiceDisabled,
+                LocaleKeys.locationServiceDisabled.tr(),
                 textAlign: TextAlign.center,
                 style: context.currentTextTheme.labelLarge,
               ),

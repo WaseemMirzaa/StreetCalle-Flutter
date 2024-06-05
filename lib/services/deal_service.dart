@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:isolate';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
@@ -10,9 +13,11 @@ import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/dependency_injection.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/utils/location_utils.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
+import 'package:http/http.dart' as http;
+import 'package:street_calle/main.dart';
 
 
 class DealService extends BaseService<Deal> {
@@ -29,7 +34,7 @@ class DealService extends BaseService<Deal> {
     try {
       final url = await _uploadImageToFirebase(image, deal.uid ?? '');
       if (url == null) {
-        return Left(TempLanguage().lblSomethingWentWrong);
+        return Left(LocaleKeys.somethingWentWrong.tr());
       }
 
       deal = deal.copyWith(image: url);
@@ -37,10 +42,12 @@ class DealService extends BaseService<Deal> {
       await ref!.doc(result.id).update({DealKey.ID: result.id});
       deal = deal.copyWith(id: result.id);
 
+      final isolate = await Isolate.spawn(generateSearchParams, [deal.id ?? '', 'deals']);
+
       return Right(deal);
     } catch (e) {
       log(e.toString());
-      return Left(TempLanguage().lblSomethingWentWrong);
+      return Left(LocaleKeys.somethingWentWrong.tr());
     }
   }
 
@@ -50,7 +57,7 @@ class DealService extends BaseService<Deal> {
       if (isUpdated) {
         final url = await _uploadImageToFirebase(image, deal.uid ?? '');
         if (url == null) {
-          return Left(TempLanguage().lblSomethingWentWrong);
+          return Left(LocaleKeys.somethingWentWrong.tr());
         }
         deal = deal.copyWith(image: url);
         await ref!.doc(deal.id).update(deal.toJson());
@@ -59,10 +66,15 @@ class DealService extends BaseService<Deal> {
 
       deal = deal.copyWith(image: image);
       await ref!.doc(deal.id).update(deal.toJson());
-      return Right(deal);
+
+      await Future.delayed(const Duration(seconds: 2));
+      final isolate = await Isolate.spawn(generateSearchParams, [deal.id ?? '', 'deals']);
+
+      final updatedDeal = await getDealUsingId(deal.id ?? '');
+      return Right(updatedDeal);
     } catch (e) {
       log(e.toString());
-      return Left(TempLanguage().lblSomethingWentWrong);
+      return Left(LocaleKeys.somethingWentWrong.tr());
     }
   }
 
@@ -108,6 +120,12 @@ class DealService extends BaseService<Deal> {
         .map((value) => value.docs.map((e) => e.data()).toList());
   }
 
+  Future<Deal?> getDealUsingId(String docId) async {
+    final result = await ref!.doc(docId).get();
+    return result.data();
+  }
+
+
   Stream<List<Deal>> getEmployeeDeals(List<dynamic>? employeeItemList) {
     return ref!.where(FieldPath.documentId, whereIn: employeeItemList)
         .snapshots()
@@ -120,6 +138,16 @@ class DealService extends BaseService<Deal> {
       yield* getEmployeeDeals(userDoc.employeeDealsList);
     }catch(e){
       log(e.toString());
+    }
+  }
+
+  Future<List<Deal>?> getEmployeeDealsFuture(String userId) async {
+    try {
+      final userDoc = await UserService().userByUid(userId);
+      return getEmployeeDealList(userDoc.employeeDealsList);
+    }catch(e){
+      log(e.toString());
+      return null;
     }
   }
 
@@ -191,6 +219,27 @@ class DealService extends BaseService<Deal> {
     return dealsWithUsers;
   }
 
+  Future<void> generateSearchParams(List<String> list) async {
+    final url = Uri.parse('https://us-central1-street-calle-72cff.cloudfunctions.net/generateSearchParams');
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(
+            {
+              'docId': list[0],
+              'collectionName': list[1],
+              'type': LANGUAGE == 'en' ? 'es' : 'en',
+            }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+      } else {
+      }
+    } catch (e) {
+    }
+  }
 
 
 }

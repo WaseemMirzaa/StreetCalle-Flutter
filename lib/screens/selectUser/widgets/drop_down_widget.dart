@@ -36,7 +36,9 @@ class DropDownWidget extends StatelessWidget {
                 child: item.icon,
               ),
               const SizedBox(width: 10),
-              FittedBox(child: Text(item.title)),
+              SizedBox(
+                  width: 100,
+                  child: Text(item.title)),
             ],
           );
         }).toList();
@@ -56,7 +58,7 @@ class DropDownWidget extends StatelessWidget {
                 child: item.icon,
               ),
               const SizedBox(width: 10),
-              FittedBox(child: Text(item.title)),
+              Expanded(child: Text(item.title)),
             ],
           ),
         );

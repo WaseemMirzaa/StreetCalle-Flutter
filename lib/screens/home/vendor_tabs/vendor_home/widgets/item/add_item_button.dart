@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -9,9 +10,9 @@ import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 
 
@@ -26,7 +27,9 @@ class AddItemButton extends StatelessWidget {
       listener: (context, state) {
         if (state is AddItemSuccess) {
           context.read<AddItemCubit>().clear();
-          showToast(context, isUpdate ? TempLanguage().lblItemUpdatedSuccessfully : TempLanguage().lblItemAddedSuccessfully);
+          showToast(context, isUpdate
+              ? LocaleKeys.itemUpdatedSuccessfully.tr()
+              : LocaleKeys.itemAddedSuccessfully.tr());
           context.pop(state.item);
         } else if (state is AddItemFailure) {
           showToast(context, state.error);
@@ -68,8 +71,8 @@ class AddItemButton extends StatelessWidget {
                   ),
                   Text(
                     isUpdate
-                        ? TempLanguage().lblItemUpdateToMenu
-                        : TempLanguage().lblItemAddToMenu,
+                        ? LocaleKeys.itemUpdateToMenu.tr()
+                        : LocaleKeys.itemAddToMenu.tr(),
                     style: context.currentTextTheme.labelLarge
                         ?.copyWith(color: AppColors.whiteColor),
                   ),
@@ -94,17 +97,18 @@ class AddItemButton extends StatelessWidget {
     final smallActualPrice = itemCubit.smallItemActualPriceController.text;
     final smallTitle = itemCubit.smallItemTitleController.text;
     final category = userCubit.state.category;
+    final translatedCategory = userCubit.state.translatedCategory;
 
     if (image.isEmpty) {
-      showToast(context, TempLanguage().lblSelectImage);
+      showToast(context, LocaleKeys.selectImage.tr());
     } else if (title.isEmpty) {
-      showToast(context, TempLanguage().lblAddItemTitle);
+      showToast(context, LocaleKeys.addItemTitle.tr());
     } else if (pricingCategoryType == PricingCategoryType.smallMedium && smallTitle.isEmpty) {
-      showToast(context, TempLanguage().lblAddItemTitle);
+      showToast(context, LocaleKeys.addItemTitle.tr());
     } else if ((pricingCategoryType == PricingCategoryType.none && actualPrice.isEmpty) || (pricingCategoryType == PricingCategoryType.smallMedium && smallActualPrice.isEmpty)) {
-      showToast(context, TempLanguage().lblAddItemPrice);
+      showToast(context, LocaleKeys.addItemPrice.tr());
     } else {
-      itemCubit.addItem(image, category);
+      itemCubit.addItem(image, category, translatedCategory);
     }
   }
 
@@ -124,20 +128,21 @@ class AddItemButton extends StatelessWidget {
     final mediumActualPrice = itemCubit.mediumItemActualPriceController.text;
     final mediumTitle = itemCubit.mediumItemTitleController.text;
     final category = userCubit.state.category;
+    final translatedCategory = userCubit.state.translatedCategory;
 
     if (image.isEmpty && url == null) {
-      showToast(context, TempLanguage().lblSelectImage);
+      showToast(context, LocaleKeys.selectImage.tr());
     } else if (title.isEmpty) {
-      showToast(context, TempLanguage().lblAddItemTitle);
+      showToast(context, LocaleKeys.addItemTitle.tr());
     } else if (pricingCategoryType == PricingCategoryType.smallMedium && (smallTitle.isEmpty || mediumTitle.isEmpty)) {
-      showToast(context, TempLanguage().lblAddItemTitle);
+      showToast(context, LocaleKeys.addItemTitle.tr());
     } else if (actualPrice.isEmpty || (pricingCategoryType == PricingCategoryType.smallMedium && (smallActualPrice.isEmpty || mediumActualPrice.isEmpty))) {
-      showToast(context, TempLanguage().lblAddItemPrice);
+      showToast(context, LocaleKeys.addItemPrice.tr());
     } else {
       if (isUpdated ?? false) {
-        itemCubit.updateItem(image: image, isUpdated: true, category: category);
+        itemCubit.updateItem(image: image, isUpdated: true, category: category, translatedCategory: translatedCategory);
       } else {
-        itemCubit.updateItem(image: url ?? '', isUpdated: false, category: category);
+        itemCubit.updateItem(image: url ?? '', isUpdated: false, category: category, translatedCategory: translatedCategory);
       }
     }
   }

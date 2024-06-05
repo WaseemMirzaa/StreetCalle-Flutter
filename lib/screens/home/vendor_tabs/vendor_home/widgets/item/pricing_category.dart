@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/price_tile.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -11,9 +12,9 @@ class PricingCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSmallItemAvailable =  item.smallItemTitle.isEmptyOrNull;
-    final isMediumItemAvailable =  item.mediumItemTitle.isEmptyOrNull;
-    final isLargeItemAvailable =  item.largeItemTitle.isEmptyOrNull;
+    final isSmallItemAvailable = (item.translatedST?[LANGUAGE] as String?).isEmptyOrNull;
+    final isMediumItemAvailable = (item.translatedMT?[LANGUAGE] as String?).isEmptyOrNull;
+    final isLargeItemAvailable = (item.translatedLT?[LANGUAGE] as String?).isEmptyOrNull;
 
     MySizer().init(context);
     return Row(
@@ -21,7 +22,7 @@ class PricingCategory extends StatelessWidget {
       children: [
         isSmallItemAvailable
             ? const SizedBox.shrink()
-            : PriceTile(title: item.smallItemTitle, actualPrice: item.smallItemActualPrice, discountedPrice: item.smallItemDiscountedPrice),
+            : PriceTile(title: (item.translatedST?[LANGUAGE] as String? ?? ''), actualPrice: item.smallItemActualPrice, discountedPrice: item.smallItemDiscountedPrice),
         isMediumItemAvailable ? const SizedBox.shrink() : SizedBox(
           height: 50,
           width: isLargeItemAvailable ? MySizer.size90 : MySizer.size2,
@@ -33,7 +34,7 @@ class PricingCategory extends StatelessWidget {
 
         isMediumItemAvailable
             ? const SizedBox.shrink()
-            : PriceTile(title: item.mediumItemTitle, actualPrice: item.mediumItemActualPrice, discountedPrice: item.mediumItemDiscountedPrice),
+            : PriceTile(title: (item.translatedMT?[LANGUAGE] as String? ?? ''), actualPrice: item.mediumItemActualPrice, discountedPrice: item.mediumItemDiscountedPrice),
         isLargeItemAvailable ? const SizedBox.shrink() : const SizedBox(
           height: 50,
           width: 2,
@@ -45,7 +46,7 @@ class PricingCategory extends StatelessWidget {
 
         isLargeItemAvailable
             ? const SizedBox.shrink()
-            : PriceTile(title: item.largeItemTitle, actualPrice: item.largeItemActualPrice, discountedPrice: item.largeItemDiscountedPrice),
+            : PriceTile(title: (item.translatedLT?[LANGUAGE] as String? ?? ''), actualPrice: item.largeItemActualPrice, discountedPrice: item.largeItemDiscountedPrice),
       ],
     );
   }

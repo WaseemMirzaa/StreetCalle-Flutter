@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/services/item_service.dart';
@@ -5,11 +6,12 @@ import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/item_widget.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
+import 'package:street_calle/main.dart';
 
 typedef GetItemTitle = Function(String? title);
 
@@ -26,7 +28,7 @@ class SelectMenuItem extends StatelessWidget {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text(
-            TempLanguage().lblSelectMenuItem,
+            LocaleKeys.selectMenuItem.tr(),
             style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
           ),
           titleSpacing: 0,
@@ -59,7 +61,7 @@ class SelectMenuItem extends StatelessWidget {
                   if (item == null) {
                     return Center(
                       child: Text(
-                        TempLanguage().lblNoDataFound,
+                        LocaleKeys.noDataFound.tr(),
                         style: context.currentTextTheme.displaySmall,
                       ),
                     );
@@ -70,7 +72,7 @@ class SelectMenuItem extends StatelessWidget {
                     onUpdate: (){},
                     onDelete: (){},
                     onTap: (){
-                      context.pop(item.title);
+                      context.pop(item.translatedTitle?[LANGUAGE] as String? ?? '');
                     },
                   );
                 },
@@ -79,7 +81,7 @@ class SelectMenuItem extends StatelessWidget {
           }
           return Center(
             child: Text(
-              TempLanguage().lblNoDataFound,
+              LocaleKeys.noDataFound.tr(),
               style: context.currentTextTheme.displaySmall,
             ),
           );

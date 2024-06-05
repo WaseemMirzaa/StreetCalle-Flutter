@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -6,8 +7,8 @@ import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class ManageVendorLocations extends StatelessWidget {
   const ManageVendorLocations({Key? key}) : super(key: key);
@@ -26,11 +27,11 @@ class ManageVendorLocations extends StatelessWidget {
                     context.pushNamed(AppRoutingName.manageEmployee);
                   } else {
                     showToast(
-                        context, TempLanguage().lblPleaseSubscribedAgencyFirst);
+                        context, LocaleKeys.pleaseSubscribedAgencyFirst.tr());
                   }
                 },
                 child: Text(
-                  TempLanguage().lblManageLocations,
+                  LocaleKeys.manageLocations.tr(),
                   style: context.currentTextTheme.titleMedium?.copyWith(
                       color: AppColors.primaryColor,
                       fontSize: 24,

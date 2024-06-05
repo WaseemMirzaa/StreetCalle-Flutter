@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +12,6 @@ import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
@@ -25,6 +25,8 @@ import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
 import 'package:street_calle/widgets/show_favourite_item_widget.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/item_description.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
+import 'package:street_calle/main.dart';
 
 class ItemDetail extends StatefulWidget {
   const ItemDetail({Key? key, required this.item, this.isClient = false}) : super(key: key);
@@ -96,7 +98,7 @@ class _ItemDetailState extends State<ItemDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        item.title.capitalizeEachFirstLetter() ?? '',
+                        (item.translatedTitle?[LANGUAGE] as String?).capitalizeEachFirstLetter() ?? '',
                         style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor),
                       ),
                       Text(
@@ -207,16 +209,16 @@ class _ItemDetailState extends State<ItemDetail> {
     final pricingCategoryExpandCubit = context.read<PricingCategoryExpandedCubit>();
     final pricingCategoryTypeCubit = context.read<PricingCategoryCubit>();
 
-    itemCubit.titleController.text = itemParam.title ?? '';
-    itemCubit.descriptionController.text = itemParam.description ?? '';
+    itemCubit.titleController.text = itemParam.translatedTitle?[LANGUAGE] as String? ?? '';
+    itemCubit.descriptionController.text = itemParam.translatedDes?[LANGUAGE] as String? ?? '';
     itemCubit.foodTypeController.text = itemParam.foodType ?? '';
     itemCubit.actualPriceController.text = itemParam.actualPrice.toString();
     itemCubit.discountedPriceController.text = itemParam.discountedPrice.toString();
     itemCubit.id = itemParam.id ?? '';
     itemCubit.createdAt = itemParam.createdAt ?? Timestamp.now();
-    itemCubit.smallItemTitleController.text = itemParam.smallItemTitle ?? '';
-    itemCubit.mediumItemTitleController.text = itemParam.mediumItemTitle ?? '';
-    itemCubit.largeItemTitleController.text = itemParam.largeItemTitle ?? '';
+    itemCubit.smallItemTitleController.text = itemParam.translatedST?[LANGUAGE] as String? ?? '';
+    itemCubit.mediumItemTitleController.text = itemParam.translatedMT?[LANGUAGE] as String? ?? '';
+    itemCubit.largeItemTitleController.text = itemParam.translatedLT?[LANGUAGE] as String? ?? '';
     itemCubit.smallItemActualPriceController.text = itemParam.smallItemActualPrice.toString();
     itemCubit.mediumItemActualPriceController.text = itemParam.mediumItemActualPrice.toString();
     itemCubit.largeItemActualPriceController.text = itemParam.largeItemActualPrice.toString();
@@ -231,7 +233,7 @@ class _ItemDetailState extends State<ItemDetail> {
       foodTypeCubit.defaultValue = itemCubit.foodTypeController.text;
     } else {
       foodTypeExpandedCubit.collapse();
-      foodTypeCubit.defaultValue = TempLanguage().lblSelect;
+      foodTypeCubit.defaultValue = LocaleKeys.select.tr();
     }
 
     if (itemCubit.smallItemTitleController.text.isNotEmpty) {

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -9,13 +10,13 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/utils/custom_widgets/own_show_confirm_dialog.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 void showToast(BuildContext context, String title) {
   final scaffold = ScaffoldMessenger.of(context);
@@ -48,7 +49,7 @@ void showLoadingDialog(BuildContext context, GlobalKey<State>? dialogKey) {
                 color: Colors.black,
               ),
               const SizedBox(width: 16),
-              Text(TempLanguage().lblPleaseWait),
+              Text(LocaleKeys.pleaseWait.tr()),
             ],
           ),
         ),
@@ -66,7 +67,7 @@ DialogRoute showProgressDialog(BuildContext context) {
           children: [
             const CircularProgressIndicator(color: AppColors.blackColor,),
             const SizedBox(height: 16.0),
-            Text(TempLanguage().lblPleaseWait),
+            Text(LocaleKeys.pleaseWait.tr()),
           ],
         ),
       ),
@@ -247,9 +248,9 @@ void showGuestLoginDialog(BuildContext scaffoldContext) async {
 
   await ownShowConfirmDialogCustom(
   scaffoldContext,
-  title: TempLanguage().lblPayAttention,
-  subTitle: TempLanguage().lblCreateAccountToPerformFunctionality,
-  positiveText: TempLanguage().lblOk,
+  title: LocaleKeys.payAttention.tr(),
+  subTitle: LocaleKeys.createAccountToPerformFunctionality.tr(),
+  positiveText: LocaleKeys.ok.tr(),
   cancelable: false,
   dialogType: CustomDialogType.CONFIRMATION,
   primaryColor: AppColors.primaryColor,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -7,10 +8,10 @@ import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class LocationBlockEditWidget extends StatefulWidget {
   const LocationBlockEditWidget({Key? key, this.user}) : super(key: key);
@@ -43,7 +44,7 @@ class _LocationBlockEditWidgetState extends State<LocationBlockEditWidget> {
                     ],
                   )
                 : AppButton(
-                    text: TempLanguage().lblUnblock,
+                    text: LocaleKeys.unblock.tr(),
                     textColor: AppColors.whiteColor,
                     onTap: () async {
                       if (widget.user != null) {
@@ -118,7 +119,7 @@ class _LocationBlockEditWidgetState extends State<LocationBlockEditWidget> {
                               width: 8,
                             ),
                             Text(
-                              TempLanguage().lblEditAddMenuItems,
+                              LocaleKeys.editAddMenuItems.tr(),
                               style: context.currentTextTheme.labelLarge
                                   ?.copyWith(
                                       color: AppColors.whiteColor,

@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class ConnectivityChecker extends StatefulWidget {
   const ConnectivityChecker({Key? key, required this.child}) : super(key: key);
@@ -99,7 +100,7 @@ class InternetConnectionErrorWidget extends StatelessWidget {
                 fit: BoxFit.fitHeight,
               ),
               Text(
-                TempLanguage().lblInternetDisabled,
+                LocaleKeys.internetDisabled.tr(),
                 textAlign: TextAlign.center,
                 style: context.currentTextTheme.labelLarge,
               ),

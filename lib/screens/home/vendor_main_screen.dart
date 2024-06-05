@@ -97,7 +97,7 @@ class _VendorMainScreenState extends State<VendorMainScreen> with WidgetsBinding
     BottomNavPosition.settings: 3,
   };
 
-  void _onItemTapped(int index) {
+  void onItemTapped(int index) {
     setState(() {
       switch (index) {
         case 0:
@@ -192,7 +192,7 @@ class _VendorMainScreenState extends State<VendorMainScreen> with WidgetsBinding
           unselectedFontSize: 0,
           enableFeedback: false,
           type: BottomNavigationBarType.fixed,
-          onTap: _onItemTapped,
+          onTap: onItemTapped,
           backgroundColor: AppColors.whiteColor,
         ),
       ),

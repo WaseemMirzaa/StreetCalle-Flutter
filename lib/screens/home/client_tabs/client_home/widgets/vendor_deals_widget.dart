@@ -1,15 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/models/user.dart';
+
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class VendorDealsWidget extends StatelessWidget {
   VendorDealsWidget({Key? key, required this.user}) : super(key: key);
@@ -33,8 +35,8 @@ class VendorDealsWidget extends StatelessWidget {
               : dealQuery.where(FieldPath.documentId, whereIn: user.employeeDealsList),
           pageSize: DEAL_PER_PAGE,
           scrollDirection: Axis.horizontal,
-          emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
-          errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),
+          emptyBuilder: (context) => Center(child: Text(LocaleKeys.noDataFound.tr())),
+          errorBuilder: (context, error, stackTrace) => Center(child: Text(LocaleKeys.somethingWentWrong.tr())),
           loadingBuilder: (context) => const Center(child: CircularProgressIndicator()),
           itemBuilder: (context, deal) {
             return InkWell(

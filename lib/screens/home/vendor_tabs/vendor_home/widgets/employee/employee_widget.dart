@@ -1,11 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/widgets/address_widget.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/widgets/image_widget.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class EmployeeWidget extends StatelessWidget {
   const EmployeeWidget({Key? key, required this.onTap, required this.userData, required this.index}) : super(key: key);
@@ -48,7 +49,7 @@ class EmployeeWidget extends StatelessWidget {
                         userData.isEmployeeBlocked != true
                             ? const SizedBox.shrink()
                             : Text(
-                          TempLanguage().lblBlocked,
+                          LocaleKeys.blocked.tr(),
                           style: const TextStyle(
                               fontSize: 16,
                               fontFamily: METROPOLIS_R,

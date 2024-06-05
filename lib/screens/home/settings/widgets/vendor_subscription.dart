@@ -43,6 +43,7 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
         });
       }
   }
+
   @override
   Widget build(BuildContext context) {
     final userCubit = context.read<UserCubit>();
@@ -101,10 +102,10 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
                         children: [
                           Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,),
                           const SizedBox(width: 16,),
-                          const Flexible(
+                          Flexible(
                             child: Text(
-                              'Enjoy a free 60-day trial on all plans with full access to all features of subscribed plan.',//TempLanguage().lblAddUnlimitedMenuItems,
-                              style: TextStyle(
+                              LocaleKeys.enjoyFreeDays.tr(),//TempLanguage().lblAddUnlimitedMenuItems,
+                              style: const TextStyle(
                                   fontFamily: METROPOLIS_BOLD,
                                   fontSize: 12,
                                   color: AppColors.whiteColor
@@ -119,9 +120,10 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
                         children: [
                           Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,),
                           const SizedBox(width: 16,),
-                          const Flexible(
+                          Flexible(
                             child: Text(
-                              'After the trial period, you will be automatically enrolled in a paid subscription.',                            style: TextStyle(
+                              LocaleKeys.afterTrialPeriod.tr(),
+                              style: const TextStyle(
                                 fontFamily: METROPOLIS_BOLD,
                                 fontSize: 12,
                                 color: AppColors.whiteColor
@@ -136,10 +138,10 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
                         children: [
                           Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,),
                           const SizedBox(width: 16,),
-                          const Flexible(
+                          Flexible(
                             child: Text(
-                              'You can cancel anytime during the trial period at no charge.',
-                              style: TextStyle(
+                              LocaleKeys.cancelAnyTime.tr(),
+                              style: const TextStyle(
                                   fontFamily: METROPOLIS_BOLD,
                                   fontSize: 12,
                                   color: AppColors.whiteColor
@@ -217,7 +219,7 @@ class _VendorSubscriptionState extends State<VendorSubscription> {
                 style: ElevatedButton.styleFrom(
                     backgroundColor:  AppColors.primaryColor
                 ),
-                child: const Text('Restore Subscription', style: TextStyle(color: AppColors.whiteColor, fontSize: 14),),
+                child: Text(LocaleKeys.restoreSubscription.tr(), style: const TextStyle(color: AppColors.whiteColor, fontSize: 14),),
               ),
 
 

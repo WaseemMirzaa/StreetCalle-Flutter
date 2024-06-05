@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
+
 
 class PermissionDeniedDialog extends StatelessWidget {
   const PermissionDeniedDialog({super.key});
@@ -8,17 +10,17 @@ class PermissionDeniedDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(TempLanguage().lblPermissionDenied),
-      content: Text(TempLanguage().lblPermissionDeniedPermanently),
+      title: Text(LocaleKeys.permissionDenied.tr()),
+      content: Text(LocaleKeys.permissionDeniedPermanently.tr()),
       actions: [
         TextButton(
-          child: Text(TempLanguage().lblCancel),
+          child: Text(LocaleKeys.cancel.tr()),
           onPressed: () {
             Navigator.pop(context); // Close the dialog
           },
         ),
         TextButton(
-          child: Text(TempLanguage().lblOpenSettings),
+          child: Text(LocaleKeys.openSettings.tr()),
           onPressed: () {
             openAppSettings();
             Navigator.pop(context);

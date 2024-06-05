@@ -2,12 +2,13 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:street_calle/services/base_service.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 /// This service use for all (Users, Vendors, Employees)
 class UserService extends BaseService<User> {
@@ -52,10 +53,10 @@ class UserService extends BaseService<User> {
   Future<User> userByUid(String? uid) async {
     return ref!.limit(1).where(UserKey.UID, isEqualTo: uid).get().then((value) {
       if (value.docs.isNotEmpty) return value.docs.first.data();
-      throw TempLanguage().lblUserNotFound;
+      throw LocaleKeys.userNotFound.tr();
     }).catchError((e) {
       log(e.toString());
-      throw TempLanguage().lblUserNotFound;
+      throw LocaleKeys.userNotFound.tr();
     });
   }
 
@@ -85,7 +86,7 @@ class UserService extends BaseService<User> {
       if (isUpdated) {
         final url = await _uploadImageToFirebase(image, userId ?? '');
         if (url == null) {
-          return Left(TempLanguage().lblSomethingWentWrong);
+          return Left(LocaleKeys.somethingWentWrong.tr());
         }
         User user = User(image: url, name: name, phone: phone, countryCode: countryCode, about: about);
         await ref!.doc(userId).update({
@@ -110,7 +111,7 @@ class UserService extends BaseService<User> {
 
     } catch (e) {
       log(e.toString());
-      return Left(TempLanguage().lblSomethingWentWrong);
+      return Left(LocaleKeys.somethingWentWrong.tr());
     }
   }
 
@@ -354,10 +355,11 @@ class UserService extends BaseService<User> {
     }
   }
 
-  Future<bool> updateCategory(String category, String image, String userId) async {
+  Future<bool> updateCategory(String category, String image, String userId, String translatedCategory) async {
     try {
       await ref!.doc(userId).update({
         UserKey.CATEGORY: category,
+        UserKey.TRANSLATED_CATEGORY: translatedCategory,
         UserKey.CATEGORY_IMAGE: image
       });
       return true;

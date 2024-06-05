@@ -253,5 +253,20 @@ abstract class  LocaleKeys {
   static const and = 'and';
   static const privacyPolicy2 = 'privacypolicy';
   static const acceptTermOfUse = 'acceptTermOfUse';
+  static const selectLanguage = 'selectLanguage';
+  static const freeTrial = 'freeTrial';
+  static const enjoyFreeDays = 'enjoyFreeDays';
+  static const afterTrialPeriod = 'afterTrialPeriod';
+  static const cancelAnyTime = 'cancelAnyTime';
+  static const enjoyFreeDays2 = 'enjoyFreeDays2';
+  static const autoRenewSubscription = 'autoRenewSubscription';
+  static const singleLocation = 'singleLocation';
+  static const twoThreeLocation = 'twoThreeLocation';
+  static const fourNineLocation = 'fourNineLocation';
+  static const unlimitedLocation = 'unlimitedLocation';
+  static const accessLocation = 'accessLocation';
+  static const subscriptionCharge = 'subscriptionCharge';
+  static const trialEndCharge = 'trialEndCharge';
+  static const restoreSubscription = 'restoreSubscription';
 
 }

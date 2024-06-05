@@ -1,20 +1,21 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/client_menu_item.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
-import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class DisplayVendors extends StatelessWidget {
   const DisplayVendors({Key? key, required this.position}) : super(key: key);
@@ -35,7 +36,7 @@ class DisplayVendors extends StatelessWidget {
         if (snapshot.hasError) {
           return Center(
             child: Text(
-              TempLanguage().lblSomethingWentWrong,
+              LocaleKeys.somethingWentWrong.tr(),
               style: context.currentTextTheme.displaySmall,
             ),
           );
@@ -44,7 +45,7 @@ class DisplayVendors extends StatelessWidget {
           if (snapshot.data!.isEmpty) {
             return Center(
               child: Text(
-                TempLanguage().lblNoVendorFound,
+                LocaleKeys.noVendorFound.tr(),
                 style: context.currentTextTheme.displaySmall,
               ),
             );
@@ -56,9 +57,12 @@ class DisplayVendors extends StatelessWidget {
                 builder: (context, state) {
 
                   List<User> users = [];
-                  if (filterString != defaultVendorFilter) {
+                  final filter = LANGUAGE == 'en' ? 'All' : 'Todo';
+                  if (filterString != filter) {
                     users = snapshot.data!.where((user) {
-                      final category = user.category?.toLowerCase().trim() ?? '';
+                      final category = LANGUAGE == 'en'
+                          ? user.category?.toLowerCase().trim() ?? ''
+                          : user.translatedCategory?.toLowerCase().trim() ?? '';
                       return category.contains(filterString.toLowerCase().trim());
                     }).toList();
                   } else {
@@ -96,7 +100,7 @@ class DisplayVendors extends StatelessWidget {
                   return users.isEmpty
                       ? Center(
                     child: Text(
-                      TempLanguage().lblNoDataFound,
+                      LocaleKeys.noDataFound.tr(),
                       style: context.currentTextTheme.displaySmall,
                     ),
                   )
@@ -121,7 +125,7 @@ class DisplayVendors extends StatelessWidget {
         }
         return Center(
           child: Text(
-            TempLanguage().lblSomethingWentWrong,
+            LocaleKeys.somethingWentWrong.tr(),
             style: context.currentTextTheme.displaySmall,
           ),
         );

@@ -30,6 +30,7 @@ class User {
   final String? userType;
   final String? category;
   final String? categoryImage;
+  final String? translatedCategory;
   final String? employeeOwnerImage;
   final String? employeeOwnerName;
   final String? subscriptionType;
@@ -68,6 +69,7 @@ class User {
       this.subscriptionType,
       this.category,
       this.categoryImage,
+      this.translatedCategory,
       this.stripeId,
       this.planLookUpKey,
       this.subscriptionId,
@@ -100,6 +102,8 @@ class User {
       String? userType,
       String? category,
       String? categoryImage,
+      String? translatedCategory,
+      String? translatedCategoryImage,
       String? clientVendorDistance,
       String? employeeOwnerImage,
       String? employeeOwnerName,
@@ -134,6 +138,7 @@ class User {
       vendorType: vendorType ?? this.vendorType,
       userType: userType ?? this.userType,
       category: category ?? this.category,
+      translatedCategory: translatedCategory ?? this.translatedCategory,
       categoryImage: categoryImage ?? this.categoryImage,
       employeeOwnerImage: employeeOwnerImage ?? this.employeeOwnerImage,
       employeeOwnerName: employeeOwnerName ?? this.employeeOwnerName,
@@ -171,6 +176,7 @@ class User {
       vendorType: json[UserKey.VENDOR_TYPE],
       userType: json[UserKey.USER_TYPE],
       category: json[UserKey.CATEGORY],
+      translatedCategory: json[UserKey.TRANSLATED_CATEGORY],
       categoryImage: json[UserKey.CATEGORY_IMAGE],
       favouriteVendors: json[UserKey.FAVOURITE_VENDORS],
       employeeOwnerName: json[UserKey.EMPLOYEE_OWNER_NAME],
@@ -208,6 +214,7 @@ class User {
     data[UserKey.VENDOR_TYPE] = vendorType;
     data[UserKey.USER_TYPE] = userType;
     data[UserKey.CATEGORY] = category;
+    data[UserKey.TRANSLATED_CATEGORY] = translatedCategory;
     data[UserKey.CATEGORY_IMAGE] = categoryImage;
     data[UserKey.FAVOURITE_VENDORS] = favouriteVendors;
     data[UserKey.EMPLOYEE_OWNER_IMAGE] = employeeOwnerImage;

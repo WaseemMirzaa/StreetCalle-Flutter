@@ -1,21 +1,22 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/marker_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class DisplayMap extends StatefulWidget {
   const DisplayMap({Key? key, required this.position, required this.isLocationUpdated}) : super(key: key);
@@ -45,7 +46,7 @@ class _DisplayMapState extends State<DisplayMap> {
   @override
   Widget build(BuildContext context) {
     final userService = sl.get<UserService>();
-    context.read<MapFilterCubit>().updateFilter(TempLanguage().lblAll);
+    context.read<MapFilterCubit>().updateFilter(LANGUAGE == 'en' ? LocaleKeys.all.tr() : 'Todo');
 
     return FutureBuilder<List<User>>(
         future: userService.getVendorsAndEmployees(),
@@ -54,14 +55,15 @@ class _DisplayMapState extends State<DisplayMap> {
             return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));
           } else {
 
-
-
             return BlocBuilder<MapFilterCubit, String>(
               builder: (context, filterString) {
                 List<User> users = [];
-                if (filterString != defaultVendorFilter) {
+                final filter = LANGUAGE == 'en' ? 'All' : 'Todo';
+                if (filterString != filter) {
                   users = snap.data!.where((user) {
-                    final category = user.category?.toLowerCase().trim() ?? '';
+                    final category = LANGUAGE == 'en'
+                        ? user.category?.toLowerCase().trim() ?? ''
+                        : user.translatedCategory?.toLowerCase().trim() ?? '';
                     return category.contains(filterString.toLowerCase().trim());
                   }).toList();
                 } else {
@@ -78,9 +80,7 @@ class _DisplayMapState extends State<DisplayMap> {
                       context.read<MarkersCubit>().setMarkers(markers);
                     }
                   });
-
                 }
-
                 return BlocBuilder<MarkersCubit, MarkersState>(
                   builder: (context, state) {
                     return GoogleMap(

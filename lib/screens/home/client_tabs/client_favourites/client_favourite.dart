@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,12 +8,12 @@ import 'package:street_calle/screens/home/client_tabs/client_favourites/widgets/
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
 import 'package:street_calle/widgets/no_data_found_widget.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class ClientFavourite extends StatelessWidget {
   const ClientFavourite({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class ClientFavourite extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          TempLanguage().lblFavourites,
+          LocaleKeys.favourites.tr(),
           style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
       ),
@@ -43,7 +44,7 @@ class ClientFavourite extends StatelessWidget {
             if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  TempLanguage().lblSomethingWentWrong,
+                  LocaleKeys.somethingWentWrong.tr(),
                   style: context.currentTextTheme.displaySmall,
                 ),
               );
@@ -80,7 +81,7 @@ class ClientFavourite extends StatelessWidget {
             }
             return Center(
               child: Text(
-                TempLanguage().lblSomethingWentWrong,
+                LocaleKeys.somethingWentWrong.tr(),
                 style: context.currentTextTheme.displaySmall,
               ),
             );

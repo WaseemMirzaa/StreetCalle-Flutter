@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/services/item_service.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/item_widget.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
@@ -20,6 +21,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/delete_confirmation_dialog.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/widgets/no_data_found_widget.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class ItemsTab extends StatelessWidget {
   const ItemsTab({Key? key}) : super(key: key);
@@ -76,17 +78,17 @@ class ItemsTab extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return DeleteConfirmationDialog(
-          title: TempLanguage().lblDeleteItem,
-          body: TempLanguage().lblAreYouSureYouWantToDeleteItem,
+          title: LocaleKeys.deleteItem.tr(),
+          body: LocaleKeys.areYouSureYouWantToDeleteItem.tr(),
           onConfirm: () async {
             final result = await itemService.deleteItem(item);
             if (result) {
               if (context.mounted) {
-                showToast(context, TempLanguage().lblItemDeletedSuccessfully);
+                showToast(context, LocaleKeys.itemDeletedSuccessfully.tr());
               }
             } else {
               if (context.mounted) {
-                showToast(context, TempLanguage().lblSomethingWentWrong);
+                showToast(context, LocaleKeys.somethingWentWrong.tr());
               }
             }
           },
@@ -104,16 +106,16 @@ class ItemsTab extends StatelessWidget {
     final pricingCategoryTypeCubit = context.read<PricingCategoryCubit>();
 
     foodTypeCubit.loadFromFirebase();
-    itemCubit.titleController.text = item.title ?? '';
-    itemCubit.descriptionController.text = item.description ?? '';
+    itemCubit.titleController.text = item.translatedTitle?[LANGUAGE] as String? ?? '';
+    itemCubit.descriptionController.text = item.translatedDes?[LANGUAGE] as String? ?? '';
     itemCubit.foodTypeController.text = item.foodType ?? '';
     itemCubit.actualPriceController.text = item.actualPrice.toString() ?? '';
     itemCubit.discountedPriceController.text = item.discountedPrice.toString() ?? '';
     itemCubit.id = item.id ?? '';
     itemCubit.createdAt = item.createdAt ?? Timestamp.now();
-    itemCubit.smallItemTitleController.text = item.smallItemTitle ?? '';
-    itemCubit.mediumItemTitleController.text = item.mediumItemTitle ?? '';
-    itemCubit.largeItemTitleController.text = item.largeItemTitle ?? '';
+    itemCubit.smallItemTitleController.text = item.translatedST?[LANGUAGE] as String? ?? '';
+    itemCubit.mediumItemTitleController.text = item.translatedMT?[LANGUAGE] as String? ?? '';
+    itemCubit.largeItemTitleController.text = item.translatedLT?[LANGUAGE] as String? ?? '';
     itemCubit.smallItemActualPriceController.text = item.smallItemActualPrice.toString() ?? '';
     itemCubit.mediumItemActualPriceController.text = item.mediumItemActualPrice.toString() ?? '';
     itemCubit.largeItemActualPriceController.text = item.largeItemActualPrice.toString() ?? '';
@@ -127,7 +129,7 @@ class ItemsTab extends StatelessWidget {
       foodTypeCubit.defaultValue = itemCubit.foodTypeController.text;
     } else {
       foodTypeExpandedCubit.collapse();
-      foodTypeCubit.defaultValue = TempLanguage().lblSelect;
+      foodTypeCubit.defaultValue = LocaleKeys.select.tr();
     }
 
     if (itemCubit.smallItemTitleController.text.isNotEmpty) {

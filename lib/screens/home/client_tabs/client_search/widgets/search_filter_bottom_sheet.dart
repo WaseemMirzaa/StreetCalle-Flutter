@@ -1,14 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/screens/auth/widgets/custom_text_field.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/my_sizer.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/cubit/apply_filter_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/cubit/filter_cubit.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class SearchFilterBottomSheet extends StatelessWidget {
   const SearchFilterBottomSheet({Key? key}) : super(key: key);
@@ -34,7 +35,7 @@ class SearchFilterBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    TempLanguage().lblFilter,
+                    LocaleKeys.filter.tr(),
                     style: context.currentTextTheme.labelLarge,
                   ),
                   InkWell(
@@ -48,7 +49,7 @@ class SearchFilterBottomSheet extends StatelessWidget {
                       context.pop();
                     },
                     child: Text(
-                      TempLanguage().lblReset,
+                      LocaleKeys.reset.tr(),
                       style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor),
                     ),
                   ),
@@ -62,7 +63,7 @@ class SearchFilterBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    TempLanguage().lblPrice,
+                    LocaleKeys.price.tr(),
                     style: context.currentTextTheme.labelLarge,
                   ),
                   // Text(
@@ -81,7 +82,7 @@ class SearchFilterBottomSheet extends StatelessWidget {
                       controller: applyFilterCubit.minPriceController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        hintText: TempLanguage().lblMinimumPrice,
+                        hintText: LocaleKeys.minimumPrice.tr(),
                         hintStyle: context.currentTextTheme.displaySmall?.copyWith(fontSize: 16, color: AppColors.secondaryFontColor),
                         contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
                         filled: true,
@@ -100,7 +101,7 @@ class SearchFilterBottomSheet extends StatelessWidget {
                         controller: applyFilterCubit.maxPriceController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          hintText: TempLanguage().lblMaximumPrice,
+                          hintText: LocaleKeys.maximumPrice.tr(),
                           hintStyle: context.currentTextTheme.displaySmall?.copyWith(fontSize: 16, color: AppColors.secondaryFontColor),
                           contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
                           filled: true,
@@ -123,7 +124,7 @@ class SearchFilterBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    TempLanguage().lblDistance,
+                    LocaleKeys.distance.tr(),
                     style: context.currentTextTheme.labelLarge,
                   ),
                   // Text(
@@ -142,7 +143,7 @@ class SearchFilterBottomSheet extends StatelessWidget {
                         controller: applyFilterCubit.distanceController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          hintText: TempLanguage().lblDistance,
+                          hintText: LocaleKeys.distance.tr(),
                           hintStyle: context.currentTextTheme.displaySmall?.copyWith(fontSize: 16, color: AppColors.secondaryFontColor),
                           contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
                           filled: true,
@@ -156,7 +157,7 @@ class SearchFilterBottomSheet extends StatelessWidget {
                       )
                   ),
                   const SizedBox(width: 16,),
-                  Text(TempLanguage().lblMiles),
+                  Text(LocaleKeys.miles.tr()),
                   const Spacer(),
                 ],
               ),
@@ -167,7 +168,7 @@ class SearchFilterBottomSheet extends StatelessWidget {
               SizedBox(
                 width: ContextExtension(context).width,
                 child: AppButton(
-                  text: TempLanguage().lblApply,
+                  text: LocaleKeys.apply.tr(),
                   elevation: 0.0,
                   enabled: !userCubit.state.isGuest,
                   disabledColor: AppColors.greyColor,

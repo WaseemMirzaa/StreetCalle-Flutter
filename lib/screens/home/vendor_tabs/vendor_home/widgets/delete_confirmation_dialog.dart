@@ -1,6 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class DeleteConfirmationDialog extends StatelessWidget {
   final Function onConfirm; // Callback function to execute when the user confirms deletion
@@ -23,14 +24,14 @@ class DeleteConfirmationDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop(); // Close the dialog
           },
-          child: Text(TempLanguage().lblCancel, style: const TextStyle(color: AppColors.redColor),),
+          child: Text(LocaleKeys.cancel.tr(), style: const TextStyle(color: AppColors.redColor),),
         ),
         TextButton(
           onPressed: () {
             onConfirm(); // Execute the delete action
             Navigator.of(context).pop(); // Close the dialog
           },
-          child: Text(TempLanguage().lblDelete),
+          child: Text(LocaleKeys.delete.tr()),
         ),
       ],
     );

@@ -3,6 +3,7 @@ import 'package:street_calle/models/item.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
+import 'package:street_calle/main.dart';
 
 class PricingWidget extends StatelessWidget {
   const PricingWidget({Key? key, required this.item}) : super(key: key);
@@ -33,7 +34,7 @@ class PricingWidget extends StatelessWidget {
               color: AppColors.chipColor,
               borderRadius: BorderRadius.circular(4)
           ),
-          child: Text('${item.smallItemTitle}', style: const TextStyle(fontSize: 12),),
+          child: Text('${item.translatedST?[LANGUAGE] as String? ?? ''}', style: const TextStyle(fontSize: 12),),
         ),
       ],
     )
@@ -53,7 +54,7 @@ class PricingWidget extends StatelessWidget {
               color: AppColors.chipColor,
               borderRadius: BorderRadius.circular(4)
           ),
-          child: Text('${item.smallItemTitle}', style: const TextStyle(fontSize: 12),),
+          child: Text('${item.translatedST?[LANGUAGE] as String? ?? ''}', style: const TextStyle(fontSize: 12),),
         ),
       ],
     )

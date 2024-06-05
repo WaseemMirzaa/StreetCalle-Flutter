@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,9 +8,9 @@ import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/auth/cubit/create_employee/create_employee_cubit.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class CreateLocationButton extends StatelessWidget {
   const CreateLocationButton({Key? key}) : super(key: key);
@@ -50,7 +51,7 @@ class CreateLocationButton extends StatelessWidget {
                   width: context.width,
                   height: defaultButtonSize,
                   child: AppButton(
-                    text: TempLanguage().lblAddNewLocation,
+                    text: LocaleKeys.addNewLocation.tr(),
                     elevation: 0.0,
                     onTap: () {
                       signUp(context);
@@ -87,17 +88,17 @@ class CreateLocationButton extends StatelessWidget {
     final categoryImage = userCubit.state.categoryImage;
 
     if (image.isEmpty) {
-      showToast(context, TempLanguage().lblSelectImage);
+      showToast(context, LocaleKeys.selectImage.tr());
     } else if (name.isEmpty) {
       if (name.length < 3) {
-        showToast(context, TempLanguage().lblEnterYourName);
+        showToast(context, LocaleKeys.enterYourName.tr());
       } else {
-        showToast(context, TempLanguage().lblNameMustBeGrater);
+        showToast(context, LocaleKeys.nameMustBeGrater.tr());
       }
     } else if (email.isEmpty || !email.validateEmailEnhanced()) {
-      showToast(context, TempLanguage().lblEnterYourEmail);
+      showToast(context, LocaleKeys.enterYourEmail.tr());
     }  else if (password.isEmpty || password.length < 6) {
-      showToast(context, TempLanguage().lblPasswordMustBeGreater);
+      showToast(context, LocaleKeys.passwordMustBeGreater.tr());
     } else {
       createEmployeeCubit.signUp(image, vendorId, employeeOwnerName, employeeOwnerImage, category, categoryImage).then((value) {
         //context.pushNamed(AppRoutingName.manageEmployee);

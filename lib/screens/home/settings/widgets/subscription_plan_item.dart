@@ -1,5 +1,7 @@
- import 'package:flutter/material.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+ import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
+
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 
@@ -60,7 +62,7 @@ class SubscriptionPlanItem extends StatelessWidget {
                 isSubscribed ? SizedBox(
                   height: 30,
                   child: Chip(
-                    label: Text(TempLanguage().lblActive, style: const TextStyle(color: Colors.white, fontSize: 14)),
+                    label: Text(LocaleKeys.active.tr(), style: const TextStyle(color: Colors.white, fontSize: 14)),
                     padding: EdgeInsets.zero,
                     shape: const StadiumBorder(),
                     side: BorderSide.none,
@@ -101,7 +103,7 @@ class SubscriptionPlanItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'Price : ',
+                  '${LocaleKeys.price.tr()} : ',
                   style: context.currentTextTheme.titleMedium?.copyWith(fontSize: 12, color: AppColors.primaryFontColor),
                 ),
                 Text(
@@ -122,7 +124,7 @@ class SubscriptionPlanItem extends StatelessWidget {
               children: [
                 Expanded(child:
                 Text(
-                    'Free Trial : 60 days',
+                    LocaleKeys.freeTrial.tr(),
                     style: context.currentTextTheme.labelSmall?.copyWith(fontSize: 12, color: AppColors.primaryFontColor)
                 )),
                 SizedBox(

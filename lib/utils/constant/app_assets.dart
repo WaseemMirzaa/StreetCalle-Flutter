@@ -55,4 +55,7 @@ class AppAssets {
   static const truckMarker = 'assets/images/box_truck.png';
   static const cargoTruckMarker = 'assets/images/cargo-truck.png';
   static const ambulanceMarker = 'assets/images/ambulance.png';
+
+  static const english = 'assets/images/english.png';
+  static const spanish = 'assets/images/spanish.png';
 }

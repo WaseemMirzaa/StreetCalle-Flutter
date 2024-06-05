@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/revenucat/singleton_data.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -51,6 +53,13 @@ class _SplashScreenState extends State<SplashScreen> {
         userCubit.setCategory(sharedPreferencesService.getStringAsync(SharePreferencesKey.CATEGORY));
         userCubit.setCategoryImage(sharedPreferencesService.getStringAsync(SharePreferencesKey.CATEGORY_IMAGE));
 
+        userCubit.setTranslatedCategory(sharedPreferencesService.getStringAsync(SharePreferencesKey.TRANSLATED_CATEGORY));
+
+        LANGUAGE = sharedPreferencesService.getStringAsync(SharePreferencesKey.LANGUAGE_VALUE) ?? 'en';
+        if (LANGUAGE.isEmpty) {
+          LANGUAGE = EasyLocalization.of(context)?.currentLocale?.languageCode ?? 'en';
+        }
+
         userCubit.setUsername(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_NAME));
         userCubit.setUserImage(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_IMAGE));
         userCubit.setUserPhone(sharedPreferencesService.getStringAsync(SharePreferencesKey.USER_NUMBER));
@@ -95,6 +104,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
       } else {
         context.goNamed(AppRoutingName.authScreen);
+        LANGUAGE = EasyLocalization.of(context)?.currentLocale?.languageCode ?? 'en';
       }
     });
   }

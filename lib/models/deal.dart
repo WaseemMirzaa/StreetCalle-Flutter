@@ -12,12 +12,16 @@ class Deal extends Equatable {
   final String? description;
   final String? foodType;
   final String? category;
+  final String? translatedCategory;
   final num? actualPrice;
   final num? discountedPrice;
   final Timestamp? createdAt;
   final Timestamp? updatedAt;
   final List<dynamic>? itemNames;
   final List<dynamic>? searchParam;
+  final Map<String, dynamic>? translatedDes;
+  final Map<String, dynamic>? translatedTitle;
+  //final Map<String, dynamic>? translatedFoodType;
 
 
 
@@ -34,7 +38,11 @@ class Deal extends Equatable {
     this.updatedAt,
     this.createdAt,
     this.itemNames,
-    this.searchParam
+    this.searchParam,
+    this.translatedDes,
+    this.translatedTitle,
+    this.translatedCategory,
+    //this.translatedFoodType
   });
 
   Deal copyWith({
@@ -44,13 +52,17 @@ class Deal extends Equatable {
     String? title,
     String? description,
     String? foodType,
+    //Map<String, dynamic>? translatedFoodType,
     String? category,
+    String? translatedCategory,
     num? actualPrice,
     num? discountedPrice,
     Timestamp? createdAt,
     Timestamp? updatedAt,
     List<dynamic>? itemNames,
     List<dynamic>? searchParam,
+    Map<String, dynamic>? translatedDes,
+    Map<String, dynamic>? translatedTitle
   }){
     return Deal(
         uid: uid ?? this.uid,
@@ -60,12 +72,16 @@ class Deal extends Equatable {
         description: description ?? this.description,
         foodType: foodType ?? this.foodType,
         category: category ?? this.category,
+        translatedCategory: translatedCategory ?? this.translatedCategory,
         actualPrice: actualPrice ?? this.actualPrice,
         discountedPrice: discountedPrice ?? this.discountedPrice,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         itemNames: itemNames ?? this.itemNames,
       searchParam: searchParam ?? this.searchParam,
+      translatedDes: translatedDes ?? this.translatedDes,
+      translatedTitle: translatedTitle ?? this.translatedTitle,
+      //translatedFoodType: translatedFoodType ?? this.translatedFoodType
     );
   }
 
@@ -77,13 +93,17 @@ class Deal extends Equatable {
       title: json[DealKey.TITLE],
       description: json[DealKey.DESCRIPTION],
       foodType: json[DealKey.FOOD_TYPE],
+     // translatedFoodType: json[DealKey.TRANSLATED_FOOD_TYPE],
       category: json[DealKey.CATEGORY],
+      translatedCategory: json[DealKey.TRANSLATED_CATEGORY],
       searchParam: json[DealKey.SEARCH_PARAM],
       createdAt: json[DealKey.CREATED_AT],
       updatedAt: json[DealKey.UPDATED_AT],
       actualPrice: json[DealKey.ACTUAL_PRICE],
       discountedPrice: json[DealKey.DISCOUNTED_PRICE],
       itemNames: json[DealKey.ITEM_NAME],
+      translatedDes: json['translatedDes'],
+      translatedTitle: json['translatedTitle']
     );
   }
 
@@ -96,7 +116,9 @@ class Deal extends Equatable {
     data[DealKey.DESCRIPTION] = description;
     data[DealKey.SEARCH_PARAM] = searchParam;
     data[DealKey.FOOD_TYPE] = foodType;
+   // data[DealKey.TRANSLATED_FOOD_TYPE] = translatedFoodType;
     data[DealKey.CATEGORY] = category;
+    data[DealKey.TRANSLATED_CATEGORY] = translatedCategory;
     data[DealKey.CREATED_AT] = createdAt;
     data[DealKey.UPDATED_AT] = updatedAt;
     data[DealKey.ACTUAL_PRICE] = actualPrice;

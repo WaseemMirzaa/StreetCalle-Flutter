@@ -16,12 +16,10 @@ import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/custom_widgets/own_show_confirm_dialog.dart';
-
 import 'package:street_calle/revenucat/revenu_cat_api.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
-
 import 'package:street_calle/generated/locale_keys.g.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+
 
 class AgencyPlans extends StatelessWidget {
   final Offering? newAgencyOffers;
@@ -113,6 +111,8 @@ class AgencyPlans extends StatelessWidget {
                                   dialogType: DialogType.CONFIRMATION,
                                   primaryColor: AppColors.primaryColor,
                                   barrierDismissible: false,
+                                  positiveText: LocaleKeys.ok.tr(),
+                                  negativeText: LocaleKeys.cancel.tr(),
                                   onAccept: (ctx){
                                     Navigator.pop(ctx);
                                     RevenuCatAPI.cancelSubscription();
@@ -153,14 +153,16 @@ class AgencyPlans extends StatelessWidget {
                           }
                           else {
                             ownShowConfirmDialogCustom(context,
-                                title: TempLanguage().lblSubscribe,
-                                subTitle: TempLanguage().lblSubscribeInfo,
-                                positiveText: TempLanguage().lblOk,
+                                title: LocaleKeys.subscribe.tr(),
+                                subTitle: LocaleKeys.subscribeInfo.tr(),
+                                positiveText: LocaleKeys.ok.tr(),
                                 price: myProducts[index].storeProduct.priceString,
                                 des: myProducts[index].storeProduct.presentedOfferingContext?.offeringIdentifier,
                                 duration: myProducts[index]
                                     .storeProduct
-                                    .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
+                                    .subscriptionPeriod!.toString() == 'P1M'
+                                    ? LocaleKeys.oneMonth.tr()
+                                    : LocaleKeys.oneYear .tr(),
                                 cancelable: false,
                                 dialogType: CustomDialogType.CONFIRMATION,
                                 primaryColor: AppColors.primaryColor,
@@ -189,7 +191,7 @@ class AgencyPlans extends StatelessWidget {
                 ),
               );
             })
-            : Center(child: Text(TempLanguage().lblNoSubscriptionFound),),
+            : Center(child: Text(LocaleKeys.noSubscriptionFound.tr()),),
 
         const SizedBox(
           height: 18,
@@ -216,7 +218,9 @@ class AgencyPlans extends StatelessWidget {
                           .description, //TempLanguage().lblIndividualStarterDes,
                       subtitle: myProducts[index]
                           .storeProduct
-                          .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear, //TempLanguage().lblOneMonth,
+                          .subscriptionPeriod!.toString() == 'P1M'
+                          ? LocaleKeys.oneMonth.tr()
+                          : LocaleKeys.oneYear.tr(), //TempLanguage().lblOneMonth,
                       isSubscribed: index == 0
                           ? AppData().entitlementIsActive
                           ? 'intermediate_agency_starter_v1' ==
@@ -229,26 +233,28 @@ class AgencyPlans extends StatelessWidget {
                       buttonText: index == 0
                           ? AppData().entitlementIsActive
                           ? AppData().entitlement == 'intermediate_agency_starter_v1'
-                          ? TempLanguage().lblCancel
-                          : TempLanguage().lblUpdate
-                          : TempLanguage().lblSubscribe
+                          ? LocaleKeys.cancel.tr()
+                          : LocaleKeys.update.tr()
+                          : LocaleKeys.subscribe.tr()
                           : AppData().entitlementIsActive
                           ? AppData().entitlement == 'intermediate_agency_growth_v1'
-                          ? TempLanguage().lblCancel
-                          : TempLanguage().lblUpdate
-                          : TempLanguage().lblSubscribe,
+                          ? LocaleKeys.cancel.tr()
+                          : LocaleKeys.update.tr()
+                          : LocaleKeys.subscribe.tr(),
                       onTap: () async {
                         try {
                           if (AppData().entitlementIsActive) {
                             if (AppData().entitlement == myProducts[index].storeProduct.identifier.split(':')[0]) {
                               showConfirmDialogCustom(
                                   context,
-                                  title: TempLanguage().lblCancelSubscription,
-                                  subTitle: TempLanguage().lblCancelSubscriptionInfo,
+                                  title: LocaleKeys.cancelSubscription.tr(),
+                                  subTitle: LocaleKeys.cancelSubscriptionInfo.tr(),
                                   cancelable: false,
                                   dialogType: DialogType.CONFIRMATION,
                                   primaryColor: AppColors.primaryColor,
                                   barrierDismissible: false,
+                                  positiveText: LocaleKeys.ok.tr(),
+                                  negativeText: LocaleKeys.cancel.tr(),
                                   onAccept: (ctx){
                                     Navigator.pop(ctx);
                                     RevenuCatAPI.cancelSubscription();
@@ -260,14 +266,16 @@ class AgencyPlans extends StatelessWidget {
                               );
                             } else {
                               ownShowConfirmDialogCustom(context,
-                                  title: TempLanguage().lblSubscribe,
-                                  subTitle: TempLanguage().lblSubscribeInfo,
-                                  positiveText: TempLanguage().lblOk,
+                                  title: LocaleKeys.subscribe.tr(),
+                                  subTitle: LocaleKeys.subscribeInfo.tr(),
+                                  positiveText: LocaleKeys.ok.tr(),
                                   price: myProducts[index].storeProduct.priceString,
                                   des: myProducts[index].storeProduct.presentedOfferingContext?.offeringIdentifier,
                                   duration: myProducts[index]
                                       .storeProduct
-                                      .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
+                                      .subscriptionPeriod!.toString() == 'P1M'
+                                      ? LocaleKeys.oneMonth.tr()
+                                      : LocaleKeys.oneYear.tr(),
                                   cancelable: false,
                                   isUpdateSubscription: true,
                                   dialogType: CustomDialogType.CONFIRMATION,
@@ -287,14 +295,16 @@ class AgencyPlans extends StatelessWidget {
                           }
                           else {
                             ownShowConfirmDialogCustom(context,
-                                title: TempLanguage().lblSubscribe,
-                                subTitle: TempLanguage().lblSubscribeInfo,
-                                positiveText: TempLanguage().lblOk,
+                                title: LocaleKeys.subscribe.tr(),
+                                subTitle: LocaleKeys.subscribeInfo.tr(),
+                                positiveText: LocaleKeys.ok.tr(),
                                 price: myProducts[index].storeProduct.priceString,
                                 des: myProducts[index].storeProduct.presentedOfferingContext?.offeringIdentifier,
                                 duration: myProducts[index]
                                     .storeProduct
-                                    .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
+                                    .subscriptionPeriod!.toString() == 'P1M'
+                                    ? LocaleKeys.oneMonth.tr()
+                                    : LocaleKeys.oneYear.tr(),
                                 cancelable: false,
                                 dialogType: CustomDialogType.CONFIRMATION,
                                 primaryColor: AppColors.primaryColor,
@@ -350,7 +360,9 @@ class AgencyPlans extends StatelessWidget {
                           .description, //TempLanguage().lblIndividualStarterDes,
                       subtitle: myProducts[index]
                           .storeProduct
-                          .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear, //TempLanguage().lblOneMonth,
+                          .subscriptionPeriod!.toString() == 'P1M'
+                          ? LocaleKeys.oneMonth.tr()
+                          : LocaleKeys.oneYear.tr(), //TempLanguage().lblOneMonth,
                       isSubscribed: index == 0
                           ? AppData().entitlementIsActive
                           ? 'establish_agency_starter_v1' ==
@@ -363,14 +375,14 @@ class AgencyPlans extends StatelessWidget {
                       buttonText: index == 0
                           ? AppData().entitlementIsActive
                           ? AppData().entitlement == 'establish_agency_starter_v1'
-                          ? TempLanguage().lblCancel
-                          : TempLanguage().lblUpdate
-                          : TempLanguage().lblSubscribe
+                          ? LocaleKeys.cancel.tr()
+                          : LocaleKeys.update.tr()
+                          : LocaleKeys.subscribe.tr()
                           : AppData().entitlementIsActive
                           ? AppData().entitlement == 'establish_agency_growth_v1'
-                          ? TempLanguage().lblCancel
-                          : TempLanguage().lblUpdate
-                          : TempLanguage().lblSubscribe,
+                          ? LocaleKeys.cancel.tr()
+                          : LocaleKeys.update.tr()
+                          : LocaleKeys.subscribe.tr(),
                       onTap: () async {
                         print(myProducts[index].storeProduct.title);
 
@@ -380,12 +392,14 @@ class AgencyPlans extends StatelessWidget {
                             if (AppData().entitlement == myProducts[index].storeProduct.identifier.split(':')[0]) {
                               showConfirmDialogCustom(
                                   context,
-                                  title: TempLanguage().lblCancelSubscription,
-                                  subTitle: TempLanguage().lblCancelSubscriptionInfo,
+                                  title: LocaleKeys.cancelSubscription.tr(),
+                                  subTitle: LocaleKeys.cancelSubscriptionInfo.tr(),
                                   cancelable: false,
                                   dialogType: DialogType.CONFIRMATION,
                                   primaryColor: AppColors.primaryColor,
                                   barrierDismissible: false,
+                                  positiveText: LocaleKeys.ok.tr(),
+                                  negativeText: LocaleKeys.cancel.tr(),
                                   onAccept: (ctx){
                                     Navigator.pop(ctx);
                                     RevenuCatAPI.cancelSubscription();
@@ -397,14 +411,16 @@ class AgencyPlans extends StatelessWidget {
                               );
                             } else {
                               ownShowConfirmDialogCustom(context,
-                                  title: TempLanguage().lblSubscribe,
-                                  subTitle: TempLanguage().lblSubscribeInfo,
-                                  positiveText: TempLanguage().lblOk,
+                                  title: LocaleKeys.subscribe.tr(),
+                                  subTitle: LocaleKeys.subscribeInfo.tr(),
+                                  positiveText: LocaleKeys.ok.tr(),
                                   price: myProducts[index].storeProduct.priceString,
                                   des: myProducts[index].storeProduct.presentedOfferingContext?.offeringIdentifier,
                                   duration: myProducts[index]
                                       .storeProduct
-                                      .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
+                                      .subscriptionPeriod!.toString() == 'P1M'
+                                      ? LocaleKeys.oneMonth.tr()
+                                      : LocaleKeys.oneYear.tr(),
                                   cancelable: false,
                                   isUpdateSubscription: true,
                                   dialogType: CustomDialogType.CONFIRMATION,
@@ -424,14 +440,16 @@ class AgencyPlans extends StatelessWidget {
                           }
                           else {
                             ownShowConfirmDialogCustom(context,
-                                title: TempLanguage().lblSubscribe,
-                                subTitle: TempLanguage().lblSubscribeInfo,
-                                positiveText: TempLanguage().lblOk,
+                                title: LocaleKeys.subscribe.tr(),
+                                subTitle: LocaleKeys.subscribeInfo.tr(),
+                                positiveText: LocaleKeys.ok.tr(),
                                 price: myProducts[index].storeProduct.priceString,
                                 des: myProducts[index].storeProduct.presentedOfferingContext?.offeringIdentifier,
                                 duration: myProducts[index]
                                     .storeProduct
-                                    .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
+                                    .subscriptionPeriod!.toString() == 'P1M'
+                                    ? LocaleKeys.oneMonth.tr()
+                                    : LocaleKeys.oneYear.tr(),
                                 cancelable: false,
                                 dialogType: CustomDialogType.CONFIRMATION,
                                 primaryColor: AppColors.primaryColor,

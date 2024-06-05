@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 import 'package:street_calle/revenucat/revenu_cat_api.dart';
 import 'package:street_calle/revenucat/revenuecar_constants.dart';
 import 'package:street_calle/revenucat/singleton_data.dart';
@@ -18,7 +20,6 @@ import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/screens/home/settings/widgets/subscription_plan_item.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/utils/custom_widgets/own_show_confirm_dialog.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -72,7 +73,9 @@ class IndividualPlans extends StatelessWidget {
                           description: myProducts[index].storeProduct.description,
                           subtitle: myProducts[index]
                               .storeProduct
-                              .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear, //TempLanguage().lblOneMonth,
+                              .subscriptionPeriod!.toString() == 'P1M'
+                              ? LocaleKeys.oneMonth.tr()
+                              : LocaleKeys.oneYear.tr(), //TempLanguage().lblOneMonth,
                           isSubscribed: isSubscribed(index),
                           buttonText: getButtonText(index),
                           onTap: () {
@@ -81,12 +84,14 @@ class IndividualPlans extends StatelessWidget {
                                 if (AppData().entitlement == myProducts[index].storeProduct.identifier.split(':')[0]) {
                                   showConfirmDialogCustom(
                                     context,
-                                    title: TempLanguage().lblCancelSubscription,
-                                    subTitle: TempLanguage().lblCancelSubscriptionInfo,
+                                    title: LocaleKeys.cancelSubscription.tr(),
+                                    subTitle: LocaleKeys.cancelSubscriptionInfo.tr(),
                                     cancelable: false,
                                     dialogType: DialogType.CONFIRMATION,
                                     primaryColor: AppColors.primaryColor,
                                     barrierDismissible: false,
+                                    positiveText: LocaleKeys.ok.tr(),
+                                    negativeText: LocaleKeys.cancel.tr(),
                                     onAccept: (ctx){
                                       Navigator.pop(ctx);
                                       RevenuCatAPI.cancelSubscription();
@@ -98,14 +103,16 @@ class IndividualPlans extends StatelessWidget {
                                   );
                                 } else {
                                   ownShowConfirmDialogCustom(context,
-                                      title: TempLanguage().lblSubscribe,
-                                      subTitle: TempLanguage().lblSubscribeInfo,
-                                      positiveText: TempLanguage().lblOk,
+                                      title: LocaleKeys.subscribe.tr(),
+                                      subTitle: LocaleKeys.subscribeInfo.tr(),
+                                      positiveText: LocaleKeys.ok.tr(),
                                       price: myProducts[index].storeProduct.priceString,
                                       des: myProducts[index].storeProduct.presentedOfferingIdentifier,
                                       duration: myProducts[index]
                                           .storeProduct
-                                          .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
+                                          .subscriptionPeriod!.toString() == 'P1M'
+                                          ? LocaleKeys.oneMonth.tr()
+                                          : LocaleKeys.oneYear.tr(),
                                       cancelable: false,
                                       isUpdateSubscription: true,
                                       dialogType: CustomDialogType.CONFIRMATION,
@@ -125,14 +132,16 @@ class IndividualPlans extends StatelessWidget {
                               }
                               else {
                                 ownShowConfirmDialogCustom(context,
-                                    title: TempLanguage().lblSubscribe,
-                                    subTitle: TempLanguage().lblSubscribeInfo,
-                                    positiveText: TempLanguage().lblOk,
+                                    title: LocaleKeys.subscribe.tr(),
+                                    subTitle: LocaleKeys.subscribeInfo.tr(),
+                                    positiveText: LocaleKeys.ok.tr(),
                                     price: myProducts[index].storeProduct.priceString,
                                     des: myProducts[index].storeProduct.presentedOfferingIdentifier,
                                     duration: myProducts[index]
                                         .storeProduct
-                                        .subscriptionPeriod!.toString() == 'P1M'? TempLanguage().lblOneMonth:TempLanguage().lblOneYear,
+                                        .subscriptionPeriod!.toString() == 'P1M'
+                                        ? LocaleKeys.oneMonth.tr()
+                                        : LocaleKeys.oneYear.tr(),
                                     cancelable: false,
                                     dialogType: CustomDialogType.CONFIRMATION,
                                     primaryColor: AppColors.primaryColor,
@@ -161,7 +170,7 @@ class IndividualPlans extends StatelessWidget {
                     ),
                   );
                 })
-            : Center(child: Text(TempLanguage().lblNoSubscriptionFound),)
+            : Center(child: Text(LocaleKeys.noSubscriptionFound.tr()),)
       ],
     );
   }
@@ -195,21 +204,21 @@ class IndividualPlans extends StatelessWidget {
         ? AppData().entitlementIsActive
         ? Platform.isIOS
         ? AppData().entitlement == 'ind_starter_v2'
-        ? TempLanguage().lblCancel
-        : TempLanguage().lblUpdate
+        ? LocaleKeys.cancel.tr()
+        : LocaleKeys.update.tr()
         : AppData().entitlement == 'ind_starter_v1'
-        ? TempLanguage().lblCancel
-        : TempLanguage().lblUpdate
-        : TempLanguage().lblSubscribe
+        ? LocaleKeys.cancel.tr()
+        : LocaleKeys.update.tr()
+        : LocaleKeys.subscribe.tr()
         : AppData().entitlementIsActive
         ? Platform.isIOS
         ? AppData().entitlement == 'ind_growth_v2'
-        ? TempLanguage().lblCancel
-        : TempLanguage().lblUpdate
+        ? LocaleKeys.cancel.tr()
+        : LocaleKeys.update.tr()
         : AppData().entitlement == 'ind_growth_v1'
-        ? TempLanguage().lblCancel
-        : TempLanguage().lblUpdate
-        : TempLanguage().lblSubscribe;
+        ? LocaleKeys.cancel.tr()
+        : LocaleKeys.update.tr()
+        : LocaleKeys.subscribe.tr();
   }
 
 
@@ -259,7 +268,7 @@ class IndividualPlans extends StatelessWidget {
       case 'trialing':
         syncUserSubscriptionStatus(userService, userCubit, true,
             SubscriptionType.individual.name, planLookUpKey);
-        toast(TempLanguage().lblSubscribedSuccessfully);
+        //toast(TempLanguage().lblSubscribedSuccessfully);
         break;
       case 'active':
         syncUserSubscriptionStatus(userService, userCubit, true,
@@ -270,7 +279,7 @@ class IndividualPlans extends StatelessWidget {
       case 'canceled':
         syncUserSubscriptionStatus(
             userService, userCubit, false, SubscriptionType.none.name, '');
-        toast(TempLanguage().lblSubscriptionCancelledSuccessfully);
+       // toast(TempLanguage().lblSubscriptionCancelledSuccessfully);
         break;
       case 'unpaid':
         break;

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -5,7 +6,6 @@ import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
@@ -17,6 +17,7 @@ import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/widgets/no_data_found_widget.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee/employee_widget.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class ManageEmployeesScreen extends StatelessWidget {
   const ManageEmployeesScreen({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class ManageEmployeesScreen extends StatelessWidget {
           ),
         ),
         title: Text(
-          TempLanguage().lblManage,
+          LocaleKeys.manage.tr(),
           style: context.currentTextTheme.titleMedium
               ?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
@@ -61,7 +62,7 @@ class ManageEmployeesScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(TempLanguage().lblSomethingWentWrong),
+                        Text(LocaleKeys.somethingWentWrong.tr()),
                       ],
                     ),
                   );
@@ -98,7 +99,7 @@ class ManageEmployeesScreen extends StatelessWidget {
                 width: context.width,
                 height: defaultButtonSize,
                 child: AppButton(
-                  text: TempLanguage().lblCreateNewLocation,
+                  text: LocaleKeys.createNewLocation.tr(),
                   elevation: 0.0,
                   onTap: () async {
                     final imageCubit = context.read<ImageCubit>();
@@ -113,7 +114,7 @@ class ManageEmployeesScreen extends StatelessWidget {
                         context.pushNamed(AppRoutingName.createEmployeeProfileScreen);
                       } else {
                         if (!context.mounted) return;
-                        showToast(context, TempLanguage().lblForMoreEmployeesUpdatePlan);
+                        showToast(context, LocaleKeys.forMoreEmployeesUpdatePlan.tr());
                       }
 
                     } else if (userCubit.state.planLookUpKey == AgencyPlan.intermediate_agency_starter_v1.name
@@ -125,7 +126,7 @@ class ManageEmployeesScreen extends StatelessWidget {
                         context.pushNamed(AppRoutingName.createEmployeeProfileScreen);
                       } else {
                         if (!context.mounted) return;
-                        showToast(context, TempLanguage().lblForMoreEmployeesUpdatePlan);
+                        showToast(context, LocaleKeys.forMoreEmployeesUpdatePlan.tr());
                       }
 
                     } else if (userCubit.state.planLookUpKey == AgencyPlan.establish_agency_starter_v1.name

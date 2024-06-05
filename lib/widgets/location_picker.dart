@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,9 +13,9 @@ import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/location_utils.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/screens/home/client_tabs/client_search/cubit/filter_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class LocationPicker extends StatefulWidget {
   const LocationPicker({Key? key, required this.position}) : super(key: key);
@@ -222,7 +223,7 @@ class _LocationPickerState extends State<LocationPicker> {
                               width: ContextExtension(context).width,
                               height: defaultButtonSize,
                               child: AppButton(
-                                text: TempLanguage().lblSelect,
+                                text: LocaleKeys.select.tr(),
                                 elevation: 0.0,
                                 enabled: !userCubit.state.isGuest,
                                 onTap: () {

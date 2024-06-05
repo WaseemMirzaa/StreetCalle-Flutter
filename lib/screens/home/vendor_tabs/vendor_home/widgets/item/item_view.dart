@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/pricing_widget.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/models/item.dart';
@@ -79,7 +80,7 @@ class ItemView extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(item.title.capitalizeEachFirstLetter() ?? '',
+              Text((item.translatedTitle?[LANGUAGE] as String?).capitalizeEachFirstLetter() ?? '',
                 style: const TextStyle(
                     fontFamily: METROPOLIS_BOLD,
                     fontSize: 23,

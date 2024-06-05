@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 import 'package:street_calle/revenucat/singleton_data.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/show_all_items.dart';
@@ -12,7 +14,6 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/manage
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/screens/home/profile/cubit/profile_status_cubit.dart';
 import 'package:street_calle/widgets/search_field.dart';
@@ -108,7 +109,7 @@ class _VendorHomeTabState extends State<VendorHomeTab> {
           BlocBuilder<ProfileStatusCubit, bool>(
             builder: (context, state) {
               return Text(
-                state ? TempLanguage().lblOnline : TempLanguage().lblOffline,
+                state ? LocaleKeys.online.tr() : LocaleKeys.offline.tr(),
                 style: const TextStyle(
                   // fontFamily: RIFTSOFT,
                   fontSize: 18,
@@ -153,7 +154,7 @@ class _VendorHomeTabState extends State<VendorHomeTab> {
                   height: 2,
                 ),
                 Text(
-                  '${TempLanguage().lblHello} ${context.read<UserCubit>().state.userName.capitalizeEachFirstLetter()}!',
+                  '${LocaleKeys.hello.tr()} ${context.read<UserCubit>().state.userName.capitalizeEachFirstLetter()}!',
                   textAlign: TextAlign.center,
                   style: context.currentTextTheme.titleMedium
                       ?.copyWith(fontSize: 20, color: AppColors.primaryFontColor),
@@ -170,7 +171,7 @@ class _VendorHomeTabState extends State<VendorHomeTab> {
                   height: 16,
                 ),
                 SearchField(
-                  hintText: TempLanguage().lblSearchItemDeal,
+                  hintText: LocaleKeys.searchItemDeal.tr(),
                   padding: const EdgeInsets.symmetric(horizontal: 40.0),
                   onChanged: (String? value) => _searchQuery(context, value),
                 ),

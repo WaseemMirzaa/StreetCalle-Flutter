@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/models/user.dart';
@@ -15,9 +17,9 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/widgets/image_widget.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class AddEmployeeMenuItemsScreen extends StatefulWidget {
   final User? user;
@@ -75,7 +77,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
             ),
           ),
           title: Text(
-            TempLanguage().lblAddMenuItems,
+            LocaleKeys.addMenuItems.tr(),
             style: context.currentTextTheme.titleMedium
                 ?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
           ),
@@ -93,8 +95,8 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                     labelStyle: context.currentTextTheme.displaySmall,
                     unselectedLabelStyle: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryFontColor),
                     tabs:  [
-                      Tab(text: TempLanguage().lblItems),
-                      Tab(text: TempLanguage().lblDeals),
+                      Tab(text: LocaleKeys.items.tr()),
+                      Tab(text: LocaleKeys.deals.tr()),
                     ],
                   ),
                 ),
@@ -113,7 +115,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                               child:  Column(
                                 mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(TempLanguage().lblNoDataFound),
+                                  Text(LocaleKeys.noDataFound.tr()),
                                 ],
                               ),
                             );
@@ -124,7 +126,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(TempLanguage().lblSomethingWentWrong),
+                                    Text(LocaleKeys.somethingWentWrong.tr()),
                                   ],
                                 ),
                               );
@@ -135,7 +137,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                             List<Item> items = snapshot.data ?? [];
                             if(items.isEmpty){
                               return  Center(
-                                  child: Text(TempLanguage().lblNoDataFound)
+                                  child: Text(LocaleKeys.noDataFound.tr())
                               );
                             }
                             else {
@@ -190,7 +192,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                             Expanded(
                                                               flex: 2,
                                                               child: Text(
-                                                                itemData.title!.capitalizeEachFirstLetter(),
+                                                                (itemData.translatedTitle?[LANGUAGE] as String?).capitalizeEachFirstLetter(),
                                                                 style: const TextStyle(
                                                                   fontSize: 23,
                                                                   fontFamily: METROPOLIS_BOLD,
@@ -252,7 +254,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                             }
                           }})
 
-                        : Center(child: Text(TempLanguage().lblNoDataFound),),
+                        : Center(child: Text(LocaleKeys.noDataFound.tr()),),
 
                     /// Deals tab bar
                     widget.user!.vendorId?.isNotEmpty ?? false ?
@@ -265,7 +267,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                               child:  Column(
                                 mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(TempLanguage().lblNoDataFound),
+                                  Text(LocaleKeys.noDataFound.tr()),
                                 ],
                               ),
                             );
@@ -276,7 +278,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(TempLanguage().lblSomethingWentWrong),
+                                    Text(LocaleKeys.somethingWentWrong.tr()),
                                   ],
                                 ),
                               );
@@ -287,7 +289,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                             List<Deal> deals = snapshot.data ?? [];
                             if(deals.isEmpty){
                               return  Center(
-                                  child: Text(TempLanguage().lblNoDataFound)
+                                  child: Text(LocaleKeys.noDataFound.tr())
                               );
                             }
                             else {
@@ -336,7 +338,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                                                             Expanded(
                                                               flex: 2,
                                                               child: Text(
-                                                                dealData.title!.capitalizeEachFirstLetter(),
+                                                                  (dealData.translatedTitle?[LANGUAGE] as String?).capitalizeEachFirstLetter(),
                                                                 style: const TextStyle(
                                                                   fontSize: 23,
                                                                   fontFamily: METROPOLIS_BOLD,
@@ -397,7 +399,7 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                             }
                           }})
 
-                        : Center(child: Text(TempLanguage().lblNoDataFound),),
+                        : Center(child: Text(LocaleKeys.noDataFound.tr()),),
                   ],
                 ),
               ),
@@ -423,12 +425,12 @@ class _AddEmployeeMenuItemsScreenState extends State<AddEmployeeMenuItemsScreen>
                         ],
                       ); // Show a loading indicator
                     } else if (state == MenuState.loaded) {
-                      return Text(TempLanguage().lblMenuUpdatedSuccessfully);
+                      return Text(LocaleKeys.menuUpdatedSuccessfully.tr());
                     } else if (state == MenuState.error) {
-                      return Text(TempLanguage().lblErrorOccurred);
+                      return Text(LocaleKeys.errorOccurred.tr());
                     }else{
                       return AppButton(
-                        text: TempLanguage().lblAddMenuItems,
+                        text: LocaleKeys.addMenuItems.tr(),
                         elevation: 0.0,
                         onTap: ()async {
                           context.read<MenuCubit>().emit(MenuState.loading);

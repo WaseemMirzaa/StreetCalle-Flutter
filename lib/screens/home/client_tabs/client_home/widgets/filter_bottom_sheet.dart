@@ -1,11 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart' hide ContextExtensions;
 import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/my_sizer.dart';
+
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   const FilterBottomSheet({Key? key}) : super(key: key);
@@ -36,7 +38,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 height: 20,
               ),
               Text(
-                TempLanguage().lblSelectFoodType,
+                LocaleKeys.selectFoodType.tr(),
                 style: context.currentTextTheme.labelLarge,
               ),
 
@@ -53,7 +55,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       });
                     },
                     child: Chip(
-                      label: Text(TempLanguage().lblWesternFood, style: context.currentTextTheme.displaySmall,),
+                      label: Text(LocaleKeys.westernFood.tr(), style: context.currentTextTheme.displaySmall,),
                       backgroundColor: _foodType == FoodType.western ? AppColors.primaryLightColor : AppColors.chipBackgroundColor,
                       side: BorderSide.none,
                     ),
@@ -65,7 +67,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       });
                     },
                     child: Chip(
-                      label: Text(TempLanguage().lblChineseFood, style: context.currentTextTheme.displaySmall,),
+                      label: Text(LocaleKeys.chineseFood.tr(), style: context.currentTextTheme.displaySmall,),
                       backgroundColor: _foodType == FoodType.chinese ? AppColors.primaryLightColor : AppColors.chipBackgroundColor,
                       side: BorderSide.none,
                     ),
@@ -77,7 +79,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       });
                     },
                     child: Chip(
-                      label: Text(TempLanguage().lblItalianFood, style: context.currentTextTheme.displaySmall,),
+                      label: Text(LocaleKeys.italianFood.tr(), style: context.currentTextTheme.displaySmall,),
                       backgroundColor: _foodType == FoodType.italian ? AppColors.primaryLightColor : AppColors.chipBackgroundColor,
                       side: BorderSide.none,
                     ),
@@ -93,7 +95,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    TempLanguage().lblFilter,
+                    LocaleKeys.filter.tr(),
                     style: context.currentTextTheme.labelLarge,
                   ),
                   InkWell(
@@ -103,7 +105,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       context.pop();
                     },
                     child: Text(
-                      TempLanguage().lblReset,
+                      LocaleKeys.reset.tr(),
                       style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor),
                     ),
                   ),
@@ -117,11 +119,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    TempLanguage().lblPrice,
+                    LocaleKeys.price.tr(),
                     style: context.currentTextTheme.labelLarge,
                   ),
                   Text(
-                    TempLanguage().lblSetManually,
+                    LocaleKeys.setManually.tr(),
                     style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor),
                   ),
                 ],
@@ -160,11 +162,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    TempLanguage().lblDistanceTime,
+                    LocaleKeys.distanceTime.tr(),
                     style: context.currentTextTheme.labelLarge,
                   ),
                   Text(
-                    TempLanguage().lblSetManually,
+                    LocaleKeys.setManually.tr(),
                     style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor),
                   ),
                 ],
@@ -172,7 +174,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               Row(
                 children: [
                   Text(
-                      '${_distanceRangeValues.start.round().toString()} ${TempLanguage().lblMins}'
+                      '${_distanceRangeValues.start.round().toString()} ${LocaleKeys.mins.tr()}'
                   ),
                   Expanded(
                     child: RangeSlider(
@@ -192,7 +194,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     ),
                   ),
                   Text(
-                      '${_distanceRangeValues.end.round().toString()} ${TempLanguage().lblMins}'
+                      '${_distanceRangeValues.end.round().toString()} ${LocaleKeys.mins.tr()}'
                   ),
                 ],
               ),
@@ -203,7 +205,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               SizedBox(
                 width: context.width,
                 child: AppButton(
-                  text: TempLanguage().lblApply,
+                  text: LocaleKeys.apply.tr(),
                   elevation: 0.0,
                   onTap: () {
                     // context.read<ApplyFilterCubit>().applyFilter();

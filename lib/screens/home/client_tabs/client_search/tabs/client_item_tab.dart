@@ -1,10 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/models/item.dart';
 import 'package:street_calle/services/item_service.dart';
@@ -20,6 +22,7 @@ import 'package:street_calle/models/drop_down_item.dart';
 import 'package:street_calle/services/category_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/screens/selectUser/widgets/drop_down_widget.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class ClientItemTab extends StatelessWidget {
   const ClientItemTab({Key? key}) : super(key: key);
@@ -36,7 +39,7 @@ class ClientItemTab extends StatelessWidget {
     return Column(
       children: [
         SearchField(
-          hintText: TempLanguage().lblSearchItems,
+          hintText: LocaleKeys.searchItems.tr(),
           padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
           onChanged: (String? value) => _searchQuery(context, value),
         ),
@@ -54,7 +57,8 @@ class ClientItemTab extends StatelessWidget {
                 List<DropDownItem> category = [];
                 snapshot.data?.forEach((element) {
                   final dropDown = DropDownItem(
-                      title: element[CategoryKey.TITLE],
+                      title: LANGUAGE == 'en' ? element[CategoryKey.TITLE] : element[CategoryKey.TRANSLATED_TITLE],
+                      translatedTitle: element[CategoryKey.TRANSLATED_TITLE],
                       icon: Image.network(element[CategoryKey.ICON], width: 18, height: 18,),
                       url: element[CategoryKey.ICON]
                   );
@@ -86,11 +90,11 @@ class ClientItemTab extends StatelessWidget {
                 );
               } else if (snapshot.hasError) {
                 return Center(
-                  child: Text(TempLanguage().lblSomethingWentWrong),
+                  child: Text(LocaleKeys.somethingWentWrong.tr()),
                 );
               }
               return Center(
-                child: Text(TempLanguage().lblSomethingWentWrong),
+                child: Text(LocaleKeys.somethingWentWrong.tr()),
               );
             },
           ),
@@ -181,9 +185,12 @@ class ItemsWidget extends StatelessWidget {
             List<Item> items = [];
             List<User> users = [];
 
-            if (filterString != defaultVendorFilter) {
+            final filter = LANGUAGE == 'en' ? 'All' : 'Todo';
+            if (filterString != filter) {
               items = itemsList.where((item) {
-                final category = item.category?.toLowerCase().trim() ?? '';
+                final category = LANGUAGE == 'en'
+                    ? item.category?.toLowerCase().trim() ?? ''
+                    : item.translatedCategory?.toLowerCase().trim() ?? '';
                 return category.contains(filterString.toLowerCase().trim());
               }).toList();
 
@@ -204,7 +211,7 @@ class ItemsWidget extends StatelessWidget {
 
             if (state.isNotEmpty) {
               items = itemsList.where((item) {
-                final itemName = item.title!.toLowerCase();
+                final itemName = (item.translatedTitle?[LANGUAGE] as String? ?? '').toLowerCase();
                 return itemName.contains(state.toLowerCase());
               }).toList();
 

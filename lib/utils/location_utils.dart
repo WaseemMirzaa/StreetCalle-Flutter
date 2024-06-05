@@ -1,15 +1,16 @@
 
 import 'package:background_location/background_location.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:geocoding/geocoding.dart' hide Location;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/services/shared_preferences_service.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'dart:math' show atan2, cos, sin, sqrt, pi;
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class LocationUtils {
 
@@ -20,7 +21,6 @@ class LocationUtils {
     LocationPermission permission;
 
     var a = await Geolocator.getCurrentPosition();
-    print('This is Longitude : ${a.longitude} iiiiiiiiiiiiiiiiiiiiiiiiiii' );
     return a;
   }
 
@@ -39,7 +39,7 @@ class LocationUtils {
     // If last known position is not available, wait for the current position
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      toast(TempLanguage().lblEnableLocationService);
+      toast(LocaleKeys.enableLocationService.tr());
       // You might want to handle this case appropriately
     }
 
@@ -96,8 +96,8 @@ class LocationUtils {
   static Future<void> getBackgroundLocation() async {
 
     await BackgroundLocation.setAndroidNotification(
-      title: TempLanguage().lblBackgroundServiceIsRunning,
-      message: TempLanguage().lblBackgroundLocationInProgress,
+      title: LocaleKeys.backgroundServiceIsRunning.tr(),
+      message: LocaleKeys.backgroundLocationInProgress.tr(),
       icon: '@mipmap/ic_launcher',
     );
 
@@ -144,7 +144,7 @@ class LocationUtils {
         String address = '${placeMark.name}, ${placeMark.locality}, ${placeMark.administrativeArea}';
         return address;
       } else {
-        return TempLanguage().lblAddressNotFound;
+        return LocaleKeys.addressNotFound.tr();
       }
     } catch (e) {
       return null;
@@ -161,7 +161,7 @@ class LocationUtils {
         String address = '${placeMark.name}, ${placeMark.locality}, ${placeMark.administrativeArea}';
         return address;
       } else {
-        return TempLanguage().lblAddressNotFound;
+        return LocaleKeys.addressNotFound.tr();
       }
     } catch (e) {
       return null;

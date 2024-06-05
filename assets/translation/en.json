@@ -250,5 +250,20 @@
   "terms": "Terms of Use",
   "and": " and ",
   "privacypolicy": "Privacy Policy",
-  "acceptTermOfUse": "Please Accept the Terms of Use and Privacy Policy to sign up"
+  "acceptTermOfUse": "Please Accept the Terms of Use and Privacy Policy to sign up",
+  "selectLanguage": "Select Language",
+  "freeTrial": "Free Trial : 60 days",
+  "enjoyFreeDays": "Enjoy a free 60-day trial on all plans with full access to all features of subscribed plan.",
+  "afterTrialPeriod": "After the trial period, you will be automatically enrolled in a paid subscription.",
+  "cancelAnyTime": "You can cancel anytime during the trial period at no charge.",
+  "enjoyFreeDays2": "Enjoy a free 60-day trial with full access to all features of this plan.",
+  "autoRenewSubscription": "Subscription will auto-renew unless canceled.",
+  "singleLocation": "Get access to a single location.",
+  "twoThreeLocation": "Get access to 2-3 locations.",
+  "fourNineLocation": "Get access to 4-9 locations.",
+  "unlimitedLocation": "Get access to unlimited locations.",
+  "accessLocation": "Get access to locations.",
+  "subscriptionCharge": "You will be charged {price}/{duration} for this subscription.",
+  "trialEndCharge": "You will be charged {price}/{duration} for this subscription after 60 days free trail.",
+  "restoreSubscription": "Restore Subscription"
 }

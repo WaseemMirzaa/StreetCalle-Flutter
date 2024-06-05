@@ -80,7 +80,7 @@ class AddItemCubit extends Cubit<AddItemState> {
     largeItemDiscountedPriceController.clear();
   }
 
-  Future<void> addItem(String image, String category) async {
+  Future<void> addItem(String image, String category, String translatedCategory) async {
     emit(AddItemLoading());
 
     final item = Item(
@@ -95,6 +95,7 @@ class AddItemCubit extends Cubit<AddItemState> {
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
       category: category,
+      translatedCategory: translatedCategory,
       smallItemTitle: smallItemTitleController.text,
       mediumItemTitle: mediumItemTitleController.text,
       largeItemTitle: largeItemTitleController.text,
@@ -114,7 +115,7 @@ class AddItemCubit extends Cubit<AddItemState> {
     );
   }
 
-  Future<void> updateItem({required bool isUpdated,required String image, required String category}) async {
+  Future<void> updateItem({required bool isUpdated,required String image, required String category, required String translatedCategory}) async {
     emit(AddItemLoading());
 
     final item = Item(
@@ -128,6 +129,7 @@ class AddItemCubit extends Cubit<AddItemState> {
           ? parseNumeric(discountedPriceController.text)
           : defaultPrice,
         category: category,
+        translatedCategory: translatedCategory,
         createdAt: createdAt ?? Timestamp.now(),
         updatedAt: Timestamp.now(),
         smallItemTitle: smallItemTitleController.text,

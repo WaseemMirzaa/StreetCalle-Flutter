@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -10,7 +11,6 @@ import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/location_utils.dart';
@@ -18,6 +18,7 @@ import 'package:street_calle/models/user.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class ClientVendorProfile extends StatefulWidget {
   ClientVendorProfile({Key? key, required this.userId}) : super(key: key);
@@ -50,7 +51,7 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          TempLanguage().lblProfile,
+          LocaleKeys.profile.tr(),
           style: context.textTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
         titleSpacing: 0,
@@ -71,7 +72,7 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
             return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
           } else if (snap.hasError) {
             return Center(
-              child: Text(TempLanguage().lblSomethingWentWrong),
+              child: Text(LocaleKeys.somethingWentWrong.tr()),
             );
           } else {
             return FutureBuilder<User>(
@@ -94,7 +95,7 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              user.isOnline ? TempLanguage().lblOnline : TempLanguage().lblOffline,
+                              user.isOnline ? LocaleKeys.online.tr() : LocaleKeys.offline.tr(),
                               style: const TextStyle(
                                 fontSize: 18,
                               ),
@@ -137,7 +138,7 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
                         Align(
                           alignment: Alignment.center,
                           child: Text(
-                            '${TempLanguage().lblHiIts} ${user.employeeOwnerName.isEmptyOrNull ? user.name?.capitalizeEachFirstLetter() : user.employeeOwnerName!.capitalizeEachFirstLetter()}!',
+                            '${LocaleKeys.hiIts.tr()} ${user.employeeOwnerName.isEmptyOrNull ? user.name?.capitalizeEachFirstLetter() : user.employeeOwnerName!.capitalizeEachFirstLetter()}!',
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontFamily: METROPOLIS_BOLD,
@@ -149,7 +150,7 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
 
                         SizedBox(height: isAboutAvailable ? 30 : 0,),
                         isAboutAvailable ? Text(
-                          TempLanguage().lblAbout,
+                          LocaleKeys.about.tr(),
                           style: context.textTheme.displaySmall?.copyWith(color: AppColors.secondaryFontColor),
                         ) : const SizedBox.shrink(),
 
@@ -165,7 +166,7 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
 
                         const SizedBox(height: 15,),
                         Text(
-                          TempLanguage().lblLiveLocation,
+                          LocaleKeys.liveLocation.tr(),
                           style: context.textTheme.displaySmall?.copyWith(color: AppColors.secondaryFontColor),
                         ),
                         const SizedBox(height: 20,),
@@ -202,7 +203,7 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
                                         ),
                                       );
                                     }
-                                    return Center(child: Text(TempLanguage().lblSomethingWentWrong),);
+                                    return Center(child: Text(LocaleKeys.somethingWentWrong.tr()),);
                                   }
                               );
                             }
@@ -217,7 +218,7 @@ class _ClientVendorProfileState extends State<ClientVendorProfile> {
                                  context.pushNamed(AppRoutingName.vendorEmployeeMap, extra: user.uid);
                                },
                                child: Text(
-                                 TempLanguage().lblCheckLiveLocations,
+                                 LocaleKeys.checkLiveLocations.tr(),
                                  style: context.textTheme.displaySmall?.copyWith(
                                   color: AppColors.primaryColor,
                                   decoration: TextDecoration.underline,

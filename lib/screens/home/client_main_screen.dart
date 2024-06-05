@@ -34,7 +34,7 @@ class _MainScreenState extends State<ClientMainScreen> {
     SettingsTab()
   ];
 
-  void _onItemTapped(int index) {
+  void onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
@@ -107,7 +107,7 @@ class _MainScreenState extends State<ClientMainScreen> {
             unselectedFontSize: 0,
             enableFeedback: false,
             type: BottomNavigationBarType.fixed,
-            onTap: _onItemTapped,
+            onTap: onItemTapped,
             backgroundColor: AppColors.whiteColor,
           ),
         ),

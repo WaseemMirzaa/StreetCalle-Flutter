@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/models/deal.dart';
@@ -7,7 +8,6 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employ
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee/employee_detail_header.dart';
@@ -15,6 +15,7 @@ import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/item_widget.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/deal_widget.dart';
 import 'package:street_calle/utils/custom_widgets/custom_query_builder.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 
 class EmployeeDetailScreen extends StatefulWidget {
@@ -49,7 +50,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
             ),
           ),
           title: Text(
-            TempLanguage().lblLocationDetails,
+            LocaleKeys.locationDetails.tr(),
             style: context.currentTextTheme.titleMedium
                 ?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
           ),
@@ -84,8 +85,8 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                         labelStyle: context.currentTextTheme.displaySmall,
                         unselectedLabelStyle: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryFontColor),
                         tabs:  [
-                          Tab(text: TempLanguage().lblItems),
-                          Tab(text: TempLanguage().lblDeals),
+                          Tab(text: LocaleKeys.items.tr()),
+                          Tab(text: LocaleKeys.deals.tr()),
                         ],
                       ),
                     ),
@@ -99,8 +100,8 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                             ? CustomFirestoreListView<Item>(
                           query: itemQuery.where(FieldPath.documentId, whereIn: widget.user?.employeeItemsList),
                           pageSize: ITEM_PER_PAGE,
-                          emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
-                          errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),
+                          emptyBuilder: (context) => Center(child: Text(LocaleKeys.noDataFound.tr())),
+                          errorBuilder: (context, error, stackTrace) => Center(child: Text(LocaleKeys.somethingWentWrong.tr())),
                           loadingBuilder: (context) => const Center(child: CircularProgressIndicator()),
                           itemBuilder: (context, item, isLastItem, hasMore) {
                             return ItemWidget(
@@ -114,15 +115,15 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                             );
                           },
                         )
-                            : Center(child: Text(TempLanguage().lblNoDataFound),),
+                            : Center(child: Text(LocaleKeys.noDataFound.tr()),),
 
                         /// Deals tab bar
                         widget.user?.employeeDealsList?.isNotEmpty ?? false
                             ? CustomFirestoreListView<Deal>(
                           query: dealQuery.where(FieldPath.documentId, whereIn: widget.user?.employeeDealsList),
                           pageSize: DEAL_PER_PAGE,
-                          emptyBuilder: (context) => Center(child: Text(TempLanguage().lblNoDataFound)),
-                          errorBuilder: (context, error, stackTrace) => Center(child: Text(TempLanguage().lblSomethingWentWrong)),
+                          emptyBuilder: (context) => Center(child: Text(LocaleKeys.noDataFound.tr())),
+                          errorBuilder: (context, error, stackTrace) => Center(child: Text(LocaleKeys.somethingWentWrong.tr())),
                           loadingBuilder: (context) => const Center(child: CircularProgressIndicator()),
                           itemBuilder: (context, deal, isLastDeal, hasMore) {
                             return DealWidget(
@@ -136,7 +137,7 @@ class _EmployeeDetailScreenState extends State<EmployeeDetailScreen> {
                             );
                           },
                         )
-                            : Center(child: Text(TempLanguage().lblNoDataFound),),
+                            : Center(child: Text(LocaleKeys.noDataFound.tr()),),
                       ],
                     ),
                   ),

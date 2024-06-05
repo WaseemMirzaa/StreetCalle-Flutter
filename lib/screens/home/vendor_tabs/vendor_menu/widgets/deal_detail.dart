@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_cubit.dart';
@@ -21,6 +22,7 @@ import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/favourite_cubit.dart';
 import 'package:street_calle/screens/home/client_tabs/client_favourites/cubit/favourite_list_cubit.dart';
 import 'package:street_calle/widgets/show_favourite_item_widget.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class DealDetail extends StatefulWidget {
   const DealDetail({Key? key, required this.deal, this.isClient = false}) : super(key: key);
@@ -93,11 +95,11 @@ class _DealDetailState extends State<DealDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        deal.title.capitalizeEachFirstLetter() ?? '',
+                      (deal.translatedTitle?[LANGUAGE] as String?).capitalizeEachFirstLetter() ?? '',
                         style: context.currentTextTheme.titleMedium?.copyWith(color: AppColors.primaryFontColor),
                       ),
                       Text(
-                        deal.foodType.capitalizeEachFirstLetter() ?? '',
+                        deal.foodType?.capitalizeEachFirstLetter() ?? '',
                         style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.primaryColor, fontSize: 16),
                       ),
                       const SizedBox(
@@ -131,10 +133,10 @@ class _DealDetailState extends State<DealDetail> {
                       const SizedBox(
                         height: 20,
                       ),
-                      deal.description.isEmptyOrNull
+                      (deal.translatedDes?[LANGUAGE] as String?).isEmptyOrNull
                           ? const SizedBox.shrink()
                           : Text(
-                        TempLanguage().lblDescription,
+                        LocaleKeys.description.tr(),
                         style: const TextStyle(
                             fontFamily: METROPOLIS_BOLD,
                             fontSize: 16, color: AppColors.primaryFontColor, fontWeight: FontWeight.bold
@@ -143,17 +145,17 @@ class _DealDetailState extends State<DealDetail> {
                       const SizedBox(
                         height: 10,
                       ),
-                      deal.description.isEmptyOrNull
+                       (deal.translatedDes?[LANGUAGE] as String?).isEmptyOrNull
                           ? const SizedBox.shrink()
                           : Text(
-                        deal.description.capitalizeFirstLetter() ?? '',
+                        (deal.translatedDes?[LANGUAGE] as String?).capitalizeFirstLetter() ?? '',
                         style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.secondaryFontColor, fontSize: 12),
                       ),
 
                       const SizedBox(
                         height: 10,
                       ),
-                      deal.description.isEmptyOrNull
+                      (deal.translatedDes?[LANGUAGE] as String?).isEmptyOrNull
                           ? const SizedBox.shrink()
                           : const Divider(color: AppColors.dividerColor,),
                     ],
@@ -225,8 +227,8 @@ class _DealDetailState extends State<DealDetail> {
     final foodTypeCubit = context.read<FoodTypeCubit>();
 
     foodTypeCubit.loadFromFirebase();
-    dealCubit.titleController.text = dealParam.title ?? '';
-    dealCubit.descriptionController.text = dealParam.description ?? '';
+    dealCubit.titleController.text = dealParam.translatedTitle?[LANGUAGE] ?? '';
+    dealCubit.descriptionController.text = dealParam.translatedDes?[LANGUAGE] ?? '';
     dealCubit.foodTypeController.text = dealParam.foodType ?? '';
     dealCubit.actualPriceController.text = dealParam.actualPrice.toString() ?? '';
     dealCubit.discountedPriceController.text = dealParam.discountedPrice.toString() ?? '';
@@ -239,7 +241,7 @@ class _DealDetailState extends State<DealDetail> {
       foodTypeCubit.defaultValue = dealCubit.foodTypeController.text;
     } else {
       foodTypeExpandedCubit.collapse();
-      foodTypeCubit.defaultValue = TempLanguage().lblSelect;
+      foodTypeCubit.defaultValue = LocaleKeys.select.tr();
     }
 
     imageCubit.resetForUpdateImage(dealParam.image ?? '',);

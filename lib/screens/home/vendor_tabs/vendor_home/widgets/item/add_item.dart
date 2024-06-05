@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -9,12 +10,12 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/a
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/pricing_category_expanded_widget.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/item_image.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/food_type_expanded_widget.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 
 OutlineInputBorder titleBorder = OutlineInputBorder(
@@ -32,7 +33,7 @@ class AddItem extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          TempLanguage().lblCreateMenu,
+          LocaleKeys.createMenu.tr(),
           style: context.currentTextTheme.titleMedium
               ?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
@@ -58,7 +59,7 @@ class AddItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               //const SizedBox(height: 16,),
-              Text(TempLanguage().lblAddItem,
+              Text(LocaleKeys.addItem.tr(),
                   style: const TextStyle(
                       fontFamily: METROPOLIS_BOLD,
                       fontSize: 18,
@@ -79,7 +80,7 @@ class AddItem extends StatelessWidget {
                   if (pricingCubit.state.categoryType ==
                       PricingCategoryType.large) {
                     showToast(context,
-                        TempLanguage().lblMaxPricingCategoryLimitIsThree);
+                        LocaleKeys.maxPricingCategoryLimitIsThree.tr());
                   } else {
                     switch (pricingCubit.state.categoryType) {
                       case PricingCategoryType.none:
@@ -96,7 +97,7 @@ class AddItem extends StatelessWidget {
                     context.read<PricingCategoryExpandedCubit>().expand();
                   }
                 },
-                child: Text(TempLanguage().lblItemAddPricingCategories,
+                child: Text(LocaleKeys.itemAddPricingCategories.tr(),
                     style: const TextStyle(
                         fontFamily: METROPOLIS_BOLD,
                         fontSize: 18,
@@ -126,7 +127,7 @@ class AddItem extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 34, top: 12.0),
                       child: Text(
-                        TempLanguage().lblItemDescription,
+                        LocaleKeys.itemDescription.tr(),
                         style: context.currentTextTheme.displaySmall?.copyWith(
                             fontSize: 12, color: AppColors.placeholderColor),
                       ),
@@ -162,7 +163,7 @@ class AddItem extends StatelessWidget {
                   //_showInputDialog(context);
                   context.read<FoodTypeExpandedCubit>().expand();
                 },
-                child: Text(TempLanguage().lblItemAddFoodType,
+                child: Text(LocaleKeys.itemAddFoodType.tr(),
                     style: const TextStyle(
                         fontFamily: METROPOLIS_BOLD,
                         fontSize: 18,

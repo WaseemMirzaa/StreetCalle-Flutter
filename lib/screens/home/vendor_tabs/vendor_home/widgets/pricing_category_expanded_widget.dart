@@ -1,11 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 OutlineInputBorder titleBorder = OutlineInputBorder(
   borderSide: BorderSide.none,
@@ -41,7 +42,7 @@ class PricingCategoryExpandedWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 34, top: 12.0),
                     child: Text(
-                      TempLanguage().lblItemTitle,
+                      LocaleKeys.itemTitle.tr(),
                       style: context.currentTextTheme.displaySmall?.copyWith(
                           fontSize: 12, color: AppColors.placeholderColor),
                     ),
@@ -119,7 +120,7 @@ class PricingCategoryExpandedWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 34, top: 12.0),
                     child: Text(
-                      TempLanguage().lblPricingCategoryTitle,
+                      LocaleKeys.pricingCategoryTitle.tr(),
                       style: context.currentTextTheme.displaySmall
                           ?.copyWith(
                           fontSize: 12,
@@ -189,7 +190,7 @@ class PricingCategoryExpandedWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 34, top: 12.0),
                     child: Text(
-                      TempLanguage().lblPricingCategoryTitle,
+                      LocaleKeys.pricingCategoryTitle.tr(),
                       style: context.currentTextTheme.displaySmall
                           ?.copyWith(
                           fontSize: 12,
@@ -265,7 +266,7 @@ class PricingCategoryExpandedWidget extends StatelessWidget {
                             padding: const EdgeInsets.only(
                                 left: 34, top: 12.0),
                             child: Text(
-                              TempLanguage().lblPricingCategoryTitle,
+                              LocaleKeys.pricingCategoryTitle.tr(),
                               style: context.currentTextTheme.displaySmall
                                   ?.copyWith(
                                   fontSize: 12,
@@ -333,7 +334,7 @@ class PriceInputWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
         children: [
-          Text(TempLanguage().lblPrice,
+          Text(LocaleKeys.price.tr(),
               style: context.currentTextTheme.labelLarge?.copyWith(fontSize: 16, color: AppColors.primaryFontColor),
           ),
           const SizedBox(
@@ -360,7 +361,7 @@ class PriceInputWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 18, top: 12.0),
                     child: Text(
-                      TempLanguage().lblActualPrice,
+                      LocaleKeys.actualPrice.tr(),
                       style: context.currentTextTheme.displaySmall?.copyWith(fontSize: 12, color: AppColors.placeholderColor),
                     ),
                   ),
@@ -394,7 +395,7 @@ class PriceInputWidget extends StatelessWidget {
           const SizedBox(
             width: 12,
           ),
-          CustomInputField(controller: disCountedPriceController, title: TempLanguage().lblDiscountedPrice),
+          CustomInputField(controller: disCountedPriceController, title: LocaleKeys.discountedPrice.tr()),
         ],
       ),
     );

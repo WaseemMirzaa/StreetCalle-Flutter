@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:street_calle/cubit/user_state.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_menu/widgets/deal_widget.dart';
 import 'package:street_calle/services/deal_service.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/models/deal.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_cubit.dart';
@@ -18,6 +19,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/delete
 import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/widgets/no_data_found_widget.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class DealsTab extends StatelessWidget {
   const DealsTab({Key? key}) : super(key: key);
@@ -74,17 +76,17 @@ class DealsTab extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return DeleteConfirmationDialog(
-          title: TempLanguage().lblDeleteDeal,
-          body: TempLanguage().lblAreYouSureYouWantToDeleteDeal,
+          title: LocaleKeys.deleteDeal.tr(),
+          body: LocaleKeys.areYouSureYouWantToDeleteDeal.tr(),
           onConfirm: () async {
             final result = await dealService.deleteDeal(deal);
             if (result) {
               if (context.mounted) {
-                showToast(context, TempLanguage().lblDealDeletedSuccessfully);
+                showToast(context, LocaleKeys.dealDeletedSuccessfully.tr());
               }
             } else {
               if (context.mounted) {
-                showToast(context, TempLanguage().lblSomethingWentWrong);
+                showToast(context, LocaleKeys.somethingWentWrong.tr());
               }
             }
           },
@@ -100,8 +102,8 @@ class DealsTab extends StatelessWidget {
     final foodTypeCubit = context.read<FoodTypeCubit>();
 
     foodTypeCubit.loadFromFirebase();
-    dealCubit.titleController.text = deal.title ?? '';
-    dealCubit.descriptionController.text = deal.description ?? '';
+    dealCubit.titleController.text = deal.translatedTitle?[LANGUAGE] ?? '';
+    dealCubit.descriptionController.text = deal.translatedDes?[LANGUAGE] ?? '';
     dealCubit.foodTypeController.text = deal.foodType ?? '';
     dealCubit.actualPriceController.text = deal.actualPrice.toString() ?? '';
     dealCubit.discountedPriceController.text = deal.discountedPrice.toString() ?? '';
@@ -114,7 +116,7 @@ class DealsTab extends StatelessWidget {
       foodTypeCubit.defaultValue = dealCubit.foodTypeController.text;
     } else {
       foodTypeExpandedCubit.collapse();
-      foodTypeCubit.defaultValue = TempLanguage().lblSelect;
+      foodTypeCubit.defaultValue = LocaleKeys.select.tr();
     }
 
     imageCubit.resetForUpdateImage(deal.image ?? '',);

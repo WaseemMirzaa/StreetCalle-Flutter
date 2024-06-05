@@ -1,13 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_item_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_drop_down_cubit.dart';
 import 'package:street_calle/utils/extensions/string_extensions.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/add_deal_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 OutlineInputBorder titleBorder = OutlineInputBorder(
   borderSide: BorderSide.none,
@@ -42,7 +43,7 @@ class FoodTypeDropDown extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 34, top: 12.0),
                 child: Text(
-                  TempLanguage().lblItemFoodType,
+                  LocaleKeys.itemFoodType.tr(),
                   style: context.currentTextTheme.displaySmall?.copyWith(
                       fontSize: 12, color: AppColors.placeholderColor),
                 ),
@@ -109,7 +110,7 @@ class FoodTypeDropDown extends StatelessWidget {
                         padding:
                         const EdgeInsets.only(left: 34, top: 12.0),
                         child: Text(
-                          TempLanguage().lblAddFoodType,
+                          LocaleKeys.addFoodType.tr(),
                           style: context.currentTextTheme.displaySmall
                               ?.copyWith(
                               fontSize: 12,
@@ -177,20 +178,20 @@ class FoodTypeDropDown extends StatelessWidget {
     final addDealCubit = context.read<AddDealCubit>();
     final foodTypeDropDownCubit = context.read<FoodTypeDropDownCubit>();
 
-    if (!newValue.isEmptyOrNull && newValue != TempLanguage().lblSelect) {
+    if (!newValue.isEmptyOrNull && newValue != LocaleKeys.select.tr()) {
       if (isFromItem) {
         addItemCubit.foodTypeController.text = newValue!;
       } else {
         addDealCubit.foodTypeController.text = newValue!;
       }
       foodTypeCubit.defaultValue = newValue;
-      if (newValue == '+ ${TempLanguage().lblAddFoodType}') {
+      if (newValue == '+ ${LocaleKeys.addFoodType.tr()}') {
         foodTypeDropDownCubit.addFoodTypeSelected();
       } else {
         foodTypeDropDownCubit.resetState();
       }
     } else {
-      foodTypeCubit.defaultValue = TempLanguage().lblSelect;
+      foodTypeCubit.defaultValue = LocaleKeys.select.tr();
       if (isFromItem) {
         addItemCubit.foodTypeController.clear();
       } else {

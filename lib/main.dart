@@ -41,6 +41,7 @@ import 'package:street_calle/generated/codegen_loader.g.dart';
 
 String SECRET_KEY = '';
 String PUBLISH_KEY = '';
+String LANGUAGE = 'en';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,7 +80,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //EasyLocalization.of(context)?.setLocale(const Locale('es', ''));
     return kIsWeb
         ? MaterialApp(
       debugShowCheckedModeBanner: false,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,13 +9,13 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/add_de
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/item/item_image.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/food_type_expanded_widget.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/utils/common.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 
 class AddDeal extends StatelessWidget {
@@ -27,7 +28,7 @@ class AddDeal extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          TempLanguage().lblCreateMenu,
+          LocaleKeys.createMenu.tr(),
           style: context.currentTextTheme.titleMedium
               ?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
@@ -51,7 +52,7 @@ class AddDeal extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text(TempLanguage().lblAddDeal, style: const TextStyle(
+              Text(LocaleKeys.addDeal.tr(), style: const TextStyle(
                       fontFamily: METROPOLIS_BOLD,
                       fontSize: 18,
                       color: AppColors.primaryFontColor)),
@@ -84,7 +85,7 @@ class AddDeal extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 34, top: 12.0),
                       child: Text(
-                        TempLanguage().lblDealTitle,
+                        LocaleKeys.dealTitle.tr(),
                         style: context.currentTextTheme.displaySmall?.copyWith(
                             fontSize: 12, color: AppColors.placeholderColor),
                       ),
@@ -125,7 +126,7 @@ class AddDeal extends StatelessWidget {
                         height: 50,
                         child: AppButton(
                          elevation: 8.0,
-                          text: TempLanguage().lblMenuItem,
+                          text: LocaleKeys.menuItem.tr(),
                           onTap: () async {
                             final addDealCubit = context.read<AddDealCubit>();
                             final result = await context.pushNamed(AppRoutingName.selectMenuItem);
@@ -153,7 +154,7 @@ class AddDeal extends StatelessWidget {
                         height: 50,
                         child: AppButton(
                           elevation: 8.0,
-                          text: TempLanguage().lblCustomItem,
+                          text: LocaleKeys.customItem.tr(),
                           onTap: () => context.read<AddCustomItemCubit>().expand(),
                           shapeBorder: RoundedRectangleBorder(
                               side: const BorderSide(color: AppColors.primaryColor),
@@ -179,7 +180,7 @@ class AddDeal extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Row(
                   children: [
-                    Text(TempLanguage().lblPrice,
+                    Text(LocaleKeys.price.tr(),
                         style: context.currentTextTheme.labelLarge
                             ?.copyWith(
                             fontSize: 16,
@@ -209,7 +210,7 @@ class AddDeal extends StatelessWidget {
                               padding: const EdgeInsets.only(
                                   left: 18, top: 12.0),
                               child: Text(
-                                TempLanguage().lblActualPrice,
+                                LocaleKeys.actualPrice.tr(),
                                 style: context.currentTextTheme.displaySmall
                                     ?.copyWith(
                                     fontSize: 12,
@@ -273,7 +274,7 @@ class AddDeal extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(left: 18, top: 12.0),
                               child: Text(
-                                TempLanguage().lblDiscountedPrice,
+                                LocaleKeys.discountedPrice.tr(),
                                 style: context.currentTextTheme.displaySmall
                                     ?.copyWith(
                                     fontSize: 12,
@@ -336,7 +337,7 @@ class AddDeal extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 34, top: 12.0),
                       child: Text(
-                        TempLanguage().lblDealDescription,
+                        LocaleKeys.dealDescription.tr(),
                         style: context.currentTextTheme.displaySmall?.copyWith(
                             fontSize: 12, color: AppColors.placeholderColor),
                       ),
@@ -371,7 +372,7 @@ class AddDeal extends StatelessWidget {
                 onTap: () {
                   context.read<FoodTypeExpandedCubit>().expand();
                 },
-                child: Text(TempLanguage().lblItemAddFoodType,
+                child: Text(LocaleKeys.itemAddFoodType.tr(),
                     style: const TextStyle(
                         fontFamily: METROPOLIS_BOLD,
                         fontSize: 18,
@@ -439,7 +440,7 @@ class AddCustomItem extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 34, top: 12.0),
                     child: Text(
-                      TempLanguage().lblCustomItem,
+                      LocaleKeys.customItem.tr(),
                       style: context.currentTextTheme.displaySmall?.copyWith(
                           fontSize: 12, color: AppColors.placeholderColor),
                     ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +9,6 @@ import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/my_sizer.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
@@ -19,6 +19,7 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_typ
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/food_type_expanded_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_cubit.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/pricing_category_expanded_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class ItemDealsButtons extends StatelessWidget {
   const ItemDealsButtons({Key? key}) : super(key: key);
@@ -31,12 +32,12 @@ class ItemDealsButtons extends StatelessWidget {
       child: Row(
         children: [
           MyButton(
-            title: TempLanguage().lblAddItem,
+            title: LocaleKeys.addItem.tr(),
             onTap: (){
               if (userCubit.state.isSubscribed) {
                 _addItem(context);
               } else {
-                showToast(context, TempLanguage().lblPleaseSubscribedFirst);
+                showToast(context, LocaleKeys.pleaseSubscribedFirst.tr());
               }
             },
           ),
@@ -44,12 +45,12 @@ class ItemDealsButtons extends StatelessWidget {
             width: 12,
           ),
           MyButton(
-            title: TempLanguage().lblAddDeal,
+            title: LocaleKeys.addDeal.tr(),
             onTap: (){
               if (userCubit.state.isSubscribed) {
                 _addDeal(context);
               } else {
-                showToast(context, TempLanguage().lblPleaseSubscribedFirst);
+                showToast(context, LocaleKeys.pleaseSubscribedFirst.tr());
               }
             },
           ),
@@ -99,7 +100,7 @@ class ItemDealsButtons extends StatelessWidget {
     imageCubit.resetImage();
     foodTypeExpandedCubit.collapse();
     foodTypeDropDownCubit.resetState();
-    foodTypeCubit.defaultValue = TempLanguage().lblSelect;
+    foodTypeCubit.defaultValue = LocaleKeys.select.tr();
     foodTypeCubit.loadFromFirebase();
   }
 }
@@ -128,20 +129,25 @@ class MyButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                AppAssets.add,
-                width: MySizer.size15,
-                height: MySizer.size15,
+              Expanded(
+                child: Image.asset(
+                  AppAssets.add,
+                  width: MySizer.size15,
+                  height: MySizer.size15,
+                ),
               ),
-              SizedBox(
-                width: MySizer.size16,
-              ),
-              Text(
-                title,
-                style: context.currentTextTheme.labelLarge
-                    ?.copyWith(
-                    color: AppColors.whiteColor,
-                    fontSize: MySizer.size16),
+              // SizedBox(
+              //   width: MySizer.size14,
+              // ),
+              Expanded(
+                flex: 2,
+                child: Text(
+                  title,
+                  style: context.currentTextTheme.labelLarge
+                      ?.copyWith(
+                      color: AppColors.whiteColor,
+                      fontSize: MySizer.size14),
+                ),
               ),
             ],
           ),

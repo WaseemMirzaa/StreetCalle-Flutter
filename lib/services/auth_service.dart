@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 //import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -13,7 +14,9 @@ import 'package:street_calle/models/user.dart' as userModel;
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/utils/constant/app_enum.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
+
+import 'package:street_calle/generated/locale_keys.g.dart';
+
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -32,7 +35,7 @@ class AuthService {
       return _handleException(e);
     } catch (e) {
       log(e.toString());
-      return Left(TempLanguage().lblErrorDuringSignUp);
+      return Left(LocaleKeys.errorDuringSignUp.tr());
     }
   }
 
@@ -52,12 +55,12 @@ class AuthService {
           // Check if the user's email is verified
           if (!userCredential.user!.emailVerified) {
             await userCredential.user!.sendEmailVerification();
-            return Left(TempLanguage().lblEmailNotVerified);
+            return Left(LocaleKeys.emailNotVerified.tr());
           }
         }
       } catch (e) {
         log(e.toString());
-        return Left(TempLanguage().lblErrorDuringLogIn);
+        return Left(LocaleKeys.errorDuringLogIn.tr());
       }
 
       return Right(userCredential.user);
@@ -65,7 +68,7 @@ class AuthService {
       return _handleException(e);
     } catch (e) {
       log(e.toString());
-      return Left(TempLanguage().lblErrorDuringLogIn);
+      return Left(LocaleKeys.errorDuringLogIn.tr());
     }
   }
 
@@ -85,17 +88,17 @@ class AuthService {
       String errorMessage;
       switch (e.code) {
         case 'invalid-email':
-          return Left(TempLanguage().lblInvalidEmailAddress);
+          return Left(LocaleKeys.invalidEmailAddress.tr());
         case 'user-not-found':
-          return Left(TempLanguage().lblNoUserFound);
+          return Left(LocaleKeys.noUserFound.tr());
         case 'too-many-requests':
-          return Left(TempLanguage().lblTooManyRequest);
+          return Left(LocaleKeys.tooManyRequest.tr());
         default:
-          return Left(TempLanguage().lblErrorDuringResetPassword);
+          return Left(LocaleKeys.errorDuringResetPassword.tr());
       }
     } catch (e) {
       log(e.toString());
-      return Left(TempLanguage().lblErrorDuringResetPassword);
+      return Left(LocaleKeys.errorDuringResetPassword.tr());
     }
   }
 
@@ -130,14 +133,14 @@ class AuthService {
         // Handle specific exceptions here
         if (e.code == 'operation-not-allowed') {
           // The operation is not allowed (e.g., anonymous sign-in is disabled)
-          return Left(TempLanguage().lblGuestSignInDisable);
+          return Left(LocaleKeys.guestSignInDisable.tr());
         } else {
           // Other Firebase Authentication exceptions
-          return Left(TempLanguage().lblErrorDuringLogIn);
+          return Left(LocaleKeys.errorDuringLogIn.tr());
         }
       } else {
         // Handle other types of exceptions (e.g., network errors)
-        return Left(TempLanguage().lblErrorDuringLogIn);
+        return Left(LocaleKeys.errorDuringLogIn.tr());
       }
     }
   }
@@ -175,7 +178,7 @@ class AuthService {
       return _handleException(e);
     } catch (e) {
       log(e.toString());
-      return Left(TempLanguage().lblGoogleSignInError);
+      return Left(LocaleKeys.googleSignInError.tr());
     }
   }
 
@@ -229,7 +232,7 @@ class AuthService {
   Future<void> _updateOrCreateUser(UserService userService, String? uid,
       userModel.User uModel, bool isUpdate) async {
     if (uid == null) {
-      throw Left(TempLanguage().lblAppleeSignInError);
+      throw Left(LocaleKeys.appleSignInError.tr());
     }
     if (isUpdate) {
 
@@ -267,7 +270,7 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       return _handleException(e);
     } catch (e) {
-      return Left(TempLanguage().lblFacebookSignInError);
+      return Left(LocaleKeys.facebookSignInError.tr());
     }
   }
 
@@ -292,7 +295,7 @@ class AuthService {
       return _handleException(e);
     } catch (e) {
       log(e.toString());
-      return Left(TempLanguage().lblGoogleSignInError);
+      return Left(LocaleKeys.googleSignInError.tr());
     }
   }
 
@@ -395,7 +398,7 @@ class AuthService {
       return _handleException(e);
     } catch (e) {
       log(e.toString());
-      return Left(TempLanguage().lblAppleeSignInError);
+      return Left(LocaleKeys.appleSignInError.tr());
     }
   }
 
@@ -405,47 +408,47 @@ class AuthService {
 
       if (userCredential.user != null) {
         await userCredential.user!.delete();
-        return Right(TempLanguage().lblAccountDeletedSuccessfully);
+        return Right(LocaleKeys.accountDeletedSuccessfully.tr());
       } else {
-       return Left(TempLanguage().lblNoUserFound);
+       return Left(LocaleKeys.noUserFound.tr());
       }
     } on FirebaseAuthException catch (e) {
       return _handleDeleteException(e);
     } catch (e) {
       log(e.toString());
-      return Left(TempLanguage().lblErrorDuringDeleteAccount);
+      return Left(LocaleKeys.errorDuringDeleteAccount.tr());
     }
   }
 
   Either<String, User?> _handleException(FirebaseAuthException e) {
     switch (e.code) {
       case 'email-already-in-use':
-        return Left(TempLanguage().lblEmailAddressInUse);
+        return Left(LocaleKeys.emailAddressInUse.tr());
       case 'invalid-email':
-        return Left(TempLanguage().lblInvalidEmailAddress);
+        return Left(LocaleKeys.invalidEmailAddress.tr());
       case 'user-not-found':
-        return Left(TempLanguage().lblNoUserFound);
+        return Left(LocaleKeys.noUserFound.tr());
       case 'wrong-password':
-        return Left(TempLanguage().lblInvalidCredentials);
+        return Left(LocaleKeys.invalidCredentials.tr());
       case 'too-many-requests':
-        return Left(TempLanguage().lblTooManyRequest);
+        return Left(LocaleKeys.tooManyRequest.tr());
       case 'user-disabled':
-        return Left(TempLanguage().lblAccountDisable);
+        return Left(LocaleKeys.accountDisable.tr());
       case 'operation-not-allowed':
-        return Left(TempLanguage().lblOperationNotAllowed);
+        return Left(LocaleKeys.operationNotAllowed.tr());
       case 'network-request-failed':
-        return Left(TempLanguage().lblNetworkRequestFailed);
+        return Left(LocaleKeys.networkRequestFailed.tr());
       case 'weak-password':
         return const Left(
             'Password is too weak. Please choose a stronger password.');
       case 'INVALID_LOGIN_CREDENTIALS':
-        return Left(TempLanguage().lblInvalidCredentials);
+        return Left(LocaleKeys.invalidCredentials.tr());
       case 'account-exists-with-different-credential':
-        return Left(TempLanguage().lblAccountExistWithDifferentCredentials);
+        return Left(LocaleKeys.accountExistWithDifferentCredentials.tr());
       case 'invalid-credential':
-        return Left(TempLanguage().lblErrorAccessingCredentials);
+        return Left(LocaleKeys.errorAccessingCredentials.tr());
       default:
-        return Left(TempLanguage().lblErrorDuringLogIn);
+        return Left(LocaleKeys.errorDuringLogIn.tr());
     }
   }
 
@@ -453,25 +456,25 @@ class AuthService {
     log(e.toString());
     switch (e.code) {
       case 'invalid-email':
-        return Left(TempLanguage().lblInvalidEmailAddress);
+        return Left(LocaleKeys.invalidEmailAddress.tr());
       case 'user-not-found':
-        return Left(TempLanguage().lblNoUserFound);
+        return Left(LocaleKeys.noUserFound.tr());
       case 'wrong-password':
-        return Left(TempLanguage().lblInvalidCredentials);
+        return Left(LocaleKeys.invalidCredentials.tr());
       case 'too-many-requests':
-        return Left(TempLanguage().lblTooManyRequest);
+        return Left(LocaleKeys.tooManyRequest.tr());
       case 'user-disabled':
-        return Left(TempLanguage().lblAccountDisable);
+        return Left(LocaleKeys.accountDisable.tr());
       case 'operation-not-allowed':
-        return Left(TempLanguage().lblOperationNotAllowed);
+        return Left(LocaleKeys.operationNotAllowed.tr());
       case 'network-request-failed':
-        return Left(TempLanguage().lblNetworkRequestFailed);
+        return Left(LocaleKeys.networkRequestFailed.tr());
       case 'INVALID_LOGIN_CREDENTIALS':
-        return Left(TempLanguage().lblInvalidCredentials);
+        return Left(LocaleKeys.invalidCredentials.tr());
       case 'invalid-credential':
-        return Left(TempLanguage().lblErrorAccessingCredentials);
+        return Left(LocaleKeys.errorAccessingCredentials.tr());
       default:
-        return Left(TempLanguage().lblErrorDuringDeleteAccount);
+        return Left(LocaleKeys.errorDuringDeleteAccount.tr());
     }
   }
 }

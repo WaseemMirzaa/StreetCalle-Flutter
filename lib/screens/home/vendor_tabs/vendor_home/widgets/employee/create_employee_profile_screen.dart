@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,9 +8,9 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employ
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/widgets/employee/location_image_widget.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class CreateEmployeeProfileScreen extends StatelessWidget {
    CreateEmployeeProfileScreen({Key? key}) : super(key: key);
@@ -34,7 +35,7 @@ class CreateEmployeeProfileScreen extends StatelessWidget {
           ),
         ),
         title: Text(
-          TempLanguage().lblCreateLocationProfile,
+          LocaleKeys.createLocationProfile.tr(),
           style: context.currentTextTheme.titleMedium
               ?.copyWith(color: AppColors.primaryFontColor, fontSize: 20),
         ),
@@ -61,7 +62,7 @@ class CreateEmployeeProfileScreen extends StatelessWidget {
                   height: 24,
                 ),
                 CustomTextField(
-                  hintText: TempLanguage().lblUserName,
+                  hintText: LocaleKeys.userName.tr(),
                   keyboardType: TextInputType.name,
                   asset: AppAssets.person,
                   controller: context.read<CreateEmployeeCubit>().nameController,
@@ -71,7 +72,7 @@ class CreateEmployeeProfileScreen extends StatelessWidget {
                   height: 24,
                 ),
                 CustomTextField(
-                  hintText: TempLanguage().lblEmail,
+                  hintText: LocaleKeys.email.tr(),
                   keyboardType: TextInputType.emailAddress,
                   asset: AppAssets.emailIcon,
                   controller: context.read<CreateEmployeeCubit>().emailController,
@@ -81,7 +82,7 @@ class CreateEmployeeProfileScreen extends StatelessWidget {
                   height: 24,
                 ),
                 CustomTextField(
-                  hintText: TempLanguage().lblPassword,
+                  hintText: LocaleKeys.password.tr(),
                   keyboardType: TextInputType.visiblePassword,
                   asset: AppAssets.passwordIcon,
                   controller: context.read<CreateEmployeeCubit>().passwordController,
@@ -100,7 +101,7 @@ class CreateEmployeeProfileScreen extends StatelessWidget {
                     ),
                     Flexible(
                       child: Text(
-                        TempLanguage().lblSetEmployeeCredentials,
+                        LocaleKeys.setEmployeeCredentials.tr(),
                         style: context.currentTextTheme.displaySmall
                             ?.copyWith(color: AppColors.primaryFontColor),
                       ),

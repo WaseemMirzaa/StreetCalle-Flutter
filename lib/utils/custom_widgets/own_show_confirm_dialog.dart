@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
@@ -401,7 +403,7 @@ Future<bool?> ownShowConfirmDialogCustom(
             width: width ?? customDialogWidth,
             color: Colors.transparent,
             child: Column(
-              crossAxisAlignment: title == 'Subscribe' ? CrossAxisAlignment.start: CrossAxisAlignment.center,
+              crossAxisAlignment: title == LocaleKeys.subscribe.tr() ? CrossAxisAlignment.start: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
@@ -417,7 +419,7 @@ Future<bool?> ownShowConfirmDialogCustom(
                 ).visible(subTitle.validate().isNotEmpty),
                 16.height,
                 Visibility(
-                  visible: title == 'Subscribe' ? true: false,
+                  visible: title == LocaleKeys.subscribe.tr() ? true: false,
                   child: Column(
                     children: [
                       isUpdateSubscription
@@ -428,10 +430,10 @@ Future<bool?> ownShowConfirmDialogCustom(
                         children: [
                           Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,color: AppColors.primaryColor,),
                           const SizedBox(width: 16,),
-                          const Flexible(
+                          Flexible(
                             child: Text(
-                              'Enjoy a free 60-day trial with full access to all features of this plan.',//TempLanguage().lblAddUnlimitedMenuItems,
-                              style: TextStyle(
+                              LocaleKeys.enjoyFreeDays2.tr(),//TempLanguage().lblAddUnlimitedMenuItems,
+                              style: const TextStyle(
                                 fontFamily: METROPOLIS_BOLD,
                                 fontSize: 12,
                                 // color: AppColors.whiteColor
@@ -446,10 +448,10 @@ Future<bool?> ownShowConfirmDialogCustom(
                         children: [
                           Image.asset(AppAssets.checkMarkIcon, width: 15, height: 15,color: AppColors.primaryColor,),
                           const SizedBox(width: 16,),
-                          const Flexible(
+                          Flexible(
                             child: Text(
-                              'Subscription will auto-renew unless canceled.',//TempLanguage().lblAddUnlimitedMenuItems,
-                              style: TextStyle(
+                              LocaleKeys.autoRenewSubscription.tr(),//TempLanguage().lblAddUnlimitedMenuItems,
+                              style: const TextStyle(
                                 fontFamily: METROPOLIS_BOLD,
                                 fontSize: 12,
                                 // color: AppColors.whiteColor
@@ -467,14 +469,14 @@ Future<bool?> ownShowConfirmDialogCustom(
                           Flexible(
                             child: Text(
                               des == 'Individual' ?
-                              'Get access to a single location.' :
+                              LocaleKeys.singleLocation.tr() :
                               des == 'New Agency'?
-                              'Get access to 2-3 locations.':
+                              LocaleKeys.twoThreeLocation.tr():
                               des == 'Intermediate Agency'?
-                              'Get access to 4-9 locations.':
+                              LocaleKeys.fourNineLocation.tr():
                               des == 'Established Agency'?
-                              'Get access to unlimited locations.':
-                              'Get access to locations.',
+                              LocaleKeys.unlimitedLocation.tr():
+                              LocaleKeys.accessLocation.tr(),
 
 
 
@@ -496,24 +498,24 @@ Future<bool?> ownShowConfirmDialogCustom(
                           const SizedBox(width: 16,),
                           isUpdateSubscription
                               ? Flexible(
-                            child: Text(
-                              'You will be charged $price/$duration for this subscription.',
-                              style: const TextStyle(
+                            child: const Text(
+                              LocaleKeys.subscriptionCharge,
+                              style: TextStyle(
                                 fontFamily: METROPOLIS_BOLD,
                                 fontSize: 12,
                                 // color: AppColors.whiteColor
                               ),
-                            ),
+                            ).tr(namedArgs: {'price': price ?? '', 'duration': duration ?? ''}),
                           )
                               : Flexible(
-                            child: Text(
-                              'You will be charged $price/$duration for this subscription after 60 days free trail.',
-                              style: const TextStyle(
+                            child: const Text(
+                              LocaleKeys.trialEndCharge,
+                              style: TextStyle(
                                 fontFamily: METROPOLIS_BOLD,
                                 fontSize: 12,
                                 // color: AppColors.whiteColor
                               ),
-                            ),
+                            ).tr(namedArgs: {'price': price ?? '', 'duration': duration ?? ''}),
                           ),
                         ],
                       ),
@@ -546,7 +548,7 @@ Future<bool?> ownShowConfirmDialogCustom(
                           ),
                           6.width,
                           Text(
-                            negativeText ?? 'Cancel',
+                            negativeText ?? LocaleKeys.cancel.tr(),
                             style: boldTextStyle(
                                 color: negativeTextColor ??
                                     textPrimaryColorGlobal),

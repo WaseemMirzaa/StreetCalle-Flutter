@@ -22,6 +22,7 @@ class UserState {
   final String vendorType;
   final String userType;
   final String category;
+  final String translatedCategory;
   final String categoryImage;
   final String employeeOwnerImage;
   final String employeeOwnerName;
@@ -45,6 +46,7 @@ class UserState {
     required this.vendorType,
     required this.userType,
     required this.category,
+    required this.translatedCategory,
     required this.categoryImage,
     required this.vendorId,
     required this.isEmployee,
@@ -87,6 +89,8 @@ class UserState {
       String? planLookUpKey,
       String? subscriptionId,
       String? sessionId,
+      String? translatedCategory,
+      String? translatedCategoryImage
       }) {
     return UserState(
       userId: userId ?? this.userId,
@@ -115,6 +119,7 @@ class UserState {
       planLookUpKey: planLookUpKey ?? this.planLookUpKey,
       subscriptionId: subscriptionId ?? this.subscriptionId,
       sessionId: sessionId ?? this.sessionId,
+      translatedCategory: translatedCategory ?? this.translatedCategory,
     );
   }
 }
@@ -137,6 +142,7 @@ class UserCubit extends Cubit<UserState> {
             vendorType: '',
             userType: '',
             category: '',
+            translatedCategory: '',
             categoryImage: '',
             isEmployee: false,
             isEmployeeBlocked: false,
@@ -270,6 +276,11 @@ class UserCubit extends Cubit<UserState> {
     sharedPreferencesService.setValue(SharePreferencesKey.CATEGORY_IMAGE, value);
   }
 
+  void setTranslatedCategory(String value) {
+    emit(state.copyWith(translatedCategory: value));
+    sharedPreferencesService.setValue(SharePreferencesKey.TRANSLATED_CATEGORY, value);
+  }
+
   void setEmployeeOwnerImage(String value) {
     emit(state.copyWith(employeeOwnerImage: value));
     sharedPreferencesService.setValue(SharePreferencesKey.EMPLOYEE_OWNER_IMAGE, value);
@@ -301,6 +312,7 @@ class UserCubit extends Cubit<UserState> {
         vendorType: '',
         userType: '',
         category: '',
+        translatedCategory: '',
         categoryImage: '',
         isEmployee: false,
         isEmployeeBlocked: false,
@@ -338,6 +350,7 @@ class UserCubit extends Cubit<UserState> {
     setUserType(user.userType ?? '');
     setCategory(user.category ?? '');
     setCategoryImage(user.categoryImage ?? '');
+    setTranslatedCategory(user.translatedCategory ?? '');
     setSubscriptionType(user.subscriptionType ?? '');
     setStripeId(user.stripeId ?? '');
     setPlanLookUpKey(user.planLookUpKey ?? '');

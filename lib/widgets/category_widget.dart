@@ -4,6 +4,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/cubit/user_state.dart';
 import 'package:street_calle/utils/extensions/context_extension.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
+import 'package:street_calle/main.dart';
 
 class CategoryWidget extends StatelessWidget {
   const CategoryWidget({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class CategoryWidget extends StatelessWidget {
         userCubit.state.categoryImage,
         fit: BoxFit.cover,
       ),
-      label: Text(userCubit.state.category, style: context.currentTextTheme.displaySmall,),
+      label: Text(LANGUAGE == 'en' ? userCubit.state.category : userCubit.state.translatedCategory, style: context.currentTextTheme.displaySmall,),
       backgroundColor: AppColors.greyColor,
       side: BorderSide.none,
       shape: const StadiumBorder(),

@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:street_calle/main.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/current_location_cubit.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/dependency_injection.dart';
 import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/search_cubit.dart';
 import 'package:street_calle/utils/location_utils.dart';
@@ -15,6 +16,7 @@ import 'package:street_calle/utils/constant/constants.dart';
 import 'package:street_calle/screens/selectUser/widgets/drop_down_widget.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/widgets/display_vendors.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/filter_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 class ClientMenu extends StatelessWidget {
   const ClientMenu({Key? key}) : super(key: key);
@@ -66,7 +68,7 @@ class ClientMenu extends StatelessWidget {
                       ),
                       child: SearchField(
                         padding: EdgeInsets.zero,
-                        hintText: TempLanguage().lblSearchFoodTrucks,
+                        hintText: LocaleKeys.searchFoodTrucks.tr(),
                         onChanged: (String? value) => _searchQuery(context, value),
                       ),
                     ),
@@ -86,7 +88,8 @@ class ClientMenu extends StatelessWidget {
                     List<DropDownItem> category = [];
                     snapshot.data?.forEach((element) {
                       final dropDown = DropDownItem(
-                          title: element[CategoryKey.TITLE],
+                          title: LANGUAGE == 'en' ? element[CategoryKey.TITLE] : element[CategoryKey.TRANSLATED_TITLE],
+                          translatedTitle: element[CategoryKey.TRANSLATED_TITLE],
                           icon: Image.network(element[CategoryKey.ICON], width: 18, height: 18,),
                           url: element[CategoryKey.ICON]
                       );
@@ -118,11 +121,11 @@ class ClientMenu extends StatelessWidget {
                     );
                   } else if (snapshot.hasError) {
                     return Center(
-                      child: Text(TempLanguage().lblSomethingWentWrong),
+                      child: Text(LocaleKeys.somethingWentWrong.tr()),
                     );
                   }
                   return Center(
-                    child: Text(TempLanguage().lblSomethingWentWrong),
+                    child: Text(LocaleKeys.somethingWentWrong.tr()),
                   );
                 },
               ),
@@ -137,7 +140,7 @@ class ClientMenu extends StatelessWidget {
                     if (snap.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,));
                     } else if (snap.hasError) {
-                      return Center(child: Text(TempLanguage().lblSomethingWentWrong));
+                      return Center(child: Text(LocaleKeys.somethingWentWrong.tr()));
                     } else {
                       return BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
                         builder: (context, state){

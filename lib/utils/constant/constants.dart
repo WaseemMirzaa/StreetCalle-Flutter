@@ -1,4 +1,5 @@
-import 'package:street_calle/utils/constant/temp_language.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 const METROPOLIS_MEDIUM = 'MetropolisMD';
 const METROPOLIS_SEMI_BOLD = 'MetropolisSM';
@@ -17,7 +18,7 @@ const defaultPrice = 0;
 const defaultHorizontalPadding = 28.0;
 const defaultVerticalPadding = 16.0;
 const initialCountyCode = 'US';
-final defaultVendorFilter = TempLanguage().lblAll;
+final defaultVendorFilter =  LocaleKeys.all.tr();
 
 /// Pagination page size
 const int ITEM_PER_PAGE = 10;
@@ -66,11 +67,13 @@ class SharePreferencesKey {
   static const VENDOR_TYPE = 'VENDOR_TYPE';
   static const USER_TYPE = 'USER_TYPE';
   static const CATEGORY = 'CATEGORY';
+  static const TRANSLATED_CATEGORY = 'TRANSLATED_CATEGORY';
   static const CATEGORY_IMAGE = 'CATEGORY_IMAGE';
   static const EMPLOYEE_OWNER_NAME = 'EMPLOYEE_OWNER_NAME';
   static const EMPLOYEE_OWNER_IMAGE = 'EMPLOYEE_OWNER_IMAGE';
   static const SUBSCRIPTION_TYPE = 'SUBSCRIPTION_TYPE';
   static const PLAN_LOOK_UP_KEY = 'PLAN_LOOK_UP_KEY';
+  static const LANGUAGE_VALUE = 'LANGUAGE_VALUE';
 }
 
 class UserKey {
@@ -100,6 +103,7 @@ class UserKey {
   static const String VENDOR_TYPE = 'vendorType';
   static const String USER_TYPE = 'userType';
   static const String CATEGORY = 'category';
+  static const String TRANSLATED_CATEGORY = 'translatedCategory';
   static const String PLAN_LOOK_UP_KEY = 'planLookUpKey';
   static const String CATEGORY_IMAGE = 'categoryImage';
   static const String FAVOURITE_VENDORS = 'favouriteVendors';
@@ -115,8 +119,11 @@ class ItemKey {
   static const String TITLE = 'title';
   static const String DESCRIPTION = 'description';
   static const String FOOD_TYPE = 'foodType';
+  static const String TRANSLATED_FOOD_TYPE = 'translatedFoodType';
   static const String CATEGORY = 'category';
+  static const String TRANSLATED_CATEGORY = 'translatedCategory';
   static const String SEARCH_PARAM = 'searchParam';
+  static const String SEARCH_TRANSLATED_PARAM = 'searchTranslatedParam';
   static const String CREATED_AT = 'createdAt';
   static const String UPDATED_AT = 'updatedAt';
   static const String ACTUAL_PRICE = 'actualPrice';
@@ -144,7 +151,9 @@ class DealKey {
   static const String DESCRIPTION = 'description';
   static const String SEARCH_PARAM = 'searchParam';
   static const String FOOD_TYPE = 'foodType';
+  static const String TRANSLATED_FOOD_TYPE = 'translatedFoodType';
   static const String CATEGORY = 'category';
+  static const String TRANSLATED_CATEGORY = 'translatedCategory';
   static const String CREATED_AT = 'createdAt';
   static const String UPDATED_AT = 'updatedAt';
   static const String ACTUAL_PRICE = 'actualPrice';
@@ -154,6 +163,7 @@ class DealKey {
 
 class CategoryKey {
   static const String TITLE = 'title';
+  static const String TRANSLATED_TITLE = 'translatedTitle';
   static const String ICON = 'icon';
   static const String CATEGORIES = 'categories';
 }

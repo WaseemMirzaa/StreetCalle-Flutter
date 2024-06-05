@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -5,11 +6,11 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:street_calle/dependency_injection.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 import 'package:street_calle/services/user_service.dart';
 import 'package:street_calle/models/user.dart';
 import 'package:street_calle/utils/routing/app_routing_name.dart';
 import 'package:street_calle/screens/home/client_tabs/client_home/cubit/client_selected_vendor_cubit.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/location_utils.dart';
 
@@ -52,7 +53,7 @@ class _VendorEmployeeMapState extends State<VendorEmployeeMap> {
                 if (positionSnap.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),);
                 } else if (positionSnap.hasError) {
-                  return Center(child: Text(TempLanguage().lblSomethingWentWrong),);
+                  return Center(child: Text(LocaleKeys.somethingWentWrong.tr()),);
                 } else if (positionSnap.hasData && positionSnap.data != null) {
                   return FutureBuilder<User>(
                     future: userService.userByUid(widget.userId),
@@ -91,7 +92,7 @@ class _VendorEmployeeMapState extends State<VendorEmployeeMap> {
                                           ),
                                         );
                                       }
-                                      return Center(child: Text(TempLanguage().lblSomethingWentWrong),);
+                                      return Center(child: Text(LocaleKeys.somethingWentWrong.tr()),);
                                     }
                                 );
                               }
@@ -101,7 +102,7 @@ class _VendorEmployeeMapState extends State<VendorEmployeeMap> {
                     },
                   );
                 } else {
-                  return Center(child: Text(TempLanguage().lblSomethingWentWrong),);
+                  return Center(child: Text(LocaleKeys.somethingWentWrong.tr()),);
                 }
               },
             ),

@@ -261,7 +261,27 @@ class CodegenLoader extends AssetLoader{
   "appleSignInError": "Error occurred during Sign In. Try again.",
   "facebookSignInError": "Error occurred using Facebook Sign In. Try again.",
   "userNotFound": "User Not Found",
-  "signUpFailed": "Sign-up failed. Please try again."
+  "signUpFailed": "Sign-up failed. Please try again.",
+  "readAndAgree": "I have read and agree to the ",
+  "terms": "Terms of Use",
+  "and": " and ",
+  "privacypolicy": "Privacy Policy",
+  "acceptTermOfUse": "Please Accept the Terms of Use and Privacy Policy to sign up",
+  "selectLanguage": "Select Language",
+  "freeTrial": "Free Trial : 60 days",
+  "enjoyFreeDays": "Enjoy a free 60-day trial on all plans with full access to all features of subscribed plan.",
+  "afterTrialPeriod": "After the trial period, you will be automatically enrolled in a paid subscription.",
+  "cancelAnyTime": "You can cancel anytime during the trial period at no charge.",
+    "enjoyFreeDays2": "Enjoy a free 60-day trial with full access to all features of this plan.",
+    "autoRenewSubscription": "Subscription will auto-renew unless canceled.",
+    "singleLocation": "Get access to a single location.",
+    "twoThreeLocation": "Get access to 2-3 locations.",
+    "fourNineLocation": "Get access to 4-9 locations.",
+    "unlimitedLocation": "Get access to unlimited locations.",
+    "accessLocation": "Get access to locations.",
+    "subscriptionCharge": "You will be charged {price}/{duration} for this subscription.",
+    "trialEndCharge": "You will be charged {price}/{duration} for this subscription after 60 days free trail.",
+    "restoreSubscription": "Restore Subscription"
 };
 static const Map<String,dynamic> es = {
   "next": "Siguiente",
@@ -510,7 +530,27 @@ static const Map<String,dynamic> es = {
   "appleSignInError": "Se produjo un error durante el inicio de sesión. Inténtalo de nuevo.",
   "facebookSignInError": "Se produjo un error al usar Facebook Sign In. Inténtalo de nuevo.",
   "userNotFound": "Usuario no encontrado",
-  "signUpFailed": "El registro falló. Por favor, inténtalo de nuevo."
+  "signUpFailed": "El registro falló. Por favor, inténtalo de nuevo.",
+  "readAndAgree": "He leído y acepto los ",
+  "terms": "Términos de Uso",
+  "and": " y ",
+  "privacypolicy": "Política de Privacidad",
+  "acceptTermOfUse": "Por favor acepte los Términos de Uso y la Política de Privacidad para registrarse",
+  "selectLanguage": "Seleccionar idioma",
+  "freeTrial": "Prueba gratuita: 60 días",
+  "enjoyFreeDays": "Disfrute de una prueba gratuita de 60 días en todos los planes con acceso completo a todas las funciones del plan suscrito.",
+  "afterTrialPeriod": "Después del período de prueba, quedará inscrito automáticamente en una suscripción paga.",
+  "cancelAnyTime": "Puedes cancelar en cualquier momento durante el período de prueba sin cargo.",
+  "enjoyFreeDays2": "Disfrute de una prueba gratuita de 60 días con acceso completo a todas las funciones de este plan.",
+  "autoRenewSubscription": "La suscripción se renovará automáticamente a menos que se cancele.",
+  "singleLocation": "Obtenga acceso a una única ubicación.",
+  "twoThreeLocation": "Obtenga acceso a 2-3 ubicaciones.",
+  "fourNineLocation": "Obtenga acceso a 4-9 ubicaciones.",
+  "unlimitedLocation": "Obtenga acceso a ubicaciones ilimitadas.",
+  "accessLocation": "Obtenga acceso a ubicaciones.",
+  "subscriptionCharge": "Se le cobrará {price}/{duration} por esta suscripción.",
+  "trialEndCharge": "Se le cobrará {price}/{duration} por esta suscripción después de 60 días de prueba gratuita.",
+  "restoreSubscription": "Restaurar suscripción"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "es": es};
 }

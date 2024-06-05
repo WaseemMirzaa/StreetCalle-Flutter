@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -10,8 +11,8 @@ import 'package:street_calle/utils/common.dart';
 import 'package:street_calle/utils/constant/app_assets.dart';
 import 'package:street_calle/utils/constant/app_colors.dart';
 import 'package:street_calle/utils/constant/constants.dart';
-import 'package:street_calle/utils/constant/temp_language.dart';
 import 'package:street_calle/screens/auth/cubit/image/image_cubit.dart';
+import 'package:street_calle/generated/locale_keys.g.dart';
 
 
 class AddDealButton extends StatelessWidget {
@@ -25,7 +26,10 @@ class AddDealButton extends StatelessWidget {
       listener: (context, state) {
         if (state is AddDealSuccess) {
           context.read<AddItemCubit>().clear();
-          showToast(context, isUpdate ? TempLanguage().lblDealUpdatedSuccessfully : TempLanguage().lblDealAddedSuccessfully);
+          showToast(context, isUpdate
+              ? LocaleKeys.dealUpdatedSuccessfully.tr()
+              : LocaleKeys.dealAddedSuccessfully.tr()
+          );
           context.pop(state.deal);
         } else if (state is AddDealFailure) {
           showToast(context, state.error);
@@ -67,8 +71,8 @@ class AddDealButton extends StatelessWidget {
                   ),
                   Text(
                     isUpdate
-                        ? TempLanguage().lblItemUpdateToMenu
-                        : TempLanguage().lblItemAddToMenu,
+                        ? LocaleKeys.itemUpdateToMenu.tr()
+                        : LocaleKeys.itemAddToMenu.tr(),
                     style: context.currentTextTheme.labelLarge
                         ?.copyWith(color: AppColors.whiteColor),
                   ),
@@ -91,18 +95,19 @@ class AddDealButton extends StatelessWidget {
     final actualPrice = dealCubit.actualPriceController.text;
     final discountedPrice = dealCubit.discountedPriceController.text;
     final category = userCubit.state.category;
+    final translatedCategory = userCubit.state.translatedCategory;
 
 
     if (image.isEmpty) {
-      showToast(context, TempLanguage().lblSelectImage);
+      showToast(context, LocaleKeys.selectImage.tr());
     } else if (title.isEmpty) {
-      showToast(context, TempLanguage().lblAddDealTitle);
+      showToast(context, LocaleKeys.addDealTitle.tr());
     } else if (actualPrice.isEmpty) {
-      showToast(context, TempLanguage().lblAddDealPrice);
+      showToast(context, LocaleKeys.addDealPrice.tr());
     } else if (actualPrice.isNotEmpty && discountedPrice.isNotEmpty && double.parse(discountedPrice) >= double.parse(actualPrice)) {
-      showToast(context, TempLanguage().lblDiscountedPriceCantBeGrater);
+      showToast(context, LocaleKeys.discountedPriceCantBeGrater.tr());
     } else {
-      dealCubit.addDeal(image, category);
+      dealCubit.addDeal(image, category, translatedCategory);
     }
   }
 
@@ -118,20 +123,21 @@ class AddDealButton extends StatelessWidget {
     final actualPrice = dealCubit.actualPriceController.text;
     final discountedPrice = dealCubit.discountedPriceController.text;
     final category = userCubit.state.category;
+    final translatedCategory = userCubit.state.translatedCategory;
 
     if (image.isEmpty && url == null) {
-      showToast(context, TempLanguage().lblSelectImage);
+      showToast(context, LocaleKeys.selectImage.tr());
     } else if (title.isEmpty) {
-      showToast(context, TempLanguage().lblAddDealTitle);
+      showToast(context, LocaleKeys.addDealTitle.tr());
     } else if (actualPrice.isEmpty) {
-      showToast(context, TempLanguage().lblAddDealPrice);
+      showToast(context, LocaleKeys.addDealPrice.tr());
     } else if (actualPrice.isNotEmpty && discountedPrice.isNotEmpty && double.parse(discountedPrice) >= double.parse(actualPrice)) {
-      showToast(context, TempLanguage().lblDiscountedPriceCantBeGrater);
+      showToast(context, LocaleKeys.discountedPriceCantBeGrater.tr());
     } else {
       if (isUpdated ?? false) {
-        dealCubit.updateDeal(image: image, isUpdated: true, category: category);
+        dealCubit.updateDeal(image: image, isUpdated: true, category: category, translatedCategory: translatedCategory);
       } else {
-        dealCubit.updateDeal(image: url ?? '', isUpdated: false, category: category);
+        dealCubit.updateDeal(image: url ?? '', isUpdated: false, category: category, translatedCategory: translatedCategory);
       }
     }
   }
