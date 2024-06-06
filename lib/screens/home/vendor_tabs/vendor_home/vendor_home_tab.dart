@@ -79,6 +79,7 @@ class _VendorHomeTabState extends State<VendorHomeTab> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         actions: [
           SizedBox(
             height: 30,

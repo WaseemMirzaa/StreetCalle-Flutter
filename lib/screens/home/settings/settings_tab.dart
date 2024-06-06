@@ -159,6 +159,12 @@ class _SettingsTabState extends State<SettingsTab> {
                   sharedPreferencesService.setValue(SharePreferencesKey.LANGUAGE_VALUE, 'es');
                   LANGUAGE = 'es';
                 }
+
+                if (userCubit.state.isVendor) {
+                  context.pushNamed(AppRoutingName.mainScreen);
+                } else {
+                  context.pushNamed(AppRoutingName.clientMainScreen);
+                }
               },
               child: Text(LocaleKeys.ok.tr()),
             ),
