@@ -60,6 +60,8 @@ import 'package:street_calle/screens/home/vendor_tabs/vendor_home/cubit/selected
 
 import 'package:street_calle/screens/auth/cubit/apple_login/apple_login_cubit.dart';
 
+import 'package:street_calle/screens/home/settings/widgets/delete_account.dart';
+
 final router = GoRouter(
   routes: [
     GoRoute(
@@ -400,6 +402,13 @@ final router = GoRouter(
       name: AppRoutingName.deleteAccount,
       builder: (context, state) {
         return const DeleteAccountWebView();
+      },
+    ),
+    GoRoute(
+      path: AppRoutingName.userDeleteAccount,
+      name: AppRoutingName.userDeleteAccount,
+      builder: (context, state) {
+        return const DeleteAccount();
       },
     ),
   ],

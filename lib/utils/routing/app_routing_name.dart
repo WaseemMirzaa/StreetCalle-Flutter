@@ -33,4 +33,5 @@ class AppRoutingName {
   static const clientVendorDirection = '/clientVendorDirection';
   static const locationPicker = '/locationPicker';
   static const vendorEmployeeMap = '/vendorEmployeeMap';
+  static const userDeleteAccount = '/userDeleteAccount';
 }

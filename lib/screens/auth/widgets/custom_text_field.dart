@@ -17,7 +17,8 @@ class CustomTextField extends StatefulWidget {
     required this.isSmall,
     this.isObscure,
     this.asset,
-    this.isDecor
+    this.isDecor,
+    this.isEnabled
   }) : super(key: key);
 
   final String hintText;
@@ -27,6 +28,7 @@ class CustomTextField extends StatefulWidget {
   final bool isSmall;
   final bool? isObscure;
   final bool? isDecor;
+  final bool? isEnabled;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -59,6 +61,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         keyboardType: widget.keyboardType,
         obscureText: widget.isObscure ?? false ? passwordVisible : false,
         decoration: InputDecoration(
+          enabled: widget.isEnabled ?? true,
           hintText: widget.hintText,
           hintStyle: context.currentTextTheme.displaySmall?.copyWith(fontSize: 16, color: AppColors.secondaryFontColor),
           contentPadding: const EdgeInsets.symmetric(vertical: 18),

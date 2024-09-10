@@ -93,6 +93,12 @@ class _SettingsTabState extends State<SettingsTab> {
                 context.goNamed(AppRoutingName.authScreen);
               }
             }),
+
+            userCubit.state.isEmployee || userCubit.state.isGuest
+                ? const SizedBox.shrink()
+                : SettingItem(title: LocaleKeys.deleteAccount.tr(), onTap: () async {
+              context.push(AppRoutingName.userDeleteAccount);
+            }),
           ],
         ),
       ),

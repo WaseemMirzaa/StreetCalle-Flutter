@@ -45,10 +45,12 @@ class UserprofileTab extends StatelessWidget {
                   onPressed: (){
                     context.read<EditProfileEnableCubit>().updateButtonClicked();
                   },
-                  child: Text(
-                    //TempLanguage().lblCancel,
-                    LocaleKeys.cancel.tr(),
-                    style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.redColor, fontSize: MySizer.size12),)
+                  child: FittedBox(
+                    child: Text(
+                      //TempLanguage().lblCancel,
+                      LocaleKeys.cancel.tr(),
+                      style: context.currentTextTheme.displaySmall?.copyWith(color: AppColors.redColor, fontSize: MySizer.size12),),
+                  )
               );
             }
                  return const SizedBox.shrink();
