@@ -37,7 +37,7 @@ class CodegenLoader extends AssetLoader{
   "nearestToYou": "Nearest to you:",
   "editProfileSuccessfully": "Edit profile successfully",
   "createAccount": "Create an Account",
-  "quote": "Discover the best foods from over 1,000 restaurants and fast delivery to your doorstep",
+  "quote": "Find and Discover the live locations of your favorite Street Vendors!",
   "addYourLoginDetails": "Add your details to login",
   "addYourSignDetails": "Add your details to sign up",
   "pleaseSubscribedFirst": "Please subscribe",
@@ -283,7 +283,7 @@ class CodegenLoader extends AssetLoader{
     "trialEndCharge": "You will be charged {price}/{duration} for this subscription after 60 days free trail.",
     "restoreSubscription": "Restore Subscription"
 };
-static const Map<String,dynamic> es = {
+  static const Map<String,dynamic> es = {
   "next": "Siguiente",
   "street": "STREET |",
   "calle": " CALLE",
@@ -306,7 +306,7 @@ static const Map<String,dynamic> es = {
   "nearestToYou": "Más cercano a ti:",
   "editProfileSuccessfully": "Perfil editado correctamente",
   "createAccount": "Crear una cuenta",
-  "quote": "Descubre los mejores alimentos de más de 1,000 restaurantes y entrega rápida en tu puerta",
+  "quote": "¡Encuentra y Descubre las ubicaciones en vivo de tus Vendedores de Calle favoritos!",
   "addYourLoginDetails": "Agrega tus detalles para iniciar sesión",
   "addYourSignDetails": "Agrega tus detalles para registrarte",
   "pleaseSubscribedFirst": "Por favor, suscríbete",
@@ -552,5 +552,5 @@ static const Map<String,dynamic> es = {
   "trialEndCharge": "Se le cobrará {price}/{duration} por esta suscripción después de 60 días de prueba gratuita.",
   "restoreSubscription": "Restaurar suscripción"
 };
-static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "es": es};
+  static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "es": es};
 }
